@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
   <meta charset="UTF-8">
@@ -20,7 +20,7 @@
         <span class="logo-text">Quest4You</span>
       </a>
       <nav class="nav">
-        <a href="../index.html" class="nav-link">ðŸ  Voltar</a>
+        <a href="../index.html" class="nav-link">🏠 Voltar</a>
         <a href="./profile.html" class="nav-link" id="profileLink">Perfil</a>
       </nav>
     </div>
@@ -32,11 +32,11 @@
     <section class="match-hero">
       <div class="match-hero-content">
         <h1 class="match-hero-title">
-          <span class="match-icon">ðŸ’•</span>
+          <span class="match-icon">💕</span>
           Smart Match
         </h1>
         <p class="match-hero-subtitle">
-          Encontra pessoas compatÃ­veis com base nos teus questionÃ¡rios
+          Encontra pessoas compatíveis com base nos teus questionários
         </p>
       </div>
     </section>
@@ -44,11 +44,11 @@
     <!-- Login Required Section (shown when not logged in) -->
     <section class="login-required" id="loginRequired">
       <div class="login-required-card">
-        <div class="login-required-icon">ðŸ”</div>
-        <h2>AutenticaÃ§Ã£o NecessÃ¡ria</h2>
+        <div class="login-required-icon">🔐</div>
+        <h2>Autenticação Necessária</h2>
         <p>Para usar o Smart Match, precisas de ter uma conta e fazer login.</p>
         <a href="./auth.html?redirect=smart-match" class="btn btn-primary">
-          ðŸš€ Criar Conta / Entrar
+          🚀 Criar Conta / Entrar
         </a>
       </div>
     </section>
@@ -56,11 +56,11 @@
     <!-- No Quizzes Section (shown when no quizzes completed) -->
     <section class="no-quizzes" id="noQuizzes" style="display: none;">
       <div class="no-quizzes-card">
-        <div class="no-quizzes-icon">ðŸ“‹</div>
-        <h2>Completa QuestionÃ¡rios Primeiro</h2>
-        <p>Para encontrar matches compatÃ­veis, precisas de completar pelo menos um questionÃ¡rio.</p>
+        <div class="no-quizzes-icon">📋</div>
+        <h2>Completa Questionários Primeiro</h2>
+        <p>Para encontrar matches compatíveis, precisas de completar pelo menos um questionário.</p>
         <a href="../index.html" class="btn btn-primary">
-          ðŸ“ Ver QuestionÃ¡rios
+          📝 Ver Questionários
         </a>
       </div>
     </section>
@@ -68,13 +68,13 @@
     <!-- Profile Setup Section (shown when profile incomplete) -->
     <section class="profile-setup" id="profileSetup" style="display: none;">
       <div class="profile-setup-card">
-        <div class="profile-setup-icon">ðŸ‘¤</div>
+        <div class="profile-setup-icon">👤</div>
         <h2>Configura o Teu Perfil</h2>
-        <p>Para aparecer no Smart Match, configura o teu perfil pÃºblico.</p>
+        <p>Para aparecer no Smart Match, configura o teu perfil público.</p>
         
         <form id="profileSetupForm" class="profile-setup-form">
           <div class="form-group">
-            <label for="displayName">Nome de ExibiÃ§Ã£o</label>
+            <label for="displayName">Nome de Exibição</label>
             <input type="text" id="displayName" required placeholder="Como queres ser chamado/a?">
           </div>
           
@@ -85,21 +85,21 @@
             </div>
             
             <div class="form-group">
-              <label for="gender">GÃ©nero</label>
+              <label for="gender">Género</label>
               <select id="gender">
                 <option value="">Selecionar...</option>
                 <option value="masculino">Masculino</option>
                 <option value="feminino">Feminino</option>
-                <option value="nao-binario">NÃ£o-binÃ¡rio</option>
+                <option value="nao-binario">Não-binário</option>
                 <option value="outro">Outro</option>
-                <option value="prefiro-nao-dizer">Prefiro nÃ£o dizer</option>
+                <option value="prefiro-nao-dizer">Prefiro não dizer</option>
               </select>
             </div>
           </div>
           
           <div class="form-group">
-            <label for="location">LocalizaÃ§Ã£o</label>
-            <input type="text" id="location" placeholder="Cidade, PaÃ­s">
+            <label for="location">Localização</label>
+            <input type="text" id="location" placeholder="Cidade, País">
           </div>
           
           <div class="form-group checkbox-group">
@@ -111,7 +111,7 @@
           </div>
           
           <button type="submit" class="btn btn-primary btn-full">
-            ðŸ’¾ Guardar e Continuar
+            💾 Guardar e Continuar
           </button>
         </form>
       </div>
@@ -121,27 +121,27 @@
     <section class="match-main" id="matchMain" style="display: none;">
       <!-- Filters -->
       <div class="match-filters">
-        <h3 class="filters-title">ðŸ” Filtros</h3>
+        <h3 class="filters-title">🔍 Filtros</h3>
         
         <div class="filter-group">
-          <label for="filterGender">GÃ©nero</label>
+          <label for="filterGender">Género</label>
           <select id="filterGender" onchange="applyFilters()">
             <option value="">Todos</option>
             <option value="masculino">Masculino</option>
             <option value="feminino">Feminino</option>
-            <option value="nao-binario">NÃ£o-binÃ¡rio</option>
+            <option value="nao-binario">Não-binário</option>
             <option value="outro">Outro</option>
           </select>
         </div>
         
         <div class="filter-group">
-          <label for="filterMinCompat">Compatibilidade MÃ­nima</label>
+          <label for="filterMinCompat">Compatibilidade Mínima</label>
           <input type="range" id="filterMinCompat" min="0" max="100" value="0" oninput="updateCompatLabel()">
           <span id="compatLabel">0%</span>
         </div>
         
         <button class="btn btn-secondary btn-small" onclick="refreshMatches()">
-          ðŸ”„ Atualizar
+          🔄 Atualizar
         </button>
       </div>
 
@@ -150,11 +150,11 @@
         <div class="your-profile-header">
           <span class="your-profile-label">O Teu Perfil</span>
           <button class="btn btn-outline btn-small" onclick="toggleProfileVisibility()">
-            <span id="visibilityIcon">ðŸ‘ï¸</span>
+            <span id="visibilityIcon">👁️</span>
           </button>
         </div>
         <div class="your-profile-content">
-          <div class="your-profile-avatar" id="yourAvatar">ðŸ˜Š</div>
+          <div class="your-profile-avatar" id="yourAvatar">😊</div>
           <div class="your-profile-info">
             <h3 id="yourName">Utilizador</h3>
             <p id="yourDetails"></p>
@@ -168,7 +168,7 @@
       <!-- Matches Grid -->
       <div class="matches-section">
         <h2 class="matches-title">
-          <span>ðŸ’•</span> Matches CompatÃ­veis
+          <span>💕</span> Matches Compatíveis
           <span class="match-count" id="matchCount">(0)</span>
         </h2>
         
@@ -177,7 +177,7 @@
         </div>
         
         <div class="no-matches" id="noMatches" style="display: none;">
-          <div class="no-matches-icon">ðŸ˜”</div>
+          <div class="no-matches-icon">😔</div>
           <p>Nenhum match encontrado com os filtros selecionados.</p>
         </div>
         
@@ -192,10 +192,10 @@
   <!-- Match Detail Modal -->
   <div class="match-modal" id="matchModal" style="display: none;">
     <div class="match-modal-content">
-      <button class="match-modal-close" onclick="closeMatchModal()">âœ•</button>
+      <button class="match-modal-close" onclick="closeMatchModal()">✕</button>
       
       <div class="match-modal-header" id="modalHeader">
-        <div class="match-modal-avatar" id="modalAvatar">ðŸ˜Š</div>
+        <div class="match-modal-avatar" id="modalAvatar">😊</div>
         <h2 class="match-modal-name" id="modalName">Nome</h2>
         <p class="match-modal-details" id="modalDetails"></p>
       </div>
@@ -214,7 +214,7 @@
       
       <div class="match-modal-actions">
         <button class="btn btn-primary" onclick="initiateContact()">
-          ðŸ’¬ Iniciar Conversa
+          💬 Iniciar Conversa
         </button>
         <button class="btn btn-secondary" onclick="closeMatchModal()">
           Fechar
@@ -226,7 +226,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
-      <p>Â© 2025 Quest4You. Descobre-te a ti mesmo.</p>
+      <p>© 2025 Quest4You. Descobre-te a ti mesmo.</p>
     </div>
   </footer>
 
