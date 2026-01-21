@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Quest4You - Quiz Logic
  * Logica para questionarios com escala Likert 1-5
  */

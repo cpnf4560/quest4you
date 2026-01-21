@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
   <meta charset="UTF-8">
@@ -20,7 +20,7 @@
         <span class="logo-text">Quest4You</span>
       </a>
       <nav class="nav">
-        <a href="../index.html" class="nav-link">QuestionÃ¡rios</a>
+        <a href="../index.html" class="nav-link">Questionários</a>
         <a href="./smart-match.html" class="nav-link">Smart Match</a>
         <a href="#" class="nav-link" id="logoutBtn">Sair</a>
       </nav>
@@ -41,29 +41,29 @@
         <p class="profile-joined" id="profileJoined"></p>
       </div>
       <button class="btn btn-secondary btn-edit" onclick="editProfile()">
-        âœï¸ Editar Perfil
+        ✏️ Editar Perfil
       </button>
     </div>
 
     <!-- Stats Cards -->
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon">ðŸ“</div>
+        <div class="stat-icon">📝</div>
         <div class="stat-value" id="statQuizzes">0</div>
-        <div class="stat-label">QuestionÃ¡rios</div>
+        <div class="stat-label">Questionários</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">â“</div>
+        <div class="stat-icon">❓</div>
         <div class="stat-value" id="statQuestions">0</div>
         <div class="stat-label">Perguntas Respondidas</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">ðŸ†</div>
+        <div class="stat-icon">🏆</div>
         <div class="stat-value" id="statBadges">0</div>
         <div class="stat-label">Badges</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">ðŸ’•</div>
+        <div class="stat-icon">💕</div>
         <div class="stat-value" id="statMatches">0</div>
         <div class="stat-label">Compatibilidades</div>
       </div>
@@ -71,20 +71,20 @@
 
     <!-- Results Section -->
     <section class="results-section">
-      <h2 class="section-title">ðŸ“Š Os Meus Resultados</h2>
+      <h2 class="section-title">📊 Os Meus Resultados</h2>
       <div class="results-grid" id="resultsGrid">
         <!-- Results loaded dynamically -->
         <div class="empty-state" id="emptyResults">
-          <div class="empty-icon">ðŸŽ¯</div>
-          <p>Ainda nÃ£o completaste nenhum questionÃ¡rio.</p>
-          <a href="../index.html#quizzes" class="btn btn-primary">ComeÃ§ar Agora</a>
+          <div class="empty-icon">🎯</div>
+          <p>Ainda não completaste nenhum questionário.</p>
+          <a href="../index.html#quizzes" class="btn btn-primary">Começar Agora</a>
         </div>
       </div>
     </section>
 
     <!-- Badges Section -->
     <section class="badges-section">
-      <h2 class="section-title">ðŸ… Badges</h2>
+      <h2 class="section-title">🏅 Badges</h2>
       <div class="badges-grid" id="badgesGrid">
         <!-- Badges loaded dynamically -->
       </div>
@@ -92,11 +92,11 @@
 
     <!-- Settings Section -->
     <section class="settings-section">
-      <h2 class="section-title">âš™ï¸ DefiniÃ§Ãµes</h2>
+      <h2 class="section-title">⚙️ Definições</h2>
       <div class="settings-card">
         <div class="setting-item">
           <div class="setting-info">
-            <span class="setting-label">ðŸ”” NotificaÃ§Ãµes</span>
+            <span class="setting-label">🔔 Notificações</span>
             <span class="setting-desc">Receber emails sobre novidades</span>
           </div>
           <label class="toggle">
@@ -106,7 +106,7 @@
         </div>
         <div class="setting-item">
           <div class="setting-info">
-            <span class="setting-label">ðŸ‘¥ Perfil PÃºblico</span>
+            <span class="setting-label">👥 Perfil Público</span>
             <span class="setting-desc">Permitir que outros te encontrem no Smart Match</span>
           </div>
           <label class="toggle">
@@ -116,7 +116,7 @@
         </div>
         <div class="setting-item">
           <div class="setting-info">
-            <span class="setting-label">â¤ï¸ Smart Match</span>
+            <span class="setting-label">❤️ Smart Match</span>
             <span class="setting-desc">Participar na funcionalidade de compatibilidade</span>
           </div>
           <label class="toggle">
@@ -129,7 +129,7 @@
 
     <!-- Danger Zone -->
     <section class="danger-section">
-      <h2 class="section-title">âš ï¸ Zona de Perigo</h2>
+      <h2 class="section-title">⚠️ Zona de Perigo</h2>
       <div class="danger-card">
         <div class="danger-item">
           <div class="danger-info">
@@ -137,7 +137,7 @@
             <span class="danger-desc">Remove todos os teus resultados e progresso</span>
           </div>
           <button class="btn btn-danger" onclick="deleteAllData()">
-            ðŸ—‘ï¸ Apagar Dados
+            🗑️ Apagar Dados
           </button>
         </div>
         <div class="danger-item">
@@ -146,7 +146,7 @@
             <span class="danger-desc">Remove permanentemente a tua conta</span>
           </div>
           <button class="btn btn-danger" onclick="deleteAccount()">
-            âŒ Eliminar Conta
+            ❌ Eliminar Conta
           </button>
         </div>
       </div>
@@ -156,15 +156,15 @@
   <!-- Edit Profile Modal -->
   <div class="modal" id="editModal" style="display: none;">
     <div class="modal-content">
-      <button class="modal-close" onclick="closeEditModal()">Ã—</button>
-      <h2>âœï¸ Editar Perfil</h2>
+      <button class="modal-close" onclick="closeEditModal()">×</button>
+      <h2>✏️ Editar Perfil</h2>
       <form onsubmit="saveProfile(event)">
         <div class="form-group">
-          <label for="editName">ðŸ‘¤ Nome</label>
+          <label for="editName">👤 Nome</label>
           <input type="text" id="editName" required minlength="2">
         </div>
         <div class="form-group">
-          <label for="editPhoto">ðŸ–¼ï¸ URL da Foto (opcional)</label>
+          <label for="editPhoto">🖼️ URL da Foto (opcional)</label>
           <input type="url" id="editPhoto" placeholder="https://...">
         </div>
         <div class="modal-actions">

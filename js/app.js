@@ -1,4 +1,4 @@
-ï»¿/**
+/**
  * Quest4You - Main Application
  * Questionarios individuais com resultados imediatos
  */
@@ -12,16 +12,16 @@ const QUIZZES_CONFIG = [
     name: "Vanilla ou Kink",
     icon: "heart",
     color: "#e91e63",
-    description: "Descobre onde te posicionas no espectro entre romance suave e prÃ¡ticas mais intensas",
+    description: "Descobre onde te posicionas no espectro entre romance suave e práticas mais intensas",
     questions: 50,
     resultType: "spectrum"
   },
   {
     id: "orientation",
-    name: "OrientaÃ§Ã£o Sexual",
+    name: "Orientação Sexual",
     icon: "rainbow",
     color: "#9c27b0",
-    description: "Explora as tuas atraÃ§Ãµes e curiosidades sobre diferentes gÃ©neros e identidades",
+    description: "Explora as tuas atrações e curiosidades sobre diferentes géneros e identidades",
     questions: 50,
     resultType: "spectrum"
   },
@@ -30,7 +30,7 @@ const QUIZZES_CONFIG = [
     name: "Stag/Cuckold",
     icon: "eyes",
     color: "#673ab7",
-    description: "Avalia o teu interesse em dinÃ¢micas de voyeurismo e humilhaÃ§Ã£o consensual",
+    description: "Avalia o teu interesse em dinâmicas de voyeurismo e humilhação consensual",
     questions: 50,
     resultType: "spectrum"
   },
@@ -39,7 +39,7 @@ const QUIZZES_CONFIG = [
     name: "Swing/Poliamor",
     icon: "hearts",
     color: "#00bcd4",
-    description: "Explora o teu interesse em relaÃ§Ãµes nÃ£o-monogÃ¢micas e experiÃªncias com mÃºltiplos parceiros",
+    description: "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplos parceiros",
     questions: 50,
     resultType: "category"
   },
@@ -48,7 +48,7 @@ const QUIZZES_CONFIG = [
     name: "Fetiches e Kinks",
     icon: "fire",
     color: "#f44336",
-    description: "Descobre os teus interesses em prÃ¡ticas alternativas e fetiches especÃ­ficos",
+    description: "Descobre os teus interesses em práticas alternativas e fetiches específicos",
     questions: 50,
     resultType: "tags"
   }
@@ -144,11 +144,11 @@ function renderQuizzes() {
   if (!grid) return;
 
   const icons = {
-    heart: "ğŸ’•",
-    rainbow: "ğŸŒˆ",
-    eyes: "ğŸ‘€",
-    hearts: "ğŸ’œ",
-    fire: "ğŸ”¥"
+    heart: "??",
+    rainbow: "??",
+    eyes: "??",
+    hearts: "??",
+    fire: "??"
   };
 
   let html = "";
@@ -165,8 +165,8 @@ function renderQuizzes() {
     html += '  <div class="quiz-card-body">';
     html += '    <p class="quiz-card-description">' + quiz.description + '</p>';
     html += '    <div class="quiz-card-footer">';
-    html += '      <span class="quiz-meta">ğŸ“ ' + quiz.questions + ' perguntas</span>';
-    html += '      <span class="quiz-badge free">âœ¨ GrÃ¡tis</span>';
+    html += '      <span class="quiz-meta">?? ' + quiz.questions + ' perguntas</span>';
+    html += '      <span class="quiz-badge free">? Grátis</span>';
     html += '    </div>';
     html += '  </div>';
     html += '</div>';
