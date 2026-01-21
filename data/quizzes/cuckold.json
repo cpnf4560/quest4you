@@ -1,0 +1,319 @@
+{
+  "id": "cuckold",
+  "name": "Stag/Cuckold",
+  "icon": "👀",
+  "color": "#673ab7",
+  "description": "Avalia o teu interesse em dinâmicas de voyeurismo e humilhação consensual",
+  "resultType": "spectrum",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    { "min": 0, "max": 20, "label": "Tradicional Exclusivo", "emoji": "🔒", "description": "Preferes exclusividade total no relacionamento. A ideia de partilhar ou observar não te atrai." },
+    { "min": 21, "max": 40, "label": "Curioso Observador", "emoji": "👁️", "description": "Tens alguma curiosidade por dinâmicas voyeurísticas, mas sem envolvimento ativo." },
+    { "min": 41, "max": 60, "label": "Stag Iniciante", "emoji": "🦌", "description": "Sentes excitação na ideia de ver o/a parceiro/a com outros, numa posição de poder e orgulho." },
+    { "min": 61, "max": 80, "label": "Cuckold/Cuckquean", "emoji": "🔥", "description": "O elemento de humilhação consensual e submissão excita-te profundamente." },
+    { "min": 81, "max": 100, "label": "Cuck Avançado", "emoji": "⛓️", "description": "Abraças plenamente dinâmicas complexas de cuckolding, incluindo humilhação e controlo." }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "text": "A ideia do/a meu/minha parceiro/a com outra pessoa excita-me.",
+      "category": "partner_sharing",
+      "reverse": false
+    },
+    {
+      "id": "q2",
+      "text": "Sinto ciúme intenso quando penso no/a meu/minha parceiro/a com outros.",
+      "category": "jealousy",
+      "reverse": true
+    },
+    {
+      "id": "q3",
+      "text": "Gostaria de ver o/a meu/minha parceiro/a a ter prazer com outra pessoa.",
+      "category": "voyeur",
+      "reverse": false
+    },
+    {
+      "id": "q4",
+      "text": "A humilhação consensual num contexto sexual excita-me.",
+      "category": "humiliation",
+      "reverse": false
+    },
+    {
+      "id": "q5",
+      "text": "Fantasia sobre o/a meu/minha parceiro/a a contar-me detalhes de encontros com outros.",
+      "category": "recounting",
+      "reverse": false
+    },
+    {
+      "id": "q6",
+      "text": "A exclusividade sexual é fundamental para mim num relacionamento.",
+      "category": "exclusivity",
+      "reverse": true
+    },
+    {
+      "id": "q7",
+      "text": "Gostaria de estar presente enquanto o/a meu/minha parceiro/a está com outra pessoa.",
+      "category": "presence",
+      "reverse": false
+    },
+    {
+      "id": "q8",
+      "text": "A ideia de 'limpar' o/a parceiro/a após um encontro excita-me.",
+      "category": "cleanup",
+      "reverse": false
+    },
+    {
+      "id": "q9",
+      "text": "Sinto excitação com a ideia de ser comparado/a desfavoravelmente com outros.",
+      "category": "comparison",
+      "reverse": false
+    },
+    {
+      "id": "q10",
+      "text": "Gostaria que o/a meu/minha parceiro/a me contasse as suas fantasias com outros.",
+      "category": "fantasy_share",
+      "reverse": false
+    },
+    {
+      "id": "q11",
+      "text": "A ideia de preparar ou vestir o/a parceiro/a para um encontro excita-me.",
+      "category": "preparation",
+      "reverse": false
+    },
+    {
+      "id": "q12",
+      "text": "Sentir-me-ia traído/a se o/a meu/minha parceiro/a estivesse com outra pessoa.",
+      "category": "betrayal",
+      "reverse": true
+    },
+    {
+      "id": "q13",
+      "text": "A dinâmica de poder onde não tenho controlo excita-me.",
+      "category": "power_loss",
+      "reverse": false
+    },
+    {
+      "id": "q14",
+      "text": "Gostaria de filmar ou fotografar o/a meu/minha parceiro/a com outra pessoa.",
+      "category": "recording",
+      "reverse": false
+    },
+    {
+      "id": "q15",
+      "text": "A ideia do/a meu/minha parceiro/a ter um/a amante regular excita-me.",
+      "category": "regular_lover",
+      "reverse": false
+    },
+    {
+      "id": "q16",
+      "text": "Prefiro uma dinâmica de 'Stag' (orgulho) a 'Cuckold' (humilhação).",
+      "category": "stag_vs_cuck",
+      "reverse": true
+    },
+    {
+      "id": "q17",
+      "text": "Sinto excitação com a ideia de ser 'negado/a' sexualmente pelo/a parceiro/a.",
+      "category": "denial",
+      "reverse": false
+    },
+    {
+      "id": "q18",
+      "text": "A comunicação aberta sobre estes desejos é importante para mim.",
+      "category": "communication",
+      "reverse": false
+    },
+    {
+      "id": "q19",
+      "text": "Gostaria de escolher com quem o/a meu/minha parceiro/a se encontra.",
+      "category": "selection",
+      "reverse": false
+    },
+    {
+      "id": "q20",
+      "text": "A monogamia é o único modelo relacional que me satisfaz.",
+      "category": "monogamy",
+      "reverse": true
+    },
+    {
+      "id": "q21",
+      "text": "Sinto curiosidade por dinâmicas de 'Hotwife/Hothuband'.",
+      "category": "hotwife",
+      "reverse": false
+    },
+    {
+      "id": "q22",
+      "text": "A ideia de usar um 'cinto de castidade' ou ser controlado/a excita-me.",
+      "category": "chastity",
+      "reverse": false
+    },
+    {
+      "id": "q23",
+      "text": "Gostaria que o/a terceiro/a soubesse do meu papel na dinâmica.",
+      "category": "awareness",
+      "reverse": false
+    },
+    {
+      "id": "q24",
+      "text": "Sinto que esta fantasia fortaleceria a minha relação.",
+      "category": "relationship_boost",
+      "reverse": false
+    },
+    {
+      "id": "q25",
+      "text": "A ideia de ver mensagens íntimas do/a meu/minha parceiro/a com outros excita-me.",
+      "category": "messages",
+      "reverse": false
+    },
+    {
+      "id": "q26",
+      "text": "Prefiro participar ativamente a apenas observar.",
+      "category": "participation",
+      "reverse": true
+    },
+    {
+      "id": "q27",
+      "text": "A antecipação de um encontro do/a parceiro/a excita-me mais que o ato.",
+      "category": "anticipation",
+      "reverse": false
+    },
+    {
+      "id": "q28",
+      "text": "Gostaria que o/a meu/minha parceiro/a fosse dominante nesta dinâmica.",
+      "category": "partner_dominant",
+      "reverse": false
+    },
+    {
+      "id": "q29",
+      "text": "A ideia de 'servir' o/a meu/minha parceiro/a e o/a terceiro/a excita-me.",
+      "category": "service",
+      "reverse": false
+    },
+    {
+      "id": "q30",
+      "text": "Sinto desconforto com qualquer forma de não-monogamia.",
+      "category": "nm_discomfort",
+      "reverse": true
+    },
+    {
+      "id": "q31",
+      "text": "Gostaria de ouvir o/a meu/minha parceiro/a ao telefone durante um encontro.",
+      "category": "phone",
+      "reverse": false
+    },
+    {
+      "id": "q32",
+      "text": "A ideia de compersão (alegria pelo prazer do/a parceiro/a) ressoa comigo.",
+      "category": "compersion",
+      "reverse": false
+    },
+    {
+      "id": "q33",
+      "text": "Gostaria de estabelecer regras claras para estes encontros.",
+      "category": "rules",
+      "reverse": false
+    },
+    {
+      "id": "q34",
+      "text": "A reconexão sexual após um encontro do/a parceiro/a seria importante.",
+      "category": "reclaim",
+      "reverse": false
+    },
+    {
+      "id": "q35",
+      "text": "Sinto que estes desejos são uma parte saudável da minha sexualidade.",
+      "category": "healthy",
+      "reverse": false
+    },
+    {
+      "id": "q36",
+      "text": "A ideia de usar máscaras ou anonimato nestes encontros excita-me.",
+      "category": "anonymity",
+      "reverse": false
+    },
+    {
+      "id": "q37",
+      "text": "Gostaria que o/a meu/minha parceiro/a voltasse para casa e me contasse tudo.",
+      "category": "debrief",
+      "reverse": false
+    },
+    {
+      "id": "q38",
+      "text": "A ideia de ser 'obrigado/a' a assistir excita-me.",
+      "category": "forced_watch",
+      "reverse": false
+    },
+    {
+      "id": "q39",
+      "text": "Sinto-me confortável a discutir estes desejos com o/a meu/minha parceiro/a.",
+      "category": "discuss_comfort",
+      "reverse": false
+    },
+    {
+      "id": "q40",
+      "text": "A ideia de 'emprestar' o/a meu/minha parceiro/a para uma noite excita-me.",
+      "category": "lending",
+      "reverse": false
+    },
+    {
+      "id": "q41",
+      "text": "Prefiro que o/a terceiro/a seja desconhecido/a e não um amigo.",
+      "category": "stranger",
+      "reverse": false
+    },
+    {
+      "id": "q42",
+      "text": "A ideia de roleplay de cuckolding sem terceiros reais atrai-me.",
+      "category": "roleplay",
+      "reverse": false
+    },
+    {
+      "id": "q43",
+      "text": "Sinto que o ciúme pode ser transformado em excitação.",
+      "category": "jealousy_transform",
+      "reverse": false
+    },
+    {
+      "id": "q44",
+      "text": "Gostaria de ter um 'contrato' ou acordo para esta dinâmica.",
+      "category": "contract",
+      "reverse": false
+    },
+    {
+      "id": "q45",
+      "text": "A ideia de SPH (small penis humiliation) ou similar excita-me.",
+      "category": "sph",
+      "reverse": false
+    },
+    {
+      "id": "q46",
+      "text": "Sinto que esta fantasia é sobre confiança profunda no relacionamento.",
+      "category": "trust",
+      "reverse": false
+    },
+    {
+      "id": "q47",
+      "text": "A ideia de 'leilão' ou 'venda' simbólica do/a parceiro/a excita-me.",
+      "category": "auction",
+      "reverse": false
+    },
+    {
+      "id": "q48",
+      "text": "Gostaria de começar com fantasias partilhadas antes de experiências reais.",
+      "category": "gradual",
+      "reverse": false
+    },
+    {
+      "id": "q49",
+      "text": "A dinâmica de bull/cuckold/hotwife interessa-me explorar.",
+      "category": "dynamic",
+      "reverse": false
+    },
+    {
+      "id": "q50",
+      "text": "Sinto que estes desejos são uma forma de conexão profunda com o/a parceiro/a.",
+      "category": "connection",
+      "reverse": false
+    }
+  ]
+}

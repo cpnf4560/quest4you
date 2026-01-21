@@ -1,0 +1,320 @@
+{
+  "id": "swing",
+  "name": "Swing/Poliamor",
+  "icon": "💜",
+  "color": "#00bcd4",
+  "description": "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplos parceiros",
+  "resultType": "category",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    { "min": 0, "max": 20, "label": "Monogâmico Feliz", "emoji": "💑", "description": "A monogamia é o modelo relacional que te satisfaz completamente. Não sentes interesse por experiências com outros." },
+    { "min": 21, "max": 40, "label": "Monogâmico Curioso", "emoji": "🤔", "description": "Estás satisfeito/a com a monogamia, mas tens alguma curiosidade teórica sobre outras dinâmicas." },
+    { "min": 41, "max": 55, "label": "Soft Swing", "emoji": "💋", "description": "Interessa-te experiências suaves com outros casais (beijos, carícias), mas sem sexo completo." },
+    { "min": 56, "max": 70, "label": "Full Swap Curioso", "emoji": "🔄", "description": "Estás aberto/a a trocas completas com outros casais, mantendo o foco na experiência física." },
+    { "min": 71, "max": 85, "label": "Lifestyle Ativo", "emoji": "🎉", "description": "Abraças o estilo de vida swing com entusiasmo. Procuras experiências regulares e uma comunidade." },
+    { "min": 86, "max": 100, "label": "Poliamoroso", "emoji": "💜", "description": "Acreditas na capacidade de amar múltiplas pessoas. Procuras conexões emocionais e não apenas físicas." }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Acredito que é possível amar mais de uma pessoa simultaneamente.",
+      "category": "poly_belief",
+      "reverse": false
+    },
+    {
+      "id": "q2",
+      "text": "A monogamia é o único modelo relacional válido para mim.",
+      "category": "monogamy",
+      "reverse": true
+    },
+    {
+      "id": "q3",
+      "text": "A ideia de trocar parceiros com outro casal excita-me.",
+      "category": "swap",
+      "reverse": false
+    },
+    {
+      "id": "q4",
+      "text": "Sinto ciúme intenso com a ideia do/a meu/minha parceiro/a com outros.",
+      "category": "jealousy",
+      "reverse": true
+    },
+    {
+      "id": "q5",
+      "text": "Gostaria de participar em festas ou eventos de casais.",
+      "category": "parties",
+      "reverse": false
+    },
+    {
+      "id": "q6",
+      "text": "Consigo separar amor de sexo em contextos específicos.",
+      "category": "separation",
+      "reverse": false
+    },
+    {
+      "id": "q7",
+      "text": "A ideia de um trio (ménage à trois) atrai-me.",
+      "category": "threesome",
+      "reverse": false
+    },
+    {
+      "id": "q8",
+      "text": "Sinto que teria problemas de ciúme em relações abertas.",
+      "category": "jealousy_concern",
+      "reverse": true
+    },
+    {
+      "id": "q9",
+      "text": "Gostaria de ter uma relação principal e outras secundárias.",
+      "category": "hierarchical",
+      "reverse": false
+    },
+    {
+      "id": "q10",
+      "text": "A comunicação aberta e honesta é fundamental em qualquer dinâmica.",
+      "category": "communication",
+      "reverse": false
+    },
+    {
+      "id": "q11",
+      "text": "A ideia de ver o/a meu/minha parceiro/a com outra pessoa excita-me.",
+      "category": "compersion_visual",
+      "reverse": false
+    },
+    {
+      "id": "q12",
+      "text": "Prefiro experiências apenas físicas, sem envolvimento emocional.",
+      "category": "physical_only",
+      "reverse": false
+    },
+    {
+      "id": "q13",
+      "text": "A ideia de uma relação poliamorosa com múltiplos parceiros atrai-me.",
+      "category": "poly",
+      "reverse": false
+    },
+    {
+      "id": "q14",
+      "text": "Sinto-me confortável a estabelecer regras e limites claros.",
+      "category": "boundaries",
+      "reverse": false
+    },
+    {
+      "id": "q15",
+      "text": "A exclusividade sexual é essencial para me sentir seguro/a.",
+      "category": "exclusivity",
+      "reverse": true
+    },
+    {
+      "id": "q16",
+      "text": "Gostaria de explorar a minha sexualidade com pessoas do mesmo género num contexto de casal.",
+      "category": "same_gender",
+      "reverse": false
+    },
+    {
+      "id": "q17",
+      "text": "Sinto que relações não-monogâmicas requerem mais trabalho emocional.",
+      "category": "emotional_work",
+      "reverse": false
+    },
+    {
+      "id": "q18",
+      "text": "A ideia de 'soft swing' (beijos, carícias, sem sexo completo) atrai-me.",
+      "category": "soft_swap",
+      "reverse": false
+    },
+    {
+      "id": "q19",
+      "text": "Consigo imaginar-me a desenvolver sentimentos por múltiplas pessoas.",
+      "category": "multiple_love",
+      "reverse": false
+    },
+    {
+      "id": "q20",
+      "text": "A ideia de conhecer outros casais com os mesmos interesses atrai-me.",
+      "category": "community",
+      "reverse": false
+    },
+    {
+      "id": "q21",
+      "text": "Sinto que a monogamia é uma construção social, não natural.",
+      "category": "monogamy_belief",
+      "reverse": false
+    },
+    {
+      "id": "q22",
+      "text": "Gostaria de ter um/a 'playmate' regular além do/a meu/minha parceiro/a.",
+      "category": "playmate",
+      "reverse": false
+    },
+    {
+      "id": "q23",
+      "text": "A confiança no/a meu/minha parceiro/a permitir-me-ia explorar estas dinâmicas.",
+      "category": "trust",
+      "reverse": false
+    },
+    {
+      "id": "q24",
+      "text": "Prefiro experiências com ambos os membros do casal envolvidos.",
+      "category": "together",
+      "reverse": false
+    },
+    {
+      "id": "q25",
+      "text": "A ideia de 'hall pass' (permissão ocasional) atrai-me.",
+      "category": "hall_pass",
+      "reverse": false
+    },
+    {
+      "id": "q26",
+      "text": "Sinto desconforto com qualquer forma de não-monogamia.",
+      "category": "nm_discomfort",
+      "reverse": true
+    },
+    {
+      "id": "q27",
+      "text": "A ideia de uma relação em 'V' ou 'triângulo' amoroso interessa-me.",
+      "category": "v_triad",
+      "reverse": false
+    },
+    {
+      "id": "q28",
+      "text": "Gostaria de experiências onde todos os envolvidos são amigos.",
+      "category": "friends",
+      "reverse": false
+    },
+    {
+      "id": "q29",
+      "text": "Sinto que estas experiências fortaleceriam a minha relação principal.",
+      "category": "strengthen",
+      "reverse": false
+    },
+    {
+      "id": "q30",
+      "text": "A ideia de anonimato nestas experiências atrai-me mais.",
+      "category": "anonymity",
+      "reverse": false
+    },
+    {
+      "id": "q31",
+      "text": "Consigo gerir múltiplas relações emocionais simultaneamente.",
+      "category": "emotional_capacity",
+      "reverse": false
+    },
+    {
+      "id": "q32",
+      "text": "A ideia de 'unicorn hunting' (procurar um terceiro) interessa-me.",
+      "category": "unicorn",
+      "reverse": false
+    },
+    {
+      "id": "q33",
+      "text": "Prefiro que as experiências não-monogâmicas sejam esporádicas.",
+      "category": "occasional",
+      "reverse": false
+    },
+    {
+      "id": "q34",
+      "text": "Sinto-me atraído/a pela ideia de uma 'rede poliamorosa'.",
+      "category": "polycule",
+      "reverse": false
+    },
+    {
+      "id": "q35",
+      "text": "A ideia de viver com múltiplos parceiros atrai-me.",
+      "category": "cohabitation",
+      "reverse": false
+    },
+    {
+      "id": "q36",
+      "text": "Gostaria de manter a minha vida não-monogâmica privada.",
+      "category": "privacy",
+      "reverse": false
+    },
+    {
+      "id": "q37",
+      "text": "Sinto que posso sentir compersão (alegria pelo prazer do/a parceiro/a).",
+      "category": "compersion",
+      "reverse": false
+    },
+    {
+      "id": "q38",
+      "text": "A ideia de 'relationship anarchy' ressoa comigo.",
+      "category": "anarchy",
+      "reverse": false
+    },
+    {
+      "id": "q39",
+      "text": "Prefiro relações hierárquicas (primário, secundário) a igualitárias.",
+      "category": "hierarchy",
+      "reverse": false
+    },
+    {
+      "id": "q40",
+      "text": "Sinto que a sociedade é demasiado rígida sobre modelos relacionais.",
+      "category": "society",
+      "reverse": false
+    },
+    {
+      "id": "q41",
+      "text": "A ideia de 'kitchen table poly' (todos se conhecem) atrai-me.",
+      "category": "kitchen_table",
+      "reverse": false
+    },
+    {
+      "id": "q42",
+      "text": "Gostaria de explorar gradualmente, começando com fantasias.",
+      "category": "gradual",
+      "reverse": false
+    },
+    {
+      "id": "q43",
+      "text": "Sinto-me confortável a discutir limites e desejos abertamente.",
+      "category": "discuss",
+      "reverse": false
+    },
+    {
+      "id": "q44",
+      "text": "A ideia de 'solo poly' (poliamor sem parceiro principal) interessa-me.",
+      "category": "solo_poly",
+      "reverse": false
+    },
+    {
+      "id": "q45",
+      "text": "Prefiro experiências com pessoas que conhecemos bem.",
+      "category": "known",
+      "reverse": false
+    },
+    {
+      "id": "q46",
+      "text": "Sinto que a não-monogamia ética requer muita maturidade emocional.",
+      "category": "maturity",
+      "reverse": false
+    },
+    {
+      "id": "q47",
+      "text": "A ideia de ter múltiplos 'metamours' (parceiros do parceiro) está bem para mim.",
+      "category": "metamour",
+      "reverse": false
+    },
+    {
+      "id": "q48",
+      "text": "Gostaria de frequentar clubes ou resorts para casais.",
+      "category": "venues",
+      "reverse": false
+    },
+    {
+      "id": "q49",
+      "text": "Sinto que estas experiências são uma forma de crescimento pessoal.",
+      "category": "growth",
+      "reverse": false
+    },
+    {
+      "id": "q50",
+      "text": "Estou genuinamente aberto/a a explorar modelos relacionais alternativos.",
+      "category": "openness",
+      "reverse": false
+    }
+  ]
+}

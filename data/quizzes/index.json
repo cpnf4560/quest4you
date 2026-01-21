@@ -1,0 +1,74 @@
+﻿{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-19",
+  "scale": {
+    "min": 1,
+    "max": 5,
+    "labels": [
+      "Discordo Totalmente",
+      "Discordo",
+      "Neutro",
+      "Concordo",
+      "Concordo Totalmente"
+    ]
+  },
+  "quizzes": [
+    {
+      "id": "vanilla",
+      "name": "Vanilla ou Kink",
+      "icon": "",
+      "color": "#e91e63",
+      "file": "vanilla.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Descobre onde te posicionas no espectro entre romance suave e práticas mais intensas"
+    },
+    {
+      "id": "orientation",
+      "name": "Orientação Sexual",
+      "icon": "",
+      "color": "#9c27b0",
+      "file": "orientation.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Explora as tuas atrações e curiosidades sobre diferentes géneros e identidades"
+    },
+    {
+      "id": "cuckold",
+      "name": "Stag/Cuckold",
+      "icon": "",
+      "color": "#673ab7",
+      "file": "cuckold.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Avalia o teu interesse em dinâmicas de voyeurismo e humilhação consensual"
+    },
+    {
+      "id": "swing",
+      "name": "Swing/Poliamor",
+      "icon": "",
+      "color": "#00bcd4",
+      "file": "swing.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "category",
+      "description": "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplos parceiros"
+    },
+    {
+      "id": "kinks",
+      "name": "Fetiches e Kinks",
+      "icon": "",
+      "color": "#f44336",
+      "file": "kinks.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "tags",
+      "description": "Descobre os teus interesses em práticas alternativas e fetiches específicos"
+    }
+  ],
+  "totalQuestions": 250,
+  "smartMatchMinQuizzes": 2
+}
