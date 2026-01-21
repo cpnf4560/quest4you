@@ -51,28 +51,40 @@ function handleAdminAuth(user) {
 }
 
 function isAdminUser(email) {
-  return ADMIN_EMAILS.includes(email.toLowerCase());
+  if (!email) return false;
+  const normalizedEmail = email.toLowerCase().trim();
+  console.log('Checking admin for:', normalizedEmail);
+  console.log('Allowed admins:', ADMIN_EMAILS);
+  const isAdmin = ADMIN_EMAILS.some(adminEmail => adminEmail.toLowerCase().trim() === normalizedEmail);
+  console.log('Is admin:', isAdmin);
+  return isAdmin;
 }
 
 async function adminLogin(event) {
   event.preventDefault();
   
-  const email = document.getElementById('loginEmail').value;
+  const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   const errorDiv = document.getElementById('loginError');
   
   try {
     errorDiv.style.display = 'none';
     
+    console.log('Attempting login for:', email);
     const result = await auth.signInWithEmailAndPassword(email, password);
+    console.log('Login successful:', result.user.email);
     
     if (!isAdminUser(result.user.email)) {
+      console.log('User is not admin, logging out');
       await auth.signOut();
       throw new Error('Sem permissões de administrador');
     }
     
   } catch (error) {
     console.error('Login error:', error);
+    errorDiv.textContent = error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' 
+      ? 'Email ou password incorretos.' 
+      : 'Credenciais inválidas ou sem permissões de admin.';
     errorDiv.style.display = 'block';
   }
 }
