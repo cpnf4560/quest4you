@@ -205,15 +205,44 @@ function renderProgress() {
     const completed = progress >= quiz.questions;
     const percent = Math.round((progress / quiz.questions) * 100);
     
+    // Determine status
+    let statusClass = "not-started";
+    let statusText = "Não iniciado";
+    let statusIcon = "○";
+    let actionText = "Iniciar";
+    
+    if (completed) {
+      statusClass = "completed";
+      statusText = "Concluído";
+      statusIcon = "✓";
+      actionText = "Ver Resultados";
+    } else if (progress > 0) {
+      statusClass = "in-progress";
+      statusText = "Em progresso";
+      statusIcon = "◐";
+      actionText = "Continuar";
+    }
+    
     html += '<div class="progress-card ' + (completed ? "completed" : "") + '">';
     html += '  <div class="progress-header" style="background: ' + quiz.color + '">';
+    html += '    <span class="progress-icon">' + quiz.icon + '</span>';
     html += '    <span class="progress-title">' + quiz.name + '</span>';
     html += '  </div>';
     html += '  <div class="progress-body">';
     html += '    <div class="progress-bar-container">';
     html += '      <div class="progress-bar" style="width: ' + percent + '%"></div>';
     html += '    </div>';
-    html += '    <span class="progress-text">' + progress + '/' + quiz.questions + '</span>';
+    html += '    <div class="progress-text">';
+    html += '      <span>' + progress + '/' + quiz.questions + ' perguntas</span>';
+    html += '      <span class="progress-percent">' + percent + '%</span>';
+    html += '    </div>';
+    html += '    <div class="progress-status ' + statusClass + '">';
+    html += '      <span>' + statusIcon + '</span>';
+    html += '      <span>' + statusText + '</span>';
+    html += '    </div>';
+    html += '    <div class="progress-action">';
+    html += '      <button class="btn btn-primary" onclick="openQuiz(\'' + quiz.id + '\')">' + actionText + '</button>';
+    html += '    </div>';
     html += '  </div>';
     html += '</div>';
   }

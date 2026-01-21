@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BackOffice - Quest4You</title>
+  <link rel="icon" type="image/png" href="../assets/quest4you_transp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css?v=202601210001">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="../assets/quest4you_transp.png" alt="Quest4You" class="sidebar-logo">
+      <h2>BackOffice</h2>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a href="#dashboard" class="nav-item active" data-section="dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="#users" class="nav-item" data-section="users">
+        <span class="nav-icon">👥</span>
+        <span>Utilizadores</span>
+      </a>
+      <a href="#quizzes" class="nav-item" data-section="quizzes">
+        <span class="nav-icon">📝</span>
+        <span>Questionários</span>
+      </a>
+      <a href="#results" class="nav-item" data-section="results">
+        <span class="nav-icon">📈</span>
+        <span>Resultados</span>
+      </a>
+      <a href="#matches" class="nav-item" data-section="matches">
+        <span class="nav-icon">💕</span>
+        <span>Smart Matches</span>
+      </a>
+      <a href="#settings" class="nav-item" data-section="settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Definições</span>
+      </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <a href="../index.html" class="btn-back">
+        ← Voltar ao Site
+      </a>
+      <button class="btn-logout" onclick="logout()">
+        🚪 Sair
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="main-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <h1 id="pageTitle">Dashboard</h1>
+      <div class="header-actions">
+        <span class="admin-user" id="adminUser">Admin</span>
+      </div>
+    </header>
+
+    <!-- Login Section (shown when not authenticated) -->
+    <section class="login-section" id="loginSection">
+      <div class="login-card">
+        <div class="login-icon">🔐</div>
+        <h2>Acesso BackOffice</h2>
+        <p>Apenas administradores autorizados.</p>
+        
+        <form id="loginForm" onsubmit="adminLogin(event)">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" required placeholder="admin@quest4couple.pt">
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            Entrar
+          </button>
+        </form>
+        
+        <div class="login-error" id="loginError" style="display: none;">
+          ⚠️ Credenciais inválidas ou sem permissões de admin.
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="content-section" id="dashboardSection" style="display: none;">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <span class="stat-value" id="totalUsers">0</span>
+            <span class="stat-label">Utilizadores</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📝</div>
+          <div class="stat-info">
+            <span class="stat-value" id="totalResponses">0</span>
+            <span class="stat-label">Respostas</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-info">
+            <span class="stat-value" id="completedQuizzes">0</span>
+            <span class="stat-label">Questionários Completos</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💕</div>
+          <div class="stat-info">
+            <span class="stat-value" id="totalMatches">0</span>
+            <span class="stat-label">Matches Criados</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Recent Activity -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3>📋 Atividade Recente</h3>
+          </div>
+          <div class="card-body">
+            <div class="activity-list" id="activityList">
+              <div class="activity-item">
+                <span class="activity-icon">👤</span>
+                <div class="activity-info">
+                  <span class="activity-text">Novo utilizador registado</span>
+                  <span class="activity-time">Há 5 minutos</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <span class="activity-icon">✅</span>
+                <div class="activity-info">
+                  <span class="activity-text">Questionário "Vanilla ou Kink" completado</span>
+                  <span class="activity-time">Há 12 minutos</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <span class="activity-icon">💕</span>
+                <div class="activity-info">
+                  <span class="activity-text">Novo match com 87% compatibilidade</span>
+                  <span class="activity-time">Há 23 minutos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats Chart -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3>📊 Questionários Populares</h3>
+          </div>
+          <div class="card-body">
+            <div class="quiz-stats">
+              <div class="quiz-stat-item">
+                <span class="quiz-name">Vanilla ou Kink</span>
+                <div class="quiz-bar" style="--percent: 85%; --color: #e91e63;"></div>
+                <span class="quiz-percent">85%</span>
+              </div>
+              <div class="quiz-stat-item">
+                <span class="quiz-name">Orientação Sexual</span>
+                <div class="quiz-bar" style="--percent: 72%; --color: #9c27b0;"></div>
+                <span class="quiz-percent">72%</span>
+              </div>
+              <div class="quiz-stat-item">
+                <span class="quiz-name">Fetiches e Kinks</span>
+                <div class="quiz-bar" style="--percent: 68%; --color: #f44336;"></div>
+                <span class="quiz-percent">68%</span>
+              </div>
+              <div class="quiz-stat-item">
+                <span class="quiz-name">Swing/Poliamor</span>
+                <div class="quiz-bar" style="--percent: 54%; --color: #00bcd4;"></div>
+                <span class="quiz-percent">54%</span>
+              </div>
+              <div class="quiz-stat-item">
+                <span class="quiz-name">Stag/Cuckold</span>
+                <div class="quiz-bar" style="--percent: 41%; --color: #673ab7;"></div>
+                <span class="quiz-percent">41%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Users Section -->
+    <section class="content-section" id="usersSection" style="display: none;">
+      <div class="section-header">
+        <h2>👥 Gestão de Utilizadores</h2>
+        <div class="header-actions">
+          <input type="text" class="search-input" id="userSearch" placeholder="🔍 Pesquisar utilizadores...">
+          <button class="btn btn-primary" onclick="refreshUsers()">🔄 Atualizar</button>
+        </div>
+      </div>
+      
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Registo</th>
+              <th>Questionários</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <!-- Users loaded dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Quizzes Section -->
+    <section class="content-section" id="quizzesSection" style="display: none;">
+      <div class="section-header">
+        <h2>📝 Gestão de Questionários</h2>
+      </div>
+      
+      <div class="quizzes-admin-grid">
+        <div class="quiz-admin-card">
+          <div class="quiz-admin-header" style="background: #e91e63;">
+            <span class="quiz-admin-icon">🔥</span>
+            <h3>Vanilla ou Kink</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span>Respostas: <strong>1,234</strong></span>
+              <span>Completos: <strong>890</strong></span>
+            </div>
+            <button class="btn btn-outline btn-small">Editar Perguntas</button>
+          </div>
+        </div>
+        
+        <div class="quiz-admin-card">
+          <div class="quiz-admin-header" style="background: #9c27b0;">
+            <span class="quiz-admin-icon">🌈</span>
+            <h3>Orientação Sexual</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span>Respostas: <strong>1,105</strong></span>
+              <span>Completos: <strong>782</strong></span>
+            </div>
+            <button class="btn btn-outline btn-small">Editar Perguntas</button>
+          </div>
+        </div>
+        
+        <div class="quiz-admin-card">
+          <div class="quiz-admin-header" style="background: #673ab7;">
+            <span class="quiz-admin-icon">👀</span>
+            <h3>Stag/Cuckold</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span>Respostas: <strong>567</strong></span>
+              <span>Completos: <strong>421</strong></span>
+            </div>
+            <button class="btn btn-outline btn-small">Editar Perguntas</button>
+          </div>
+        </div>
+        
+        <div class="quiz-admin-card">
+          <div class="quiz-admin-header" style="background: #00bcd4;">
+            <span class="quiz-admin-icon">💑</span>
+            <h3>Swing/Poliamor</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span>Respostas: <strong>789</strong></span>
+              <span>Completos: <strong>543</strong></span>
+            </div>
+            <button class="btn btn-outline btn-small">Editar Perguntas</button>
+          </div>
+        </div>
+        
+        <div class="quiz-admin-card">
+          <div class="quiz-admin-header" style="background: #f44336;">
+            <span class="quiz-admin-icon">⛓️</span>
+            <h3>Fetiches e Kinks</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span>Respostas: <strong>998</strong></span>
+              <span>Completos: <strong>723</strong></span>
+            </div>
+            <button class="btn btn-outline btn-small">Editar Perguntas</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="content-section" id="resultsSection" style="display: none;">
+      <div class="section-header">
+        <h2>📈 Análise de Resultados</h2>
+      </div>
+      
+      <div class="results-overview">
+        <div class="result-chart-card">
+          <h3>Distribuição de Resultados - Vanilla ou Kink</h3>
+          <div class="distribution-chart">
+            <div class="dist-bar" style="--height: 15%"><span>10%</span><label>Muito Vanilla</label></div>
+            <div class="dist-bar" style="--height: 25%"><span>20%</span><label>Vanilla</label></div>
+            <div class="dist-bar" style="--height: 35%"><span>35%</span><label>Equilibrado</label></div>
+            <div class="dist-bar" style="--height: 20%"><span>25%</span><label>Kink</label></div>
+            <div class="dist-bar" style="--height: 10%"><span>10%</span><label>Muito Kink</label></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Matches Section -->
+    <section class="content-section" id="matchesSection" style="display: none;">
+      <div class="section-header">
+        <h2>💕 Smart Matches</h2>
+      </div>
+      
+      <div class="matches-overview">
+        <div class="match-stat">
+          <span class="match-stat-value">2,345</span>
+          <span class="match-stat-label">Matches Totais</span>
+        </div>
+        <div class="match-stat">
+          <span class="match-stat-value">78%</span>
+          <span class="match-stat-label">Compatibilidade Média</span>
+        </div>
+        <div class="match-stat">
+          <span class="match-stat-value">456</span>
+          <span class="match-stat-label">Conversas Iniciadas</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings Section -->
+    <section class="content-section" id="settingsSection" style="display: none;">
+      <div class="section-header">
+        <h2>⚙️ Definições</h2>
+      </div>
+      
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h3>🔐 Segurança</h3>
+          <div class="setting-item">
+            <label>Emails de Admin Autorizados</label>
+            <textarea id="adminEmails" rows="4" placeholder="Um email por linha...">info@quest4couple.pt</textarea>
+          </div>
+          <button class="btn btn-primary" onclick="saveSettings()">Guardar</button>
+        </div>
+        
+        <div class="settings-card">
+          <h3>📧 Email</h3>
+          <div class="setting-item">
+            <label>Email de Contacto</label>
+            <input type="email" value="info@quest4couple.pt">
+          </div>
+          <div class="setting-item">
+            <label>Email de Suporte</label>
+            <input type="email" value="info@quest4couple.pt">
+          </div>
+          <button class="btn btn-primary" onclick="saveSettings()">Guardar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="../js/firebase-config.js?v=202601210001"></script>
+  <script src="./admin.js?v=202601210001"></script>
+</body>
+</html>
