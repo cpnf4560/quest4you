@@ -16,7 +16,7 @@
     {
       "id": "vanilla",
       "name": "Vanilla ou Kink",
-      "icon": "",
+      "icon": "🔥",
       "color": "#e91e63",
       "file": "vanilla.json",
       "questions": 50,
@@ -27,7 +27,7 @@
     {
       "id": "orientation",
       "name": "Orientação Sexual",
-      "icon": "",
+      "icon": "🌈",
       "color": "#9c27b0",
       "file": "orientation.json",
       "questions": 50,
@@ -38,7 +38,7 @@
     {
       "id": "cuckold",
       "name": "Stag/Cuckold",
-      "icon": "",
+      "icon": "👀",
       "color": "#673ab7",
       "file": "cuckold.json",
       "questions": 50,
@@ -49,7 +49,7 @@
     {
       "id": "swing",
       "name": "Swing/Poliamor",
-      "icon": "",
+      "icon": "💑",
       "color": "#00bcd4",
       "file": "swing.json",
       "questions": 50,
@@ -60,7 +60,7 @@
     {
       "id": "kinks",
       "name": "Fetiches e Kinks",
-      "icon": "",
+      "icon": "⛓️",
       "color": "#f44336",
       "file": "kinks.json",
       "questions": 50,
