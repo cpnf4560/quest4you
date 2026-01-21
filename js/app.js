@@ -1,6 +1,7 @@
 /**
  * Quest4You - Main Application
- * Questionarios individuais com resultados imediatos
+ * Question√°rios individuais com resultados imediatos
+ * Login obrigat√≥rio para responder
  */
 
 // ================================
@@ -10,45 +11,45 @@ const QUIZZES_CONFIG = [
   {
     id: "vanilla",
     name: "Vanilla ou Kink",
-    icon: "heart",
+    icon: "üî•",
     color: "#e91e63",
-    description: "Descobre onde te posicionas no espectro entre romance suave e pr·ticas mais intensas",
+    description: "Descobre onde te posicionas no espectro entre romance suave e pr√°ticas mais intensas",
     questions: 50,
     resultType: "spectrum"
   },
   {
     id: "orientation",
-    name: "OrientaÁ„o Sexual",
-    icon: "rainbow",
+    name: "Orienta√ß√£o Sexual",
+    icon: "üåà",
     color: "#9c27b0",
-    description: "Explora as tuas atraÁıes e curiosidades sobre diferentes gÈneros e identidades",
+    description: "Explora as tuas atra√ß√µes e curiosidades sobre diferentes g√©neros e identidades",
     questions: 50,
     resultType: "spectrum"
   },
   {
     id: "cuckold",
     name: "Stag/Cuckold",
-    icon: "eyes",
+    icon: "üëÄ",
     color: "#673ab7",
-    description: "Avalia o teu interesse em din‚micas de voyeurismo e humilhaÁ„o consensual",
+    description: "Avalia o teu interesse em din√¢micas de voyeurismo e humilha√ß√£o consensual",
     questions: 50,
     resultType: "spectrum"
   },
   {
     id: "swing",
     name: "Swing/Poliamor",
-    icon: "hearts",
+    icon: "üíë",
     color: "#00bcd4",
-    description: "Explora o teu interesse em relaÁıes n„o-monog‚micas e experiÍncias com m˙ltiplos parceiros",
+    description: "Explora o teu interesse em rela√ß√µes n√£o-monog√¢micas e experi√™ncias com m√∫ltiplos parceiros",
     questions: 50,
     resultType: "category"
   },
   {
     id: "kinks",
     name: "Fetiches e Kinks",
-    icon: "fire",
+    icon: "‚õìÔ∏è",
     color: "#f44336",
-    description: "Descobre os teus interesses em pr·ticas alternativas e fetiches especÌficos",
+    description: "Descobre os teus interesses em pr√°ticas alternativas e fetiches espec√≠ficos",
     questions: 50,
     resultType: "tags"
   }
@@ -73,19 +74,16 @@ document.addEventListener("DOMContentLoaded", function() {
   // Check auth state
   if (typeof auth !== "undefined") {
     auth.onAuthStateChanged(handleAuthChange);
+  } else {
+    // Firebase not loaded yet, show login notice
+    updateUIForGuest();
   }
   
-  // Load saved name
-  const savedName = localStorage.getItem("q4y_userName");
-  if (savedName && document.getElementById("userName")) {
-    document.getElementById("userName").value = savedName;
-  }
-  
-  // Save name on change
-  var nameInput = document.getElementById("userName");
-  if (nameInput) {
-    nameInput.addEventListener("change", function(e) {
-      localStorage.setItem("q4y_userName", e.target.value);
+  // Mobile menu toggle
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener("click", function() {
+      document.querySelector(".nav").classList.toggle("active");
     });
   }
 });
@@ -98,25 +96,54 @@ function handleAuthChange(user) {
 
   if (user) {
     console.log("User logged in:", user.email);
-    var authLink = document.getElementById("authLink");
-    if (authLink) {
-      authLink.textContent = user.displayName || "Meu Perfil";
-      authLink.href = "./pages/profile.html";
-    }
-
+    updateUIForUser(user);
     loadUserProgress();
-
-    var progressSection = document.getElementById("progressSection");
-    if (progressSection) {
-      progressSection.style.display = "block";
-    }
   } else {
     console.log("User not logged in");
-    var authLink = document.getElementById("authLink");
-    if (authLink) {
-      authLink.textContent = "Entrar";
-      authLink.href = "./pages/auth.html";
-    }
+    updateUIForGuest();
+  }
+}
+
+function updateUIForUser(user) {
+  // Update auth link
+  const authLink = document.getElementById("authLink");
+  if (authLink) {
+    authLink.textContent = "üë§ " + (user.displayName || "Perfil");
+    authLink.href = "./pages/profile.html";
+    authLink.classList.remove("btn-nav-login");
+  }
+
+  // Hide login notice
+  const loginNotice = document.getElementById("loginNotice");
+  if (loginNotice) {
+    loginNotice.style.display = "none";
+  }
+
+  // Show progress section
+  const progressSection = document.getElementById("progressSection");
+  if (progressSection) {
+    progressSection.style.display = "block";
+  }
+}
+
+function updateUIForGuest() {
+  // Update auth link
+  const authLink = document.getElementById("authLink");
+  if (authLink) {
+    authLink.textContent = "üîê Entrar";
+    authLink.href = "./pages/auth.html";
+  }
+
+  // Show login notice
+  const loginNotice = document.getElementById("loginNotice");
+  if (loginNotice) {
+    loginNotice.style.display = "block";
+  }
+
+  // Hide progress section
+  const progressSection = document.getElementById("progressSection");
+  if (progressSection) {
+    progressSection.style.display = "none";
   }
 }
 
@@ -143,30 +170,21 @@ function renderQuizzes() {
   const grid = document.getElementById("quizzesGrid");
   if (!grid) return;
 
-  const icons = {
-    heart: "??",
-    rainbow: "??",
-    eyes: "??",
-    hearts: "??",
-    fire: "??"
-  };
-
   let html = "";
   
   for (let i = 0; i < QUIZZES_CONFIG.length; i++) {
     const quiz = QUIZZES_CONFIG[i];
-    const icon = icons[quiz.icon] || "";
     
     html += '<div class="quiz-card" data-quiz="' + quiz.id + '" onclick="openQuiz(\'' + quiz.id + '\')">';
     html += '  <div class="quiz-card-header" style="background: ' + quiz.color + '">';
-    html += '    <div class="quiz-card-icon">' + icon + '</div>';
+    html += '    <div class="quiz-card-icon">' + quiz.icon + '</div>';
     html += '    <h3 class="quiz-card-title">' + quiz.name + '</h3>';
     html += '  </div>';
     html += '  <div class="quiz-card-body">';
     html += '    <p class="quiz-card-description">' + quiz.description + '</p>';
     html += '    <div class="quiz-card-footer">';
-    html += '      <span class="quiz-meta">?? ' + quiz.questions + ' perguntas</span>';
-    html += '      <span class="quiz-badge free">? Gr·tis</span>';
+    html += '      <span class="quiz-meta">üìù ' + quiz.questions + ' perguntas</span>';
+    html += '      <span class="quiz-badge free">‚úì Gr√°tis</span>';
     html += '    </div>';
     html += '  </div>';
     html += '</div>';
@@ -207,6 +225,12 @@ function renderProgress() {
 // ACTIONS
 // ================================
 function openQuiz(quizId) {
+  // Check if user is logged in
+  if (!currentUser) {
+    showLoginModal();
+    return;
+  }
+
   var quiz = null;
   for (var i = 0; i < QUIZZES_CONFIG.length; i++) {
     if (QUIZZES_CONFIG[i].id === quizId) {
@@ -220,16 +244,31 @@ function openQuiz(quizId) {
   window.location.href = "./pages/quiz.html?id=" + quizId;
 }
 
+function showLoginModal() {
+  const modal = document.getElementById("loginModal");
+  if (modal) {
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeLoginModal() {
+  const modal = document.getElementById("loginModal");
+  if (modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+}
+
 function saveProgress() {
   console.log("Save progress");
   
   if (!currentUser) {
-    alert("Faz login para guardar o teu progresso!");
-    window.location.href = "./pages/auth.html";
+    showLoginModal();
     return;
   }
   
-  alert("Progresso guardado!");
+  alert("‚úÖ Progresso guardado com sucesso!");
 }
 
 function goToSmartMatch() {
@@ -241,3 +280,5 @@ function goToSmartMatch() {
 window.openQuiz = openQuiz;
 window.saveProgress = saveProgress;
 window.goToSmartMatch = goToSmartMatch;
+window.showLoginModal = showLoginModal;
+window.closeLoginModal = closeLoginModal;
