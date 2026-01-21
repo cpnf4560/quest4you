@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=202601210001">
+  <link rel="stylesheet" href="./admin.css?v=202601210002">
 </head>
 <body>
   <!-- Sidebar -->
@@ -20,37 +20,37 @@
     
     <nav class="sidebar-nav">
       <a href="#dashboard" class="nav-item active" data-section="dashboard">
-        <span class="nav-icon">📊</span>
+        <span class="nav-icon">ðŸ“Š</span>
         <span>Dashboard</span>
       </a>
       <a href="#users" class="nav-item" data-section="users">
-        <span class="nav-icon">👥</span>
+        <span class="nav-icon">ðŸ‘¥</span>
         <span>Utilizadores</span>
       </a>
       <a href="#quizzes" class="nav-item" data-section="quizzes">
-        <span class="nav-icon">📝</span>
-        <span>Questionários</span>
+        <span class="nav-icon">ðŸ“</span>
+        <span>QuestionÃ¡rios</span>
       </a>
       <a href="#results" class="nav-item" data-section="results">
-        <span class="nav-icon">📈</span>
+        <span class="nav-icon">ðŸ“ˆ</span>
         <span>Resultados</span>
       </a>
       <a href="#matches" class="nav-item" data-section="matches">
-        <span class="nav-icon">💕</span>
+        <span class="nav-icon">ðŸ’•</span>
         <span>Smart Matches</span>
       </a>
       <a href="#settings" class="nav-item" data-section="settings">
-        <span class="nav-icon">⚙️</span>
-        <span>Definições</span>
+        <span class="nav-icon">âš™ï¸</span>
+        <span>DefiniÃ§Ãµes</span>
       </a>
     </nav>
     
     <div class="sidebar-footer">
       <a href="../index.html" class="btn-back">
-        ← Voltar ao Site
+        â† Voltar ao Site
       </a>
       <button class="btn-logout" onclick="logout()">
-        🚪 Sair
+        ðŸšª Sair
       </button>
     </div>
   </aside>
@@ -59,7 +59,7 @@
   <main class="main-content">
     <!-- Header -->
     <header class="main-header">
-      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <button class="menu-toggle" onclick="toggleSidebar()">â˜°</button>
       <h1 id="pageTitle">Dashboard</h1>
       <div class="header-actions">
         <span class="admin-user" id="adminUser">Admin</span>
@@ -69,7 +69,7 @@
     <!-- Login Section (shown when not authenticated) -->
     <section class="login-section" id="loginSection">
       <div class="login-card">
-        <div class="login-icon">🔐</div>
+        <div class="login-icon">ðŸ”</div>
         <h2>Acesso BackOffice</h2>
         <p>Apenas administradores autorizados.</p>
         
@@ -80,7 +80,7 @@
           </div>
           <div class="form-group">
             <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" required placeholder="••••••••">
+            <input type="password" id="loginPassword" required placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
           </div>
           <button type="submit" class="btn btn-primary btn-full">
             Entrar
@@ -88,7 +88,7 @@
         </form>
         
         <div class="login-error" id="loginError" style="display: none;">
-          ⚠️ Credenciais inválidas ou sem permissões de admin.
+          âš ï¸ Credenciais invÃ¡lidas ou sem permissÃµes de admin.
         </div>
       </div>
     </section>
@@ -97,28 +97,28 @@
     <section class="content-section" id="dashboardSection" style="display: none;">
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-icon">👥</div>
+          <div class="stat-icon">ðŸ‘¥</div>
           <div class="stat-info">
             <span class="stat-value" id="totalUsers">0</span>
             <span class="stat-label">Utilizadores</span>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">📝</div>
+          <div class="stat-icon">ðŸ“</div>
           <div class="stat-info">
             <span class="stat-value" id="totalResponses">0</span>
             <span class="stat-label">Respostas</span>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">✅</div>
+          <div class="stat-icon">âœ…</div>
           <div class="stat-info">
             <span class="stat-value" id="completedQuizzes">0</span>
-            <span class="stat-label">Questionários Completos</span>
+            <span class="stat-label">QuestionÃ¡rios Completos</span>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">💕</div>
+          <div class="stat-icon">ðŸ’•</div>
           <div class="stat-info">
             <span class="stat-value" id="totalMatches">0</span>
             <span class="stat-label">Matches Criados</span>
@@ -130,29 +130,29 @@
         <!-- Recent Activity -->
         <div class="dashboard-card">
           <div class="card-header">
-            <h3>📋 Atividade Recente</h3>
+            <h3>ðŸ“‹ Atividade Recente</h3>
           </div>
           <div class="card-body">
             <div class="activity-list" id="activityList">
               <div class="activity-item">
-                <span class="activity-icon">👤</span>
+                <span class="activity-icon">ðŸ‘¤</span>
                 <div class="activity-info">
                   <span class="activity-text">Novo utilizador registado</span>
-                  <span class="activity-time">Há 5 minutos</span>
+                  <span class="activity-time">HÃ¡ 5 minutos</span>
                 </div>
               </div>
               <div class="activity-item">
-                <span class="activity-icon">✅</span>
+                <span class="activity-icon">âœ…</span>
                 <div class="activity-info">
-                  <span class="activity-text">Questionário "Vanilla ou Kink" completado</span>
-                  <span class="activity-time">Há 12 minutos</span>
+                  <span class="activity-text">QuestionÃ¡rio "Vanilla ou Kink" completado</span>
+                  <span class="activity-time">HÃ¡ 12 minutos</span>
                 </div>
               </div>
               <div class="activity-item">
-                <span class="activity-icon">💕</span>
+                <span class="activity-icon">ðŸ’•</span>
                 <div class="activity-info">
                   <span class="activity-text">Novo match com 87% compatibilidade</span>
-                  <span class="activity-time">Há 23 minutos</span>
+                  <span class="activity-time">HÃ¡ 23 minutos</span>
                 </div>
               </div>
             </div>
@@ -162,7 +162,7 @@
         <!-- Quick Stats Chart -->
         <div class="dashboard-card">
           <div class="card-header">
-            <h3>📊 Questionários Populares</h3>
+            <h3>ðŸ“Š QuestionÃ¡rios Populares</h3>
           </div>
           <div class="card-body">
             <div class="quiz-stats">
@@ -172,7 +172,7 @@
                 <span class="quiz-percent">85%</span>
               </div>
               <div class="quiz-stat-item">
-                <span class="quiz-name">Orientação Sexual</span>
+                <span class="quiz-name">OrientaÃ§Ã£o Sexual</span>
                 <div class="quiz-bar" style="--percent: 72%; --color: #9c27b0;"></div>
                 <span class="quiz-percent">72%</span>
               </div>
@@ -200,10 +200,10 @@
     <!-- Users Section -->
     <section class="content-section" id="usersSection" style="display: none;">
       <div class="section-header">
-        <h2>👥 Gestão de Utilizadores</h2>
+        <h2>ðŸ‘¥ GestÃ£o de Utilizadores</h2>
         <div class="header-actions">
-          <input type="text" class="search-input" id="userSearch" placeholder="🔍 Pesquisar utilizadores...">
-          <button class="btn btn-primary" onclick="refreshUsers()">🔄 Atualizar</button>
+          <input type="text" class="search-input" id="userSearch" placeholder="ðŸ” Pesquisar utilizadores...">
+          <button class="btn btn-primary" onclick="refreshUsers()">ðŸ”„ Atualizar</button>
         </div>
       </div>
       
@@ -215,8 +215,8 @@
               <th>Nome</th>
               <th>Email</th>
               <th>Registo</th>
-              <th>Questionários</th>
-              <th>Ações</th>
+              <th>QuestionÃ¡rios</th>
+              <th>AÃ§Ãµes</th>
             </tr>
           </thead>
           <tbody id="usersTableBody">
@@ -229,13 +229,13 @@
     <!-- Quizzes Section -->
     <section class="content-section" id="quizzesSection" style="display: none;">
       <div class="section-header">
-        <h2>📝 Gestão de Questionários</h2>
+        <h2>ðŸ“ GestÃ£o de QuestionÃ¡rios</h2>
       </div>
       
       <div class="quizzes-admin-grid">
         <div class="quiz-admin-card">
           <div class="quiz-admin-header" style="background: #e91e63;">
-            <span class="quiz-admin-icon">🔥</span>
+            <span class="quiz-admin-icon">ðŸ”¥</span>
             <h3>Vanilla ou Kink</h3>
           </div>
           <div class="quiz-admin-body">
@@ -250,8 +250,8 @@
         
         <div class="quiz-admin-card">
           <div class="quiz-admin-header" style="background: #9c27b0;">
-            <span class="quiz-admin-icon">🌈</span>
-            <h3>Orientação Sexual</h3>
+            <span class="quiz-admin-icon">ðŸŒˆ</span>
+            <h3>OrientaÃ§Ã£o Sexual</h3>
           </div>
           <div class="quiz-admin-body">
             <p>50 perguntas</p>
@@ -265,7 +265,7 @@
         
         <div class="quiz-admin-card">
           <div class="quiz-admin-header" style="background: #673ab7;">
-            <span class="quiz-admin-icon">👀</span>
+            <span class="quiz-admin-icon">ðŸ‘€</span>
             <h3>Stag/Cuckold</h3>
           </div>
           <div class="quiz-admin-body">
@@ -280,7 +280,7 @@
         
         <div class="quiz-admin-card">
           <div class="quiz-admin-header" style="background: #00bcd4;">
-            <span class="quiz-admin-icon">💑</span>
+            <span class="quiz-admin-icon">ðŸ’‘</span>
             <h3>Swing/Poliamor</h3>
           </div>
           <div class="quiz-admin-body">
@@ -295,7 +295,7 @@
         
         <div class="quiz-admin-card">
           <div class="quiz-admin-header" style="background: #f44336;">
-            <span class="quiz-admin-icon">⛓️</span>
+            <span class="quiz-admin-icon">â›“ï¸</span>
             <h3>Fetiches e Kinks</h3>
           </div>
           <div class="quiz-admin-body">
@@ -313,12 +313,12 @@
     <!-- Results Section -->
     <section class="content-section" id="resultsSection" style="display: none;">
       <div class="section-header">
-        <h2>📈 Análise de Resultados</h2>
+        <h2>ðŸ“ˆ AnÃ¡lise de Resultados</h2>
       </div>
       
       <div class="results-overview">
         <div class="result-chart-card">
-          <h3>Distribuição de Resultados - Vanilla ou Kink</h3>
+          <h3>DistribuiÃ§Ã£o de Resultados - Vanilla ou Kink</h3>
           <div class="distribution-chart">
             <div class="dist-bar" style="--height: 15%"><span>10%</span><label>Muito Vanilla</label></div>
             <div class="dist-bar" style="--height: 25%"><span>20%</span><label>Vanilla</label></div>
@@ -333,7 +333,7 @@
     <!-- Matches Section -->
     <section class="content-section" id="matchesSection" style="display: none;">
       <div class="section-header">
-        <h2>💕 Smart Matches</h2>
+        <h2>ðŸ’• Smart Matches</h2>
       </div>
       
       <div class="matches-overview">
@@ -343,7 +343,7 @@
         </div>
         <div class="match-stat">
           <span class="match-stat-value">78%</span>
-          <span class="match-stat-label">Compatibilidade Média</span>
+          <span class="match-stat-label">Compatibilidade MÃ©dia</span>
         </div>
         <div class="match-stat">
           <span class="match-stat-value">456</span>
@@ -355,12 +355,12 @@
     <!-- Settings Section -->
     <section class="content-section" id="settingsSection" style="display: none;">
       <div class="section-header">
-        <h2>⚙️ Definições</h2>
+        <h2>âš™ï¸ DefiniÃ§Ãµes</h2>
       </div>
       
       <div class="settings-grid">
         <div class="settings-card">
-          <h3>🔐 Segurança</h3>
+          <h3>ðŸ” SeguranÃ§a</h3>
           <div class="setting-item">
             <label>Emails de Admin Autorizados</label>
             <textarea id="adminEmails" rows="4" placeholder="Um email por linha...">info@quest4couple.pt</textarea>
@@ -369,7 +369,7 @@
         </div>
         
         <div class="settings-card">
-          <h3>📧 Email</h3>
+          <h3>ðŸ“§ Email</h3>
           <div class="setting-item">
             <label>Email de Contacto</label>
             <input type="email" value="info@quest4couple.pt">
@@ -388,7 +388,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202601210001"></script>
-  <script src="./admin.js?v=202601210001"></script>
+  <script src="../js/firebase-config.js?v=202601210002"></script>
+  <script src="./admin.js?v=202601210002"></script>
 </body>
 </html>
