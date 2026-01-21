@@ -25,13 +25,12 @@ const QUIZZES_CONFIG = [
     description: "Explora as tuas atrações e curiosidades sobre diferentes géneros e identidades",
     questions: 50,
     resultType: "spectrum"
-  },
-  {
+  },  {
     id: "cuckold",
-    name: "Stag/Cuckold",
+    name: "Voyeurismo & Partilha",
     icon: "👀",
     color: "#673ab7",
-    description: "Avalia o teu interesse em dinâmicas de voyeurismo e humilhação consensual",
+    description: "Avalia o teu interesse em dinâmicas de observação e partilha consensual do parceiro",
     questions: 50,
     resultType: "spectrum"
   },
