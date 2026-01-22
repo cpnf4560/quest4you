@@ -1,6 +1,6 @@
 ﻿{
   "version": "1.0.0",
-  "lastUpdated": "2026-01-19",
+  "lastUpdated": "2026-01-22",
   "scale": {
     "min": 1,
     "max": 5,
@@ -44,7 +44,7 @@
       "questions": 50,
       "estimatedTime": 10,
       "resultType": "spectrum",
-      "description": "Avalia o teu interesse em dinâmicas de observação e partilha consensual do parceiro"
+      "description": "Avalia o teu interesse em dinâmicas de observação e partilha consensual"
     },
     {
       "id": "swing",
@@ -55,7 +55,7 @@
       "questions": 50,
       "estimatedTime": 10,
       "resultType": "category",
-      "description": "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplos parceiros"
+      "description": "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplas pessoas"
     },
     {
       "id": "kinks",
@@ -67,8 +67,52 @@
       "estimatedTime": 10,
       "resultType": "tags",
       "description": "Descobre os teus interesses em práticas alternativas e fetiches específicos"
+    },
+    {
+      "id": "bdsm",
+      "name": "BDSM & Dinâmicas de Poder",
+      "icon": "🎭",
+      "color": "#7B1FA2",
+      "file": "bdsm.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Descobre o teu papel no espectro Dominante/Submisso e o teu interesse em dinâmicas de poder"
+    },
+    {
+      "id": "adventure",
+      "name": "Aventura Sexual",
+      "icon": "🎲",
+      "color": "#FF5722",
+      "file": "adventure.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Descobre quão aberto/a estás a experimentar coisas novas e sair da zona de conforto"
+    },
+    {
+      "id": "fantasies",
+      "name": "Fantasias Secretas",
+      "icon": "🔮",
+      "color": "#E91E63",
+      "file": "fantasies.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Explora as tuas fantasias mais íntimas e descobre quão alinhadas estão com outras pessoas"
+    },
+    {
+      "id": "exhibitionism",
+      "name": "Exibicionismo & Admiração",
+      "icon": "📸",
+      "color": "#FFC107",
+      "file": "exhibitionism.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "O prazer de mostrar, ser admirado/a e apreciar a beleza de outras pessoas"
     }
   ],
-  "totalQuestions": 250,
+  "totalQuestions": 450,
   "smartMatchMinQuizzes": 2
 }

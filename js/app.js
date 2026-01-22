@@ -25,12 +25,13 @@ const QUIZZES_CONFIG = [
     description: "Explora as tuas atrações e curiosidades sobre diferentes géneros e identidades",
     questions: 50,
     resultType: "spectrum"
-  },  {
+  },
+  {
     id: "cuckold",
     name: "Voyeurismo & Partilha",
     icon: "👀",
     color: "#673ab7",
-    description: "Avalia o teu interesse em dinâmicas de observação e partilha consensual do parceiro",
+    description: "Avalia o teu interesse em dinâmicas de observação e partilha consensual",
     questions: 50,
     resultType: "spectrum"
   },
@@ -39,7 +40,7 @@ const QUIZZES_CONFIG = [
     name: "Swing/Poliamor",
     icon: "💑",
     color: "#00bcd4",
-    description: "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplos parceiros",
+    description: "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplas pessoas",
     questions: 50,
     resultType: "category"
   },
@@ -51,6 +52,42 @@ const QUIZZES_CONFIG = [
     description: "Descobre os teus interesses em práticas alternativas e fetiches específicos",
     questions: 50,
     resultType: "tags"
+  },
+  {
+    id: "bdsm",
+    name: "BDSM & Dinâmicas de Poder",
+    icon: "🎭",
+    color: "#7B1FA2",
+    description: "Descobre o teu papel no espectro Dominante/Submisso e o teu interesse em dinâmicas de poder",
+    questions: 50,
+    resultType: "spectrum"
+  },
+  {
+    id: "adventure",
+    name: "Aventura Sexual",
+    icon: "🎲",
+    color: "#FF5722",
+    description: "Descobre quão aberto/a estás a experimentar coisas novas e sair da zona de conforto",
+    questions: 50,
+    resultType: "spectrum"
+  },
+  {
+    id: "fantasies",
+    name: "Fantasias Secretas",
+    icon: "🔮",
+    color: "#E91E63",
+    description: "Explora as tuas fantasias mais íntimas e descobre quão alinhadas estão com outras pessoas",
+    questions: 50,
+    resultType: "spectrum"
+  },
+  {
+    id: "exhibitionism",
+    name: "Exibicionismo & Admiração",
+    icon: "📸",
+    color: "#FFC107",
+    description: "O prazer de mostrar, ser admirado/a e apreciar a beleza de outras pessoas",
+    questions: 50,
+    resultType: "spectrum"
   }
 ];
 
