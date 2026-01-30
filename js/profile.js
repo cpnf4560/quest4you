@@ -153,17 +153,25 @@ async function createUserProfile() {
 // ================================
 // LOAD RESULTS
 // ================================
-function loadResults() {
+async function loadResults() {
   const grid = document.getElementById("resultsGrid");
   const emptyState = document.getElementById("emptyResults");
   
-  // Get results from Firestore
-  const firestoreResults = userData?.quizResults || {};
+  // Get results from cloud via CloudSync
+  let allResults = {};
   
-  // Get local results
-  const localResults = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-    // Merge results (prefer Firestore)
-  const allResults = { ...localResults, ...firestoreResults };
+  if (window.CloudSync) {
+    try {
+      allResults = await window.CloudSync.getQuizResults(currentUser.uid);
+    } catch (error) {
+      console.error("Error loading results from cloud:", error);
+    }
+  }
+  
+  // Fallback to userData if CloudSync not available
+  if (Object.keys(allResults).length === 0) {
+    allResults = userData?.quizResults || {};
+  }
   
   // Filter out invalid keys (like user IDs that got saved incorrectly)
   const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
@@ -219,7 +227,12 @@ function loadResults() {
           </div>
           ${result.category ? `
             <div class="result-category">
-              <span>${result.category}</span>
+              <span>${result.categoryEmoji || ''} ${result.category}</span>
+            </div>
+          ` : ""}
+          ${result.dominantRole ? `
+            <div class="result-category">
+              <span>Role: ${result.dominantRole}</span>
             </div>
           ` : ""}
           ${result.date ? `
@@ -236,14 +249,24 @@ function loadResults() {
   });
   
   grid.innerHTML = html;
+  
+  // Store results for later use
+  window.profileResults = allResults;
 }
 
+// loadLocalResults is deprecated - now using cloud only
 function loadLocalResults() {
-  // Sync local results to Firestore if available
-  const localResults = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-  
-  if (Object.keys(localResults).length > 0 && userData) {
-    syncResultsToFirestore(localResults);
+  // Migrar dados locais para cloud se existirem
+  if (window.CloudSync && currentUser) {
+    const localResults = localStorage.getItem("q4y_results");
+    if (localResults) {
+      window.CloudSync.migrateFromLocalStorage(currentUser.uid).then(result => {
+        if (result.migrated > 0) {
+          console.log("Migrated", result.migrated, "results to cloud");
+          loadResults(); // Reload results from cloud
+        }
+      });
+    }
   }
 }
 
@@ -314,10 +337,14 @@ function updateStats() {
 }
 
 function getQuizCount() {
-  const firestoreResults = userData?.quizResults || {};
-  const localResults = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-  const allResults = { ...localResults, ...firestoreResults };
-  return Object.keys(allResults).length;
+  // Use cached profile results
+  const results = window.profileResults || userData?.quizResults || {};
+  
+  // Filter valid quiz IDs
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const validResults = Object.keys(results).filter(key => validQuizIds.includes(key));
+  
+  return validResults.length;
 }
 
 // ================================
@@ -395,22 +422,25 @@ async function deleteAllData() {
   }
   
   try {
-    // Clear localStorage
-    localStorage.removeItem("q4y_results");
+    // Clear all quiz results from cloud
+    if (db && currentUser) {
+      await db.collection("quest4you_users").doc(currentUser.uid).update({
+        quizResults: {},
+        quizProgress: {},
+        progress: {}
+      });
+      
+      // Clear CloudSync cache
+      if (window.CloudSync) {
+        window.CloudSync.clearCache();
+      }
+    }
     
-    // Get all quiz keys and remove
+    // Clear any remaining localStorage data (legacy)
     for (const key of Object.keys(localStorage)) {
       if (key.startsWith("q4y_")) {
         localStorage.removeItem(key);
       }
-    }
-    
-    // Clear Firestore data
-    if (db && currentUser) {
-      await db.collection("quest4you_users").doc(currentUser.uid).update({
-        quizResults: {},
-        progress: {}
-      });
     }
     
     alert("Todos os dados foram apagados.");
@@ -489,17 +519,20 @@ const QUIZ_META = {
   exhibitionism: { name: "Exibicionismo & Admiração", icon: "📸", color: "#FFC107" }
 };
 
-function viewResult(quizId) {
+async function viewResult(quizId) {
   currentViewingQuizId = quizId;
   
   // Get quiz config
   const quiz = QUIZ_META[quizId] || { name: quizId, icon: "📝", color: "#666" };
   
-  // Get saved results
-  const firestoreResults = userData?.quizResults || {};
-  const localResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
-  const allResults = { ...localResults, ...firestoreResults };
-  const result = allResults[quizId];
+  // Get saved results from cloud
+  const allResults = window.profileResults || userData?.quizResults || {};
+  let result = allResults[quizId];
+  
+  // Try to load from cloud if not available
+  if (!result && currentUser && window.CloudSync) {
+    result = await window.CloudSync.getQuizResult(currentUser.uid, quizId);
+  }
   
   if (!result) {
     alert("Não foram encontrados resultados para este questionário.");
@@ -519,15 +552,18 @@ function viewResult(quizId) {
   
   // Category
   if (result.category) {
-    document.getElementById("resultCategoryEmoji").textContent = quiz.icon;
+    document.getElementById("resultCategoryEmoji").textContent = result.categoryEmoji || quiz.icon;
     document.getElementById("resultCategoryLabel").textContent = result.category;
+  } else if (result.dominantRole) {
+    document.getElementById("resultCategoryEmoji").textContent = "🎭";
+    document.getElementById("resultCategoryLabel").textContent = "Role: " + result.dominantRole;
   } else {
     document.getElementById("resultCategoryEmoji").textContent = "🎯";
     document.getElementById("resultCategoryLabel").textContent = result.score + "% de Intensidade";
   }
   
-  // Description (generate based on score)
-  const description = generateResultDescription(quiz.name, result.score);
+  // Description (use saved or generate based on score)
+  const description = result.categoryDescription || generateResultDescription(quiz.name, result.score);
   document.getElementById("resultDescription").textContent = description;
   
   // Breakdown
@@ -601,9 +637,7 @@ function shareResult() {
   if (!currentViewingQuizId) return;
   
   const quiz = QUIZ_META[currentViewingQuizId] || { name: currentViewingQuizId };
-  const firestoreResults = userData?.quizResults || {};
-  const localResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
-  const allResults = { ...localResults, ...firestoreResults };
+  const allResults = window.profileResults || userData?.quizResults || {};
   const result = allResults[currentViewingQuizId];
   
   if (!quiz || !result) return;
@@ -623,17 +657,20 @@ function shareResult() {
   }
 }
 
-function retakeQuiz() {
+async function retakeQuiz() {
   if (!currentViewingQuizId) return;
   
   if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
-    // Clear saved data
-    localStorage.removeItem('q4y_quiz_' + currentViewingQuizId);
-    
-    // Remove from local results
-    const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
-    delete savedResults[currentViewingQuizId];
-    localStorage.setItem('q4y_results', JSON.stringify(savedResults));
+    // Delete from cloud
+    if (currentUser && window.CloudSync) {
+      try {
+        await window.CloudSync.deleteQuizResult(currentUser.uid, currentViewingQuizId);
+        await window.CloudSync.clearQuizProgress(currentUser.uid, currentViewingQuizId);
+        console.log("Result and progress deleted from cloud");
+      } catch (error) {
+        console.error("Error deleting from cloud:", error);
+      }
+    }
     
     // Close modal and go to quiz
     closeResultModal();

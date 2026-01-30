@@ -253,13 +253,8 @@ async function registerWithEmail(event) {
     // Update display name
     await user.updateProfile({
       displayName: name
-    });
-
-    // Create user profile in Firestore with gender
+    });    // Create user profile in Firestore with gender
     await createUserProfile(user, { displayName: name, gender: gender });
-    
-    // Also save gender to localStorage for offline access
-    localStorage.setItem("q4y_user_gender", gender);
 
     console.log("Registration successful:", user.email);
     showMessage("Conta criada com sucesso! A redirecionar...", "success");
@@ -328,6 +323,7 @@ async function createUserProfile(user, additionalData = {}) {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
         quizResults: {},
+        quizProgress: {},
         progress: {},
         settings: {
           notifications: true,
@@ -336,24 +332,25 @@ async function createUserProfile(user, additionalData = {}) {
         }
       });
       console.log("User profile created with gender:", additionalData.gender);
-      
-      // Save gender to localStorage
-      if (additionalData.gender) {
-        localStorage.setItem("q4y_user_gender", additionalData.gender);
-      }
     } else {
-      // Update last login and sync gender from cloud to local
+      // Update last login
       await userRef.update({
         lastLogin: firebase.firestore.FieldValue.serverTimestamp()
       });
       
-      // Sync gender from cloud to localStorage if not already set
-      const cloudData = doc.data();
-      if (cloudData.gender && !localStorage.getItem("q4y_user_gender")) {
-        localStorage.setItem("q4y_user_gender", cloudData.gender);
-      }
-      
       console.log("User profile updated");
+    }
+    
+    // Migrate any localStorage data to cloud
+    if (window.CloudSync) {
+      try {
+        const migrationResult = await window.CloudSync.migrateFromLocalStorage(user.uid);
+        if (migrationResult.migrated > 0) {
+          console.log("✅ Migrated", migrationResult.migrated, "results from localStorage to cloud");
+        }
+      } catch (migrationError) {
+        console.warn("Migration warning:", migrationError);
+      }
     }
   } catch (error) {
     console.error("Error creating user profile:", error);

@@ -1,6 +1,7 @@
 ﻿/**
  * Quest4You - Cloud Sync Service
- * Sincronização de resultados com Firestore
+ * 100% Cloud-based - No localStorage dependency
+ * All data stored in Firebase Firestore
  */
 
 // ================================
@@ -11,71 +12,44 @@ const COLLECTION_RESULTS = "quest4you_results";
 const COLLECTION_PUBLIC_PROFILES = "quest4you_public";
 
 // ================================
-// SAVE QUIZ RESULT
+// CACHE (in-memory only, not localStorage)
 // ================================
-async function saveQuizResultToCloud(quizId, result) {
-  const user = auth?.currentUser;
-  
-  // Always save locally first
-  saveResultLocally(quizId, result);
-  
-  // If user is logged in, sync to cloud
-  if (user && db) {
-    try {
-      await syncResultToFirestore(user.uid, quizId, result);
-      console.log("✅ Result synced to cloud:", quizId);
-      return { success: true, synced: true };
-    } catch (error) {
-      console.error("❌ Cloud sync failed:", error);
-      return { success: true, synced: false, error };
-    }
-  }
-  
-  return { success: true, synced: false };
+let cachedUserData = null;
+let cachedResults = null;
+let cacheTimestamp = null;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+function isCacheValid() {
+  return cacheTimestamp && (Date.now() - cacheTimestamp < CACHE_DURATION);
+}
+
+function clearCache() {
+  cachedUserData = null;
+  cachedResults = null;
+  cacheTimestamp = null;
 }
 
 // ================================
-// LOCAL STORAGE
+// SAVE QUIZ RESULT (Cloud Only)
 // ================================
-function saveResultLocally(quizId, result) {
-  const results = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-  
-  results[quizId] = {
-    ...result,
-    date: new Date().toISOString(),
-    synced: false
-  };
-  
-  localStorage.setItem("q4y_results", JSON.stringify(results));
-  console.log("💾 Result saved locally:", quizId);
-}
-
-function getLocalResults() {
-  return JSON.parse(localStorage.getItem("q4y_results") || "{}");
-}
-
-function clearLocalResults() {
-  localStorage.removeItem("q4y_results");
-}
-
-// ================================
-// FIRESTORE SYNC
-// ================================
-async function syncResultToFirestore(userId, quizId, result) {
+async function saveQuizResult(userId, quizId, result) {
   if (!db) throw new Error("Firestore not available");
+  if (!userId) throw new Error("User not authenticated");
   
   const userRef = db.collection(COLLECTION_USERS).doc(userId);
   
   // Prepare result data
   const resultData = {
     score: result.score,
-    category: result.category?.label || null,
-    categoryEmoji: result.category?.emoji || null,
-    categoryDescription: result.category?.description || null,
-    totalPoints: result.totalPoints,
-    maxPoints: result.maxPoints,
+    category: result.category || null,
+    categoryEmoji: result.categoryEmoji || null,
+    categoryDescription: result.categoryDescription || null,
     categoryScores: result.categoryScores || {},
+    dominantRole: result.dominantRole || null,
+    rolePercentages: result.rolePercentages || null,
+    matchWith: result.matchWith || null,
     completedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    date: new Date().toISOString(),
     answers: result.answers || {}
   };
   
@@ -92,112 +66,101 @@ async function syncResultToFirestore(userId, quizId, result) {
     userId: userId,
     quizId: quizId,
     score: result.score,
-    category: result.category?.label || null,
+    category: result.category || null,
     completedAt: firebase.firestore.FieldValue.serverTimestamp()
   });
   
-  // Mark local result as synced
-  const localResults = getLocalResults();
-  if (localResults[quizId]) {
-    localResults[quizId].synced = true;
-    localStorage.setItem("q4y_results", JSON.stringify(localResults));
+  // Update cache
+  if (cachedResults) {
+    cachedResults[quizId] = resultData;
   }
+  
+  console.log("✅ Result saved to cloud:", quizId);
+  return { success: true };
 }
 
 // ================================
-// SYNC ALL LOCAL RESULTS
+// LOAD QUIZ RESULTS (Cloud Only)
 // ================================
-async function syncAllLocalResults() {
-  const user = auth?.currentUser;
-  if (!user || !db) return { synced: 0, failed: 0 };
+async function getQuizResults(userId) {
+  if (!db) return {};
+  if (!userId) return {};
   
-  const localResults = getLocalResults();
-  let synced = 0;
-  let failed = 0;
-  
-  for (const [quizId, result] of Object.entries(localResults)) {
-    if (!result.synced) {
-      try {
-        await syncResultToFirestore(user.uid, quizId, result);
-        synced++;
-      } catch (error) {
-        console.error(`Failed to sync ${quizId}:`, error);
-        failed++;
-      }
-    }
+  // Check cache first
+  if (isCacheValid() && cachedResults) {
+    console.log("📦 Using cached results");
+    return cachedResults;
   }
-  
-  console.log(`📤 Sync complete: ${synced} synced, ${failed} failed`);
-  return { synced, failed };
-}
-
-// ================================
-// LOAD RESULTS FROM CLOUD
-// ================================
-async function loadResultsFromCloud() {
-  const user = auth?.currentUser;
-  if (!user || !db) return null;
-  
-  try {
-    const doc = await db.collection(COLLECTION_USERS).doc(user.uid).get();
-    
-    if (doc.exists) {
-      const data = doc.data();
-      return data.quizResults || {};
-    }
-    
-    return {};
-  } catch (error) {
-    console.error("Error loading results from cloud:", error);
-    return null;
-  }
-}
-
-// ================================
-// MERGE LOCAL AND CLOUD RESULTS
-// ================================
-async function getMergedResults() {
-  const localResults = getLocalResults();
-  const cloudResults = await loadResultsFromCloud();
-  
-  if (!cloudResults) {
-    return localResults;
-  }
-  
-  // Merge: cloud takes precedence for same quiz
-  // but keep newer results based on date
-  const merged = { ...localResults };
-  
-  for (const [quizId, cloudResult] of Object.entries(cloudResults)) {
-    const localResult = localResults[quizId];
-    
-    if (!localResult) {
-      merged[quizId] = cloudResult;
-    } else {
-      // Compare dates, keep newer
-      const cloudDate = cloudResult.completedAt?.toDate?.() || new Date(0);
-      const localDate = new Date(localResult.date || 0);
-      
-      if (cloudDate > localDate) {
-        merged[quizId] = cloudResult;
-      }
-    }
-  }
-  
-  return merged;
-}
-
-// ================================
-// PUBLIC PROFILE MANAGEMENT
-// ================================
-async function getUserProfile(userId) {
-  if (!db) return null;
   
   try {
     const doc = await db.collection(COLLECTION_USERS).doc(userId).get();
     
     if (doc.exists) {
-      return doc.data();
+      const data = doc.data();
+      cachedResults = data.quizResults || {};
+      cachedUserData = data;
+      cacheTimestamp = Date.now();
+      return cachedResults;
+    }
+    
+    return {};
+  } catch (error) {
+    console.error("Error loading results from cloud:", error);
+    return {};
+  }
+}
+
+// ================================
+// GET SINGLE QUIZ RESULT
+// ================================
+async function getQuizResult(userId, quizId) {
+  const results = await getQuizResults(userId);
+  return results[quizId] || null;
+}
+
+// ================================
+// DELETE QUIZ RESULT
+// ================================
+async function deleteQuizResult(userId, quizId) {
+  if (!db || !userId) return false;
+  
+  try {
+    const userRef = db.collection(COLLECTION_USERS).doc(userId);
+    await userRef.update({
+      [`quizResults.${quizId}`]: firebase.firestore.FieldValue.delete()
+    });
+    
+    // Update cache
+    if (cachedResults && cachedResults[quizId]) {
+      delete cachedResults[quizId];
+    }
+    
+    console.log("🗑️ Result deleted:", quizId);
+    return true;
+  } catch (error) {
+    console.error("Error deleting result:", error);
+    return false;
+  }
+}
+
+// ================================
+// USER PROFILE
+// ================================
+async function getUserProfile(userId) {
+  if (!db || !userId) return null;
+  
+  // Check cache first
+  if (isCacheValid() && cachedUserData) {
+    return cachedUserData;
+  }
+  
+  try {
+    const doc = await db.collection(COLLECTION_USERS).doc(userId).get();
+    
+    if (doc.exists) {
+      cachedUserData = doc.data();
+      cacheTimestamp = Date.now();
+      return cachedUserData;
     }
     
     return null;
@@ -208,10 +171,14 @@ async function getUserProfile(userId) {
 }
 
 async function saveUserProfile(userId, profileData) {
-  if (!db) throw new Error("Firestore not available");
+  if (!db || !userId) throw new Error("Firestore or user not available");
   
   try {
     await db.collection(COLLECTION_USERS).doc(userId).set(profileData, { merge: true });
+    
+    // Update cache
+    cachedUserData = { ...cachedUserData, ...profileData };
+    
     console.log("✅ User profile saved");
     return true;
   } catch (error) {
@@ -220,12 +187,80 @@ async function saveUserProfile(userId, profileData) {
   }
 }
 
+// ================================
+// USER GENDER
+// ================================
+async function getUserGender(userId) {
+  const profile = await getUserProfile(userId);
+  return profile?.gender || null;
+}
+
+async function saveUserGender(userId, gender) {
+  return await saveUserProfile(userId, { gender: gender });
+}
+
+// ================================
+// QUIZ PROGRESS (in-progress answers)
+// ================================
+async function saveQuizProgress(userId, quizId, answers, currentQuestion) {
+  if (!db || !userId) return false;
+  
+  try {
+    await db.collection(COLLECTION_USERS).doc(userId).set({
+      quizProgress: {
+        [quizId]: {
+          answers: answers,
+          currentQuestion: currentQuestion,
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        }
+      }
+    }, { merge: true });
+    
+    console.log("💾 Progress saved:", quizId);
+    return true;
+  } catch (error) {
+    console.error("Error saving progress:", error);
+    return false;
+  }
+}
+
+async function getQuizProgress(userId, quizId) {
+  if (!db || !userId) return null;
+  
+  try {
+    const profile = await getUserProfile(userId);
+    return profile?.quizProgress?.[quizId] || null;
+  } catch (error) {
+    console.error("Error getting progress:", error);
+    return null;
+  }
+}
+
+async function clearQuizProgress(userId, quizId) {
+  if (!db || !userId) return false;
+  
+  try {
+    await db.collection(COLLECTION_USERS).doc(userId).update({
+      [`quizProgress.${quizId}`]: firebase.firestore.FieldValue.delete()
+    });
+    
+    console.log("🗑️ Progress cleared:", quizId);
+    return true;
+  } catch (error) {
+    console.error("Error clearing progress:", error);
+    return false;
+  }
+}
+
+// ================================
+// PUBLIC PROFILE MANAGEMENT
+// ================================
 async function publishPublicProfile(userId, userData) {
   if (!db) throw new Error("Firestore not available");
   
   try {
-    // Get local results for quiz scores and roles
-    const localResults = getLocalResults();
+    // Get all quiz results for public profile
+    const results = await getQuizResults(userId);
     
     const publicData = {
       uid: userId,
@@ -234,14 +269,16 @@ async function publishPublicProfile(userId, userData) {
       gender: userData.gender || null,
       location: userData.location || null,
       photoURL: userData.photoURL || null,
-      quizScores: userData.quizScores || {},
-      quizRoles: {}, // For role-based quizzes
+      quizScores: {},
+      quizRoles: {},
       isPublic: true,
       lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
     };
     
-    // Extract role information from results
-    for (const [quizId, result] of Object.entries(localResults)) {
+    // Extract scores and roles from results
+    for (const [quizId, result] of Object.entries(results)) {
+      publicData.quizScores[quizId] = result.score;
+      
       if (result.dominantRole) {
         publicData.quizRoles[quizId] = {
           dominantRole: result.dominantRole,
@@ -274,13 +311,34 @@ async function unpublishPublicProfile(userId) {
   }
 }
 
+async function removePublicProfile(userId) {
+  if (!db) throw new Error("Firestore not available");
+  
+  try {
+    await db.collection(COLLECTION_PUBLIC_PROFILES).doc(userId).delete();
+    console.log("✅ Public profile removed");
+    return true;
+  } catch (error) {
+    console.error("Error removing public profile:", error);
+    throw error;
+  }
+}
+
 // ================================
 // FIND MATCHES
 // ================================
-async function findMatches(userId, userScores) {
+async function findMatches(userId) {
   if (!db) return [];
   
   try {
+    // Get user's results first
+    const userResults = await getQuizResults(userId);
+    const userScores = {};
+    
+    for (const [quizId, result] of Object.entries(userResults)) {
+      userScores[quizId] = result.score;
+    }
+    
     // Get all public profiles
     const snapshot = await db.collection(COLLECTION_PUBLIC_PROFILES)
       .where('isPublic', '==', true)
@@ -288,7 +346,6 @@ async function findMatches(userId, userScores) {
       .get();
     
     const matches = [];
-    const localResults = getLocalResults();
     
     snapshot.forEach(doc => {
       const profile = doc.data();
@@ -297,7 +354,7 @@ async function findMatches(userId, userScores) {
       if (profile.uid === userId) return;
       
       // Calculate compatibility
-      const compatibility = calculateCompatibility(userScores, profile.quizScores || {}, localResults, profile.quizRoles || {});
+      const compatibility = calculateCompatibility(userScores, profile.quizScores || {}, userResults, profile.quizRoles || {});
       
       matches.push({
         id: doc.id,
@@ -334,12 +391,11 @@ function calculateCompatibility(userScores, theirScores, userResults, theirRoles
       // Check if this is a role-based quiz with inverse matching
       if (userResult.dominantRole && theirRoleInfo.dominantRole) {
         // Role-based matching (inverse)
-        // Check if user's role is in their matchWith list
         const userMatchWith = userResult.matchWith || [];
         const theirRole = theirRoleInfo.dominantRole;
         
         if (userMatchWith.includes(theirRole)) {
-          // Perfect role match! High compatibility
+          // Perfect role match!
           totalMatch += 95;
         } else if (theirRoleInfo.matchWith && theirRoleInfo.matchWith.includes(userResult.dominantRole)) {
           // They match with our role
@@ -349,7 +405,7 @@ function calculateCompatibility(userScores, theirScores, userResults, theirRoles
           totalMatch += 30;
         }
       } else {
-        // Standard score-based matching (similar scores = compatible)
+        // Standard score-based matching
         const scoreDiff = Math.abs(userScores[quizId] - theirScores[quizId]);
         const matchPercent = Math.max(0, 100 - scoreDiff);
         totalMatch += matchPercent;
@@ -362,97 +418,85 @@ function calculateCompatibility(userScores, theirScores, userResults, theirRoles
   return Math.round(totalMatch / quizCount);
 }
 
-async function updatePublicProfile(userData) {
-  const user = auth?.currentUser;
-  if (!user || !db) return false;
+// ================================
+// MIGRATE FROM LOCALSTORAGE (one-time)
+// ================================
+async function migrateFromLocalStorage(userId) {
+  if (!db || !userId) return { migrated: 0 };
   
-  try {
-    const localResults = getLocalResults();
-    
-    const publicData = {
-      uid: user.uid,
-      displayName: userData.displayName || "Anónimo",
-      photoURL: userData.photoURL || null,
-      quizScores: {},
-      quizRoles: {},
-      lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-      smartMatchEnabled: userData.settings?.smartMatchEnabled !== false
-    };
-    
-    // Add quiz scores and roles for matching
-    if (userData.quizResults) {
-      for (const [quizId, result] of Object.entries(userData.quizResults)) {
-        publicData.quizScores[quizId] = {
-          score: result.score,
-          category: result.category
-        };
-        
-        // Add role info if present
-        if (result.dominantRole) {
-          publicData.quizRoles[quizId] = {
-            dominantRole: result.dominantRole,
-            matchWith: result.matchWith || []
-          };
-        }
-      }
-    }
-    
-    // Also check local results
-    for (const [quizId, result] of Object.entries(localResults)) {
-      if (!publicData.quizScores[quizId]) {
-        publicData.quizScores[quizId] = {
-          score: result.score,
-          category: result.category
-        };
-      }
-      
-      if (result.dominantRole && !publicData.quizRoles[quizId]) {
-        publicData.quizRoles[quizId] = {
-          dominantRole: result.dominantRole,
-          matchWith: result.matchWith || []
-        };
-      }
-    }
-    
-    await db.collection(COLLECTION_PUBLIC_PROFILES).doc(user.uid).set(publicData, { merge: true });
-    console.log("✅ Public profile updated");
-    return true;
-  } catch (error) {
-    console.error("Error updating public profile:", error);
-    return false;
-  }
-}
-
-async function removePublicProfile() {
-  const user = auth?.currentUser;
-  if (!user || !db) return false;
+  // Check if there's data in localStorage
+  const localResultsStr = localStorage.getItem("q4y_results");
+  if (!localResultsStr) return { migrated: 0 };
   
-  try {
-    await db.collection(COLLECTION_PUBLIC_PROFILES).doc(user.uid).delete();
-    console.log("✅ Public profile removed");
-    return true;
-  } catch (error) {
-    console.error("Error removing public profile:", error);
-    return false;
+  const localResults = JSON.parse(localResultsStr);
+  const localGender = localStorage.getItem("q4y_user_gender");
+  
+  let migrated = 0;
+  
+  // Valid quiz IDs
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  
+  for (const [quizId, result] of Object.entries(localResults)) {
+    // Skip invalid quiz IDs
+    if (!validQuizIds.includes(quizId)) continue;
+    
+    try {
+      await saveQuizResult(userId, quizId, result);
+      migrated++;
+    } catch (error) {
+      console.error("Error migrating result:", quizId, error);
+    }
   }
+  
+  // Migrate gender
+  if (localGender) {
+    await saveUserGender(userId, localGender);
+  }
+  
+  // Clear localStorage after successful migration
+  if (migrated > 0 || localGender) {
+    localStorage.removeItem("q4y_results");
+    localStorage.removeItem("q4y_user_gender");
+    // Clear quiz progress keys
+    validQuizIds.forEach(id => localStorage.removeItem("q4y_quiz_" + id));
+    console.log(`✅ Migrated ${migrated} results from localStorage to cloud`);
+  }
+  
+  return { migrated, gender: localGender };
 }
 
 // ================================
 // EXPORTS
 // ================================
 window.CloudSync = {
-  saveQuizResult: saveQuizResultToCloud,
-  saveLocally: saveResultLocally,
-  getLocalResults,
-  clearLocalResults,
-  syncAllLocalResults,
-  loadFromCloud: loadResultsFromCloud,
-  getMergedResults,
+  // Results
+  saveQuizResult,
+  getQuizResults,
+  getQuizResult,
+  deleteQuizResult,
+  
+  // Progress
+  saveQuizProgress,
+  getQuizProgress,
+  clearQuizProgress,
+  
+  // User Profile
   getUserProfile,
   saveUserProfile,
+  getUserGender,
+  saveUserGender,
+  
+  // Public Profile
   publishPublicProfile,
   unpublishPublicProfile,
+  removePublicProfile,
+  
+  // Matching
   findMatches,
-  updatePublicProfile,
-  removePublicProfile
+  
+  // Migration
+  migrateFromLocalStorage,
+  
+  // Cache
+  clearCache
 };

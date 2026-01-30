@@ -79,20 +79,26 @@ async function loadQuiz(id) {
         return;
       }
     }
-    
-    // Filter questions by gender
+      // Filter questions by gender
     filterQuestionsByGender();
 
-    // Load saved answers from localStorage
-    const savedAnswers = localStorage.getItem('q4y_quiz_' + id);
-    if (savedAnswers) {
-      answers = JSON.parse(savedAnswers);
-      // Find first unanswered question
-      for (let i = 0; i < filteredQuestions.length; i++) {
-        if (!answers[filteredQuestions[i].id]) {
-          currentQuestion = i;
-          break;
+    // Load saved progress from cloud
+    if (currentUser && window.CloudSync) {
+      try {
+        const progress = await window.CloudSync.getQuizProgress(currentUser.uid, id);
+        if (progress && progress.answers) {
+          answers = progress.answers;
+          // Find first unanswered question
+          for (let i = 0; i < filteredQuestions.length; i++) {
+            if (!answers[filteredQuestions[i].id]) {
+              currentQuestion = i;
+              break;
+            }
+          }
+          console.log("Progress loaded from cloud:", Object.keys(answers).length, "answers");
         }
+      } catch (error) {
+        console.error("Error loading progress from cloud:", error);
       }
     }
 
@@ -111,24 +117,32 @@ async function loadQuiz(id) {
 // GET USER GENDER
 // ================================
 async function getUserGender() {
-  // First check localStorage
-  let gender = localStorage.getItem("q4y_user_gender");
-  if (gender) {
-    return gender;
-  }
-  
-  // If user is logged in, try to get from Firestore
-  if (currentUser && typeof db !== 'undefined' && db) {
+  // If user is logged in, get from cloud via CloudSync
+  if (currentUser && window.CloudSync) {
     try {
-      const userDoc = await db.collection("quest4you_users").doc(currentUser.uid).get();
-      if (userDoc.exists && userDoc.data().gender) {
-        gender = userDoc.data().gender;
-        localStorage.setItem("q4y_user_gender", gender);
+      const gender = await window.CloudSync.getUserGender(currentUser.uid);
+      if (gender) {
         return gender;
       }
     } catch (error) {
-      console.error("Error fetching user gender:", error);
+      console.error("Error fetching user gender from cloud:", error);
     }
+  }
+  
+  // Fallback: check localStorage (for migration purposes only)
+  const localGender = localStorage.getItem("q4y_user_gender");
+  if (localGender) {
+    // Migrate to cloud if user is logged in
+    if (currentUser && window.CloudSync) {
+      try {
+        await window.CloudSync.saveUserGender(currentUser.uid, localGender);
+        localStorage.removeItem("q4y_user_gender");
+        console.log("Gender migrated from localStorage to cloud");
+      } catch (e) {
+        console.warn("Could not migrate gender to cloud:", e);
+      }
+    }
+    return localGender;
   }
   
   return null;
@@ -187,14 +201,11 @@ function showGenderModal() {
 // ================================
 async function selectGender(gender) {
   userGender = gender;
-  localStorage.setItem("q4y_user_gender", gender);
   
-  // If user is logged in, save to Firestore
-  if (currentUser && typeof db !== 'undefined' && db) {
+  // Save to cloud via CloudSync
+  if (currentUser && window.CloudSync) {
     try {
-      await db.collection("quest4you_users").doc(currentUser.uid).update({
-        gender: gender
-      });
+      await window.CloudSync.saveUserGender(currentUser.uid, gender);
       console.log("Gender saved to cloud:", gender);
     } catch (error) {
       console.error("Error saving gender:", error);
@@ -207,15 +218,17 @@ async function selectGender(gender) {
   // Continue loading quiz
   filterQuestionsByGender();
   
-  // Load saved answers from localStorage
-  const savedAnswers = localStorage.getItem('q4y_quiz_' + quizId);
-  if (savedAnswers) {
-    answers = JSON.parse(savedAnswers);
-    for (let i = 0; i < filteredQuestions.length; i++) {
-      if (!answers[filteredQuestions[i].id]) {
-        currentQuestion = i;
-        break;
+  // Load saved progress from cloud
+  if (currentUser && window.CloudSync) {
+    try {
+      const progress = await window.CloudSync.getQuizProgress(currentUser.uid, quizId);
+      if (progress && progress.answers) {
+        answers = progress.answers;
+        currentQuestion = progress.currentQuestion || 0;
+        console.log("Progress loaded from cloud:", Object.keys(answers).length, "answers");
       }
+    } catch (error) {
+      console.error("Error loading progress:", error);
     }
   }
   
@@ -318,7 +331,8 @@ function selectAnswer(value) {
     }
   });
 
-  localStorage.setItem('q4y_quiz_' + quizId, JSON.stringify(answers));
+  // Save progress to cloud (debounced)
+  saveProgressToCloud();
 
   updateNavButtons();
   updateQuickNav();
@@ -665,39 +679,62 @@ function formatCategoryLabel(category) {
 }
 
 // ================================
+// SAVE PROGRESS TO CLOUD (debounced)
+// ================================
+let saveProgressTimeout = null;
+
+function saveProgressToCloud() {
+  // Debounce: wait 2 seconds after last answer before saving
+  if (saveProgressTimeout) {
+    clearTimeout(saveProgressTimeout);
+  }
+  
+  saveProgressTimeout = setTimeout(async function() {
+    if (currentUser && window.CloudSync) {
+      try {
+        await window.CloudSync.saveQuizProgress(currentUser.uid, quizId, answers, currentQuestion);
+        console.log("💾 Progress saved to cloud");
+      } catch (error) {
+        console.error("Error saving progress to cloud:", error);
+      }
+    }
+  }, 2000);
+}
+
+// ================================
 // SAVE RESULT
 // ================================
 async function saveResult(results) {
-  const savedResults = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-  
   const resultData = {
     score: results.score,
     category: results.category ? results.category.label : null,
+    categoryEmoji: results.category ? results.category.emoji : null,
+    categoryDescription: results.category ? results.category.description : null,
     categoryScores: results.categoryScores || {},
     date: new Date().toISOString(),
     answers: answers
   };
-  
-  // Add role-specific data if present
+    // Add role-specific data if present
   if (results.dominantRole) {
     resultData.dominantRole = results.dominantRole;
     resultData.rolePercentages = results.rolePercentages;
     resultData.matchWith = results.matchWith;
   }
-  
-  savedResults[quizId] = resultData;
-  localStorage.setItem("q4y_results", JSON.stringify(savedResults));
-  localStorage.removeItem('q4y_quiz_' + quizId);
-
+  // Save to cloud only (no localStorage)
   if (currentUser && window.CloudSync) {
     try {
       await window.CloudSync.saveQuizResult(currentUser.uid, quizId, resultData);
-      console.log("Resultado guardado na cloud!");
+      // Clear progress after saving result
+      await window.CloudSync.clearQuizProgress(currentUser.uid, quizId);
+      console.log("✅ Resultado guardado na cloud!");
       showCloudSyncIndicator(true);
     } catch (error) {
       console.error("Erro ao guardar na cloud:", error);
       showCloudSyncIndicator(false);
     }
+  } else {
+    console.warn("User not logged in, result not saved");
+    showCloudSyncIndicator(false);
   }
 }
 
@@ -724,12 +761,19 @@ function closeResult() {
   document.getElementById("resultModal").style.display = "none";
 }
 
-function shareResult() {
-  const results = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-  const result = results[quizId];
-  if (!result) return;
+async function shareResult() {
+  // Get result from cloud or use current calculated result
+  let result = null;
+  if (currentUser && window.CloudSync) {
+    result = await window.CloudSync.getQuizResult(currentUser.uid, quizId);
+  }
+  
+  if (!result) {
+    alert("Resultado não encontrado");
+    return;
+  }
 
-  const text = 'Fiz o questionario "' + quizData.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '%') + '\n\nDescobre o teu tambem em quest4you.com';
+  const text = 'Fiz o questionário "' + quizData.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '%') + '\n\nDescobre o teu também em quest4you.com';
 
   if (navigator.share) {
     navigator.share({
@@ -739,16 +783,27 @@ function shareResult() {
     });
   } else {
     navigator.clipboard.writeText(text).then(function() {
-      alert("Resultado copiado para a area de transferencia!");
+      alert("Resultado copiado para a área de transferência!");
     });
   }
 }
 
-function retakeQuiz() {
-  if (confirm("Tens a certeza que queres refazer o questionario? As tuas respostas serao apagadas.")) {
+async function retakeQuiz() {
+  if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
     answers = {};
     currentQuestion = 0;
-    localStorage.removeItem('q4y_quiz_' + quizId);
+    
+    // Delete result from cloud
+    if (currentUser && window.CloudSync) {
+      try {
+        await window.CloudSync.deleteQuizResult(currentUser.uid, quizId);
+        await window.CloudSync.clearQuizProgress(currentUser.uid, quizId);
+        console.log("Result and progress deleted from cloud");
+      } catch (error) {
+        console.error("Error deleting from cloud:", error);
+      }
+    }
+    
     closeResult();
     renderQuestion();
     renderQuickNav();

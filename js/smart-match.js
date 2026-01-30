@@ -67,8 +67,10 @@ async function loadQuizIndex() {
 // ================================
 async function initializeAuthenticatedUser(user) {
   try {
-    // Get user results from local storage
-    userResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+    // Get user results from cloud
+    if (window.CloudSync) {
+      userResults = await window.CloudSync.getQuizResults(user.uid);
+    }
 
     // Check if user has completed any quizzes
     if (Object.keys(userResults).length === 0) {

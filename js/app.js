@@ -215,57 +215,36 @@ async function loadUserProgress() {
   // Valid quiz IDs
   const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
   
-  // First, load from localStorage as fallback
-  const localResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
-  
-  // Convert local results to progress format
-  for (const [quizId, result] of Object.entries(localResults)) {
-    // Skip invalid keys (like Firebase UIDs saved incorrectly)
-    if (!validQuizIds.includes(quizId)) {
-      if (quizId.length > 15 && /^[a-zA-Z0-9]+$/.test(quizId)) {
-        console.warn("Ignoring invalid quiz ID in localStorage:", quizId);
-        continue;
-      }
-    }
-    
-    if (result && result.score !== undefined) {
-      // Quiz was completed locally
-      const quizConfig = QUIZZES_CONFIG.find(q => q.id === quizId);
-      if (quizConfig) {
-        userProgress[quizId] = quizConfig.questions; // Mark as completed
-        userResults[quizId] = result;
-      }
-    }
-  }
-    // Then try to load from Firestore
-  if (typeof db !== "undefined") {
+  // Load from cloud via CloudSync
+  if (window.CloudSync) {
     try {
-      const doc = await db.collection("quest4you_users").doc(currentUser.uid).get();
-      if (doc.exists) {
-        const data = doc.data();
-        
-        // Filter cloud results to remove invalid keys
-        const cloudResults = data.quizResults || data.results || {};
-        const filteredCloudResults = {};
-        for (const [key, value] of Object.entries(cloudResults)) {
-          // Skip keys that look like Firebase UIDs
-          if (key.length > 15 && /^[a-zA-Z0-9]+$/.test(key) && !validQuizIds.includes(key)) {
-            console.warn("Ignoring invalid quiz ID from cloud:", key);
+      const cloudResults = await window.CloudSync.getQuizResults(currentUser.uid);
+      
+      // Filter and process cloud results
+      for (const [quizId, result] of Object.entries(cloudResults)) {
+        // Skip invalid keys (like Firebase UIDs saved incorrectly)
+        if (!validQuizIds.includes(quizId)) {
+          if (quizId.length > 15 && /^[a-zA-Z0-9]+$/.test(quizId)) {
+            console.warn("Ignoring invalid quiz ID from cloud:", quizId);
             continue;
           }
-          filteredCloudResults[key] = value;
         }
         
-        // Merge cloud progress with local (cloud takes priority)
-        userProgress = { ...userProgress, ...(data.progress || {}) };
-        userResults = { ...userResults, ...filteredCloudResults };
+        if (result && result.score !== undefined) {
+          const quizConfig = QUIZZES_CONFIG.find(q => q.id === quizId);
+          if (quizConfig) {
+            userProgress[quizId] = quizConfig.questions; // Mark as completed
+            userResults[quizId] = result;
+          }
+        }
       }
+      
+      console.log("📊 User results loaded from cloud:", Object.keys(userResults).length, "quizzes");
     } catch (error) {
-      console.error("Error loading progress from cloud:", error);
+      console.error("Error loading results from cloud:", error);
     }
   }
   
-  console.log("📊 User progress loaded:", Object.keys(userProgress).length, "quizzes");
   renderProgress();
 }
 
@@ -419,7 +398,7 @@ function goToSmartMatch() {
 // ================================
 let currentViewingQuizId = null;
 
-function viewResults(quizId) {
+async function viewResults(quizId) {
   currentViewingQuizId = quizId;
   
   // Get quiz config
@@ -429,9 +408,12 @@ function viewResults(quizId) {
     return;
   }
   
-  // Get saved results
-  const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
-  const result = savedResults[quizId];
+  // Get saved results from cloud
+  let result = userResults[quizId];
+  
+  if (!result && currentUser && window.CloudSync) {
+    result = await window.CloudSync.getQuizResult(currentUser.uid, quizId);
+  }
   
   if (!result) {
     alert("Não foram encontrados resultados para este questionário.");
@@ -451,19 +433,19 @@ function viewResults(quizId) {
   
   // Category
   if (result.category) {
-    document.getElementById("resultCategoryEmoji").textContent = quiz.icon;
+    document.getElementById("resultCategoryEmoji").textContent = result.categoryEmoji || quiz.icon;
     document.getElementById("resultCategoryLabel").textContent = result.category;
   } else {
     document.getElementById("resultCategoryEmoji").textContent = "🎯";
     document.getElementById("resultCategoryLabel").textContent = result.score + "% de Intensidade";
   }
   
-  // Description (generate based on score)
-  const description = generateResultDescription(quiz.name, result.score);
+  // Description (use saved or generate based on score)
+  const description = result.categoryDescription || generateResultDescription(quiz.name, result.score);
   document.getElementById("resultDescription").textContent = description;
   
   // Breakdown
-  const breakdownHtml = buildResultBreakdown(result.categoryScores || {});
+  const breakdownHtml = buildResultBreakdown(result.categoryScores || {}, result);
   document.getElementById("resultBreakdown").innerHTML = breakdownHtml;
   
   // Show modal
@@ -485,7 +467,12 @@ function generateResultDescription(quizName, score) {
   }
 }
 
-function buildResultBreakdown(categoryScores) {
+function buildResultBreakdown(categoryScores, result) {
+  // Check if this is a role-based result
+  if (result && result.dominantRole && result.rolePercentages) {
+    return buildRoleBreakdown(result);
+  }
+  
   const entries = Object.entries(categoryScores);
   if (entries.length === 0) return "<p style='text-align: center; color: #888;'>Sem dados de categorias disponíveis.</p>";
   
@@ -503,6 +490,34 @@ function buildResultBreakdown(categoryScores) {
     html += '  <span class="result-breakdown-value">' + score + '%</span>';
     html += '</div>';
   });
+  
+  return html;
+}
+
+function buildRoleBreakdown(result) {
+  const rolePercentages = result.rolePercentages || {};
+  const sortedRoles = Object.entries(rolePercentages).sort((a, b) => b[1] - a[1]);
+  
+  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Os teus perfis:</p>';
+  
+  sortedRoles.forEach(([roleId, percentage]) => {
+    const label = formatCategoryLabel(roleId);
+    html += '<div class="result-breakdown-item">';
+    html += '<span class="result-breakdown-label">' + label + '</span>';
+    html += '<div class="result-breakdown-bar"><div class="result-breakdown-fill" style="width: ' + percentage + '%"></div></div>';
+    html += '<span class="result-breakdown-value">' + percentage + '%</span>';
+    html += '</div>';
+  });
+  
+  // Show compatible roles
+  if (result.matchWith && result.matchWith.length > 0) {
+    html += '<div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, rgba(229, 57, 53, 0.1), rgba(194, 24, 91, 0.1)); border-radius: 12px;">';
+    html += '<p style="font-weight: 600; margin: 0 0 10px 0; color: #333;">💕 Compatível com:</p>';
+    result.matchWith.forEach(matchRole => {
+      html += '<span style="display: inline-block; background: white; padding: 6px 12px; border-radius: 20px; margin: 4px; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">' + formatCategoryLabel(matchRole) + '</span>';
+    });
+    html += '</div>';
+  }
   
   return html;
 }
@@ -534,8 +549,7 @@ function shareResultFromHome() {
   if (!currentViewingQuizId) return;
   
   const quiz = QUIZZES_CONFIG.find(q => q.id === currentViewingQuizId);
-  const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
-  const result = savedResults[currentViewingQuizId];
+  const result = userResults[currentViewingQuizId];
   
   if (!quiz || !result) return;
   
@@ -554,17 +568,20 @@ function shareResultFromHome() {
   }
 }
 
-function retakeQuizFromHome() {
+async function retakeQuizFromHome() {
   if (!currentViewingQuizId) return;
   
   if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
-    // Clear saved data
-    localStorage.removeItem('q4y_quiz_' + currentViewingQuizId);
-    
-    // Remove from results
-    const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
-    delete savedResults[currentViewingQuizId];
-    localStorage.setItem('q4y_results', JSON.stringify(savedResults));
+    // Delete from cloud
+    if (currentUser && window.CloudSync) {
+      try {
+        await window.CloudSync.deleteQuizResult(currentUser.uid, currentViewingQuizId);
+        await window.CloudSync.clearQuizProgress(currentUser.uid, currentViewingQuizId);
+        console.log("Result deleted from cloud");
+      } catch (error) {
+        console.error("Error deleting from cloud:", error);
+      }
+    }
     
     // Close modal and go to quiz
     closeResultModal();
