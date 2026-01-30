@@ -190,26 +190,226 @@ async function getMergedResults() {
 // ================================
 // PUBLIC PROFILE MANAGEMENT
 // ================================
+async function getUserProfile(userId) {
+  if (!db) return null;
+  
+  try {
+    const doc = await db.collection(COLLECTION_USERS).doc(userId).get();
+    
+    if (doc.exists) {
+      return doc.data();
+    }
+    
+    return null;
+  } catch (error) {
+    console.error("Error getting user profile:", error);
+    return null;
+  }
+}
+
+async function saveUserProfile(userId, profileData) {
+  if (!db) throw new Error("Firestore not available");
+  
+  try {
+    await db.collection(COLLECTION_USERS).doc(userId).set(profileData, { merge: true });
+    console.log("✅ User profile saved");
+    return true;
+  } catch (error) {
+    console.error("Error saving user profile:", error);
+    throw error;
+  }
+}
+
+async function publishPublicProfile(userId, userData) {
+  if (!db) throw new Error("Firestore not available");
+  
+  try {
+    // Get local results for quiz scores and roles
+    const localResults = getLocalResults();
+    
+    const publicData = {
+      uid: userId,
+      displayName: userData.displayName || "Anónimo",
+      age: userData.age || null,
+      gender: userData.gender || null,
+      location: userData.location || null,
+      photoURL: userData.photoURL || null,
+      quizScores: userData.quizScores || {},
+      quizRoles: {}, // For role-based quizzes
+      isPublic: true,
+      lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    // Extract role information from results
+    for (const [quizId, result] of Object.entries(localResults)) {
+      if (result.dominantRole) {
+        publicData.quizRoles[quizId] = {
+          dominantRole: result.dominantRole,
+          matchWith: result.matchWith || []
+        };
+      }
+    }
+    
+    await db.collection(COLLECTION_PUBLIC_PROFILES).doc(userId).set(publicData, { merge: true });
+    console.log("✅ Public profile published");
+    return true;
+  } catch (error) {
+    console.error("Error publishing public profile:", error);
+    throw error;
+  }
+}
+
+async function unpublishPublicProfile(userId) {
+  if (!db) throw new Error("Firestore not available");
+  
+  try {
+    await db.collection(COLLECTION_PUBLIC_PROFILES).doc(userId).update({
+      isPublic: false
+    });
+    console.log("✅ Public profile unpublished");
+    return true;
+  } catch (error) {
+    console.error("Error unpublishing public profile:", error);
+    throw error;
+  }
+}
+
+// ================================
+// FIND MATCHES
+// ================================
+async function findMatches(userId, userScores) {
+  if (!db) return [];
+  
+  try {
+    // Get all public profiles
+    const snapshot = await db.collection(COLLECTION_PUBLIC_PROFILES)
+      .where('isPublic', '==', true)
+      .limit(100)
+      .get();
+    
+    const matches = [];
+    const localResults = getLocalResults();
+    
+    snapshot.forEach(doc => {
+      const profile = doc.data();
+      
+      // Skip self
+      if (profile.uid === userId) return;
+      
+      // Calculate compatibility
+      const compatibility = calculateCompatibility(userScores, profile.quizScores || {}, localResults, profile.quizRoles || {});
+      
+      matches.push({
+        id: doc.id,
+        ...profile,
+        compatibility: compatibility
+      });
+    });
+    
+    // Sort by compatibility descending
+    matches.sort((a, b) => b.compatibility - a.compatibility);
+    
+    return matches;
+  } catch (error) {
+    console.error("Error finding matches:", error);
+    return [];
+  }
+}
+
+// ================================
+// CALCULATE COMPATIBILITY
+// ================================
+function calculateCompatibility(userScores, theirScores, userResults, theirRoles) {
+  let totalMatch = 0;
+  let quizCount = 0;
+  
+  // Find common quizzes
+  for (const quizId of Object.keys(userScores)) {
+    if (theirScores[quizId] !== undefined) {
+      quizCount++;
+      
+      const userResult = userResults[quizId] || {};
+      const theirRoleInfo = theirRoles[quizId] || {};
+      
+      // Check if this is a role-based quiz with inverse matching
+      if (userResult.dominantRole && theirRoleInfo.dominantRole) {
+        // Role-based matching (inverse)
+        // Check if user's role is in their matchWith list
+        const userMatchWith = userResult.matchWith || [];
+        const theirRole = theirRoleInfo.dominantRole;
+        
+        if (userMatchWith.includes(theirRole)) {
+          // Perfect role match! High compatibility
+          totalMatch += 95;
+        } else if (theirRoleInfo.matchWith && theirRoleInfo.matchWith.includes(userResult.dominantRole)) {
+          // They match with our role
+          totalMatch += 85;
+        } else {
+          // Same role - lower compatibility for inverse matching quizzes
+          totalMatch += 30;
+        }
+      } else {
+        // Standard score-based matching (similar scores = compatible)
+        const scoreDiff = Math.abs(userScores[quizId] - theirScores[quizId]);
+        const matchPercent = Math.max(0, 100 - scoreDiff);
+        totalMatch += matchPercent;
+      }
+    }
+  }
+  
+  if (quizCount === 0) return 0;
+  
+  return Math.round(totalMatch / quizCount);
+}
+
 async function updatePublicProfile(userData) {
   const user = auth?.currentUser;
   if (!user || !db) return false;
   
   try {
+    const localResults = getLocalResults();
+    
     const publicData = {
       uid: user.uid,
       displayName: userData.displayName || "Anónimo",
       photoURL: userData.photoURL || null,
       quizScores: {},
+      quizRoles: {},
       lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
       smartMatchEnabled: userData.settings?.smartMatchEnabled !== false
     };
     
-    // Add quiz scores for matching
+    // Add quiz scores and roles for matching
     if (userData.quizResults) {
       for (const [quizId, result] of Object.entries(userData.quizResults)) {
         publicData.quizScores[quizId] = {
           score: result.score,
           category: result.category
+        };
+        
+        // Add role info if present
+        if (result.dominantRole) {
+          publicData.quizRoles[quizId] = {
+            dominantRole: result.dominantRole,
+            matchWith: result.matchWith || []
+          };
+        }
+      }
+    }
+    
+    // Also check local results
+    for (const [quizId, result] of Object.entries(localResults)) {
+      if (!publicData.quizScores[quizId]) {
+        publicData.quizScores[quizId] = {
+          score: result.score,
+          category: result.category
+        };
+      }
+      
+      if (result.dominantRole && !publicData.quizRoles[quizId]) {
+        publicData.quizRoles[quizId] = {
+          dominantRole: result.dominantRole,
+          matchWith: result.matchWith || []
         };
       }
     }
@@ -248,6 +448,11 @@ window.CloudSync = {
   syncAllLocalResults,
   loadFromCloud: loadResultsFromCloud,
   getMergedResults,
+  getUserProfile,
+  saveUserProfile,
+  publishPublicProfile,
+  unpublishPublicProfile,
+  findMatches,
   updatePublicProfile,
   removePublicProfile
 };

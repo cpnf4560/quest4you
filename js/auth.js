@@ -216,12 +216,13 @@ async function registerWithEmail(event) {
 
   const name = document.getElementById("registerName").value.trim();
   const email = document.getElementById("registerEmail").value.trim();
+  const gender = document.getElementById("registerGender").value;
   const password = document.getElementById("registerPassword").value;
   const passwordConfirm = document.getElementById("registerPasswordConfirm").value;
   const acceptTerms = document.getElementById("acceptTerms").checked;
 
   // Validation
-  if (!name || !email || !password || !passwordConfirm) {
+  if (!name || !email || !gender || !password || !passwordConfirm) {
     showMessage("Por favor, preenche todos os campos.", "error");
     return;
   }
@@ -254,8 +255,11 @@ async function registerWithEmail(event) {
       displayName: name
     });
 
-    // Create user profile in Firestore
-    await createUserProfile(user, { displayName: name });
+    // Create user profile in Firestore with gender
+    await createUserProfile(user, { displayName: name, gender: gender });
+    
+    // Also save gender to localStorage for offline access
+    localStorage.setItem("q4y_user_gender", gender);
 
     console.log("Registration successful:", user.email);
     showMessage("Conta criada com sucesso! A redirecionar...", "success");
@@ -320,6 +324,7 @@ async function createUserProfile(user, additionalData = {}) {
         email: user.email,
         displayName: additionalData.displayName || user.displayName || "Utilizador",
         photoURL: user.photoURL || null,
+        gender: additionalData.gender || null,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
         quizResults: {},
@@ -330,12 +335,24 @@ async function createUserProfile(user, additionalData = {}) {
           smartMatchEnabled: true
         }
       });
-      console.log("User profile created");
+      console.log("User profile created with gender:", additionalData.gender);
+      
+      // Save gender to localStorage
+      if (additionalData.gender) {
+        localStorage.setItem("q4y_user_gender", additionalData.gender);
+      }
     } else {
-      // Update last login
+      // Update last login and sync gender from cloud to local
       await userRef.update({
         lastLogin: firebase.firestore.FieldValue.serverTimestamp()
       });
+      
+      // Sync gender from cloud to localStorage if not already set
+      const cloudData = doc.data();
+      if (cloudData.gender && !localStorage.getItem("q4y_user_gender")) {
+        localStorage.setItem("q4y_user_gender", cloudData.gender);
+      }
+      
       console.log("User profile updated");
     }
   } catch (error) {

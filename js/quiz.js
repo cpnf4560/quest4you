@@ -7,10 +7,12 @@
 // STATE
 // ================================
 let quizData = null;
+let filteredQuestions = []; // Questions filtered by gender
 let currentQuestion = 0;
 let answers = {};
 let quizId = null;
 let currentUser = null;
+let userGender = null; // User's gender for filtering questions
 
 // ================================
 // INITIALIZATION
@@ -68,13 +70,26 @@ async function loadQuiz(id) {
     quizData = await response.json();
     console.log("Quiz loaded:", quizData.name, "with", quizData.questions.length, "questions");
 
+    // Check if quiz requires gender
+    if (quizData.requiresGender) {
+      userGender = await getUserGender();
+      if (!userGender) {
+        // Show gender selection modal
+        showGenderModal();
+        return;
+      }
+    }
+    
+    // Filter questions by gender
+    filterQuestionsByGender();
+
     // Load saved answers from localStorage
     const savedAnswers = localStorage.getItem('q4y_quiz_' + id);
     if (savedAnswers) {
       answers = JSON.parse(savedAnswers);
       // Find first unanswered question
-      for (let i = 0; i < quizData.questions.length; i++) {
-        if (!answers[quizData.questions[i].id]) {
+      for (let i = 0; i < filteredQuestions.length; i++) {
+        if (!answers[filteredQuestions[i].id]) {
           currentQuestion = i;
           break;
         }
@@ -90,6 +105,147 @@ async function loadQuiz(id) {
     alert("Erro ao carregar o questionario. Por favor, tenta novamente.");
     window.location.href = "../";
   }
+}
+
+// ================================
+// GET USER GENDER
+// ================================
+async function getUserGender() {
+  // First check localStorage
+  let gender = localStorage.getItem("q4y_user_gender");
+  if (gender) {
+    return gender;
+  }
+  
+  // If user is logged in, try to get from Firestore
+  if (currentUser && typeof db !== 'undefined' && db) {
+    try {
+      const userDoc = await db.collection("quest4you_users").doc(currentUser.uid).get();
+      if (userDoc.exists && userDoc.data().gender) {
+        gender = userDoc.data().gender;
+        localStorage.setItem("q4y_user_gender", gender);
+        return gender;
+      }
+    } catch (error) {
+      console.error("Error fetching user gender:", error);
+    }
+  }
+  
+  return null;
+}
+
+// ================================
+// SHOW GENDER MODAL
+// ================================
+function showGenderModal() {
+  // Create modal if it doesn't exist
+  if (!document.getElementById('genderModal')) {
+    const modal = document.createElement('div');
+    modal.id = 'genderModal';
+    modal.className = 'result-modal';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+      <div class="result-content" style="max-width: 400px;">
+        <div class="result-header" id="genderHeader" style="background: linear-gradient(135deg, ${quizData.color} 0%, ${adjustColor(quizData.color, -20)} 100%);">
+          <span class="result-emoji">⚧</span>
+          <h2>Antes de começar...</h2>
+        </div>
+        <div class="result-body" style="padding: 30px;">
+          <p style="text-align: center; margin-bottom: 20px; color: #666;">
+            Este questionário adapta algumas perguntas ao teu género para uma experiência mais personalizada.
+          </p>
+          <div class="gender-options" style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="gender-btn" onclick="selectGender('masculino')" style="padding: 16px; border: 2px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; font-size: 16px; transition: all 0.3s ease;">
+              👨 Masculino
+            </button>
+            <button class="gender-btn" onclick="selectGender('feminino')" style="padding: 16px; border: 2px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; font-size: 16px; transition: all 0.3s ease;">
+              👩 Feminino
+            </button>
+            <button class="gender-btn" onclick="selectGender('nao-binario')" style="padding: 16px; border: 2px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; font-size: 16px; transition: all 0.3s ease;">
+              🌈 Não-binário
+            </button>
+            <button class="gender-btn" onclick="selectGender('outro')" style="padding: 16px; border: 2px solid #e0e0e0; border-radius: 12px; background: white; cursor: pointer; font-size: 16px; transition: all 0.3s ease;">
+              🤷 Outro / Prefiro não dizer
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Add hover effects
+    const style = document.createElement('style');
+    style.textContent = '.gender-btn:hover { border-color: ' + quizData.color + ' !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }';
+    document.head.appendChild(style);
+  } else {
+    document.getElementById('genderModal').style.display = 'flex';
+  }
+}
+
+// ================================
+// SELECT GENDER
+// ================================
+async function selectGender(gender) {
+  userGender = gender;
+  localStorage.setItem("q4y_user_gender", gender);
+  
+  // If user is logged in, save to Firestore
+  if (currentUser && typeof db !== 'undefined' && db) {
+    try {
+      await db.collection("quest4you_users").doc(currentUser.uid).update({
+        gender: gender
+      });
+      console.log("Gender saved to cloud:", gender);
+    } catch (error) {
+      console.error("Error saving gender:", error);
+    }
+  }
+  
+  // Hide modal
+  document.getElementById('genderModal').style.display = 'none';
+  
+  // Continue loading quiz
+  filterQuestionsByGender();
+  
+  // Load saved answers from localStorage
+  const savedAnswers = localStorage.getItem('q4y_quiz_' + quizId);
+  if (savedAnswers) {
+    answers = JSON.parse(savedAnswers);
+    for (let i = 0; i < filteredQuestions.length; i++) {
+      if (!answers[filteredQuestions[i].id]) {
+        currentQuestion = i;
+        break;
+      }
+    }
+  }
+  
+  // Update UI
+  initQuizUI();
+  renderQuestion();
+  renderQuickNav();
+}
+
+// ================================
+// FILTER QUESTIONS BY GENDER
+// ================================
+function filterQuestionsByGender() {
+  if (!quizData.requiresGender || !userGender) {
+    // No filtering needed
+    filteredQuestions = quizData.questions;
+    return;
+  }
+  
+  filteredQuestions = quizData.questions.filter(function(question) {
+    // If question has no forGender filter, include it
+    if (!question.forGender) {
+      return true;
+    }
+    
+    // Check if user's gender matches the filter
+    return question.forGender.includes(userGender) || question.forGender.includes('all');
+  });
+  
+  console.log("Filtered questions for gender " + userGender + ":", filteredQuestions.length, "of", quizData.questions.length);
 }
 
 // ================================
@@ -113,12 +269,12 @@ function initQuizUI() {
 // RENDER QUESTION
 // ================================
 function renderQuestion() {
-  const question = quizData.questions[currentQuestion];
+  const question = filteredQuestions[currentQuestion];
 
   document.getElementById("questionNumber").textContent = currentQuestion + 1;
   document.getElementById("questionText").textContent = question.text;
 
-  const totalQuestions = quizData.questions.length;
+  const totalQuestions = filteredQuestions.length;
   const answeredCount = Object.keys(answers).length;
   const percent = Math.round((answeredCount / totalQuestions) * 100);
 
@@ -151,7 +307,7 @@ function renderQuestion() {
 // SELECT ANSWER
 // ================================
 function selectAnswer(value) {
-  const question = quizData.questions[currentQuestion];
+  const question = filteredQuestions[currentQuestion];
   answers[question.id] = value;
 
   const buttons = document.querySelectorAll(".likert-btn");
@@ -167,14 +323,14 @@ function selectAnswer(value) {
   updateNavButtons();
   updateQuickNav();
 
-  const totalQuestions = quizData.questions.length;
+  const totalQuestions = filteredQuestions.length;
   const answeredCount = Object.keys(answers).length;
   const percent = Math.round((answeredCount / totalQuestions) * 100);
   document.getElementById("progressPercent").textContent = percent + '%';
   document.getElementById("progressBar").style.width = percent + '%';
 
   setTimeout(function() {
-    if (currentQuestion < quizData.questions.length - 1) {
+    if (currentQuestion < filteredQuestions.length - 1) {
       nextQuestion();
     }
   }, 300);
@@ -191,14 +347,14 @@ function previousQuestion() {
 }
 
 function nextQuestion() {
-  if (currentQuestion < quizData.questions.length - 1) {
+  if (currentQuestion < filteredQuestions.length - 1) {
     currentQuestion++;
     renderQuestion();
   }
 }
 
 function goToQuestion(index) {
-  if (index >= 0 && index < quizData.questions.length) {
+  if (index >= 0 && index < filteredQuestions.length) {
     currentQuestion = index;
     renderQuestion();
   }
@@ -211,8 +367,8 @@ function updateNavButtons() {
 
   btnPrev.disabled = currentQuestion === 0;
 
-  const allAnswered = Object.keys(answers).length === quizData.questions.length;
-  const isLastQuestion = currentQuestion === quizData.questions.length - 1;
+  const allAnswered = Object.keys(answers).length === filteredQuestions.length;
+  const isLastQuestion = currentQuestion === filteredQuestions.length - 1;
 
   if (isLastQuestion && allAnswered) {
     btnNext.style.display = "none";
@@ -220,7 +376,7 @@ function updateNavButtons() {
   } else {
     btnNext.style.display = "inline-flex";
     btnFinish.style.display = "none";
-    btnNext.disabled = !answers[quizData.questions[currentQuestion].id];
+    btnNext.disabled = !answers[filteredQuestions[currentQuestion].id];
   }
 }
 
@@ -230,7 +386,7 @@ function updateNavButtons() {
 function renderQuickNav() {
   const container = document.getElementById("quickNavDots");
   let html = "";
-  for (let i = 0; i < quizData.questions.length; i++) {
+  for (let i = 0; i < filteredQuestions.length; i++) {
     html += '<button class="quick-nav-dot" data-index="' + i + '" onclick="goToQuestion(' + i + ')" title="Pergunta ' + (i + 1) + '"></button>';
   }
   container.innerHTML = html;
@@ -241,7 +397,7 @@ function updateQuickNav() {
   const dots = document.querySelectorAll(".quick-nav-dot");
   dots.forEach(function(dot, index) {
     dot.classList.remove("answered", "current");
-    const question = quizData.questions[index];
+    const question = filteredQuestions[index];
     if (answers[question.id]) {
       dot.classList.add("answered");
     }
@@ -255,11 +411,17 @@ function updateQuickNav() {
 // CALCULATE RESULTS
 // ================================
 function calculateResults() {
+  // Check if this is a role-based quiz
+  if (quizData.resultType === "role") {
+    return calculateRoleResults();
+  }
+  
+  // Standard spectrum/percentage calculation
   let totalScore = 0;
-  let maxPossibleScore = quizData.questions.length * 5;
+  let maxPossibleScore = filteredQuestions.length * 5;
   let categoryScores = {};
 
-  quizData.questions.forEach(function(question) {
+  filteredQuestions.forEach(function(question) {
     let value = answers[question.id] || 3;
     if (question.reverse) {
       value = 6 - value;
@@ -304,12 +466,94 @@ function calculateResults() {
 }
 
 // ================================
+// CALCULATE ROLE RESULTS
+// ================================
+function calculateRoleResults() {
+  const rolePoints = {};
+  
+  // Initialize role points
+  if (quizData.roles) {
+    Object.keys(quizData.roles).forEach(function(role) {
+      rolePoints[role] = 0;
+    });
+  }
+  
+  // Calculate points for each role based on answers
+  filteredQuestions.forEach(function(question) {
+    const answerValue = answers[question.id] || 3;
+    
+    if (question.rolePoints) {
+      // Calculate weighted role points based on answer
+      Object.keys(question.rolePoints).forEach(function(role) {
+        const basePoints = question.rolePoints[role];
+        // Scale: answer 1 = 0%, 2 = 25%, 3 = 50%, 4 = 75%, 5 = 100% of base points
+        const scaledPoints = basePoints * ((answerValue - 1) / 4);
+        rolePoints[role] = (rolePoints[role] || 0) + scaledPoints;
+      });
+    }
+  });
+  
+  // Find dominant role
+  let dominantRole = null;
+  let maxPoints = 0;
+  
+  Object.keys(rolePoints).forEach(function(role) {
+    if (rolePoints[role] > maxPoints) {
+      maxPoints = rolePoints[role];
+      dominantRole = role;
+    }
+  });
+  
+  // Calculate percentages for each role
+  const totalPoints = Object.values(rolePoints).reduce(function(a, b) { return a + b; }, 0) || 1;
+  const rolePercentages = {};
+  
+  Object.keys(rolePoints).forEach(function(role) {
+    rolePercentages[role] = Math.round((rolePoints[role] / totalPoints) * 100);
+  });
+  
+  // Get role info from quiz data
+  const roleInfo = quizData.roles ? quizData.roles[dominantRole] : null;
+  
+  // Find matching category by role
+  let resultCategory = null;
+  if (quizData.categories && dominantRole) {
+    resultCategory = quizData.categories.find(function(cat) {
+      return cat.role === dominantRole;
+    });
+  }
+  
+  // If no category found by role, fall back to percentage-based
+  if (!resultCategory && quizData.categories) {
+    const dominantPercentage = rolePercentages[dominantRole] || 50;
+    for (let i = 0; i < quizData.categories.length; i++) {
+      const cat = quizData.categories[i];
+      if (dominantPercentage >= cat.min && dominantPercentage <= cat.max) {
+        resultCategory = cat;
+        break;
+      }
+    }
+  }
+  
+  return {
+    score: rolePercentages[dominantRole] || 0,
+    dominantRole: dominantRole,
+    roleInfo: roleInfo,
+    rolePoints: rolePoints,
+    rolePercentages: rolePercentages,
+    category: resultCategory,
+    categoryScores: rolePercentages,
+    matchWith: roleInfo ? roleInfo.matchWith : null
+  };
+}
+
+// ================================
 // FINISH QUIZ
 // ================================
 function finishQuiz() {
-  const allAnswered = Object.keys(answers).length === quizData.questions.length;
+  const allAnswered = Object.keys(answers).length === filteredQuestions.length;
   if (!allAnswered) {
-    const unanswered = quizData.questions.length - Object.keys(answers).length;
+    const unanswered = filteredQuestions.length - Object.keys(answers).length;
     if (!confirm('Ainda tens ' + unanswered + ' pergunta(s) por responder. Queres ver o resultado assim mesmo?')) {
       return;
     }
@@ -336,12 +580,61 @@ function showResults(results) {
     header.style.background = 'linear-gradient(135deg, ' + quizData.color + ' 0%, ' + adjustColor(quizData.color, -20) + ' 100%)';
   }
 
-  const breakdownHtml = buildBreakdown(results.categoryScores);
+  // Build breakdown based on result type
+  let breakdownHtml = '';
+  if (quizData.resultType === "role" && results.rolePercentages) {
+    breakdownHtml = buildRoleBreakdown(results);
+  } else {
+    breakdownHtml = buildBreakdown(results.categoryScores);
+  }
   document.getElementById("resultBreakdown").innerHTML = breakdownHtml;
 
   saveResult(results);
   modal.style.display = "flex";
   celebrateResult();
+}
+
+function buildRoleBreakdown(results) {
+  const rolePercentages = results.rolePercentages;
+  const roles = quizData.roles || {};
+  
+  // Sort roles by percentage descending
+  const sortedRoles = Object.entries(rolePercentages).sort(function(a, b) { return b[1] - a[1]; });
+  
+  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Os teus perfis:</p>';
+  
+  sortedRoles.forEach(function(entry) {
+    const roleId = entry[0];
+    const percentage = entry[1];
+    const roleInfo = roles[roleId];
+    const label = roleInfo ? roleInfo.name : formatCategoryLabel(roleId);
+    const emoji = roleInfo ? roleInfo.emoji : '🎭';
+    
+    html += '<div class="result-breakdown-item">';
+    html += '<span class="result-breakdown-label">' + emoji + ' ' + label + '</span>';
+    html += '<div class="result-breakdown-bar"><div class="result-breakdown-fill" style="width: ' + percentage + '%"></div></div>';
+    html += '<span class="result-breakdown-value">' + percentage + '%</span>';
+    html += '</div>';
+  });
+  
+  // Show match info
+  if (results.matchWith && results.matchWith.length > 0) {
+    html += '<div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, rgba(229, 57, 53, 0.1), rgba(194, 24, 91, 0.1)); border-radius: 12px;">';
+    html += '<p style="font-weight: 600; margin: 0 0 10px 0; color: #333;">💕 Compatible com:</p>';
+    
+    results.matchWith.forEach(function(matchRole) {
+      const matchInfo = roles[matchRole];
+      if (matchInfo) {
+        html += '<span style="display: inline-block; background: white; padding: 6px 12px; border-radius: 20px; margin: 4px; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">';
+        html += matchInfo.emoji + ' ' + matchInfo.name;
+        html += '</span>';
+      }
+    });
+    
+    html += '</div>';
+  }
+  
+  return html;
 }
 
 function buildBreakdown(categoryScores) {
@@ -376,24 +669,29 @@ function formatCategoryLabel(category) {
 // ================================
 async function saveResult(results) {
   const savedResults = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-  savedResults[quizId] = {
+  
+  const resultData = {
     score: results.score,
     category: results.category ? results.category.label : null,
     categoryScores: results.categoryScores || {},
     date: new Date().toISOString(),
     answers: answers
   };
+  
+  // Add role-specific data if present
+  if (results.dominantRole) {
+    resultData.dominantRole = results.dominantRole;
+    resultData.rolePercentages = results.rolePercentages;
+    resultData.matchWith = results.matchWith;
+  }
+  
+  savedResults[quizId] = resultData;
   localStorage.setItem("q4y_results", JSON.stringify(savedResults));
   localStorage.removeItem('q4y_quiz_' + quizId);
 
   if (currentUser && window.CloudSync) {
     try {
-      await window.CloudSync.saveQuizResult(currentUser.uid, quizId, {
-        score: results.score,
-        category: results.category ? results.category.label : null,
-        categoryScores: results.categoryScores || {},
-        answers: answers
-      });
+      await window.CloudSync.saveQuizResult(currentUser.uid, quizId, resultData);
       console.log("Resultado guardado na cloud!");
       showCloudSyncIndicator(true);
     } catch (error) {
@@ -503,3 +801,4 @@ window.finishQuiz = finishQuiz;
 window.closeResult = closeResult;
 window.shareResult = shareResult;
 window.retakeQuiz = retakeQuiz;
+window.selectGender = selectGender;
