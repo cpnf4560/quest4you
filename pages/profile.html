@@ -175,6 +175,38 @@
     </div>
   </div>
 
+  <!-- Result Modal -->
+  <div class="result-modal" id="resultModal" style="display: none;">
+    <div class="result-content">
+      <button class="result-close" onclick="closeResultModal()">✕</button>
+      <div class="result-header" id="resultHeader">
+        <div class="result-emoji" id="resultEmoji">🎯</div>
+        <h1 class="result-title">O Teu Resultado</h1>
+      </div>
+      <div class="result-body">
+        <div class="result-score-container">
+          <div class="result-score-circle">
+            <span class="result-score-value" id="resultScore">0</span>
+            <span class="result-score-label">pontos</span>
+          </div>
+        </div>
+        <div class="result-category">
+          <span class="result-category-emoji" id="resultCategoryEmoji">🎯</span>
+          <span class="result-category-label" id="resultCategoryLabel">Resultado</span>
+        </div>
+        <p class="result-description" id="resultDescription">A tua descrição de resultado aparece aqui.</p>
+        <div class="result-breakdown" id="resultBreakdown">
+          <!-- Breakdown bars will be inserted here -->
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-primary" onclick="shareResult()">📤 Partilhar</button>
+          <button class="btn btn-secondary" onclick="retakeQuiz()">🔄 Refazer</button>
+          <button class="btn btn-outline" onclick="closeResultModal()">🏠 Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">

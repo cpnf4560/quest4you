@@ -17,7 +17,7 @@
    ================================ */
 
 .match-hero {
-  background: linear-gradient(135deg, #e53935 0%, #c2185b 50%, #ff9800 100%);
+  background: linear-gradient(135deg, #e53935 0%, #d32f2f 40%, #c2185b 80%, #e65100 100%);
   padding: 3rem 1.5rem;
   text-align: center;
   position: relative;
@@ -31,8 +31,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 2px, transparent 2px);
+  background-size: 50px 50px;
+  opacity: 0.6;
   pointer-events: none;
 }
 

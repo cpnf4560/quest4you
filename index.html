@@ -66,13 +66,21 @@
         </div>
         <a href="./pages/smart-match.html" class="btn btn-glow">Descobrir Matches</a>
       </div>
-      
-      <!-- CTA Principal -->
-      <div class="hero-cta">
+        <!-- CTA Principal (apenas para guests) -->
+      <div class="hero-cta" id="heroCta">
         <a href="./pages/auth.html" class="btn btn-primary btn-xl">
           🚀 Criar Conta Grátis
         </a>
         <p class="hero-cta-note">100% Grátis • Sem compromisso • Anónimo</p>
+      </div>
+      
+      <!-- Bem-vindo (para utilizadores logados) -->
+      <div class="hero-welcome" id="heroWelcome" style="display: none;">
+        <p class="welcome-text">👋 Olá, <span id="heroUserName">Utilizador</span>!</p>
+        <div class="welcome-actions">
+          <a href="#quizzes" class="btn btn-white btn-lg">📝 Ver Questionários</a>
+          <a href="./pages/profile.html" class="btn btn-outline-white btn-lg">👤 Meu Perfil</a>
+        </div>
       </div>
     </div>
   </section>
@@ -157,7 +165,6 @@
       </div>
     </div>
   </footer>
-
   <!-- Login Modal -->
   <div class="modal" id="loginModal" style="display: none;">
     <div class="modal-overlay" onclick="closeLoginModal()"></div>
@@ -168,6 +175,38 @@
       <p>Para responderes aos questionários e descobrires pessoas compatíveis, precisas de ter uma conta.</p>
       <div class="modal-actions">
         <a href="./pages/auth.html" class="btn btn-primary btn-full">Criar Conta / Entrar</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Modal -->
+  <div class="result-modal" id="resultModal" style="display: none;">
+    <div class="result-content">
+      <button class="result-close" onclick="closeResultModal()">✕</button>
+      <div class="result-header" id="resultHeader">
+        <div class="result-emoji" id="resultEmoji">🎯</div>
+        <h1 class="result-title">O Teu Resultado</h1>
+      </div>
+      <div class="result-body">
+        <div class="result-score-container">
+          <div class="result-score-circle">
+            <span class="result-score-value" id="resultScore">0</span>
+            <span class="result-score-label">pontos</span>
+          </div>
+        </div>
+        <div class="result-category">
+          <span class="result-category-emoji" id="resultCategoryEmoji">🎯</span>
+          <span class="result-category-label" id="resultCategoryLabel">Resultado</span>
+        </div>
+        <p class="result-description" id="resultDescription">A tua descrição de resultado aparece aqui.</p>
+        <div class="result-breakdown" id="resultBreakdown">
+          <!-- Breakdown bars will be inserted here -->
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-primary" onclick="shareResultFromHome()">📤 Partilhar</button>
+          <button class="btn btn-secondary" onclick="retakeQuizFromHome()">🔄 Refazer</button>
+          <button class="btn btn-outline" onclick="closeResultModal()">🏠 Fechar</button>
+        </div>
       </div>
     </div>
   </div>

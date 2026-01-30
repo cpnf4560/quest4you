@@ -155,6 +155,21 @@ function updateUIForUser(user) {
     loginNotice.style.display = "none";
   }
 
+  // Hide "Criar Conta" CTA and show welcome message
+  const heroCta = document.getElementById("heroCta");
+  if (heroCta) {
+    heroCta.style.display = "none";
+  }
+  
+  const heroWelcome = document.getElementById("heroWelcome");
+  if (heroWelcome) {
+    heroWelcome.style.display = "block";
+    const userName = document.getElementById("heroUserName");
+    if (userName) {
+      userName.textContent = user.displayName || user.email?.split("@")[0] || "Utilizador";
+    }
+  }
+
   // Show progress section
   const progressSection = document.getElementById("progressSection");
   if (progressSection) {
@@ -176,6 +191,17 @@ function updateUIForGuest() {
     loginNotice.style.display = "block";
   }
 
+  // Show "Criar Conta" CTA and hide welcome message
+  const heroCta = document.getElementById("heroCta");
+  if (heroCta) {
+    heroCta.style.display = "block";
+  }
+  
+  const heroWelcome = document.getElementById("heroWelcome");
+  if (heroWelcome) {
+    heroWelcome.style.display = "none";
+  }
+
   // Hide progress section
   const progressSection = document.getElementById("progressSection");
   if (progressSection) {
@@ -184,19 +210,40 @@ function updateUIForGuest() {
 }
 
 async function loadUserProgress() {
-  if (!currentUser || typeof db === "undefined") return;
+  if (!currentUser) return;
   
-  try {
-    const doc = await db.collection("quest4you_users").doc(currentUser.uid).get();
-    if (doc.exists) {
-      const data = doc.data();
-      userProgress = data.progress || {};
-      userResults = data.results || {};
-      renderProgress();
+  // First, load from localStorage as fallback
+  const localResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+  
+  // Convert local results to progress format
+  for (const [quizId, result] of Object.entries(localResults)) {
+    if (result && result.score !== undefined) {
+      // Quiz was completed locally
+      const quizConfig = QUIZZES_CONFIG.find(q => q.id === quizId);
+      if (quizConfig) {
+        userProgress[quizId] = quizConfig.questions; // Mark as completed
+        userResults[quizId] = result;
+      }
     }
-  } catch (error) {
-    console.error("Error loading progress:", error);
   }
+  
+  // Then try to load from Firestore
+  if (typeof db !== "undefined") {
+    try {
+      const doc = await db.collection("quest4you_users").doc(currentUser.uid).get();
+      if (doc.exists) {
+        const data = doc.data();
+        // Merge cloud progress with local (cloud takes priority)
+        userProgress = { ...userProgress, ...(data.progress || {}) };
+        userResults = { ...userResults, ...(data.quizResults || data.results || {}) };
+      }
+    } catch (error) {
+      console.error("Error loading progress from cloud:", error);
+    }
+  }
+  
+  console.log("📊 User progress loaded:", Object.keys(userProgress).length, "quizzes");
+  renderProgress();
 }
 
 // ================================
@@ -275,9 +322,12 @@ function renderProgress() {
     html += '    <div class="progress-status ' + statusClass + '">';
     html += '      <span>' + statusIcon + '</span>';
     html += '      <span>' + statusText + '</span>';
-    html += '    </div>';
-    html += '    <div class="progress-action">';
-    html += '      <button class="btn btn-primary" onclick="openQuiz(\'' + quiz.id + '\')">' + actionText + '</button>';
+    html += '    </div>';    html += '    <div class="progress-action">';
+    if (completed) {
+      html += '      <button class="btn btn-primary" onclick="viewResults(\'' + quiz.id + '\')">👁️ Ver Resultados</button>';
+    } else {
+      html += '      <button class="btn btn-primary" onclick="openQuiz(\'' + quiz.id + '\')">' + actionText + '</button>';
+    }
     html += '    </div>';
     html += '  </div>';
     html += '</div>';
@@ -341,9 +391,171 @@ function goToSmartMatch() {
   window.location.href = "./pages/smart-match.html";
 }
 
+// ================================
+// VIEW RESULTS
+// ================================
+let currentViewingQuizId = null;
+
+function viewResults(quizId) {
+  currentViewingQuizId = quizId;
+  
+  // Get quiz config
+  const quiz = QUIZZES_CONFIG.find(q => q.id === quizId);
+  if (!quiz) {
+    console.error("Quiz not found:", quizId);
+    return;
+  }
+  
+  // Get saved results
+  const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+  const result = savedResults[quizId];
+  
+  if (!result) {
+    alert("Não foram encontrados resultados para este questionário.");
+    return;
+  }
+  
+  // Update modal content
+  const modal = document.getElementById("resultModal");
+  
+  // Header
+  document.getElementById("resultEmoji").textContent = quiz.icon;
+  document.getElementById("resultHeader").style.background = 
+    'linear-gradient(135deg, ' + quiz.color + ' 0%, ' + adjustColor(quiz.color, -20) + ' 100%)';
+  
+  // Score
+  document.getElementById("resultScore").textContent = result.score || 0;
+  
+  // Category
+  if (result.category) {
+    document.getElementById("resultCategoryEmoji").textContent = quiz.icon;
+    document.getElementById("resultCategoryLabel").textContent = result.category;
+  } else {
+    document.getElementById("resultCategoryEmoji").textContent = "🎯";
+    document.getElementById("resultCategoryLabel").textContent = result.score + "% de Intensidade";
+  }
+  
+  // Description (generate based on score)
+  const description = generateResultDescription(quiz.name, result.score);
+  document.getElementById("resultDescription").textContent = description;
+  
+  // Breakdown
+  const breakdownHtml = buildResultBreakdown(result.categoryScores || {});
+  document.getElementById("resultBreakdown").innerHTML = breakdownHtml;
+  
+  // Show modal
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function generateResultDescription(quizName, score) {
+  if (score >= 80) {
+    return "Tens um nível muito elevado nesta área! Os teus resultados mostram um grande interesse e abertura.";
+  } else if (score >= 60) {
+    return "Tens uma curiosidade saudável e estás aberto/a a explorar esta área com moderação.";
+  } else if (score >= 40) {
+    return "Tens um interesse moderado nesta área. Podes explorar mais ao teu ritmo.";
+  } else if (score >= 20) {
+    return "Esta área não é particularmente do teu interesse, mas manténs a mente aberta.";
+  } else {
+    return "Esta área não parece ser do teu interesse no momento. E está tudo bem assim!";
+  }
+}
+
+function buildResultBreakdown(categoryScores) {
+  const entries = Object.entries(categoryScores);
+  if (entries.length === 0) return "<p style='text-align: center; color: #888;'>Sem dados de categorias disponíveis.</p>";
+  
+  // Sort by score descending
+  entries.sort((a, b) => b[1] - a[1]);
+  const top5 = entries.slice(0, 5);
+  
+  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Top Categorias:</p>';
+  
+  top5.forEach(([category, score]) => {
+    const label = formatCategoryLabel(category);
+    html += '<div class="result-breakdown-item">';
+    html += '  <span class="result-breakdown-label">' + label + '</span>';
+    html += '  <div class="result-breakdown-bar"><div class="result-breakdown-fill" style="width: ' + score + '%"></div></div>';
+    html += '  <span class="result-breakdown-value">' + score + '%</span>';
+    html += '</div>';
+  });
+  
+  return html;
+}
+
+function formatCategoryLabel(category) {
+  return category.split("_").map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(" ");
+}
+
+function adjustColor(color, amount) {
+  // Simple color adjustment
+  const hex = color.replace('#', '');
+  const r = Math.max(0, Math.min(255, parseInt(hex.substring(0, 2), 16) + amount));
+  const g = Math.max(0, Math.min(255, parseInt(hex.substring(2, 4), 16) + amount));
+  const b = Math.max(0, Math.min(255, parseInt(hex.substring(4, 6), 16) + amount));
+  return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
+function closeResultModal() {
+  const modal = document.getElementById("resultModal");
+  if (modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+}
+
+function shareResultFromHome() {
+  if (!currentViewingQuizId) return;
+  
+  const quiz = QUIZZES_CONFIG.find(q => q.id === currentViewingQuizId);
+  const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+  const result = savedResults[currentViewingQuizId];
+  
+  if (!quiz || !result) return;
+  
+  const text = 'Fiz o questionário "' + quiz.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '%') + '\n\nDescobre o teu também em quest4you.com';
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Quest4You - ' + quiz.name,
+      text: text,
+      url: window.location.origin
+    });
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Resultado copiado para a área de transferência!");
+    });
+  }
+}
+
+function retakeQuizFromHome() {
+  if (!currentViewingQuizId) return;
+  
+  if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
+    // Clear saved data
+    localStorage.removeItem('q4y_quiz_' + currentViewingQuizId);
+    
+    // Remove from results
+    const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+    delete savedResults[currentViewingQuizId];
+    localStorage.setItem('q4y_results', JSON.stringify(savedResults));
+    
+    // Close modal and go to quiz
+    closeResultModal();
+    window.location.href = './pages/quiz.html?id=' + currentViewingQuizId;
+  }
+}
+
 // Export for global access
 window.openQuiz = openQuiz;
 window.saveProgress = saveProgress;
 window.goToSmartMatch = goToSmartMatch;
 window.showLoginModal = showLoginModal;
 window.closeLoginModal = closeLoginModal;
+window.viewResults = viewResults;
+window.closeResultModal = closeResultModal;
+window.shareResultFromHome = shareResultFromHome;
+window.retakeQuizFromHome = retakeQuizFromHome;

@@ -17,7 +17,7 @@ let quizIndex = {};
 // INITIALIZATION
 // ================================
 document.addEventListener("DOMContentLoaded", async function() {
-  console.log(" Smart Match inicializado");
+  console.log("💕 Smart Match inicializado");
 
   // Load quiz index for names/icons
   await loadQuizIndex();
@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded", async function() {
       currentUser = user;
 
       if (user) {
-        console.log(" Utilizador autenticado:", user.email);
+        console.log("✅ Utilizador autenticado:", user.email);
         await initializeAuthenticatedUser(user);
       } else {
-        console.log(" Utilizador não autenticado");
+        console.log("⚠️ Utilizador não autenticado");
         showSection('loginRequired');
       }
     });
@@ -56,9 +56,9 @@ async function loadQuizIndex() {
       quizIndex[quiz.id] = quiz;
     });
     
-    console.log(" Quiz index carregado:", Object.keys(quizIndex).length, "quizzes");
+    console.log("📚 Quiz index carregado:", Object.keys(quizIndex).length, "quizzes");
   } catch (error) {
-    console.error(" Erro ao carregar quiz index:", error);
+    console.error("❌ Erro ao carregar quiz index:", error);
   }
 }
 
@@ -94,7 +94,7 @@ async function initializeAuthenticatedUser(user) {
     await loadMatches();
 
   } catch (error) {
-    console.error(" Erro ao inicializar:", error);
+    console.error("❌ Erro ao inicializar:", error);
     showSection('noQuizzes');
   }
 }
@@ -181,7 +181,7 @@ async function handleProfileSubmit(e) {
     await loadMatches();
 
   } catch (error) {
-    console.error(" Erro ao guardar perfil:", error);
+    console.error("❌ Erro ao guardar perfil:", error);
     alert('Erro ao guardar perfil. Por favor, tenta novamente.');
   }
 }
@@ -203,15 +203,14 @@ function updateYourProfileCard() {
   // Update quizzes badges
   const quizzesContainer = document.getElementById('yourQuizzes');
   let badgesHtml = '';
-
   for (const [quizId, result] of Object.entries(userResults)) {
-    const quiz = quizIndex[quizId] || { icon: '', name: quizId };
-    badgesHtml += +""+
+    const quiz = quizIndex[quizId] || { icon: '❓', name: quizId };
+    badgesHtml += `
       <span class="quiz-badge">
-         
-        <span class="quiz-badge-score">%</span>
+        ${quiz.icon} ${quiz.name}
+        <span class="quiz-badge-score">${result.score}%</span>
       </span>
-    +""+;
+    `;
   }
 
   quizzesContainer.innerHTML = badgesHtml;
@@ -263,7 +262,7 @@ async function toggleProfileVisibility() {
       showToast(msg, newVisibility ? 'success' : 'info');
     }
   } catch (error) {
-    console.error(" Erro ao alterar visibilidade:", error);
+    console.error("❌ Erro ao alterar visibilidade:", error);
     showToast('Erro ao alterar visibilidade.', 'error');
   }
 }
@@ -294,13 +293,13 @@ async function loadMatches() {
       allMatches = [];
     }
 
-    console.log(" Matches encontrados:", allMatches.length);
+    console.log("💕 Matches encontrados:", allMatches.length);
 
     // Apply filters
     applyFilters();
 
   } catch (error) {
-    console.error(" Erro ao carregar matches:", error);
+    console.error("❌ Erro ao carregar matches:", error);
     loadingEl.style.display = 'none';
     noMatchesEl.style.display = 'block';
   }
@@ -370,38 +369,36 @@ function renderMatches() {
     if (match.gender) details.push(capitalizeFirst(match.gender));
     if (match.location) details.push(match.location);
 
-    // Get quiz tags
-    const quizTags = [];
+    // Get quiz tags    const quizTags = [];
     const matchQuizzes = match.quizScores || {};
     for (const quizId of Object.keys(matchQuizzes).slice(0, 3)) {
-      const quiz = quizIndex[quizId] || { icon: '' };
-      quizTags.push(+""+<span class="match-quiz-tag"></span>+""+);
+      const quiz = quizIndex[quizId] || { icon: '❓' };
+      quizTags.push(`<span class="match-quiz-tag">${quiz.icon}</span>`);
     }
 
     // Compatibility color
     const compatClass = match.compatibility >= 80 ? 'high' : (match.compatibility >= 50 ? 'medium' : 'low');
 
-    html += +""+
-      <div class="match-card" onclick="openMatchDetail()">
+    html += `
+      <div class="match-card" onclick="openMatchDetail(${index})">
         <div class="match-card-header">
-          <div class="match-avatar"></div>
+          <div class="match-avatar">${getAvatarEmoji(match.gender)}</div>
           <div class="match-info">
-            <h3 class="match-name"></h3>
-            <p class="match-details"></p>
+            <h3 class="match-name">${escapeHtml(match.displayName)}</h3>
+            <p class="match-details">${details.join(' • ')}</p>
           </div>
-          <div class="match-compat">%</div>
+          <div class="match-compat ${compatClass}">${match.compatibility}%</div>
         </div>
         <div class="match-card-body">
           <div class="match-quizzes">
-            
-            
+            ${quizTags.join('')}
           </div>
         </div>
         <div class="match-card-footer">
-          <button class="btn btn-primary btn-small">Ver Detalhes </button>
+          <button class="btn btn-primary btn-small">Ver Detalhes 👀</button>
         </div>
       </div>
-    +""+;
+    `;
   });
 
   gridEl.innerHTML = html;
@@ -431,27 +428,26 @@ function openMatchDetail(index) {
   // Build breakdown
   let breakdownHtml = '';
   const matchQuizzes = match.quizScores || {};
-
   for (const [quizId, theirScore] of Object.entries(matchQuizzes)) {
     const ourResult = userResults[quizId];
     if (!ourResult) continue;
 
-    const quiz = quizIndex[quizId] || { icon: '', name: quizId };
+    const quiz = quizIndex[quizId] || { icon: '❓', name: quizId };
     const diff = Math.abs(ourResult.score - theirScore);
     const matchPercent = Math.max(0, 100 - diff);
 
-    breakdownHtml += +""+
+    breakdownHtml += `
       <div class="breakdown-item">
-        <span class="breakdown-icon"></span>
+        <span class="breakdown-icon">${quiz.icon}</span>
         <div class="breakdown-info">
-          <p class="breakdown-name"></p>
+          <p class="breakdown-name">${quiz.name}</p>
           <div class="breakdown-bar">
-            <div class="breakdown-fill" style="width: %"></div>
+            <div class="breakdown-fill" style="width: ${matchPercent}%"></div>
           </div>
         </div>
-        <span class="breakdown-match">%</span>
+        <span class="breakdown-match">${matchPercent}%</span>
       </div>
-    +""+;
+    `;
   }
 
   document.getElementById('modalBreakdown').innerHTML = breakdownHtml || '<p style="text-align: center; color: #666;">Sem quizzes em comum.</p>';
@@ -469,7 +465,7 @@ function closeMatchModal() {
 
 function initiateContact() {
   // For now, just show a coming soon message
-  showToast(' Funcionalidade de chat em breve!', 'info');
+  showToast('💬 Funcionalidade de chat em breve!', 'info');
 }
 
 // ================================
@@ -482,10 +478,10 @@ function capitalizeFirst(str) {
 
 function getAvatarEmoji(gender) {
   switch (gender) {
-    case 'masculino': return '';
-    case 'feminino': return '';
-    case 'nao-binario': return '';
-    default: return '';
+    case 'masculino': return '👨';
+    case 'feminino': return '👩';
+    case 'nao-binario': return '🧑';
+    default: return '👤';
   }
 }
 
@@ -501,15 +497,24 @@ function showToast(message, type = 'info') {
   const existing = document.querySelector('.toast');
   if (existing) existing.remove();
 
+  // Get background color based on type
+  const bgColors = {
+    'success': '#28a745',
+    'error': '#dc3545',
+    'info': '#17a2b8',
+    'warning': '#ffc107'
+  };
+  const bgColor = bgColors[type] || bgColors['info'];
+
   // Create toast
   const toast = document.createElement('div');
   toast.className = 'toast toast-' + type;
-  toast.style.cssText = +""+
+  toast.style.cssText = `
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: ;
+    background: ${bgColor};
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
@@ -517,17 +522,17 @@ function showToast(message, type = 'info') {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     z-index: 1001;
     animation: toastIn 0.3s ease;
-  +""+;
+  `;
   toast.textContent = message;
 
   // Add animation
   const style = document.createElement('style');
-  style.textContent = +""+
+  style.textContent = `
     @keyframes toastIn {
       from { opacity: 0; transform: translateX(-50%) translateY(20px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
-  +""+;
+  `;
   document.head.appendChild(style);
 
   document.body.appendChild(toast);

@@ -177,11 +177,15 @@ function loadResults() {
   
   // Quiz metadata
   const quizMeta = {
-    vanilla: { name: "Vanilla ou Kink", icon: "💕", color: "#e91e63" },
+    vanilla: { name: "Vanilla ou Kink", icon: "🔥", color: "#e91e63" },
     orientation: { name: "Orientação Sexual", icon: "🌈", color: "#9c27b0" },
-    cuckold: { name: "Stag/Cuckold", icon: "👀", color: "#673ab7" },
-    swing: { name: "Swing/Poliamor", icon: "💜", color: "#00bcd4" },
-    kinks: { name: "Fetiches e Kinks", icon: "🔥", color: "#f44336" }
+    cuckold: { name: "Voyeurismo & Partilha", icon: "👀", color: "#673ab7" },
+    swing: { name: "Swing/Poliamor", icon: "💑", color: "#00bcd4" },
+    kinks: { name: "Fetiches e Kinks", icon: "⛓️", color: "#f44336" },
+    bdsm: { name: "BDSM & Dinâmicas de Poder", icon: "🎭", color: "#7B1FA2" },
+    adventure: { name: "Aventura Sexual", icon: "🎲", color: "#FF5722" },
+    fantasies: { name: "Fantasias Secretas", icon: "🔮", color: "#E91E63" },
+    exhibitionism: { name: "Exibicionismo & Admiração", icon: "📸", color: "#FFC107" }
   };
   
   let html = "";
@@ -191,7 +195,7 @@ function loadResults() {
     const meta = quizMeta[quizId] || { name: quizId, icon: "📝", color: "#666" };
     
     html += `
-      <div class="result-card">
+      <div class="result-card" onclick="viewResult('${quizId}')" style="cursor: pointer;">
         <div class="result-card-header" style="background: ${meta.color}">
           <span class="result-card-icon">${meta.icon}</span>
           <span class="result-card-title">${meta.name}</span>
@@ -213,6 +217,9 @@ function loadResults() {
               Completado em ${formatDate(new Date(result.date))}
             </div>
           ` : ""}
+          <div class="result-card-action">
+            <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); viewResult('${quizId}')">👁️ Ver Detalhes</button>
+          </div>
         </div>
       </div>
     `;
@@ -455,6 +462,176 @@ function formatDate(date) {
 }
 
 // ================================
+// VIEW RESULT MODAL
+// ================================
+let currentViewingQuizId = null;
+
+// Quiz metadata for modal
+const QUIZ_META = {
+  vanilla: { name: "Vanilla ou Kink", icon: "🔥", color: "#e91e63" },
+  orientation: { name: "Orientação Sexual", icon: "🌈", color: "#9c27b0" },
+  cuckold: { name: "Voyeurismo & Partilha", icon: "👀", color: "#673ab7" },
+  swing: { name: "Swing/Poliamor", icon: "💑", color: "#00bcd4" },
+  kinks: { name: "Fetiches e Kinks", icon: "⛓️", color: "#f44336" },
+  bdsm: { name: "BDSM & Dinâmicas de Poder", icon: "🎭", color: "#7B1FA2" },
+  adventure: { name: "Aventura Sexual", icon: "🎲", color: "#FF5722" },
+  fantasies: { name: "Fantasias Secretas", icon: "🔮", color: "#E91E63" },
+  exhibitionism: { name: "Exibicionismo & Admiração", icon: "📸", color: "#FFC107" }
+};
+
+function viewResult(quizId) {
+  currentViewingQuizId = quizId;
+  
+  // Get quiz config
+  const quiz = QUIZ_META[quizId] || { name: quizId, icon: "📝", color: "#666" };
+  
+  // Get saved results
+  const firestoreResults = userData?.quizResults || {};
+  const localResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+  const allResults = { ...localResults, ...firestoreResults };
+  const result = allResults[quizId];
+  
+  if (!result) {
+    alert("Não foram encontrados resultados para este questionário.");
+    return;
+  }
+  
+  // Update modal content
+  const modal = document.getElementById("resultModal");
+  
+  // Header
+  document.getElementById("resultEmoji").textContent = quiz.icon;
+  document.getElementById("resultHeader").style.background = 
+    'linear-gradient(135deg, ' + quiz.color + ' 0%, ' + adjustColor(quiz.color, -20) + ' 100%)';
+  
+  // Score
+  document.getElementById("resultScore").textContent = result.score || 0;
+  
+  // Category
+  if (result.category) {
+    document.getElementById("resultCategoryEmoji").textContent = quiz.icon;
+    document.getElementById("resultCategoryLabel").textContent = result.category;
+  } else {
+    document.getElementById("resultCategoryEmoji").textContent = "🎯";
+    document.getElementById("resultCategoryLabel").textContent = result.score + "% de Intensidade";
+  }
+  
+  // Description (generate based on score)
+  const description = generateResultDescription(quiz.name, result.score);
+  document.getElementById("resultDescription").textContent = description;
+  
+  // Breakdown
+  const breakdownHtml = buildResultBreakdown(result.categoryScores || {});
+  document.getElementById("resultBreakdown").innerHTML = breakdownHtml;
+  
+  // Show modal
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function generateResultDescription(quizName, score) {
+  if (score >= 80) {
+    return "Tens um nível muito elevado nesta área! Os teus resultados mostram um grande interesse e abertura.";
+  } else if (score >= 60) {
+    return "Tens uma curiosidade saudável e estás aberto/a a explorar esta área com moderação.";
+  } else if (score >= 40) {
+    return "Tens um interesse moderado nesta área. Podes explorar mais ao teu ritmo.";
+  } else if (score >= 20) {
+    return "Esta área não é particularmente do teu interesse, mas manténs a mente aberta.";
+  } else {
+    return "Esta área não parece ser do teu interesse no momento. E está tudo bem assim!";
+  }
+}
+
+function buildResultBreakdown(categoryScores) {
+  const entries = Object.entries(categoryScores);
+  if (entries.length === 0) return "<p style='text-align: center; color: #888;'>Sem dados de categorias disponíveis.</p>";
+  
+  // Sort by score descending
+  entries.sort((a, b) => b[1] - a[1]);
+  const top5 = entries.slice(0, 5);
+  
+  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Top Categorias:</p>';
+  
+  top5.forEach(([category, score]) => {
+    const label = formatCategoryLabel(category);
+    html += '<div class="result-breakdown-item">';
+    html += '  <span class="result-breakdown-label">' + label + '</span>';
+    html += '  <div class="result-breakdown-bar"><div class="result-breakdown-fill" style="width: ' + score + '%"></div></div>';
+    html += '  <span class="result-breakdown-value">' + score + '%</span>';
+    html += '</div>';
+  });
+  
+  return html;
+}
+
+function formatCategoryLabel(category) {
+  return category.split("_").map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(" ");
+}
+
+function adjustColor(color, amount) {
+  const hex = color.replace('#', '');
+  const r = Math.max(0, Math.min(255, parseInt(hex.substring(0, 2), 16) + amount));
+  const g = Math.max(0, Math.min(255, parseInt(hex.substring(2, 4), 16) + amount));
+  const b = Math.max(0, Math.min(255, parseInt(hex.substring(4, 6), 16) + amount));
+  return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
+function closeResultModal() {
+  const modal = document.getElementById("resultModal");
+  if (modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+}
+
+function shareResult() {
+  if (!currentViewingQuizId) return;
+  
+  const quiz = QUIZ_META[currentViewingQuizId] || { name: currentViewingQuizId };
+  const firestoreResults = userData?.quizResults || {};
+  const localResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+  const allResults = { ...localResults, ...firestoreResults };
+  const result = allResults[currentViewingQuizId];
+  
+  if (!quiz || !result) return;
+  
+  const text = 'Fiz o questionário "' + quiz.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '%') + '\n\nDescobre o teu também em quest4you.com';
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Quest4You - ' + quiz.name,
+      text: text,
+      url: window.location.origin
+    });
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Resultado copiado para a área de transferência!");
+    });
+  }
+}
+
+function retakeQuiz() {
+  if (!currentViewingQuizId) return;
+  
+  if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
+    // Clear saved data
+    localStorage.removeItem('q4y_quiz_' + currentViewingQuizId);
+    
+    // Remove from local results
+    const savedResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
+    delete savedResults[currentViewingQuizId];
+    localStorage.setItem('q4y_results', JSON.stringify(savedResults));
+    
+    // Close modal and go to quiz
+    closeResultModal();
+    window.location.href = './quiz.html?id=' + currentViewingQuizId;
+  }
+}
+
+// ================================
 // EXPORTS
 // ================================
 window.editProfile = editProfile;
@@ -462,3 +639,7 @@ window.closeEditModal = closeEditModal;
 window.saveProfile = saveProfile;
 window.deleteAllData = deleteAllData;
 window.deleteAccount = deleteAccount;
+window.viewResult = viewResult;
+window.closeResultModal = closeResultModal;
+window.shareResult = shareResult;
+window.retakeQuiz = retakeQuiz;

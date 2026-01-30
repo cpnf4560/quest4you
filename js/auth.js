@@ -15,14 +15,49 @@ document.addEventListener("DOMContentLoaded", function() {
       switchTab(tabName);
     });
   });
-
-  // Check if user is already logged in
+  
+  // Handle redirect result (for mobile or when popup is blocked)
   if (typeof auth !== "undefined") {
+    // Check for pending redirect result first
+    auth.getRedirectResult().then(function(result) {
+      if (result && result.user) {
+        console.log("🔐 Redirect login successful:", result.user.email);
+        sessionStorage.removeItem('pendingRedirect');
+        sessionStorage.removeItem('authAction');
+        
+        if (result.additionalUserInfo?.isNewUser) {
+          createUserProfile(result.user);
+        }
+        
+        showMessage("Login efetuado! A redirecionar...", "success");
+        setTimeout(() => {
+          window.location.href = getRedirectUrl();
+        }, 1500);
+      }
+    }).catch(function(error) {
+      console.error("Redirect error:", error);
+      sessionStorage.removeItem('pendingRedirect');
+      sessionStorage.removeItem('authAction');
+      if (error.code) {
+        handleAuthError(error);
+      }
+    });
+
+    // Check if user is already logged in
     auth.onAuthStateChanged(function(user) {
+      console.log("🔐 Auth state changed:", user ? user.email : "No user");
       if (user) {
         // User is logged in, redirect to home or profile
-        const redirectUrl = getRedirectUrl();
-        window.location.href = redirectUrl;
+        // Only redirect if we're on the auth page and not in the middle of an auth action
+        const isAuthAction = sessionStorage.getItem('authAction');
+        const pendingRedirect = sessionStorage.getItem('pendingRedirect');
+        if (!isAuthAction && !pendingRedirect) {
+          console.log("🔄 Redirecting logged-in user...");
+          const redirectUrl = getRedirectUrl();
+          window.location.href = redirectUrl;
+        } else {
+          console.log("⏳ Auth action in progress, skipping redirect");
+        }
       }
     });
   }
@@ -90,10 +125,31 @@ async function loginWithGoogle() {
   try {
     setLoading(true);
     hideMessage();
+    
+    // Mark that we're in the middle of an auth action
+    sessionStorage.setItem('authAction', 'google');
+    console.log("🔐 Starting Google login...");
 
-    const result = await auth.signInWithPopup(googleProvider);
+    // Try popup first, fall back to redirect if blocked
+    let result;
+    try {
+      result = await auth.signInWithPopup(googleProvider);
+    } catch (popupError) {
+      // If popup is blocked or closed, try redirect method
+      if (popupError.code === 'auth/popup-blocked' || 
+          popupError.code === 'auth/popup-closed-by-user' ||
+          popupError.code === 'auth/cancelled-popup-request') {
+        console.log("📱 Popup blocked/closed, using redirect...");
+        showMessage("A redirecionar para o Google...", "info");
+        // Store redirect info before navigating away
+        sessionStorage.setItem('pendingRedirect', 'true');
+        await auth.signInWithRedirect(googleProvider);
+        return; // The page will redirect
+      }
+      throw popupError; // Re-throw other errors
+    }
+    
     const user = result.user;
-
     console.log("Google login successful:", user.email);
 
     // Check if new user, create profile
@@ -104,13 +160,16 @@ async function loginWithGoogle() {
       showMessage("Login efetuado! A redirecionar...", "success");
     }
 
+    // Clear auth action flag before redirect
+    sessionStorage.removeItem('authAction');
+
     // Redirect after short delay
     setTimeout(() => {
       window.location.href = getRedirectUrl();
     }, 1500);
-
   } catch (error) {
     console.error("Google login error:", error);
+    sessionStorage.removeItem('authAction');
     handleAuthError(error);
   } finally {
     setLoading(false);
