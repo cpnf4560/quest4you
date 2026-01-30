@@ -88,6 +88,80 @@ body {
 }
 
 /* ================================
+   EXPERIMENTAL VERSION BANNER
+   ================================ */
+.experimental-banner {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+  position: relative;
+  z-index: 101;
+  animation: slideDown 0.5s ease-out;
+}
+
+.experimental-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.experimental-icon {
+  font-size: 1.4rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.experimental-text {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.experimental-text strong {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@media (max-width: 768px) {
+  .experimental-banner {
+    padding: 10px 15px;
+  }
+  
+  .experimental-text {
+    font-size: 0.85rem;
+  }
+  
+  .experimental-icon {
+    font-size: 1.2rem;
+  }
+}
+
+/* ================================
    HEADER
    ================================ */
 .header {
