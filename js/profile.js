@@ -162,11 +162,21 @@ function loadResults() {
   
   // Get local results
   const localResults = JSON.parse(localStorage.getItem("q4y_results") || "{}");
-  
-  // Merge results (prefer Firestore)
+    // Merge results (prefer Firestore)
   const allResults = { ...localResults, ...firestoreResults };
   
-  const resultIds = Object.keys(allResults);
+  // Filter out invalid keys (like user IDs that got saved incorrectly)
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const resultIds = Object.keys(allResults).filter(key => {
+    // Only keep valid quiz IDs
+    if (validQuizIds.includes(key)) return true;
+    // Filter out keys that look like Firebase UIDs (20+ alphanumeric chars)
+    if (key.length > 15 && /^[a-zA-Z0-9]+$/.test(key)) {
+      console.warn("Ignoring invalid quiz ID (looks like UID):", key);
+      return false;
+    }
+    return true;
+  });
   
   if (resultIds.length === 0) {
     emptyState.style.display = "block";

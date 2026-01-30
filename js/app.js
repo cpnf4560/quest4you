@@ -212,11 +212,22 @@ function updateUIForGuest() {
 async function loadUserProgress() {
   if (!currentUser) return;
   
+  // Valid quiz IDs
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  
   // First, load from localStorage as fallback
   const localResults = JSON.parse(localStorage.getItem('q4y_results') || '{}');
   
   // Convert local results to progress format
   for (const [quizId, result] of Object.entries(localResults)) {
+    // Skip invalid keys (like Firebase UIDs saved incorrectly)
+    if (!validQuizIds.includes(quizId)) {
+      if (quizId.length > 15 && /^[a-zA-Z0-9]+$/.test(quizId)) {
+        console.warn("Ignoring invalid quiz ID in localStorage:", quizId);
+        continue;
+      }
+    }
+    
     if (result && result.score !== undefined) {
       // Quiz was completed locally
       const quizConfig = QUIZZES_CONFIG.find(q => q.id === quizId);
@@ -226,16 +237,28 @@ async function loadUserProgress() {
       }
     }
   }
-  
-  // Then try to load from Firestore
+    // Then try to load from Firestore
   if (typeof db !== "undefined") {
     try {
       const doc = await db.collection("quest4you_users").doc(currentUser.uid).get();
       if (doc.exists) {
         const data = doc.data();
+        
+        // Filter cloud results to remove invalid keys
+        const cloudResults = data.quizResults || data.results || {};
+        const filteredCloudResults = {};
+        for (const [key, value] of Object.entries(cloudResults)) {
+          // Skip keys that look like Firebase UIDs
+          if (key.length > 15 && /^[a-zA-Z0-9]+$/.test(key) && !validQuizIds.includes(key)) {
+            console.warn("Ignoring invalid quiz ID from cloud:", key);
+            continue;
+          }
+          filteredCloudResults[key] = value;
+        }
+        
         // Merge cloud progress with local (cloud takes priority)
         userProgress = { ...userProgress, ...(data.progress || {}) };
-        userResults = { ...userResults, ...(data.quizResults || data.results || {}) };
+        userResults = { ...userResults, ...filteredCloudResults };
       }
     } catch (error) {
       console.error("Error loading progress from cloud:", error);
