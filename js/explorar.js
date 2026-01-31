@@ -643,20 +643,27 @@ function getDisplayName() {
 
 async function checkAdminStatus(userId) {
   if (!db) {
+    console.log('❌ Firestore não disponível');
     isAdmin = false;
     return;
   }
   
   try {
     const userDoc = await db.collection('quest4you_users').doc(userId).get();
+    console.log('🔍 A verificar admin status para:', userId);
+    
     if (userDoc.exists) {
       const data = userDoc.data();
-      isAdmin = data.role === 'admin' || data.role === 'superadmin';
+      console.log('📄 Dados do utilizador:', data);
+      
+      isAdmin = data.role === 'admin' || data.role === 'superadmin' || data.isAdmin === true;
+      console.log('🛡️ É admin?', isAdmin, '| role:', data.role, '| isAdmin:', data.isAdmin);
     } else {
+      console.log('⚠️ Documento do utilizador não existe');
       isAdmin = false;
     }
   } catch (e) {
-    console.log('Error checking admin status:', e);
+    console.error('❌ Erro ao verificar admin status:', e);
     isAdmin = false;
   }
 }
@@ -666,9 +673,23 @@ function updateAdminUI() {
   const adminEditHeader = document.getElementById('adminEditHeader');
   const articlesSection = document.getElementById('artigosTab');
   
+  console.log('🎨 A atualizar UI admin. isAdmin =', isAdmin);
+  console.log('📍 Elementos encontrados:', {
+    adminControls: !!adminControls,
+    adminEditHeader: !!adminEditHeader,
+    articlesSection: !!articlesSection
+  });
+  
   if (isAdmin) {
-    if (adminControls) adminControls.classList.add('visible');
-    if (articlesSection) articlesSection.classList.add('admin-mode');
+    console.log('✅ Modo admin ATIVADO');
+    if (adminControls) {
+      adminControls.classList.add('visible');
+      console.log('✅ Admin controls agora visível');
+    }
+    if (articlesSection) {
+      articlesSection.classList.add('admin-mode');
+      console.log('✅ Articles section em modo admin');
+    }
   } else {
     if (adminControls) adminControls.classList.remove('visible');
     if (adminEditHeader) adminEditHeader.classList.remove('visible');
