@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quest4You - Verificar Status Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 700px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
+    
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1rem;
+    }
+    
+    .info-box {
+      background: #f0f0f0;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+    
+    .info-box p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+    
+    .info-box strong {
+      color: #333;
+      display: inline-block;
+      min-width: 150px;
+    }
+    
+    .status-ok {
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    
+    .status-error {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    
+    .status-warning {
+      background: #fff3cd;
+      color: #856404;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Verificar Status Admin</h1>
+    <p class="subtitle">Ferramenta de diagnóstico para verificar se o utilizador é admin</p>
+    
+    <div id="loading" class="loading">
+      <p>⏳ A carregar...</p>
+    </div>
+    
+    <div id="content" style="display: none;">
+      <div class="info-box" id="userInfo"></div>
+      <div id="statusMessage"></div>
+      
+      <button onclick="location.href='../pages/explorar.html'">
+        🌟 Ir para Explorar
+      </button>
+      <button onclick="location.href='make-admin.html'">
+        👑 Tornar Admin
+      </button>
+      <button onclick="location.reload()">
+        🔄 Recarregar
+      </button>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA8-Oe449em8Tgo3Q-MJ87CHQdeIqr4tLk",
+      authDomain: "quest4couple.firebaseapp.com",
+      projectId: "quest4couple",
+      storageBucket: "quest4couple.firebasestorage.app",
+      messagingSenderId: "27375862534",
+      appId: "1:27375862534:web:40039fa60931212e701487",
+      measurementId: "G-VK4Z2F1693"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Elements
+    const loading = document.getElementById('loading');
+    const content = document.getElementById('content');
+    const userInfo = document.getElementById('userInfo');
+    const statusMessage = document.getElementById('statusMessage');
+
+    // Auth state observer
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        await checkUserStatus(user);
+      } else {
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        userInfo.innerHTML = '<p><strong>Status:</strong> ❌ Não autenticado</p>';
+        statusMessage.innerHTML = `
+          <div class="status-warning">
+            ⚠️ Não estás autenticado.<br>
+            Faz login na aplicação Quest4You primeiro.
+          </div>
+        `;
+      }
+    });
+
+    async function checkUserStatus(user) {
+      try {
+        // Get user document
+        const userDoc = await db.collection('quest4you_users').doc(user.uid).get();
+        
+        let html = `
+          <p><strong>Email:</strong> ${user.email}</p>
+          <p><strong>UID:</strong> ${user.uid}</p>
+          <p><strong>Nome:</strong> ${user.displayName || 'Não definido'}</p>
+        `;
+        
+        if (userDoc.exists) {
+          const data = userDoc.data();
+          
+          html += `
+            <p><strong>Perfil Firestore:</strong> ✅ Existe</p>
+            <p><strong>Campo 'role':</strong> ${data.role || 'Não definido'}</p>
+            <p><strong>Campo 'isAdmin':</strong> ${data.isAdmin || 'false'}</p>
+            <p><strong>Nickname:</strong> ${data.nickname || 'Não definido'}</p>
+          `;
+          
+          // Check admin status
+          const isAdmin = data.role === 'admin' || data.role === 'superadmin' || data.isAdmin === true;
+          
+          if (isAdmin) {
+            statusMessage.innerHTML = `
+              <div class="status-ok">
+                ✅ <strong>És ADMIN!</strong><br>
+                Os controlos de admin devem estar visíveis na página Explorar.<br><br>
+                Se não estão visíveis:<br>
+                1. Vai à página Explorar<br>
+                2. Abre o Console (F12)<br>
+                3. Procura por logs com 🛡️ ou 🎨<br>
+                4. Verifica se há erros
+              </div>
+            `;
+          } else {
+            statusMessage.innerHTML = `
+              <div class="status-error">
+                ❌ <strong>NÃO és admin</strong><br>
+                O campo 'role' não está definido como 'admin' ou 'superadmin'.<br>
+                O campo 'isAdmin' não está definido como true.<br><br>
+                <strong>Para corrigir:</strong><br>
+                Clica no botão "👑 Tornar Admin" acima.
+              </div>
+            `;
+          }
+        } else {
+          html += `<p><strong>Perfil Firestore:</strong> ❌ Não existe</p>`;
+          
+          statusMessage.innerHTML = `
+            <div class="status-error">
+              ❌ <strong>Perfil não encontrado no Firestore</strong><br>
+              Precisas fazer login na aplicação Quest4You primeiro para criar o perfil.<br><br>
+              <strong>Passos:</strong><br>
+              1. Vai para a página principal do Quest4You<br>
+              2. Faz login com esta conta<br>
+              3. Vai ao Perfil<br>
+              4. Volta aqui e recarrega
+            </div>
+          `;
+        }
+        
+        userInfo.innerHTML = html;
+        
+      } catch (error) {
+        console.error('Error:', error);
+        userInfo.innerHTML = `<p><strong>Erro:</strong> ${error.message}</p>`;
+        statusMessage.innerHTML = `
+          <div class="status-error">
+            ❌ Erro ao verificar status: ${error.message}
+          </div>
+        `;
+      }
+      
+      loading.style.display = 'none';
+      content.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
