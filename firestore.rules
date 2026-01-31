@@ -1,0 +1,153 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ================================
+    // FUNÇÕES AUXILIARES
+    // ================================
+    
+    // Verificar se o utilizador está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Verificar se o utilizador é o dono do documento
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Verificar se o utilizador é admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // ================================
+    // UTILIZADORES (users)
+    // ================================
+    match /users/{userId} {
+      // Qualquer pessoa pode ler perfis públicos
+      allow read: if true;
+      // Só o próprio utilizador pode escrever no seu perfil
+      allow write: if isOwner(userId);
+    }
+    
+    // ================================
+    // ADMINS (admins)
+    // ================================
+    match /admins/{userId} {
+      // Qualquer utilizador autenticado pode verificar se é admin
+      allow read: if isAuthenticated();
+      // Ninguém pode escrever via app (gerido manualmente no console)
+      allow write: if false;
+    }
+    
+    // ================================
+    // ARTIGOS PERSONALIZADOS (quest4you_articles)
+    // ================================
+    match /quest4you_articles/{articleId} {
+      // Qualquer pessoa pode ler artigos
+      allow read: if true;
+      // Só admins podem criar/editar/apagar artigos
+      allow write: if isAdmin();
+    }
+    
+    // ================================
+    // COMENTÁRIOS EM ARTIGOS (quest4you_comments)
+    // ================================
+    match /quest4you_comments/{commentId} {
+      // Qualquer pessoa pode ler comentários
+      allow read: if true;
+      // Utilizadores autenticados podem criar comentários
+      allow create: if isAuthenticated();
+      // Só o autor ou admin pode editar/apagar
+      allow update, delete: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ================================
+    // TÓPICOS DO FÓRUM (quest4you_topics)
+    // ================================
+    match /quest4you_topics/{topicId} {
+      // Qualquer pessoa pode ler tópicos
+      allow read: if true;
+      // Utilizadores autenticados podem criar tópicos
+      allow create: if isAuthenticated();
+      // Qualquer utilizador autenticado pode atualizar (para incrementar replyCount)
+      allow update: if isAuthenticated();
+      // Só o autor ou admin pode apagar
+      allow delete: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ================================
+    // RESPOSTAS DO FÓRUM (quest4you_replies)
+    // ================================
+    match /quest4you_replies/{replyId} {
+      // Qualquer pessoa pode ler respostas
+      allow read: if true;
+      // Utilizadores autenticados podem criar respostas
+      allow create: if isAuthenticated();
+      // Autor ou admin pode editar/apagar
+      allow update, delete: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ================================
+    // MENSAGENS DO CHAT PÚBLICO (quest4you_chat)
+    // ================================
+    match /quest4you_chat/{messageId} {
+      // Qualquer pessoa pode ler mensagens do chat
+      allow read: if true;
+      // Utilizadores autenticados podem enviar mensagens
+      allow create: if isAuthenticated();
+      // Só admin pode apagar mensagens
+      allow update, delete: if isAdmin();
+    }
+    
+    // ================================
+    // CONVERSAS PRIVADAS (quest4you_conversations)
+    // ================================
+    match /quest4you_conversations/{conversationId} {
+      // Só participantes podem ler a conversa
+      allow read: if isAuthenticated() && 
+        request.auth.uid in resource.data.participants;
+      // Utilizadores autenticados podem criar conversas
+      allow create: if isAuthenticated();
+      // Só participantes podem atualizar
+      allow update: if isAuthenticated() && 
+        request.auth.uid in resource.data.participants;
+      // Ninguém pode apagar conversas
+      allow delete: if false;
+    }
+    
+    // ================================
+    // MENSAGENS PRIVADAS (quest4you_messages)
+    // ================================
+    match /quest4you_messages/{messageId} {
+      // Utilizadores autenticados podem ler mensagens
+      allow read: if isAuthenticated();
+      // Utilizadores autenticados podem criar mensagens
+      allow create: if isAuthenticated();
+      // Ninguém pode editar/apagar mensagens privadas
+      allow update, delete: if false;
+    }
+    
+    // ================================
+    // QUIZZES (para futuras funcionalidades)
+    // ================================
+    match /quizResults/{resultId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow write: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+    
+    // ================================
+    // MATCHES (Smart Match)
+    // ================================
+    match /matches/{matchId} {
+      allow read: if isAuthenticated() && 
+        request.auth.uid in resource.data.users;
+      allow write: if isAuthenticated();
+    }
+  }
+}
