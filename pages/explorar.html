@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorar - Quest4You</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/explorar.css">
+  
+  <!-- Firebase v10 Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="../js/firebase-config.js"></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-content">
+      <a href="../index.html" class="logo">
+        <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
+        <span class="logo-text">Quest4You</span>
+      </a>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link">🏠 Início</a>
+        <a href="smart-match.html" class="nav-link">💕 Smart Match</a>
+        <a href="explorar.html" class="nav-link active">🌟 Explorar</a>
+        <a href="auth.html" id="authLink" class="nav-link btn-nav-login">🔐 Entrar</a>
+      </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- HERO -->
+    <section class="explorar-hero">
+      <div class="container">
+        <h1>🌟 Explorar</h1>
+        <p>Artigos educativos, discussões abertas e comunidade</p>
+        
+        <!-- TAB NAVIGATION -->
+        <div class="explorar-tabs">
+          <button class="tab-btn active" data-tab="artigos">📚 Artigos</button>
+          <button class="tab-btn" data-tab="forum">💬 Fórum</button>
+          <button class="tab-btn" data-tab="chat">🗨️ Chat</button>
+          <button class="tab-btn" data-tab="mensagens">💕 Mensagens</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARTIGOS TAB -->
+    <section id="artigosTab" class="tab-content active">
+      <div class="container">
+        <!-- Admin Controls (visible only for admins) -->
+        <div class="admin-controls" id="adminControls">
+          <h4>🛡️ Modo Administrador</h4>
+          <div class="admin-actions">
+            <button class="btn-admin" onclick="showCreateArticleModal()">
+              ➕ Criar Artigo
+            </button>
+          </div>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="articles-filter">
+          <button class="filter-btn active" data-category="all">Todos</button>
+          <button class="filter-btn" data-category="dinamicas">Dinâmicas</button>
+          <button class="filter-btn" data-category="brinquedos">Brinquedos</button>
+          <button class="filter-btn" data-category="dicas">Dicas</button>
+          <button class="filter-btn" data-category="viagens">Viagens</button>
+          <button class="filter-btn" data-category="saude">Saúde</button>
+          <button class="filter-btn" data-category="lifestyle">Lifestyle</button>
+        </div>
+
+        <!-- Articles Grid -->
+        <div class="articles-grid" id="articlesGrid">
+          <!-- Articles loaded dynamically -->
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>A carregar artigos...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORUM TAB -->
+    <section id="forumTab" class="tab-content">
+      <div class="container">
+        <div class="forum-header">
+          <h2>💬 Fórum da Comunidade</h2>
+          <button class="btn btn-primary" id="newTopicBtn" onclick="showNewTopicModal()">
+            ✏️ Novo Tópico
+          </button>
+        </div>
+
+        <!-- Forum Categories -->
+        <div class="forum-categories">
+          <button class="forum-cat-btn active" data-forum="geral">🌐 Geral</button>
+          <button class="forum-cat-btn" data-forum="experiencias">💭 Experiências</button>
+          <button class="forum-cat-btn" data-forum="duvidas">❓ Dúvidas</button>
+          <button class="forum-cat-btn" data-forum="sugestoes">💡 Sugestões</button>
+          <button class="forum-cat-btn" data-forum="off-topic">🎲 Off-Topic</button>
+        </div>
+
+        <!-- Topics List -->
+        <div class="forum-topics" id="forumTopics">
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>A carregar tópicos...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAT TAB -->
+    <section id="chatTab" class="tab-content">
+      <div class="container">
+        <div class="chat-container">
+          <div class="chat-sidebar">
+            <h3>🗨️ Salas de Chat</h3>
+            <div class="chat-rooms">
+              <button class="room-btn active" data-room="geral">
+                <span class="room-icon">🌐</span>
+                <span class="room-name">Sala Geral</span>
+                <span class="room-users" id="geralUsers">0</span>
+              </button>
+              <button class="room-btn" data-room="apresentacoes">
+                <span class="room-icon">👋</span>
+                <span class="room-name">Apresentações</span>
+                <span class="room-users" id="apresentacoesUsers">0</span>
+              </button>
+              <button class="room-btn" data-room="dicas">
+                <span class="room-icon">💡</span>
+                <span class="room-name">Dicas & Truques</span>
+                <span class="room-users" id="dicasUsers">0</span>
+              </button>
+              <button class="room-btn" data-room="encontros">
+                <span class="room-icon">💕</span>
+                <span class="room-name">Encontros</span>
+                <span class="room-users" id="encontrosUsers">0</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="chat-main">
+            <div class="chat-header">
+              <h3 id="currentRoomName">🌐 Sala Geral</h3>
+              <span class="chat-online" id="chatOnlineCount">0 online</span>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-welcome">
+                <p>👋 Bem-vindo ao chat! Sê respeitoso e diverte-te.</p>
+              </div>
+            </div>
+
+            <div class="chat-input-container" id="chatInputContainer">
+              <div class="chat-login-required" id="chatLoginRequired">
+                <p>🔐 <a href="auth.html">Faz login</a> para participar no chat</p>
+              </div>
+              <div class="chat-input-wrapper" id="chatInputWrapper" style="display: none;">
+                <input type="text" id="chatInput" placeholder="Escreve uma mensagem..." maxlength="500">
+                <button class="btn btn-primary" id="sendMessageBtn" onclick="sendChatMessage()">
+                  Enviar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENSAGENS PRIVADAS TAB -->
+    <section id="mensagensTab" class="tab-content">
+      <div class="container">
+        <div class="messages-container">
+          <div class="messages-sidebar">
+            <h3>💕 Conversas</h3>
+            <div class="conversations-list" id="conversationsList">
+              <div class="no-conversations" id="noConversations">
+                <p>Ainda não tens conversas.</p>
+                <p>Usa o <a href="smart-match.html">Smart Match</a> para encontrar pessoas compatíveis!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="messages-main" id="messagesMain">
+            <div class="messages-empty">
+              <div class="empty-icon">💬</div>
+              <h3>Seleciona uma conversa</h3>
+              <p>Escolhe uma conversa na barra lateral para começar a enviar mensagens.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login Required for Messages -->
+        <div class="messages-login-required" id="messagesLoginRequired" style="display: none;">
+          <div class="login-prompt">
+            <span class="login-icon">🔐</span>
+            <h3>Faz login para ver as tuas mensagens</h3>
+            <p>As mensagens privadas estão disponíveis apenas para utilizadores registados.</p>
+            <a href="auth.html" class="btn btn-primary">Entrar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- NEW TOPIC MODAL -->
+  <div class="modal" id="newTopicModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>✏️ Novo Tópico</h2>
+        <button class="modal-close" onclick="closeNewTopicModal()">&times;</button>
+      </div>
+      <form id="newTopicForm" onsubmit="createTopic(event)">
+        <div class="form-group">
+          <label for="topicCategory">Categoria</label>
+          <select id="topicCategory" required>
+            <option value="geral">🌐 Geral</option>
+            <option value="experiencias">💭 Experiências</option>
+            <option value="duvidas">❓ Dúvidas</option>
+            <option value="sugestoes">💡 Sugestões</option>
+            <option value="off-topic">🎲 Off-Topic</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="topicTitle">Título</label>
+          <input type="text" id="topicTitle" placeholder="Escreve um título descritivo..." maxlength="100" required>
+        </div>
+        <div class="form-group">
+          <label for="topicContent">Conteúdo</label>
+          <textarea id="topicContent" rows="6" placeholder="Escreve o teu tópico..." maxlength="5000" required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeNewTopicModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ARTICLE MODAL -->
+  <div class="modal" id="articleModal">
+    <div class="modal-content modal-large">
+      <div class="modal-header" id="articleModalHeader">
+        <h2 id="articleModalTitle">Título do Artigo</h2>
+        <button class="modal-close" onclick="closeArticleModal()">&times;</button>
+      </div>
+      
+      <!-- Admin Edit Header -->
+      <div class="admin-edit-header" id="adminEditHeader">
+        <span>🛡️ Modo Admin</span>
+        <button class="btn-admin" onclick="toggleEditMode()">✏️ Editar</button>
+        <button class="btn-admin delete" onclick="confirmDeleteArticle()">🗑️ Eliminar</button>
+      </div>
+      
+      <!-- Edit Form (hidden by default) -->
+      <div class="article-edit-form" id="articleEditForm">
+        <div class="form-group">
+          <label for="editTitle">Título</label>
+          <input type="text" id="editTitle" maxlength="100">
+        </div>
+        <div class="form-group">
+          <label for="editCategory">Categoria</label>
+          <select id="editCategory">
+            <option value="dinamicas">👀 Dinâmicas</option>
+            <option value="brinquedos">🎲 Brinquedos</option>
+            <option value="dicas">💡 Dicas</option>
+            <option value="viagens">✈️ Viagens</option>
+            <option value="saude">🩺 Saúde</option>
+            <option value="lifestyle">🏖️ Lifestyle</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editExcerpt">Resumo</label>
+          <input type="text" id="editExcerpt" maxlength="200">
+        </div>
+        <div class="form-group">
+          <label for="editIcon">Ícone (emoji)</label>
+          <input type="text" id="editIcon" maxlength="5" style="width: 80px;">
+        </div>
+        <div class="form-group">
+          <label for="editReadTime">Tempo de leitura (minutos)</label>
+          <input type="number" id="editReadTime" min="1" max="60" style="width: 100px;">
+        </div>
+        <div class="form-group">
+          <label for="editContent">Conteúdo (HTML)</label>
+          <textarea id="editContent" placeholder="Use tags HTML como <h3>, <h4>, <p>, <ul>, <li>..."></textarea>
+          <span class="help-text">Usa HTML: &lt;h3&gt;, &lt;h4&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, etc.</span>
+        </div>
+        <div class="article-edit-actions">
+          <button class="btn btn-secondary" onclick="cancelEdit()">Cancelar</button>
+          <button class="btn btn-primary" onclick="saveArticleEdit()">💾 Guardar</button>
+        </div>
+      </div>
+      
+      <div class="modal-body" id="articleModalBody">
+        <!-- Article content loaded dynamically -->
+      </div>
+      <div class="article-comments" id="articleComments">
+        <h3>💬 Comentários</h3>
+        <div class="comments-list" id="commentsList"></div>
+        <div class="comment-form" id="commentForm">
+          <textarea id="commentText" placeholder="Escreve um comentário..." maxlength="1000"></textarea>
+          <button class="btn btn-primary" onclick="submitComment()">Comentar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATE ARTICLE MODAL -->
+  <div class="modal" id="createArticleModal">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2>➕ Criar Novo Artigo</h2>
+        <button class="modal-close" onclick="closeCreateArticleModal()">&times;</button>
+      </div>
+      <form id="createArticleForm" onsubmit="createArticle(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="newTitle">Título *</label>
+            <input type="text" id="newTitle" maxlength="100" required>
+          </div>
+          <div class="form-group">
+            <label for="newCategory">Categoria *</label>
+            <select id="newCategory" required>
+              <option value="dinamicas">👀 Dinâmicas</option>
+              <option value="brinquedos">🎲 Brinquedos</option>
+              <option value="dicas">💡 Dicas</option>
+              <option value="viagens">✈️ Viagens</option>
+              <option value="saude">🩺 Saúde</option>
+              <option value="lifestyle">🏖️ Lifestyle</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="newExcerpt">Resumo *</label>
+            <input type="text" id="newExcerpt" maxlength="200" placeholder="Breve descrição do artigo..." required>
+          </div>
+          <div class="form-group" style="display: flex; gap: 1rem;">
+            <div style="flex: 0 0 120px;">
+              <label for="newIcon">Ícone (emoji)</label>
+              <input type="text" id="newIcon" value="📖" maxlength="5">
+            </div>
+            <div style="flex: 0 0 120px;">
+              <label for="newReadTime">Tempo leitura</label>
+              <input type="number" id="newReadTime" value="5" min="1" max="60">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="newContent">Conteúdo (HTML) *</label>
+            <textarea id="newContent" placeholder="<h3>Título da Secção</h3>&#10;<p>Parágrafo de texto...</p>&#10;<ul>&#10;  <li>Item 1</li>&#10;  <li>Item 2</li>&#10;</ul>" required></textarea>
+            <span class="help-text">Usa HTML: &lt;h3&gt;Título&lt;/h3&gt;, &lt;p&gt;Texto&lt;/p&gt;, &lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;, &lt;strong&gt;Bold&lt;/strong&gt;</span>
+          </div>
+        </div>
+        <div class="form-actions" style="padding: 1rem 1.5rem; background: #f8f9fa; border-top: 1px solid #e0e0e0;">
+          <button type="button" class="btn btn-secondary" onclick="closeCreateArticleModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">✨ Criar Artigo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRMATION -->
+  <div class="delete-confirm-overlay" id="deleteConfirmOverlay" onclick="cancelDelete()"></div>
+  <div class="delete-confirm" id="deleteConfirm">
+    <h3>🗑️ Eliminar Artigo?</h3>
+    <p>Tens a certeza que queres eliminar este artigo? Esta ação não pode ser revertida.</p>
+    <div class="delete-confirm-actions">
+      <button class="btn btn-secondary" onclick="cancelDelete()">Cancelar</button>
+      <button class="btn btn-danger" onclick="deleteArticle()" style="background: #ff6b6b;">Eliminar</button>
+    </div>
+  </div>
+
+  <!-- TOPIC MODAL -->
+  <div class="modal" id="topicModal">
+    <div class="modal-content modal-large">
+      <div class="modal-header" id="topicModalHeader">
+        <h2 id="topicModalTitle">Título do Tópico</h2>
+        <button class="modal-close" onclick="closeTopicModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="topicModalBody">
+        <!-- Topic content loaded dynamically -->
+      </div>
+      <div class="topic-replies" id="topicReplies">
+        <h3>💬 Respostas</h3>
+        <div class="replies-list" id="repliesList"></div>
+        <div class="reply-form" id="replyForm">
+          <textarea id="replyText" placeholder="Escreve uma resposta..." maxlength="2000"></textarea>
+          <button class="btn btn-primary" onclick="submitReply()">Responder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="../assets/quest4you_transp.png" alt="Quest4You" class="footer-logo">
+        <span>Quest4You</span>
+      </div>
+      <div class="footer-links">
+        <a href="privacidade.html">Privacidade</a>
+        <a href="termos.html">Termos</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2025 Quest4You. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/explorar.js"></script>
+</body>
+</html>
