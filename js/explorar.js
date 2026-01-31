@@ -882,10 +882,10 @@ async function loadComments(articleId) {
   list.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
   
   try {
+    // Sem orderBy para evitar índices compostos - ordenar no cliente
     const snapshot = await db.collection(COLLECTION_COMMENTS)
       .where('articleId', '==', articleId)
-      .orderBy('createdAt', 'desc')
-      .limit(50)
+      .limit(100)
       .get();
     
     if (snapshot.empty) {
@@ -893,9 +893,19 @@ async function loadComments(articleId) {
       return;
     }
     
-    list.innerHTML = snapshot.docs.map(doc => {
-      const data = doc.data();
-      const date = data.createdAt?.toDate() || new Date();
+    // Ordenar no cliente por createdAt (mais recente primeiro)
+    const comments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    comments.sort((a, b) => {
+      const dateA = a.createdAt?.toDate?.() || new Date(0);
+      const dateB = b.createdAt?.toDate?.() || new Date(0);
+      return dateB - dateA;
+    });
+    
+    // Limitar a 50 comentários
+    const limitedComments = comments.slice(0, 50);
+    
+    list.innerHTML = limitedComments.map(data => {
+      const date = data.createdAt?.toDate?.() || new Date();
       return `
         <div class="comment">
           <div class="comment-avatar">${data.userEmoji || '👤'}</div>
@@ -958,20 +968,29 @@ async function loadTopics() {
   container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>A carregar tópicos...</p></div>';
   
   try {
-    let query = db.collection(COLLECTION_TOPICS)
-      .orderBy('lastActivity', 'desc')
-      .limit(50);
-    
-    if (currentForumCategory !== 'geral') {
-      query = db.collection(COLLECTION_TOPICS)
-        .where('category', '==', currentForumCategory)
-        .orderBy('lastActivity', 'desc')
-        .limit(50);
-    }
+    // Buscar todos os tópicos e filtrar/ordenar no cliente para evitar índices compostos
+    let query = db.collection(COLLECTION_TOPICS).limit(200);
     
     const snapshot = await query.get();
     
-    if (snapshot.empty) {
+    // Filtrar por categoria no cliente
+    let topics = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    if (currentForumCategory !== 'geral') {
+      topics = topics.filter(t => t.category === currentForumCategory);
+    }
+    
+    // Ordenar por lastActivity (mais recente primeiro)
+    topics.sort((a, b) => {
+      const dateA = a.lastActivity?.toDate?.() || new Date(0);
+      const dateB = b.lastActivity?.toDate?.() || new Date(0);
+      return dateB - dateA;
+    });
+    
+    // Limitar a 50 resultados
+    topics = topics.slice(0, 50);
+    
+    if (topics.length === 0) {
       container.innerHTML = `
         <div class="no-topics">
           <p>Ainda não há tópicos nesta categoria.</p>
@@ -981,9 +1000,8 @@ async function loadTopics() {
       return;
     }
     
-    container.innerHTML = snapshot.docs.map(doc => {
-      const data = doc.data();
-      const date = data.lastActivity?.toDate() || new Date();
+    container.innerHTML = topics.map(data => {
+      const date = data.lastActivity?.toDate?.() || new Date();
       const categoryIcons = {
         'geral': '🌐',
         'experiencias': '💭',
@@ -993,14 +1011,14 @@ async function loadTopics() {
       };
       
       return `
-        <div class="topic-card" onclick="openTopic('${doc.id}')">
+        <div class="topic-card" onclick="openTopic('${data.id}')">
           <div class="topic-avatar">${data.userEmoji || '👤'}</div>
           <div class="topic-content">
             <div class="topic-header">
               <h3 class="topic-title">${escapeHtml(data.title)}</h3>
               <span class="topic-category-badge">${categoryIcons[data.category] || '🌐'} ${data.category}</span>
             </div>
-            <p class="topic-preview">${escapeHtml(data.content.substring(0, 150))}...</p>
+            <p class="topic-preview">${escapeHtml((data.content || '').substring(0, 150))}...</p>
             <div class="topic-meta">
               <span>👤 ${data.userName || 'Anónimo'}</span>
               <span>🕐 ${formatTime(date)}</span>
@@ -1124,9 +1142,9 @@ async function loadReplies(topicId) {
   list.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
   
   try {
+    // Buscar respostas sem orderBy para evitar índices compostos
     const snapshot = await db.collection(COLLECTION_REPLIES)
       .where('topicId', '==', topicId)
-      .orderBy('createdAt', 'asc')
       .get();
     
     if (snapshot.empty) {
@@ -1134,9 +1152,16 @@ async function loadReplies(topicId) {
       return;
     }
     
-    list.innerHTML = snapshot.docs.map(doc => {
-      const data = doc.data();
-      const date = data.createdAt?.toDate() || new Date();
+    // Ordenar no cliente por createdAt (mais antigo primeiro)
+    const replies = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    replies.sort((a, b) => {
+      const dateA = a.createdAt?.toDate?.() || new Date(0);
+      const dateB = b.createdAt?.toDate?.() || new Date(0);
+      return dateA - dateB;
+    });
+    
+    list.innerHTML = replies.map(data => {
+      const date = data.createdAt?.toDate?.() || new Date();
       return `
         <div class="reply">
           <div class="reply-avatar">${data.userEmoji || '👤'}</div>
@@ -1248,10 +1273,9 @@ function subscribeToChat(room) {
     </div>
   `;
   
-  // Subscribe to realtime updates
+  // Subscribe to realtime updates - sem orderBy para evitar índices compostos
   chatUnsubscribe = db.collection(COLLECTION_CHAT)
     .where('room', '==', room)
-    .orderBy('createdAt', 'desc')
     .limit(100)
     .onSnapshot(snapshot => {
       const messages = [];
@@ -1259,12 +1283,24 @@ function subscribeToChat(room) {
         messages.push({ id: doc.id, ...doc.data() });
       });
       
-      // Reverse to show oldest first
-      messages.reverse();
+      // Ordenar no cliente por createdAt (mais antigo primeiro para exibir em ordem)
+      messages.sort((a, b) => {
+        const dateA = a.createdAt?.toDate?.() || new Date(0);
+        const dateB = b.createdAt?.toDate?.() || new Date(0);
+        return dateA - dateB;
+      });
       
-      renderChatMessages(messages);
+      // Mostrar apenas as últimas 100 mensagens
+      const recentMessages = messages.slice(-100);
+      
+      renderChatMessages(recentMessages);
     }, error => {
       console.error('Chat subscription error:', error);
+      messagesContainer.innerHTML = `
+        <div class="chat-welcome">
+          <p>⚠️ Erro ao carregar mensagens. Tenta recarregar a página.</p>
+        </div>
+      `;
     });
 }
 
@@ -1366,7 +1402,6 @@ async function loadConversations() {
   
   conversationsUnsubscribe = db.collection(COLLECTION_CONVERSATIONS)
     .where('participants', 'array-contains', currentUser.uid)
-    .orderBy('lastMessage.createdAt', 'desc')
     .onSnapshot(snapshot => {
       if (snapshot.empty) {
         if (noConversations) noConversations.style.display = 'block';
@@ -1376,17 +1411,24 @@ async function loadConversations() {
       
       if (noConversations) noConversations.style.display = 'none';
       
-      list.innerHTML = snapshot.docs.map(doc => {
-        const data = doc.data();
+      // Ordenar no cliente por lastMessage.createdAt (mais recente primeiro)
+      const conversations = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      conversations.sort((a, b) => {
+        const dateA = a.lastMessage?.createdAt?.toDate?.() || new Date(0);
+        const dateB = b.lastMessage?.createdAt?.toDate?.() || new Date(0);
+        return dateB - dateA;
+      });
+      
+      list.innerHTML = conversations.map(data => {
         const otherUserId = data.participants.find(p => p !== currentUser.uid);
         const otherUser = data.participantInfo?.[otherUserId] || {};
         const lastMsg = data.lastMessage || {};
-        const time = lastMsg.createdAt?.toDate() || new Date();
+        const time = lastMsg.createdAt?.toDate?.() || new Date();
         const unread = data.unreadCount?.[currentUser.uid] || 0;
         
         return `
-          <div class="conversation-item ${currentConversationId === doc.id ? 'active' : ''}" 
-               onclick="openConversation('${doc.id}')">
+          <div class="conversation-item ${currentConversationId === data.id ? 'active' : ''}" 
+               onclick="openConversation('${data.id}')">
             <div class="conversation-avatar">${otherUser.emoji || '👤'}</div>
             <div class="conversation-info">
               <div class="conversation-name">${otherUser.name || 'Utilizador'}</div>
@@ -1476,18 +1518,26 @@ function subscribeToPrivateMessages(conversationId) {
   const list = document.getElementById('privateMessagesList');
   if (!list || !db) return;
   
+  // Sem orderBy para evitar índices compostos - ordenar no cliente
   messagesUnsubscribe = db.collection(COLLECTION_MESSAGES)
     .where('conversationId', '==', conversationId)
-    .orderBy('createdAt', 'asc')
     .onSnapshot(snapshot => {
       const messages = [];
       snapshot.forEach(doc => {
         messages.push({ id: doc.id, ...doc.data() });
       });
       
+      // Ordenar no cliente por createdAt (mais antigo primeiro)
+      messages.sort((a, b) => {
+        const dateA = a.createdAt?.toDate?.() || new Date(0);
+        const dateB = b.createdAt?.toDate?.() || new Date(0);
+        return dateA - dateB;
+      });
+      
       renderPrivateMessages(messages);
     }, error => {
       console.error('Messages subscription error:', error);
+      list.innerHTML = '<p class="error">Erro ao carregar mensagens.</p>';
     });
 }
 
