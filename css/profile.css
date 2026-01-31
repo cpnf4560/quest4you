@@ -136,15 +136,29 @@
 }
 
 .nickname-emoji-select {
-  width: 60px;
-  padding: 12px;
-  font-size: 1.5rem;
+  width: 70px;
+  padding: 12px 8px;
+  font-size: 1.8rem;
+  line-height: 1;
   border: 2px solid #eee;
   border-radius: 12px;
   background: white;
   cursor: pointer;
   text-align: center;
   transition: border-color 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath fill='%23666' d='M6 6L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 10px;
+  padding-right: 25px;
+}
+
+.nickname-emoji-select option {
+  font-size: 1.5rem;
+  padding: 8px;
 }
 
 .nickname-emoji-select:focus {
