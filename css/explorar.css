@@ -136,6 +136,35 @@
   align-items: center;
   justify-content: center;
   font-size: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.article-image.has-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.article-image.has-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.4) 100%);
+}
+
+.article-image.has-image .article-icon {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.95);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .article-body {

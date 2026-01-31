@@ -43,6 +43,7 @@ const articlesData = [
     category: "dinamicas",
     categoryLabel: "Dinâmicas",
     icon: "👀",
+    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&h=400&fit=crop",
     readTime: 12,
     content: `
       <h3>O que são as dinâmicas de Cuckold/Cuckquean?</h3>
@@ -86,6 +87,7 @@ const articlesData = [
     category: "brinquedos",
     categoryLabel: "Brinquedos",
     icon: "🎲",
+    image: "https://images.unsplash.com/photo-1586105251261-72a756497a11?w=600&h=400&fit=crop",
     readTime: 8,
     content: `
       <h3>Porque usar brinquedos?</h3>
@@ -123,6 +125,7 @@ const articlesData = [
     category: "dicas",
     categoryLabel: "Dicas",
     icon: "📋",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop",
     readTime: 6,
     content: `
       <h3>O que são Tasklists Sexuais?</h3>
@@ -160,6 +163,7 @@ const articlesData = [
     category: "viagens",
     categoryLabel: "Viagens",
     icon: "✈️",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop",
     readTime: 10,
     content: `
       <h3>Destinos Populares</h3>
@@ -192,6 +196,7 @@ const articlesData = [
     category: "lifestyle",
     categoryLabel: "Lifestyle",
     icon: "🏖️",
+    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&h=400&fit=crop",
     readTime: 7,
     content: `
       <h3>Praias Oficiais</h3>
@@ -231,6 +236,7 @@ const articlesData = [
     category: "dicas",
     categoryLabel: "Dicas",
     icon: "💆",
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop",
     readTime: 15,
     content: `
       <h3>O que é Massagem Tântrica?</h3>
@@ -272,6 +278,7 @@ const articlesData = [
     category: "saude",
     categoryLabel: "Saúde",
     icon: "🩺",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop",
     readTime: 9,
     content: `
       <h3>O que é Anorgasmia?</h3>
@@ -315,6 +322,7 @@ const articlesData = [
     category: "lifestyle",
     categoryLabel: "Lifestyle",
     icon: "👶",
+    image: "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=600&h=400&fit=crop",
     readTime: 8,
     content: `
       <h3>O Desafio</h3>
@@ -354,6 +362,7 @@ const articlesData = [
     category: "dicas",
     categoryLabel: "Dicas",
     icon: "💬",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop",
     readTime: 7,
     content: `
       <h3>Porque é Difícil Falar?</h3>
@@ -393,6 +402,7 @@ const articlesData = [
     category: "dinamicas",
     categoryLabel: "Dinâmicas",
     icon: "⛓️",
+    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=400&fit=crop",
     readTime: 11,
     content: `
       <h3>O que é BDSM?</h3>
@@ -454,6 +464,7 @@ const articlesData = [
     category: "lifestyle",
     categoryLabel: "Lifestyle",
     icon: "💕",
+    image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=600&h=400&fit=crop",
     readTime: 10,
     content: `
       <h3>O que é Poliamor?</h3>
@@ -506,6 +517,7 @@ const articlesData = [
     category: "dinamicas",
     categoryLabel: "Dinâmicas",
     icon: "🔄",
+    image: "https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=600&h=400&fit=crop",
     readTime: 9,
     content: `
       <h3>O que é Swing?</h3>
@@ -748,10 +760,17 @@ function loadArticles() {
     return;
   }
   
-  grid.innerHTML = filtered.map(article => `
+  grid.innerHTML = filtered.map(article => {
+    const hasImage = article.image && article.image.length > 0;
+    const imageStyle = hasImage ? `background-image: url('${article.image}')` : '';
+    const imageClass = hasImage ? 'article-image has-image' : 'article-image';
+    
+    return `
     <div class="article-card" onclick="openArticle('${article.id}')">
       ${isAdmin ? `<span class="article-admin-badge">${article.isCustom ? '✏️ Custom' : '📦 Estático'}</span>` : ''}
-      <div class="article-image">${article.icon}</div>
+      <div class="${imageClass}" style="${imageStyle}">
+        ${hasImage ? `<span class="article-icon">${article.icon}</span>` : article.icon}
+      </div>
       <div class="article-body">
         <span class="article-category">${article.categoryLabel}</span>
         <h3 class="article-title">${article.title}</h3>
@@ -762,7 +781,7 @@ function loadArticles() {
         </div>
       </div>
     </div>
-  `).join('');
+  `}).join('');
   
   // Load comment counts
   loadCommentCounts();
