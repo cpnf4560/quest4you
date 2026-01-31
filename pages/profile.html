@@ -38,6 +38,7 @@
       </div>
       <div class="profile-info">
         <h1 id="profileName">Carregando...</h1>
+        <p class="profile-nickname" id="profileNickname"></p>
         <p class="profile-email" id="profileEmail"></p>
         <p class="profile-joined" id="profileJoined"></p>
       </div>
@@ -45,6 +46,43 @@
         ✏️ Editar Perfil
       </button>
     </div>
+
+    <!-- Nickname Section -->
+    <section class="nickname-section">
+      <h2 class="section-title">🎭 Nickname Público</h2>
+      <div class="nickname-card">
+        <p class="nickname-desc">Este nome será mostrado no Chat, Fórum e Mensagens. Mantém a tua privacidade!</p>
+        <div class="nickname-form">
+          <div class="nickname-input-group">
+            <select id="nicknameEmoji" class="nickname-emoji-select">
+              <option value="👤">👤</option>
+              <option value="😎">😎</option>
+              <option value="🔥">🔥</option>
+              <option value="💕">💕</option>
+              <option value="🦊">🦊</option>
+              <option value="🐺">🐺</option>
+              <option value="🦁">🦁</option>
+              <option value="🐻">🐻</option>
+              <option value="🦋">🦋</option>
+              <option value="🌹">🌹</option>
+              <option value="⭐">⭐</option>
+              <option value="🌙">🌙</option>
+              <option value="👑">👑</option>
+              <option value="💎">💎</option>
+              <option value="🎭">🎭</option>
+              <option value="🎪">🎪</option>
+              <option value="🌈">🌈</option>
+              <option value="🍀">🍀</option>
+              <option value="🔮">🔮</option>
+              <option value="🎯">🎯</option>
+            </select>
+            <input type="text" id="nicknameInput" placeholder="O teu nickname..." maxlength="20" class="nickname-input">
+          </div>
+          <button class="btn btn-primary" onclick="saveNickname()">💾 Guardar</button>
+        </div>
+        <p class="nickname-hint">💡 Máximo 20 caracteres. Evita usar o teu nome real.</p>
+      </div>
+    </section>
 
     <!-- Stats Cards -->
     <div class="stats-grid">

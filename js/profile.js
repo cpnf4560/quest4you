@@ -119,6 +119,25 @@ function updateProfileHeader() {
 function updateProfileFromFirestore() {
   if (!userData) return;
 
+  // Update nickname display
+  if (userData.nickname) {
+    const nicknameDisplay = document.getElementById("profileNickname");
+    if (nicknameDisplay) {
+      nicknameDisplay.textContent = `${userData.nicknameEmoji || '👤'} ${userData.nickname}`;
+    }
+    // Also populate the form
+    const nicknameInput = document.getElementById("nicknameInput");
+    const emojiSelect = document.getElementById("nicknameEmoji");
+    if (nicknameInput) nicknameInput.value = userData.nickname;
+    if (emojiSelect) emojiSelect.value = userData.nicknameEmoji || '👤';
+  } else {
+    const nicknameDisplay = document.getElementById("profileNickname");
+    if (nicknameDisplay) {
+      nicknameDisplay.textContent = "Ainda não definiste um nickname";
+      nicknameDisplay.style.color = '#999';
+    }
+  }
+
   // Update settings toggles
   if (userData.settings) {
     document.getElementById("settingNotifications").checked = userData.settings.notifications !== false;
@@ -134,6 +153,8 @@ async function createUserProfile() {
       email: currentUser.email,
       displayName: currentUser.displayName || "Utilizador",
       photoURL: currentUser.photoURL || null,
+      nickname: null,
+      nicknameEmoji: '👤',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
       quizResults: {},
@@ -147,6 +168,70 @@ async function createUserProfile() {
     console.log("Profile created");
   } catch (error) {
     console.error("Error creating profile:", error);
+  }
+}
+
+// ================================
+// NICKNAME
+// ================================
+async function saveNickname() {
+  if (!currentUser || !db) {
+    alert("Erro: Não estás autenticado.");
+    return;
+  }
+  
+  const nicknameInput = document.getElementById("nicknameInput");
+  const emojiSelect = document.getElementById("nicknameEmoji");
+  
+  const nickname = nicknameInput.value.trim();
+  const emoji = emojiSelect.value || '👤';
+  
+  if (!nickname) {
+    alert("Por favor, insere um nickname.");
+    return;
+  }
+  
+  if (nickname.length < 3) {
+    alert("O nickname deve ter pelo menos 3 caracteres.");
+    return;
+  }
+  
+  if (nickname.length > 20) {
+    alert("O nickname não pode ter mais de 20 caracteres.");
+    return;
+  }
+  
+  // Check for inappropriate characters
+  if (!/^[a-zA-Z0-9_\-\u00C0-\u017F ]+$/.test(nickname)) {
+    alert("O nickname só pode conter letras, números, espaços, _ e -");
+    return;
+  }
+  
+  try {
+    await db.collection("quest4you_users").doc(currentUser.uid).update({
+      nickname: nickname,
+      nicknameEmoji: emoji,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Update local data
+    if (userData) {
+      userData.nickname = nickname;
+      userData.nicknameEmoji = emoji;
+    }
+    
+    // Update display
+    const nicknameDisplay = document.getElementById("profileNickname");
+    if (nicknameDisplay) {
+      nicknameDisplay.textContent = `${emoji} ${nickname}`;
+      nicknameDisplay.style.color = '#e53935';
+    }
+    
+    alert("✅ Nickname guardado com sucesso!");
+    console.log("Nickname saved:", emoji, nickname);
+  } catch (error) {
+    console.error("Error saving nickname:", error);
+    alert("Erro ao guardar nickname. Tenta novamente.");
   }
 }
 

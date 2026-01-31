@@ -18,6 +18,8 @@ const COLLECTION_CONVERSATIONS = "quest4you_conversations";
 // STATE
 // ================================
 let currentUser = null;
+let currentUserNickname = null; // User's public nickname
+let currentUserEmoji = '👤'; // User's emoji avatar
 let currentTab = 'artigos';
 let currentRoom = 'geral';
 let currentForumCategory = 'geral';
@@ -580,11 +582,14 @@ function initAuth() {
   firebase.auth().onAuthStateChanged(async (user) => {
     currentUser = user;
     
-    // Check admin status
+    // Check admin status and load user profile (nickname)
     if (user) {
       await checkAdminStatus(user.uid);
+      await loadUserNickname(user.uid);
     } else {
       isAdmin = false;
+      currentUserNickname = null;
+      currentUserEmoji = '👤';
     }
     
     updateAuthUI();
@@ -604,6 +609,36 @@ function initAuth() {
     // Load articles (including custom ones)
     loadAllArticles();
   });
+}
+
+// Load user's nickname from Firestore
+async function loadUserNickname(userId) {
+  if (!db) return;
+  
+  try {
+    const userDoc = await db.collection('quest4you_users').doc(userId).get();
+    if (userDoc.exists) {
+      const data = userDoc.data();
+      currentUserNickname = data.nickname || null;
+      currentUserEmoji = data.nicknameEmoji || '👤';
+      console.log('Loaded nickname:', currentUserEmoji, currentUserNickname);
+    }
+  } catch (e) {
+    console.log('Error loading nickname:', e);
+    currentUserNickname = null;
+    currentUserEmoji = '👤';
+  }
+}
+
+// Get the display name to use (nickname > displayName > 'Anónimo')
+function getDisplayName() {
+  if (currentUserNickname) {
+    return currentUserNickname;
+  }
+  if (currentUser && currentUser.displayName) {
+    return currentUser.displayName;
+  }
+  return 'Anónimo';
 }
 
 async function checkAdminStatus(userId) {
@@ -944,8 +979,8 @@ async function submitComment() {
     await db.collection(COLLECTION_COMMENTS).add({
       articleId: currentArticleId,
       userId: currentUser.uid,
-      userName: currentUser.displayName || 'Anónimo',
-      userEmoji: '👤',
+      userName: getDisplayName(),
+      userEmoji: currentUserEmoji,
       text: text,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -1082,8 +1117,8 @@ async function createTopic(event) {
       title: title,
       content: content,
       userId: currentUser.uid,
-      userName: currentUser.displayName || 'Anónimo',
-      userEmoji: '👤',
+      userName: getDisplayName(),
+      userEmoji: currentUserEmoji,
       replyCount: 0,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastActivity: firebase.firestore.FieldValue.serverTimestamp()
@@ -1201,8 +1236,8 @@ async function submitReply() {
     await db.collection(COLLECTION_REPLIES).add({
       topicId: currentTopicId,
       userId: currentUser.uid,
-      userName: currentUser.displayName || 'Anónimo',
-      userEmoji: '👤',
+      userName: getDisplayName(),
+      userEmoji: currentUserEmoji,
       text: text,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -1358,8 +1393,8 @@ async function sendChatMessage() {
     await db.collection(COLLECTION_CHAT).add({
       room: currentRoom,
       userId: currentUser.uid,
-      userName: currentUser.displayName || 'Anónimo',
-      userEmoji: '👤',
+      userName: getDisplayName(),
+      userEmoji: currentUserEmoji,
       text: text,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -1585,7 +1620,8 @@ async function sendPrivateMessage() {
     await db.collection(COLLECTION_MESSAGES).add({
       conversationId: currentConversationId,
       senderId: currentUser.uid,
-      senderName: currentUser.displayName || 'Anónimo',
+      senderName: getDisplayName(),
+      senderEmoji: currentUserEmoji,
       text: text,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -1628,8 +1664,8 @@ async function startConversation(otherUserId, otherUserName, otherUserEmoji) {
       participants: [currentUser.uid, otherUserId],
       participantInfo: {
         [currentUser.uid]: {
-          name: currentUser.displayName || 'Anónimo',
-          emoji: '👤'
+          name: getDisplayName(),
+          emoji: currentUserEmoji
         },
         [otherUserId]: {
           name: otherUserName || 'Utilizador',

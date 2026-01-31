@@ -23,11 +23,21 @@ service cloud.firestore {
     }
     
     // ================================
-    // UTILIZADORES (users)
+    // UTILIZADORES (users) - Coleção antiga
     // ================================
     match /users/{userId} {
       // Qualquer pessoa pode ler perfis públicos
       allow read: if true;
+      // Só o próprio utilizador pode escrever no seu perfil
+      allow write: if isOwner(userId);
+    }
+    
+    // ================================
+    // UTILIZADORES (quest4you_users) - Coleção principal
+    // ================================
+    match /quest4you_users/{userId} {
+      // Utilizadores autenticados podem ler perfis (para buscar nicknames)
+      allow read: if isAuthenticated();
       // Só o próprio utilizador pode escrever no seu perfil
       allow write: if isOwner(userId);
     }
