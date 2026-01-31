@@ -691,7 +691,7 @@
 }
 
 .conversation-unread {
-  background: #e53935;
+  background: #8B4A5E;
   color: white;
   width: 20px;
   height: 20px;
@@ -1045,7 +1045,7 @@
 
 .error {
   text-align: center;
-  color: #e53935;
+  color: #8B4A5E;
   padding: 1rem;
 }
 

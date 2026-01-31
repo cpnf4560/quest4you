@@ -9,10 +9,10 @@ body {
   min-height: 100vh;
   background: 
     /* Círculos coloridos sutis */
-    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.10) 0%, transparent 40%),
-    /* Gradiente base mais equilibrado */
-    linear-gradient(135deg, #e53935 0%, #d32f2f 50%, #c2185b 100%);
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+    /* Gradiente base mais elegante */
+    linear-gradient(135deg, #8B4A5E 0%, #6B3A4E 50%, #5C4B6B 100%);
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
@@ -42,7 +42,7 @@ body {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #e53935, #ff9800, #fdd835, #4caf50);
+  background: linear-gradient(90deg, #8B4A5E, #5C4B6B, #C4A962, #5D8A66);
 }
 
 @keyframes slideUp {
@@ -79,7 +79,7 @@ body {
   margin: 0;
   font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(135deg, #e53935, #c2185b);
+  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -114,7 +114,7 @@ body {
 }
 
 .auth-tab.active {
-  color: #e53935;
+  color: #8B4A5E;
 }
 
 .auth-tab.active::after {
@@ -124,12 +124,12 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #e53935, #c2185b);
+  background: linear-gradient(90deg, #8B4A5E, #5C4B6B);
   border-radius: 3px 3px 0 0;
 }
 
 .auth-tab:hover {
-  color: #e53935;
+  color: #8B4A5E;
 }
 
 /* Forms */
@@ -188,7 +188,7 @@ body {
 }
 
 .btn-google:hover {
-  border-color: #e53935;
+  border-color: #8B4A5E;
   background: #fafafa;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -261,8 +261,8 @@ body {
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #e53935;
-  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+  border-color: #8B4A5E;
+  box-shadow: 0 0 0 3px rgba(139, 74, 94, 0.1);
 }
 
 .form-group input::placeholder {
@@ -281,7 +281,7 @@ body {
   height: 18px;
   margin-top: 2px;
   cursor: pointer;
-  accent-color: #e53935;
+  accent-color: #8B4A5E;
 }
 
 .checkbox-group label {
@@ -292,7 +292,7 @@ body {
 }
 
 .checkbox-group a {
-  color: #e53935;
+  color: #8B4A5E;
   text-decoration: none;
 }
 
@@ -304,7 +304,7 @@ body {
 .btn-submit {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, #e53935, #c2185b);
+  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
   color: white;
   border: none;
   border-radius: 12px;
@@ -359,7 +359,7 @@ body {
 }
 
 .auth-footer a {
-  color: #e53935;
+  color: #8B4A5E;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;

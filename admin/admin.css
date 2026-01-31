@@ -4,17 +4,17 @@
    ================================ */
 
 :root {
-  --admin-primary: #e53935;
-  --admin-secondary: #c2185b;
+  --admin-primary: #8B4A5E;
+  --admin-secondary: #5C4B6B;
   --admin-dark: #1a1a2e;
   --admin-darker: #16213e;
   --admin-light: #f8f9fa;
   --admin-border: #e0e0e0;
   --admin-text: #333;
   --admin-text-light: #666;
-  --admin-success: #4caf50;
-  --admin-warning: #ff9800;
-  --admin-danger: #f44336;
+  --admin-success: #5D8A66;
+  --admin-warning: #C4A962;
+  --admin-danger: #A65D73;
   --sidebar-width: 260px;
 }
 

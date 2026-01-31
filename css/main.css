@@ -4,46 +4,50 @@
    ================================ */
 
 :root {
-  /* Cores Principais do Logo */
-  --primary: #e53935;        /* Vermelho (coração/pimenta) */
-  --primary-dark: #c62828;
-  --secondary: #c2185b;      /* Rosa/Magenta (laço) */
-  --secondary-light: #e91e63;
-  --accent-yellow: #fdd835;  /* Amarelo (auréola) */
-  --accent-green: #4caf50;   /* Verde (arco-íris) */
-  --accent-rainbow: linear-gradient(90deg, #e53935, #ff9800, #fdd835, #4caf50, #2196f3, #9c27b0);
+  /* Cores Principais - Paleta Sóbria e Elegante */
+  --primary: #8B4A5E;        /* Burgundy/Rose escuro - elegante */
+  --primary-dark: #6B3A4E;
+  --primary-light: #A65D73;
+  --secondary: #5C4B6B;      /* Plum/Roxo escuro - sofisticado */
+  --secondary-light: #7B6B8B;
+  --accent-gold: #C4A962;    /* Dourado suave */
+  --accent-copper: #B87333;  /* Bronze/cobre */
+  --accent-green: #5D8A66;   /* Verde sage - mais sóbrio */
+  --accent-rainbow: linear-gradient(90deg, #8B4A5E, #5C4B6B, #C4A962, #5D8A66);
   
-  /* Quiz Colors */
-  --quiz-vanilla: #e91e63;
-  --quiz-orientation: #9c27b0;
-  --quiz-cuckold: #673ab7;
-  --quiz-swing: #00bcd4;
-  --quiz-kinks: #f44336;
+  /* Quiz Colors - tons mais suaves */
+  --quiz-vanilla: #A65D73;
+  --quiz-orientation: #7B6B8B;
+  --quiz-cuckold: #5C4B6B;
+  --quiz-swing: #4A8B8B;
+  --quiz-kinks: #8B4A5E;
   
   /* Status */
-  --success: #4caf50;
-  --warning: #ff9800;
-  --danger: #f44336;
+  --success: #5D8A66;
+  --warning: #C4A962;
+  --danger: #A65D73;
   
-  /* Neutrals */
-  --bg-light: #f5f5f5;
+  /* Neutrals - tons mais quentes */
+  --bg-light: #FAFAFA;
+  --bg-warm: #F8F6F4;
   --bg-card: #ffffff;
-  --text-primary: #212121;
-  --text-secondary: #666666;
-  --text-muted: #9e9e9e;
-  --border: #e0e0e0;
+  --text-primary: #2D2D2D;
+  --text-secondary: #5A5A5A;
+  --text-muted: #8A8A8A;
+  --border: #E8E4E0;
   
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #e53935 0%, #c2185b 100%);
-  --gradient-warm: linear-gradient(135deg, #ff9800 0%, #e53935 100%);
-  --gradient-rainbow: linear-gradient(135deg, #e53935, #ff9800, #fdd835, #4caf50);
+  /* Gradients - mais suaves */
+  --gradient-primary: linear-gradient(135deg, #8B4A5E 0%, #5C4B6B 100%);
+  --gradient-warm: linear-gradient(135deg, #C4A962 0%, #8B4A5E 100%);
+  --gradient-elegant: linear-gradient(135deg, #6B3A4E 0%, #5C4B6B 50%, #4A8B8B 100%);
+  --gradient-rainbow: linear-gradient(135deg, #8B4A5E, #5C4B6B, #C4A962, #5D8A66);
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
-  --shadow-xl: 0 20px 40px rgba(0,0,0,0.2);
-  --shadow-primary: 0 4px 15px rgba(229, 57, 53, 0.3);
+  /* Shadows - mais suaves */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+  --shadow-primary: 0 4px 20px rgba(139, 74, 94, 0.25);
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -70,14 +74,14 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   background: 
-    /* Círculos coloridos sutis */
-    radial-gradient(circle at 10% 20%, rgba(229, 57, 53, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(194, 24, 91, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 50% 5%, rgba(253, 216, 53, 0.05) 0%, transparent 30%),
-    /* Fundo base mais claro */
-    linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+    /* Padrões sutis - tons neutros quentes */
+    radial-gradient(circle at 10% 20%, rgba(139, 74, 94, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(92, 75, 107, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 50% 5%, rgba(196, 169, 98, 0.02) 0%, transparent 30%),
+    /* Fundo base mais limpo */
+    linear-gradient(180deg, #ffffff 0%, #FAFAFA 100%);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   min-height: 100vh;
   font-size: 16px;
 }
@@ -86,14 +90,13 @@ body {
    EXPERIMENTAL VERSION BANNER
    ================================ */
 .experimental-banner {
-  background: linear-gradient(135deg, #ff9800, #f57c00);
+  background: linear-gradient(135deg, #5C4B6B, #4A3D5A);
   color: white;
-  padding: 12px 20px;
+  padding: 10px 20px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(92, 75, 107, 0.2);
   position: relative;
   z-index: 101;
-  animation: slideDown 0.5s ease-out;
 }
 
 .experimental-content {
@@ -174,8 +177,9 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: var(--accent-rainbow);
+  height: 2px;
+  background: linear-gradient(90deg, #8B4A5E, #5C4B6B, #C4A962);
+  opacity: 0.7;
 }
 
 .header-content {
@@ -249,7 +253,7 @@ body {
    HERO
    ================================ */
 .hero {
-  background: linear-gradient(135deg, #e53935 0%, #d32f2f 50%, #c2185b 100%);
+  background: linear-gradient(135deg, #8B4A5E 0%, #6B3A4E 40%, #5C4B6B 100%);
   padding: var(--spacing-2xl) var(--spacing-lg);
   text-align: center;
   color: white;
@@ -266,9 +270,9 @@ body {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 2px, transparent 2px);
-  background-size: 50px 50px;
-  opacity: 0.5;
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -413,15 +417,15 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #e53935, #c2185b);
+  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
   color: white;
-  box-shadow: 0 4px 15px rgba(229, 57, 53, 0.35);
+  box-shadow: 0 4px 20px rgba(139, 74, 94, 0.3);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #f44336, #e91e63);
+  background: linear-gradient(135deg, #A65D73, #7B6B8B);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(229, 57, 53, 0.5);
+  box-shadow: 0 6px 25px rgba(139, 74, 94, 0.4);
 }
 
 .btn-primary:active {
@@ -442,37 +446,37 @@ body {
 }
 
 .btn-accent {
-  background: linear-gradient(135deg, #ff9800, #fdd835);
-  color: #212121;
-  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.35);
+  background: linear-gradient(135deg, #C4A962, #B87333);
+  color: #2D2D2D;
+  box-shadow: 0 4px 15px rgba(196, 169, 98, 0.3);
 }
 
 .btn-accent:hover {
-  background: linear-gradient(135deg, #ffb300, #ffee58);
+  background: linear-gradient(135deg, #D4B972, #C88343);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.5);
+  box-shadow: 0 6px 20px rgba(196, 169, 98, 0.4);
 }
 
 .btn-success {
-  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  background: linear-gradient(135deg, #5D8A66, #6B9A76);
   color: white;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.35);
+  box-shadow: 0 4px 15px rgba(93, 138, 102, 0.3);
 }
 
 .btn-success:hover {
-  background: linear-gradient(135deg, #66bb6a, #81c784);
+  background: linear-gradient(135deg, #6B9A76, #7BAA86);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+  box-shadow: 0 6px 20px rgba(93, 138, 102, 0.4);
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid #e53935;
-  color: #e53935;
+  border: 2px solid #8B4A5E;
+  color: #8B4A5E;
 }
 
 .btn-outline:hover {
-  background: #e53935;
+  background: #8B4A5E;
   color: white;
   transform: translateY(-2px);
 }
@@ -532,8 +536,8 @@ body {
 }
 
 .quiz-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 15px 40px rgba(229, 57, 53, 0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(139, 74, 94, 0.15);
 }
 
 .quiz-card:hover::before {
@@ -879,17 +883,17 @@ body {
 
 /* Button Glow Effect */
 .btn-glow {
-  background: linear-gradient(135deg, #e53935, #c2185b);
+  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
   color: white;
   padding: 14px 28px;
   font-weight: 700;
-  animation: glow 2s ease-in-out infinite;
+  animation: glow 3s ease-in-out infinite;
   flex-shrink: 0;
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(229, 57, 53, 0.4); }
-  50% { box-shadow: 0 0 40px rgba(229, 57, 53, 0.8), 0 0 60px rgba(194, 24, 91, 0.4); }
+  0%, 100% { box-shadow: 0 0 15px rgba(139, 74, 94, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(139, 74, 94, 0.5), 0 0 50px rgba(92, 75, 107, 0.3); }
 }
 
 .btn-glow:hover {
@@ -942,14 +946,14 @@ body {
 /* Button variants for hero welcome */
 .btn-white {
   background: white;
-  color: #e53935;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  color: #8B4A5E;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .btn-white:hover {
-  background: #f5f5f5;
+  background: #FAFAFA;
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .btn-outline-white {
@@ -1453,7 +1457,7 @@ body {
 }
 
 .result-header {
-  background: linear-gradient(135deg, #e53935, #d32f2f 50%, #c2185b);
+  background: linear-gradient(135deg, #8B4A5E, #6B3A4E 50%, #5C4B6B);
   color: white;
   padding: 2.5rem 2rem;
   text-align: center;
@@ -1504,19 +1508,19 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f5f5f5, #fff);
-  border: 6px solid #e53935;
+  background: linear-gradient(135deg, #FAFAFA, #fff);
+  border: 5px solid #8B4A5E;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(229, 57, 53, 0.25);
+  box-shadow: 0 4px 20px rgba(139, 74, 94, 0.2);
 }
 
 .result-score-value {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #e53935;
+  color: #8B4A5E;
   line-height: 1;
 }
 
@@ -1579,21 +1583,21 @@ body {
 .result-breakdown-bar {
   flex: 2;
   height: 8px;
-  background: #e0e0e0;
+  background: #E8E4E0;
   border-radius: 4px;
   overflow: hidden;
 }
 
 .result-breakdown-fill {
   height: 100%;
-  background: linear-gradient(90deg, #e53935, #ff9800, #fdd835);
+  background: linear-gradient(90deg, #8B4A5E, #5C4B6B, #C4A962);
   border-radius: 4px;
 }
 
 .result-breakdown-value {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #e53935;
+  color: #8B4A5E;
   min-width: 40px;
   text-align: right;
 }
@@ -1611,22 +1615,22 @@ body {
 }
 
 .result-actions .btn-secondary {
-  background: #f5f5f5;
-  color: #666;
+  background: #F8F6F4;
+  color: #5A5A5A;
   border: none;
 }
 
 .result-actions .btn-secondary:hover {
-  background: #eee;
+  background: #E8E4E0;
 }
 
 .result-actions .btn-outline {
   background: transparent;
-  border: 2px solid #e53935;
-  color: #e53935;
+  border: 2px solid #8B4A5E;
+  color: #8B4A5E;
 }
 
 .result-actions .btn-outline:hover {
-  background: #e53935;
+  background: #8B4A5E;
   color: white;
 }

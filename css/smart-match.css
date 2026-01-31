@@ -17,7 +17,7 @@
    ================================ */
 
 .match-hero {
-  background: linear-gradient(135deg, #e53935 0%, #d32f2f 40%, #c2185b 80%, #e65100 100%);
+  background: linear-gradient(135deg, #8B4A5E 0%, #6B3A4E 40%, #5C4B6B 80%, #4A8B8B 100%);
   padding: 3rem 1.5rem;
   text-align: center;
   position: relative;
@@ -151,8 +151,8 @@
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #e53935;
-  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+  border-color: #8B4A5E;
+  box-shadow: 0 0 0 3px rgba(139, 74, 94, 0.1);
 }
 
 .form-row {
@@ -190,8 +190,8 @@
 }
 
 .checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
-  background: linear-gradient(135deg, #e53935, #c2185b);
-  border-color: #e53935;
+  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
+  border-color: #8B4A5E;
 }
 
 .checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
@@ -262,13 +262,13 @@
 
 .filter-group input[type="range"] {
   width: 100px;
-  accent-color: #e53935;
+  accent-color: #8B4A5E;
 }
 
 .filter-group #compatLabel {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #e53935;
+  color: #8B4A5E;
   min-width: 35px;
 }
 
@@ -314,7 +314,7 @@
 .your-profile-avatar {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #e53935, #c2185b);
+  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -357,7 +357,7 @@
 
 .quiz-badge-score {
   font-weight: 600;
-  color: #e53935;
+  color: #8B4A5E;
 }
 
 /* ================================
@@ -408,7 +408,7 @@
 }
 
 .match-card-header {
-  background: linear-gradient(135deg, #e53935 0%, #c2185b 100%);
+  background: linear-gradient(135deg, #8B4A5E 0%, #5C4B6B 100%);
   padding: 1.5rem;
   display: flex;
   align-items: center;
@@ -446,7 +446,7 @@
 
 .match-compat {
   background: white;
-  color: #e53935;
+  color: #8B4A5E;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -517,7 +517,7 @@
   width: 40px;
   height: 40px;
   border: 3px solid #f0f0f0;
-  border-top-color: #e53935;
+  border-top-color: #8B4A5E;
   border-radius: 50%;
   margin: 0 auto 1rem;
   animation: spin 1s linear infinite;
@@ -591,7 +591,7 @@
 }
 
 .match-modal-header {
-  background: linear-gradient(135deg, #e53935 0%, #c2185b 100%);
+  background: linear-gradient(135deg, #8B4A5E 0%, #5C4B6B 100%);
   padding: 2.5rem 1.5rem 2rem;
   text-align: center;
 }
@@ -642,12 +642,12 @@
 .compat-value {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #e53935;
+  color: #8B4A5E;
 }
 
 .compat-label {
   font-size: 1rem;
-  color: #e53935;
+  color: #8B4A5E;
 }
 
 .compat-text {
@@ -696,7 +696,7 @@
 
 .breakdown-fill {
   height: 100%;
-  background: linear-gradient(90deg, #e53935, #fdd835, #4caf50);
+  background: linear-gradient(90deg, #8B4A5E, #C4A962, #5D8A66);
   border-radius: 3px;
   transition: width 0.5s ease;
 }
@@ -704,7 +704,7 @@
 .breakdown-match {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #e53935;
+  color: #8B4A5E;
 }
 
 .match-modal-actions {
