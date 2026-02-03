@@ -376,6 +376,10 @@ async function findMatches(userId) {
 // ================================
 // CALCULATE COMPATIBILITY
 // ================================
+
+// Quizzes where opposite scores mean better compatibility (e.g., Dom + Sub)
+const INVERSE_MATCHING_QUIZZES = ['bdsm'];
+
 function calculateCompatibility(userScores, theirScores, userResults, theirRoles) {
   let totalMatch = 0;
   let quizCount = 0;
@@ -404,8 +408,38 @@ function calculateCompatibility(userScores, theirScores, userResults, theirRoles
           // Same role - lower compatibility for inverse matching quizzes
           totalMatch += 30;
         }
+      } else if (INVERSE_MATCHING_QUIZZES.includes(quizId)) {
+        // Inverse matching for spectrum quizzes like BDSM (Dom + Sub = good match)
+        // Score 0-100: 0 = Submisso, 50 = Switch, 100 = Dominante
+        const userScore = userScores[quizId];
+        const theirScore = theirScores[quizId];
+        const scoreDiff = Math.abs(userScore - theirScore);
+        
+        // Perfect match: scores are opposite (diff = 100) or both are switch (diff = 0, both around 50)
+        // Dom (90) + Sub (10) = diff 80 = excellent match
+        // Dom (90) + Dom (90) = diff 0 = poor match (unless both switch)
+        // Switch (50) + Switch (50) = diff 0 = good match
+        
+        const bothAreSwitch = Math.abs(userScore - 50) < 15 && Math.abs(theirScore - 50) < 15;
+        
+        if (bothAreSwitch) {
+          // Both are switches - good compatibility
+          totalMatch += 85;
+        } else if (scoreDiff >= 60) {
+          // Opposite ends of spectrum - excellent match
+          totalMatch += 95;
+        } else if (scoreDiff >= 40) {
+          // Fairly different - good match
+          totalMatch += 75;
+        } else if (scoreDiff >= 20) {
+          // Somewhat similar - moderate match
+          totalMatch += 50;
+        } else {
+          // Very similar scores (both Dom or both Sub) - lower compatibility
+          totalMatch += 25;
+        }
       } else {
-        // Standard score-based matching
+        // Standard score-based matching (similar = compatible)
         const scoreDiff = Math.abs(userScores[quizId] - theirScores[quizId]);
         const matchPercent = Math.max(0, 100 - scoreDiff);
         totalMatch += matchPercent;

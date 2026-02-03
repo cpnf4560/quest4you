@@ -434,10 +434,10 @@ function calculateResults() {
   let totalScore = 0;
   let maxPossibleScore = filteredQuestions.length * 5;
   let categoryScores = {};
-
   filteredQuestions.forEach(function(question) {
     let value = answers[question.id] || 3;
-    if (question.reverse) {
+    // Support both 'invert' and 'reverse' property names
+    if (question.invert || question.reverse) {
       value = 6 - value;
     }
     totalScore += value;

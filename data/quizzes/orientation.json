@@ -1,345 +1,74 @@
 {
   "id": "orientation",
-  "name": "Orientação Sexual",
+  "name": "Espectro de Atração",
   "icon": "🌈",
-  "color": "#9c27b0",
-  "description": "Explora as tuas atrações e curiosidades sobre diferentes géneros e identidades",
+  "color": "#9C27B0",
+  "description": "Explora o teu espectro de atração sexual e orientação",
   "resultType": "spectrum",
   "minScore": 0,
   "maxScore": 100,
-  "requiresGender": true,
+  "spectrumLabels": {
+    "low": "Heterossexual",
+    "mid": "Bissexual/Fluido",
+    "high": "Homossexual"
+  },
   "categories": [
-    { "min": 0, "max": 15, "label": "Exclusivamente Heterossexual", "emoji": "⬜", "description": "A tua atração é exclusivamente direcionada ao género oposto. Não sentes curiosidade ou interesse por pessoas do mesmo género." },
-    { "min": 16, "max": 30, "label": "Predominantemente Heterossexual", "emoji": "🟨", "description": "A tua atração é maioritariamente pelo género oposto, mas ocasionalmente podes reconhecer atração pelo mesmo género." },
-    { "min": 31, "max": 45, "label": "Heteroflexível", "emoji": "🟧", "description": "Identifies principalmente como heterossexual, mas tens abertura e curiosidade para experiências com o mesmo género." },
-    { "min": 46, "max": 55, "label": "Bissexual/Pansexual", "emoji": "💜", "description": "Sentes atração por múltiplos géneros de forma relativamente equilibrada. O género não é um fator determinante." },
-    { "min": 56, "max": 70, "label": "Homoflexível", "emoji": "🟦", "description": "A tua atração é maioritariamente pelo mesmo género, mas mantens alguma abertura para o género oposto." },
-    { "min": 71, "max": 85, "label": "Predominantemente Homossexual", "emoji": "🟪", "description": "A tua atração é fortemente direcionada ao mesmo género, com pouco ou nenhum interesse pelo género oposto." },
-    { "min": 86, "max": 100, "label": "Exclusivamente Homossexual", "emoji": "🏳️‍🌈", "description": "A tua atração é exclusivamente direcionada ao mesmo género." }
+    { "min": 0, "max": 15, "label": "Heterossexual", "emoji": "⚤", "description": "A tua atração é exclusivamente por pessoas do género oposto. Tens uma orientação clara e definida." },
+    { "min": 16, "max": 35, "label": "Heteroflexível", "emoji": "↔️", "description": "Principalmente atraído/a pelo género oposto, mas com alguma abertura ou curiosidade ocasional." },
+    { "min": 36, "max": 65, "label": "Bissexual/Pansexual", "emoji": "💜", "description": "Sentes atração por múltiplos géneros. A pessoa é mais importante que o género para ti." },
+    { "min": 66, "max": 85, "label": "Homoflexível", "emoji": "↔️", "description": "Principalmente atraído/a pelo mesmo género, mas com alguma abertura ou curiosidade ocasional." },
+    { "min": 86, "max": 100, "label": "Homossexual", "emoji": "⚣⚢", "description": "A tua atração é exclusivamente por pessoas do mesmo género. Tens uma orientação clara e definida." }
   ],
   "questions": [
-    {
-      "id": "q1",
-      "text": "Sinto atração física por pessoas do género oposto ao meu.",
-      "category": "opposite_attraction",
-      "reverse": true
-    },
-    {
-      "id": "q2",
-      "text": "Sinto atração física por pessoas do mesmo género que eu.",
-      "category": "same_attraction",
-      "reverse": false
-    },
-    {
-      "id": "q3",
-      "text": "Já tive fantasias românticas com pessoas do mesmo género.",
-      "category": "same_fantasy",
-      "reverse": false
-    },
-    {
-      "id": "q4",
-      "text": "Já tive fantasias românticas com pessoas do género oposto.",
-      "category": "opposite_fantasy",
-      "reverse": true
-    },
-    {
-      "id": "q5",
-      "text": "Sinto-me confortável com a ideia de beijar alguém do mesmo género.",
-      "category": "same_comfort",
-      "reverse": false
-    },    {
-      "id": "q6",
-      "text": "Sinto atração por mulheres trans (mulheres que nasceram com corpo masculino).",
-      "category": "trans_mtf",
-      "reverse": false
-    },
-    {
-      "id": "q7",
-      "text": "Sinto atração por homens trans (homens que nasceram com corpo feminino).",
-      "category": "trans_ftm",
-      "reverse": false
-    },
-    {
-      "id": "q8",
-      "text": "A ideia de ter relações sexuais com uma pessoa trans excita-me.",
-      "category": "trans_sex",
-      "reverse": false
-    },
-    {
-      "id": "q9",
-      "text": "Sinto atração por travestis ou homens que se vestem de forma feminina.",
-      "category": "travesti",
-      "reverse": false,
-      "forGender": ["masculino"]
-    },
-    {
-      "id": "q9b",
-      "text": "Sinto atração por mulheres que se vestem de forma masculina ou drag kings.",
-      "category": "drag_king",
-      "reverse": false,
-      "forGender": ["feminino"]
-    },
-    {
-      "id": "q10",
-      "text": "Sinto atração por mulheres masculinas ou de expressão butch.",
-      "category": "butch",
-      "reverse": false,
-      "forGender": ["feminino"]
-    },
-    {
-      "id": "q10b",
-      "text": "Sinto atração por homens femininos ou de expressão delicada.",
-      "category": "feminine_men",
-      "reverse": false,
-      "forGender": ["masculino"]
-    },
-    {
-      "id": "q11",
-      "text": "Sinto curiosidade por sissies ou femboys (homens muito femininos).",
-      "category": "sissy_femboy",
-      "reverse": false,
-      "forGender": ["masculino"]
-    },
-    {
-      "id": "q11b",
-      "text": "Sinto curiosidade por mulheres muito masculinas ou tomboys.",
-      "category": "tomboy",
-      "reverse": false,
-      "forGender": ["feminino"]
-    },
-    {
-      "id": "q12",
-      "text": "Sinto atração por crossdressers (pessoas que se vestem do género oposto).",
-      "category": "crossdresser",
-      "reverse": false
-    },
-    {
-      "id": "q13",
-      "text": "O género de uma pessoa é um fator decisivo na minha atração.",
-      "category": "gender_importance",
-      "reverse": true
-    },
-    {
-      "id": "q14",
-      "text": "Já questionei a minha orientação sexual.",
-      "category": "questioning",
-      "reverse": false
-    },
-    {
-      "id": "q15",
-      "text": "Sinto-me atraído/a por pessoas não-binárias ou de género fluido.",
-      "category": "nonbinary",
-      "reverse": false
-    },
-    {
-      "id": "q16",
-      "text": "A personalidade é mais importante que o género na minha atração.",
-      "category": "personality",
-      "reverse": false
-    },
-    {
-      "id": "q17",
-      "text": "A minha orientação sexual é algo fixo e imutável.",
-      "category": "fluidity",
-      "reverse": true
-    },
-    {
-      "id": "q18",
-      "text": "A ideia de sexo com alguém do mesmo género excita-me.",
-      "category": "same_excitement",
-      "reverse": false
-    },
-    {
-      "id": "q19",
-      "text": "Identifico-me completamente como heterossexual.",
-      "category": "hetero_identity",
-      "reverse": true
-    },
-    {
-      "id": "q20",
-      "text": "Consumo conteúdo erótico/pornográfico que inclui pessoas trans.",
-      "category": "trans_media",
-      "reverse": false
-    },
-    {
-      "id": "q21",
-      "text": "A atração emocional é independente do género para mim.",
-      "category": "emotional_gender",
-      "reverse": false
-    },
-    {
-      "id": "q22",
-      "text": "A ideia de ter relações com uma pessoa andrógina (aparência ambígua) atrai-me.",
-      "category": "androgyny_sex",
-      "reverse": false
-    },
-    {
-      "id": "q23",
-      "text": "Acredito que a orientação sexual existe num espectro.",
-      "category": "spectrum_belief",
-      "reverse": false
-    },
-    {
-      "id": "q24",
-      "text": "Sinto-me confortável com a ideia de explorar a minha sexualidade com pessoas de diferentes identidades de género.",
-      "category": "gender_exploration",
-      "reverse": false
-    },
-    {
-      "id": "q25",
-      "text": "Prefiro rótulos claros para definir a minha sexualidade.",
-      "category": "labels",
-      "reverse": true
-    },
-    {
-      "id": "q26",
-      "text": "Já fantasiei com um trio que inclua pessoas de diferentes géneros ou identidades.",
-      "category": "mixed_fantasy",
-      "reverse": false
-    },
-    {
-      "id": "q27",
-      "text": "Sinto que a sociedade influencia como percebo a minha orientação.",
-      "category": "social_influence",
-      "reverse": false
-    },
-    {
-      "id": "q28",
-      "text": "Estou aberto/a a explorar a minha sexualidade com novas experiências.",
-      "category": "exploration",
-      "reverse": false
-    },
-    {
-      "id": "q29",
-      "text": "Sinto atração diferente (física vs romântica) por diferentes géneros.",
-      "category": "split_attraction",
-      "reverse": false
-    },
-    {
-      "id": "q30",
-      "text": "A minha orientação é um aspeto importante da minha identidade.",
-      "category": "identity_importance",
-      "reverse": false
-    },
-    {
-      "id": "q31",
-      "text": "Ver pornografia com travestis ou trans excita-me.",
-      "category": "trans_porn",
-      "reverse": false
-    },
-    {
-      "id": "q32",
-      "text": "A ideia de uma relação romântica com uma pessoa trans atrai-me.",
-      "category": "trans_romantic",
-      "reverse": false
-    },
-    {
-      "id": "q33",
-      "text": "Sinto curiosidade por pessoas que não se conformam aos papéis de género tradicionais.",
-      "category": "gender_nonconform",
-      "reverse": false
-    },
-    {
-      "id": "q34",
-      "text": "A genitália de uma pessoa é mais importante que a sua identidade de género para mim.",
-      "category": "genitalia_focus",
-      "reverse": true
-    },
-    {
-      "id": "q35",
-      "text": "Sinto que a minha orientação evoluiu ao longo do tempo.",
-      "category": "evolution",
-      "reverse": false
-    },
-    {
-      "id": "q36",
-      "text": "Sinto pressão social para ser heterossexual.",
-      "category": "hetero_pressure",
-      "reverse": false
-    },
-    {
-      "id": "q37",
-      "text": "A conexão emocional determina mais a minha atração que o género.",
-      "category": "demisexual",
-      "reverse": false
-    },
-    {
-      "id": "q38",
-      "text": "Sinto-me atraído/a por expressões de género andróginas.",
-      "category": "androgyny",
-      "reverse": false
-    },
-    {
-      "id": "q39",
-      "text": "Acredito que posso amar qualquer pessoa, independente do género ou identidade.",
-      "category": "pansexual",
-      "reverse": false
-    },
-    {
-      "id": "q40",
-      "text": "Já tive ou gostaria de ter uma experiência sexual com uma pessoa trans.",
-      "category": "trans_experience",
-      "reverse": false
-    },
-    {
-      "id": "q41",
-      "text": "Sinto que a minha orientação é mais fluida que fixa.",
-      "category": "fluid",
-      "reverse": false
-    },
-    {
-      "id": "q42",
-      "text": "Prefiro não colocar rótulos na minha sexualidade.",
-      "category": "label_free",
-      "reverse": false
-    },
-    {
-      "id": "q43",
-      "text": "Sinto-me genuinamente confortável com a minha orientação sexual.",
-      "category": "self_acceptance",
-      "reverse": false
-    },
-    {
-      "id": "q44",
-      "text": "A atração que sinto é diferente consoante o contexto emocional.",
-      "category": "contextual_attraction",
-      "reverse": false
-    },
-    {
-      "id": "q45",
-      "text": "Vejo a exploração sexual como uma parte natural do autoconhecimento.",
-      "category": "exploration_value",
-      "reverse": false
-    },
-    {
-      "id": "q46",
-      "text": "A ideia de sexo com alguém que se veste do género oposto ao seu excita-me.",
-      "category": "crossdress_sex",
-      "reverse": false
-    },
-    {
-      "id": "q47",
-      "text": "Sinto que a feminilidade ou masculinidade de uma pessoa é mais atraente que o seu género biológico.",
-      "category": "expression_over_bio",
-      "reverse": false
-    },
-    {
-      "id": "q48",
-      "text": "Tenho curiosidade por conhecer pessoas de comunidades trans ou travesti.",
-      "category": "trans_community",
-      "reverse": false
-    },
-    {
-      "id": "q49",
-      "text": "A ideia de roleplay de género (vestir-me ou o/a parceiro/a de forma diferente) atrai-me.",
-      "category": "gender_roleplay",
-      "reverse": false
-    },
-    {
-      "id": "q50",
-      "text": "Sinto que ainda estou a descobrir aspetos da minha orientação e atrações.",
-      "category": "discovering",
-      "reverse": false
-    }
+    {"id": 1, "text": "A minha atração é exclusivamente por pessoas do género oposto", "invert": true, "category": "attraction"},
+    {"id": 2, "text": "Já me senti atraído/a por alguém do mesmo género", "invert": false, "category": "attraction"},
+    {"id": 3, "text": "Se a pessoa certa aparecesse, o género não seria um obstáculo", "invert": false, "category": "openness"},
+    {"id": 4, "text": "A minha orientação sexual tem sido sempre clara e definida", "invert": true, "category": "identity"},
+    {"id": 5, "text": "Já questionei a minha orientação sexual em algum momento", "invert": false, "category": "identity"},
+    {"id": 6, "text": "Sinto que a minha atração pode ser fluida dependendo da pessoa", "invert": false, "category": "fluidity"},
+    {"id": 7, "text": "Só consigo imaginar-me numa relação com o género oposto", "invert": true, "category": "attraction"},
+    {"id": 8, "text": "A energia e personalidade atraem-me mais do que o género", "invert": false, "category": "fluidity"},
+    {"id": 9, "text": "Defino-me claramente como heterossexual ou homossexual", "invert": true, "category": "identity"},
+    {"id": 10, "text": "O espectro da bissexualidade faz sentido para mim", "invert": false, "category": "identity"},
+    {"id": 11, "text": "Nas minhas fantasias, as pessoas são sempre do género que me atrai habitualmente", "invert": true, "category": "fantasy"},
+    {"id": 12, "text": "Já fantasiei com alguém de um género diferente do habitual", "invert": false, "category": "fantasy"},
+    {"id": 13, "text": "Conteúdo erótico com pessoas do mesmo género desperta-me curiosidade", "invert": false, "category": "curiosity"},
+    {"id": 14, "text": "A ideia de um encontro com alguém do mesmo género excita-me", "invert": false, "category": "curiosity"},
+    {"id": 15, "text": "Nunca tive qualquer curiosidade sobre experiências homossexuais", "invert": true, "category": "curiosity"},
+    {"id": 16, "text": "Um beijo com alguém do mesmo género seria uma experiência interessante", "invert": false, "category": "experience"},
+    {"id": 17, "text": "A ideia de um threesome com pessoas de géneros diferentes atrai-me", "invert": false, "category": "fantasy"},
+    {"id": 18, "text": "As minhas fantasias são sempre estritamente heterossexuais", "invert": true, "category": "fantasy"},
+    {"id": 19, "text": "Sinto curiosidade sobre o corpo de pessoas do mesmo género", "invert": false, "category": "curiosity"},
+    {"id": 20, "text": "Dar prazer a alguém do mesmo género seria uma experiência nova interessante", "invert": false, "category": "experience"},
+    {"id": 21, "text": "Já tive algum tipo de experiência íntima com o mesmo género", "invert": false, "category": "experience"},
+    {"id": 22, "text": "Estaria aberto/a a experimentar algo com o mesmo género", "invert": false, "category": "openness"},
+    {"id": 23, "text": "Numa festa, se alguém atraente do mesmo género se aproximasse, eu exploraria", "invert": false, "category": "openness"},
+    {"id": 24, "text": "O meu círculo de possíveis parceiros está limitado a um género", "invert": true, "category": "attraction"},
+    {"id": 25, "text": "Se surgisse a oportunidade certa, experimentaria algo novo", "invert": false, "category": "openness"},
+    {"id": 26, "text": "A minha orientação sexual é algo que ainda estou a descobrir", "invert": false, "category": "identity"},
+    {"id": 27, "text": "Tenho amigos/as do mesmo género que já achei atraentes", "invert": false, "category": "attraction"},
+    {"id": 28, "text": "A ideia de namorar alguém do mesmo género não me passa pela cabeça", "invert": true, "category": "relationship"},
+    {"id": 29, "text": "Já senti uma ligação romântica ou sexual inesperada", "invert": false, "category": "experience"},
+    {"id": 30, "text": "A minha atração raramente me surpreende - sei exatamente o que gosto", "invert": true, "category": "identity"},
+    {"id": 31, "text": "Atraem-me pessoas com apresentação mais andrógina", "invert": false, "category": "presentation"},
+    {"id": 32, "text": "A masculinidade tradicional é o que mais me atrai", "invert": true, "category": "presentation"},
+    {"id": 33, "text": "A feminilidade tradicional é o que mais me atrai", "invert": true, "category": "presentation"},
+    {"id": 34, "text": "Pessoas que quebram estereótipos de género atraem-me", "invert": false, "category": "presentation"},
+    {"id": 35, "text": "A forma como alguém se apresenta é mais importante que o seu género biológico", "invert": false, "category": "presentation"},
+    {"id": 36, "text": "Atraem-me mulheres masculinas ou homens femininos", "invert": false, "category": "presentation"},
+    {"id": 37, "text": "Só me sinto atraído/a por expressões de género tradicionais", "invert": true, "category": "presentation"},
+    {"id": 38, "text": "A confiança e atitude atraem-me independentemente do género", "invert": false, "category": "fluidity"},
+    {"id": 39, "text": "Pessoas não-binárias ou de género fluido despertam-me curiosidade", "invert": false, "category": "presentation"},
+    {"id": 40, "text": "A diversidade de género e expressão é algo que aprecio", "invert": false, "category": "openness"},
+    {"id": 41, "text": "Sinto-me 100% confortável com a minha orientação sexual atual", "invert": true, "category": "identity"},
+    {"id": 42, "text": "Há partes da minha sexualidade que ainda quero explorar", "invert": false, "category": "exploration"},
+    {"id": 43, "text": "Rótulos como 'hetero', 'gay' ou 'bi' são limitadores", "invert": false, "category": "identity"},
+    {"id": 44, "text": "Sei exatamente onde me posiciono no espectro da sexualidade", "invert": true, "category": "identity"},
+    {"id": 45, "text": "A minha atração já me levou a questionar os meus próprios limites", "invert": false, "category": "exploration"},
+    {"id": 46, "text": "Identifico-me com o termo 'queer' ou 'fluido'", "invert": false, "category": "identity"},
+    {"id": 47, "text": "A minha orientação tem-se mantido sempre igual ao longo da vida", "invert": true, "category": "fluidity"},
+    {"id": 48, "text": "Acredito que a sexualidade pode evoluir e mudar", "invert": false, "category": "fluidity"},
+    {"id": 49, "text": "Já senti atração por alguém que me surpreendeu", "invert": false, "category": "experience"},
+    {"id": 50, "text": "Considero-me uma pessoa sexualmente aberta a novas descobertas", "invert": false, "category": "openness"}
   ]
 }

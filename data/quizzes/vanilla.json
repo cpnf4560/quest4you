@@ -15,305 +15,55 @@
     { "min": 81, "max": 100, "label": "Kinky Assumido", "emoji": "🔥", "description": "Abraças plenamente práticas alternativas e intensas. A exploração e a experimentação são fundamentais para ti." }
   ],
   "questions": [
-    {
-      "id": "q1",
-      "text": "Prefiro sexo espontâneo e apaixonado a sessões planeadas e elaboradas.",
-      "category": "spontaneity",
-      "reverse": true
-    },
-    {
-      "id": "q2",
-      "text": "A ideia de usar algemas ou restrições durante o sexo excita-me.",
-      "category": "bondage",
-      "reverse": false
-    },
-    {
-      "id": "q3",
-      "text": "Sinto-me confortável a falar sobre fantasias sexuais com o/a meu/minha parceiro/a.",
-      "category": "communication",
-      "reverse": false
-    },
-    {
-      "id": "q4",
-      "text": "Gosto de experimentar posições e técnicas novas regularmente.",
-      "category": "exploration",
-      "reverse": false
-    },
-    {
-      "id": "q5",
-      "text": "A dor leve (mordidas, palmadas) pode ser prazerosa durante o sexo.",
-      "category": "pain",
-      "reverse": false
-    },
-    {
-      "id": "q6",
-      "text": "Prefiro fazer sexo com as luzes apagadas ou em ambientes escuros.",
-      "category": "exposure",
-      "reverse": true
-    },
-    {
-      "id": "q7",
-      "text": "A ideia de roleplay (fantasias encenadas) atrai-me.",
-      "category": "roleplay",
-      "reverse": false
-    },
-    {
-      "id": "q8",
-      "text": "Sinto-me excitado/a com a ideia de dominar o/a meu/minha parceiro/a.",
-      "category": "dominance",
-      "reverse": false
-    },
-    {
-      "id": "q9",
-      "text": "Sinto-me excitado/a com a ideia de ser dominado/a pelo/a meu/minha parceiro/a.",
-      "category": "submission",
-      "reverse": false
-    },
-    {
-      "id": "q10",
-      "text": "O sexo oral é uma parte essencial da minha vida sexual.",
-      "category": "oral",
-      "reverse": false
-    },
-    {
-      "id": "q11",
-      "text": "Já experimentei ou gostaria de experimentar brinquedos sexuais.",
-      "category": "toys",
-      "reverse": false
-    },
-    {
-      "id": "q12",
-      "text": "A intimidade emocional é mais importante que a intensidade física.",
-      "category": "emotional",
-      "reverse": true
-    },
-    {
-      "id": "q13",
-      "text": "Gosto de ver ou ser visto/a durante o ato sexual (espelhos, etc.).",
-      "category": "voyeurism",
-      "reverse": false
-    },
-    {
-      "id": "q14",
-      "text": "A ideia de sexo em locais públicos ou semi-públicos excita-me.",
-      "category": "exhibition",
-      "reverse": false
-    },
-    {
-      "id": "q15",
-      "text": "Prefiro uma rotina sexual confortável a constante experimentação.",
-      "category": "routine",
-      "reverse": true
-    },
-    {
-      "id": "q16",
-      "text": "Falar de forma suja/obscena durante o sexo excita-me.",
-      "category": "dirty_talk",
-      "reverse": false
-    },
-    {
-      "id": "q17",
-      "text": "Gostaria de experimentar vendas nos olhos durante o sexo.",
-      "category": "sensory",
-      "reverse": false
-    },
-    {
-      "id": "q18",
-      "text": "A ideia de gravar vídeos íntimos com o/a parceiro/a atrai-me.",
-      "category": "recording",
-      "reverse": false
-    },
-    {
-      "id": "q19",
-      "text": "Sinto-me confortável a expressar os meus desejos sexuais abertamente.",
-      "category": "assertiveness",
-      "reverse": false
-    },
-    {
-      "id": "q20",
-      "text": "Prefiro sexo suave e romântico a sexo intenso e físico.",
-      "category": "intensity",
-      "reverse": true
-    },
-    {
-      "id": "q21",
-      "text": "A ideia de usar disfarces ou roupas especiais excita-me.",
-      "category": "costumes",
-      "reverse": false
-    },
-    {
-      "id": "q22",
-      "text": "Gosto quando o/a meu/minha parceiro/a toma a iniciativa e controla a situação.",
-      "category": "control",
-      "reverse": false
-    },
-    {
-      "id": "q23",
-      "text": "Sexo anal é algo que me interessa ou já pratico.",
-      "category": "anal",
-      "reverse": false
-    },
-    {
-      "id": "q24",
-      "text": "Gosto de prolongar o sexo com muitas preliminares.",
-      "category": "foreplay",
-      "reverse": false
-    },
-    {
-      "id": "q25",
-      "text": "A ideia de experimentar com cera quente excita-me.",
-      "category": "sensation",
-      "reverse": false
-    },
-    {
-      "id": "q26",
-      "text": "Sinto-me desconfortável com práticas que saem do 'normal'.",
-      "category": "comfort",
-      "reverse": true
-    },
-    {
-      "id": "q27",
-      "text": "Gostaria de ter uma palavra de segurança (safeword) durante o sexo.",
-      "category": "safety",
-      "reverse": false
-    },
-    {
-      "id": "q28",
-      "text": "A ideia de ser amarrado/a ou amarrar o/a parceiro/a excita-me.",
-      "category": "restraint",
-      "reverse": false
-    },
-    {
-      "id": "q29",
-      "text": "Prefiro sexo lento e sensual a rápido e intenso.",
-      "category": "pace",
-      "reverse": true
-    },
-    {
-      "id": "q30",
-      "text": "Gosto de explorar zonas erógenas menos convencionais.",
-      "category": "erogenous",
-      "reverse": false
-    },
-    {
-      "id": "q31",
-      "text": "A ideia de massagem erótica como preliminar atrai-me muito.",
-      "category": "massage",
-      "reverse": false
-    },
-    {
-      "id": "q32",
-      "text": "Sinto-me atraído/a por conteúdo erótico ou pornográfico mais alternativo.",
-      "category": "media",
-      "reverse": false
-    },
-    {
-      "id": "q33",
-      "text": "Gostaria de experimentar jogos de poder na cama.",
-      "category": "power_play",
-      "reverse": false
-    },
-    {
-      "id": "q34",
-      "text": "O contacto visual intenso durante o sexo é importante para mim.",
-      "category": "connection",
-      "reverse": true
-    },
-    {
-      "id": "q35",
-      "text": "A ideia de provocação e antecipação prolongada excita-me.",
-      "category": "teasing",
-      "reverse": false
-    },
-    {
-      "id": "q36",
-      "text": "Sinto curiosidade por práticas BDSM (bondage, disciplina, dominação, submissão).",
-      "category": "bdsm",
-      "reverse": false
-    },
-    {
-      "id": "q37",
-      "text": "Prefiro intimidade previsível e confortável a surpresas.",
-      "category": "predictability",
-      "reverse": true
-    },
-    {
-      "id": "q38",
-      "text": "A ideia de orgasmo controlado (negação ou atraso) interessa-me.",
-      "category": "orgasm_control",
-      "reverse": false
-    },
-    {
-      "id": "q39",
-      "text": "Gosto de receber ou dar instruções durante o sexo.",
-      "category": "instruction",
-      "reverse": false
-    },
-    {
-      "id": "q40",
-      "text": "A ideia de sexo com múltiplos parceiros simultaneamente atrai-me.",
-      "category": "group",
-      "reverse": false
-    },
-    {
-      "id": "q41",
-      "text": "Sinto-me mais excitado/a quando há um elemento de 'proibido'.",
-      "category": "taboo",
-      "reverse": false
-    },
-    {
-      "id": "q42",
-      "text": "Gosto de explorar fantasias através de literatura erótica ou roleplay textual.",
-      "category": "fantasy",
-      "reverse": false
-    },
-    {
-      "id": "q43",
-      "text": "A intensidade física é fundamental para a minha satisfação sexual.",
-      "category": "physical",
-      "reverse": false
-    },
-    {
-      "id": "q44",
-      "text": "Sinto-me confortável a discutir limites e preferências antes do sexo.",
-      "category": "negotiation",
-      "reverse": false
-    },
-    {
-      "id": "q45",
-      "text": "A ideia de estimulação simultânea de múltiplas zonas erógenas excita-me.",
-      "category": "stimulation",
-      "reverse": false
-    },
-    {
-      "id": "q46",
-      "text": "Prefiro que o sexo termine naturalmente do que com 'regras' definidas.",
-      "category": "structure",
-      "reverse": true
-    },
-    {
-      "id": "q47",
-      "text": "Gostaria de experimentar sexo tântrico ou práticas de energia sexual.",
-      "category": "tantric",
-      "reverse": false
-    },
-    {
-      "id": "q48",
-      "text": "A ideia de encenar uma fantasia de submissão consensual excita-me.",
-      "category": "fantasy_sub",
-      "reverse": false
-    },
-    {
-      "id": "q49",
-      "text": "Sinto-me atraído/a por estética fetichista (couro, latex, etc.).",
-      "category": "aesthetic",
-      "reverse": false
-    },
-    {
-      "id": "q50",
-      "text": "Estou aberto/a a explorar novos territórios sexuais com o/a parceiro/a certo/a.",
-      "category": "openness",
-      "reverse": false
-    }
+    {"id": 1, "text": "Um beijo longo e apaixonado satisfaz-me mais do que qualquer técnica elaborada", "invert": true, "category": "intensity"},
+    {"id": 2, "text": "Prefiro fazer amor com as luzes apagadas e debaixo dos lençóis", "invert": true, "category": "comfort"},
+    {"id": 3, "text": "A posição missionário, com contacto visual, é das minhas favoritas", "invert": true, "category": "traditional"},
+    {"id": 4, "text": "Acho que brinquedos e acessórios só complicam as coisas", "invert": true, "category": "toys"},
+    {"id": 5, "text": "O sexo mais simples e carinhoso é o melhor para mim", "invert": true, "category": "intensity"},
+    {"id": 6, "text": "Gosto de experimentar posições novas e desafiantes", "invert": false, "category": "adventure"},
+    {"id": 7, "text": "Uma noite de sexo selvagem atrai-me mais do que uma noite romântica", "invert": false, "category": "intensity"},
+    {"id": 8, "text": "Tenho uma caixa de brinquedos ou acessórios eróticos em casa", "invert": false, "category": "toys"},
+    {"id": 9, "text": "Já pesquisei online sobre práticas sexuais alternativas", "invert": false, "category": "curiosity"},
+    {"id": 10, "text": "Acho que 'sexo normal' é suficiente - não preciso de mais nada", "invert": true, "category": "traditional"},
+    {"id": 11, "text": "Fazer amor à luz de velas, com música suave, é o meu cenário ideal", "invert": true, "category": "romantic"},
+    {"id": 12, "text": "A ideia de sexo rápido e intenso contra uma parede excita-me", "invert": false, "category": "intensity"},
+    {"id": 13, "text": "Prefiro que a intimidade seja sempre no quarto", "invert": true, "category": "location"},
+    {"id": 14, "text": "Sexo na cozinha, sala ou casa de banho soa divertido", "invert": false, "category": "location"},
+    {"id": 15, "text": "Um fim de semana num hotel só para nós seria perfeito - sem extras", "invert": true, "category": "romantic"},
+    {"id": 16, "text": "Num hotel, gostaria de experimentar coisas que não faço em casa", "invert": false, "category": "adventure"},
+    {"id": 17, "text": "A ideia de um encontro às escuras com alguém excita-me", "invert": false, "category": "adventure"},
+    {"id": 18, "text": "Prefiro conhecer bem a pessoa antes de qualquer intimidade", "invert": true, "category": "connection"},
+    {"id": 19, "text": "Uma sessão de massagem sensual com óleos interessa-me muito", "invert": false, "category": "sensual"},
+    {"id": 20, "text": "O sexo matinal, suave e preguiçoso, é dos meus favoritos", "invert": true, "category": "romantic"},
+    {"id": 21, "text": "Gosto que a intimidade seja gentil e delicada do início ao fim", "invert": true, "category": "intensity"},
+    {"id": 22, "text": "Por vezes apetece-me algo mais intenso e até um pouco agressivo", "invert": false, "category": "intensity"},
+    {"id": 23, "text": "Puxar cabelo ou morder levemente não faz o meu estilo", "invert": true, "category": "roughness"},
+    {"id": 24, "text": "Uma palmada no rabo (dada ou recebida) pode ser excitante", "invert": false, "category": "roughness"},
+    {"id": 25, "text": "Marcas de chupões ou arranhadelas leves fazem parte da diversão", "invert": false, "category": "roughness"},
+    {"id": 26, "text": "Prefiro que não fique nenhuma marca física depois", "invert": true, "category": "roughness"},
+    {"id": 27, "text": "Sussurrar coisas obscenas ao ouvido excita-me muito", "invert": false, "category": "verbal"},
+    {"id": 28, "text": "Prefiro que a comunicação seja mais através de gestos e toques", "invert": true, "category": "verbal"},
+    {"id": 29, "text": "Dirty talk (falar sujo) é algo que me atrai", "invert": false, "category": "verbal"},
+    {"id": 30, "text": "Gemidos e sons naturais são suficientes - não preciso de palavras", "invert": true, "category": "verbal"},
+    {"id": 31, "text": "Gosto que a intimidade seja equilibrada, sem ninguém a mandar", "invert": true, "category": "power"},
+    {"id": 32, "text": "Por vezes apetece-me assumir completamente o controlo", "invert": false, "category": "power"},
+    {"id": 33, "text": "A ideia de receber ordens durante o sexo não me atrai", "invert": true, "category": "power"},
+    {"id": 34, "text": "Ser completamente dominado/a por alguém de confiança excita-me", "invert": false, "category": "power"},
+    {"id": 35, "text": "Algemas, cordas ou vendas são coisas que nunca experimentaria", "invert": true, "category": "bondage"},
+    {"id": 36, "text": "Já experimentei ou tenho curiosidade em ser amarrado/a", "invert": false, "category": "bondage"},
+    {"id": 37, "text": "A ideia de 'usar' ou 'ser usado/a' (consensualmente) atrai-me", "invert": false, "category": "power"},
+    {"id": 38, "text": "Prefiro que ambos tenham sempre igual participação", "invert": true, "category": "power"},
+    {"id": 39, "text": "Role-play onde um manda e outro obedece soa interessante", "invert": false, "category": "roleplay"},
+    {"id": 40, "text": "Jogos de poder não combinam com intimidade, na minha opinião", "invert": true, "category": "power"},
+    {"id": 41, "text": "Se funciona, não preciso de mudar - estou satisfeito/a assim", "invert": true, "category": "openness"},
+    {"id": 42, "text": "Tenho uma bucket list de coisas que quero experimentar", "invert": false, "category": "adventure"},
+    {"id": 43, "text": "Já vi pornografia de categorias mais 'alternativas' por curiosidade", "invert": false, "category": "curiosity"},
+    {"id": 44, "text": "Acho que a maioria dos fetiches são estranhos demais para mim", "invert": true, "category": "openness"},
+    {"id": 45, "text": "Tenho pelo menos um fetiche ou kink que gostaria de explorar", "invert": false, "category": "kinks"},
+    {"id": 46, "text": "O sexo convencional é tudo o que preciso para ser feliz", "invert": true, "category": "traditional"},
+    {"id": 47, "text": "Gostaria de experimentar algo que nunca fiz antes", "invert": false, "category": "adventure"},
+    {"id": 48, "text": "Já li erotica ou vi filmes sobre BDSM com curiosidade", "invert": false, "category": "curiosity"},
+    {"id": 49, "text": "Considero a minha vida sexual bastante tradicional", "invert": true, "category": "traditional"},
+    {"id": 50, "text": "Há um lado mais selvagem em mim que gostaria de explorar", "invert": false, "category": "intensity"}
   ]
 }

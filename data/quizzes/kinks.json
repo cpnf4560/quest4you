@@ -22,353 +22,353 @@
   "questions": [
     {
       "id": "q1",
-      "text": "A ideia de ser amarrado/a durante o sexo excita-me.",
+      "text": "Fantasio em estar completamente imobilizado/a com cordas enquanto o/a meu/minha parceiro/a explora o meu corpo.",
       "kink": "bondage",
       "subtype": "rope",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q2",
-      "text": "Gosto de ter controlo total durante o sexo.",
+      "text": "Dizer 'de joelhos, agora' ao/à meu/minha parceiro/a e ver obedecer excita-me muito.",
       "kink": "dominance",
       "subtype": "control",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q3",
-      "text": "Sentir dor leve durante o sexo (palmadas, mordidas) excita-me.",
+      "text": "O som de uma palmada no rabo e o calor que se segue excitam-me.",
       "kink": "impact",
       "subtype": "light",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q4",
-      "text": "A ideia de usar vendas nos olhos atrai-me.",
+      "text": "Ter os olhos vendados, não saber de onde vem o próximo toque, deixa-me mais excitado/a.",
       "kink": "sensory",
       "subtype": "blindfold",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q5",
-      "text": "Gostaria de encenar fantasias ou cenários específicos.",
+      "text": "Interpretar um/a desconhecido/a que seduz o/a meu/minha parceiro/a num bar de hotel excita-me.",
       "kink": "roleplay",
       "subtype": "scenarios",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q6",
-      "text": "A ideia de ser observado/a durante o sexo excita-me.",
+      "text": "A ideia de ter sexo com a janela aberta, sabendo que alguém pode ver, excita-me.",
       "kink": "exhibitionism",
       "subtype": "watched",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q7",
-      "text": "Gosto de ceder o controlo ao/à meu/minha parceiro/a.",
+      "text": "Quando me dizem 'faz o que te mando', sinto uma onda de excitação.",
       "kink": "submission",
       "subtype": "yielding",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q8",
-      "text": "Tenho atração por materiais específicos (couro, latex, seda).",
+      "text": "O cheiro e textura de couro ou latex durante o sexo excitam-me muito.",
       "kink": "fetish",
       "subtype": "materials",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q9",
-      "text": "A ideia de prolongar o prazer antes do orgasmo excita-me.",
+      "text": "Adoro ser levado/a ao limite do orgasmo várias vezes antes de finalmente ter permissão para gozar.",
       "kink": "edging",
       "subtype": "prolonging",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q10",
-      "text": "Gostaria de observar o/a meu/minha parceiro/a com outra pessoa.",
+      "text": "Ver o/a meu/minha parceiro/a a masturbar-se sem saber que estou a observar excita-me.",
       "kink": "voyeurism",
       "subtype": "partner",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q11",
-      "text": "A ideia de usar algemas ou restrições metálicas atrai-me.",
+      "text": "O clique das algemas a fechar nos meus pulsos faz-me arrepiar de antecipação.",
       "kink": "bondage",
       "subtype": "cuffs",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q12",
-      "text": "Gosto de dar ordens ao/à meu/minha parceiro/a.",
+      "text": "Decidir exatamente como, quando e onde o/a meu/minha parceiro/a vai ter prazer dá-me imenso prazer.",
       "kink": "dominance",
       "subtype": "orders",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q13",
-      "text": "A ideia de usar chicotes ou paddles excita-me.",
+      "text": "A ideia de o/a meu/minha parceiro/a usar um paddle ou flogger no meu corpo excita-me.",
       "kink": "impact",
       "subtype": "implements",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q14",
-      "text": "Experiências com cera quente ou gelo interessam-me.",
+      "text": "Sentir gotas de cera quente a cair no meu peito/barriga durante o sexo seria intenso.",
       "kink": "sensory",
       "subtype": "temperature",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q15",
-      "text": "Gostaria de fazer roleplay de professor/aluno ou similar.",
+      "text": "A fantasia de professor/a e aluno/a com castigos 'educativos' excita-me.",
       "kink": "roleplay",
       "subtype": "authority",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q16",
-      "text": "A ideia de fazer sexo em locais semi-públicos excita-me.",
+      "text": "Fazer sexo rápido num provador de roupa, com medo de ser apanhado/a, excita-me imenso.",
       "kink": "exhibitionism",
       "subtype": "public",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q17",
-      "text": "Gostaria de usar coleira ou ser 'ownership' do/a parceiro/a.",
+      "text": "Usar uma coleira quando estou a sós com o/a meu/minha parceiro/a faria-me sentir submisso/a e excitado/a.",
       "kink": "submission",
       "subtype": "collar",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q18",
-      "text": "Tenho atração por pés ou outras partes do corpo específicas.",
+      "text": "Tenho uma atração inexplicável por pés bem cuidados - cheirá-los, beijá-los, massajá-los.",
       "kink": "fetish",
       "subtype": "body_parts",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q19",
-      "text": "A ideia de orgasmo negado ou controlado atrai-me.",
+      "text": "A ideia de o/a meu/minha parceiro/a me dizer 'ainda não podes gozar' repetidamente até eu implorar excita-me.",
       "kink": "edging",
       "subtype": "denial",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q20",
-      "text": "Gostaria de ver pornografia ou conteúdo erótico com o/a parceiro/a.",
+      "text": "Assistir a um casal real a ter sexo ao vivo numa festa privada excitaria-me muito.",
       "kink": "voyeurism",
-      "subtype": "media",
-      "reverse": false
+      "subtype": "performance",
+      "invert": false
     },
     {
       "id": "q21",
-      "text": "A ideia de bondage elaborado (shibari) interessa-me.",
+      "text": "A arte do shibari (bondage japonês com cordas) fascina-me e gostaria de experimentar.",
       "kink": "bondage",
       "subtype": "shibari",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q22",
-      "text": "Gosto de fazer o/a meu/minha parceiro/a implorar.",
+      "text": "Fazer o/a meu/minha parceiro/a implorar por cada toque, cada beijo, cada permissão, excita-me imenso.",
       "kink": "dominance",
       "subtype": "begging",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q23",
-      "text": "A dor moderada durante o sexo é prazerosa para mim.",
+      "text": "Mordidas firmes no pescoço ou ombros durante o sexo intensificam o meu prazer.",
       "kink": "impact",
       "subtype": "moderate",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q24",
-      "text": "Gostaria de experimentar privação sensorial (tampões, vendas).",
+      "text": "Usar tampões de ouvidos durante o sexo, focando-me apenas nas sensações táteis, seria intenso.",
       "kink": "sensory",
       "subtype": "deprivation",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q25",
-      "text": "A fantasia de médico/paciente ou similar excita-me.",
+      "text": "A fantasia de médico/paciente com 'exames íntimos' excita-me.",
       "kink": "roleplay",
       "subtype": "medical",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q26",
-      "text": "Gostaria de partilhar fotos ou vídeos íntimos (com consentimento).",
+      "text": "Já fantasiei em criar conteúdo erótico amador (fotos/vídeos) para partilhar online.",
       "kink": "exhibitionism",
       "subtype": "sharing",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q27",
-      "text": "A ideia de ter regras ou tarefas diárias do/a parceiro/a atrai-me.",
+      "text": "Receber tarefas diárias do/a meu/minha parceiro/a (fotos, exercícios, proibições) excita-me.",
       "kink": "submission",
       "subtype": "protocol",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q28",
-      "text": "Roupas íntimas específicas (lingerie, uniformes) excitam-me muito.",
+      "text": "Ver o/a meu/minha parceiro/a em lingerie específica (meias de rede, ligas, espartilho) excita-me muito mais do que nu/a.",
       "kink": "fetish",
       "subtype": "clothing",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q29",
-      "text": "A ideia de 'ruined orgasm' (orgasmo arruinado) interessa-me.",
+      "text": "A ideia de 'orgasmo arruinado' - parar a estimulação no momento exato - intriga-me.",
       "kink": "edging",
       "subtype": "ruined",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q30",
-      "text": "Gostaria de assistir a performances eróticas ao vivo.",
+      "text": "Usar espelhos estratégicos para observar-me a ter sexo de múltiplos ângulos excita-me.",
       "kink": "voyeurism",
-      "subtype": "performance",
-      "reverse": false
+      "subtype": "mirrors",
+      "invert": false
     },
     {
       "id": "q31",
-      "text": "A ideia de restrição com fitas ou lenços atrai-me.",
+      "text": "Ser amarrado/a com fitas de cetim ou lenços suaves parece-me sensual e excitante.",
       "kink": "bondage",
       "subtype": "soft",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q32",
-      "text": "Gosto de punir (de forma consensual) o/a meu/minha parceiro/a.",
+      "text": "Estabelecer 'punições' consensuais para 'transgressões' do/a meu/minha parceiro/a excita-me.",
       "kink": "dominance",
       "subtype": "punishment",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q33",
-      "text": "A ideia de deixar marcas (chupões, etc.) excita-me.",
+      "text": "A ideia de deixar marcas visíveis (chupões, arranhões) como 'propriedade' excita-me.",
       "kink": "impact",
       "subtype": "marking",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q34",
-      "text": "Gostaria de experimentar estimulação com penas ou texturas.",
+      "text": "Ser acariciado/a com penas por todo o corpo enquanto estou imobilizado/a seria delicioso.",
       "kink": "sensory",
       "subtype": "texture",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q35",
-      "text": "A fantasia de captura/resgate consensual atrai-me.",
+      "text": "A fantasia de 'ladrão/a' que entra em casa e 'captura' consensualmente o/a parceiro/a excita-me.",
       "kink": "roleplay",
       "subtype": "capture",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q36",
-      "text": "A ideia de fazer striptease para o/a parceiro/a excita-me.",
+      "text": "Fazer um striptease lento e sensual para o/a meu/minha parceiro/a sentindo-me desejado/a excita-me.",
       "kink": "exhibitionism",
       "subtype": "striptease",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q37",
-      "text": "Gostaria de ter um/a 'mestre/a' ou 'dono/a' consensual.",
+      "text": "A ideia de ter um/a 'dono/a' sexual que define regras para o meu prazer excita-me.",
       "kink": "submission",
       "subtype": "master",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q38",
-      "text": "Tenho atração por cheiros específicos (perfume, corpo).",
+      "text": "Cheirar a roupa interior usada do/a meu/minha parceiro/a excita-me.",
       "kink": "fetish",
       "subtype": "smell",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q39",
-      "text": "A ideia de forçar orgasmos múltiplos interessa-me.",
+      "text": "A ideia de forçar orgasmos múltiplos no/a meu/minha parceiro/a até à exaustão excita-me.",
       "kink": "edging",
       "subtype": "forced",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q40",
-      "text": "Gostaria de usar espelhos durante o sexo para observar.",
+      "text": "Ver pornografia juntos como preliminar ao sexo excita-me.",
       "kink": "voyeurism",
-      "subtype": "mirrors",
-      "reverse": false
+      "subtype": "media",
+      "invert": false
     },
     {
       "id": "q41",
-      "text": "A ideia de suspensão ou bondage aéreo fascina-me.",
+      "text": "A ideia de bondage aéreo (suspensão parcial com cordas/arnês) fascina-me.",
       "kink": "bondage",
       "subtype": "suspension",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q42",
-      "text": "Gosto de usar títulos (Senhor/Senhora, etc.) durante o sexo.",
+      "text": "Ser chamado/a de 'Senhor/Senhora' ou 'Mestre/Mestra' durante o sexo excita-me.",
       "kink": "dominance",
       "subtype": "titles",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q43",
-      "text": "A ideia de usar pinças (mamilos, etc.) atrai-me.",
+      "text": "A sensação de pinças nos mamilos - a dor inicial e o prazer que se segue - atrai-me.",
       "kink": "impact",
       "subtype": "clamps",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q44",
-      "text": "Gostaria de experimentar eletroestimulação.",
+      "text": "Experimentar brinquedos de eletroestimulação (TENS/e-stim) para sensações únicas intriga-me.",
       "kink": "sensory",
       "subtype": "electro",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q45",
-      "text": "A fantasia de estranhos (CNC consensual) atrai-me.",
+      "text": "A fantasia de CNC (consensual non-consent) com safewords claras excita-me.",
       "kink": "roleplay",
       "subtype": "cnc",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q46",
-      "text": "A ideia de webcam ou sexo virtual com terceiros excita-me.",
+      "text": "A ideia de ter sexo por videochamada com um/a terceiro/a a observar excita-me.",
       "kink": "exhibitionism",
       "subtype": "virtual",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q47",
-      "text": "Gostaria de explorar 'pet play' (gatinho/a, cachorrinho/a).",
+      "text": "A ideia de pet play (agir como gatinho/a ou cachorrinho/a) parece-me eroticamente interessante.",
       "kink": "submission",
       "subtype": "petplay",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q48",
-      "text": "Tenho atração por uniformes ou roupas de profissões específicas.",
+      "text": "Uniformes específicos (enfermeiro/a, polícia, militar) excitam-me muito.",
       "kink": "fetish",
       "subtype": "uniforms",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q49",
-      "text": "A ideia de cinto de castidade ou controlo de acesso excita-me.",
+      "text": "A ideia de usar um cinto de castidade e entregar o controlo do meu prazer a outro/a excita-me.",
       "kink": "edging",
       "subtype": "chastity",
-      "reverse": false
+      "invert": false
     },
     {
       "id": "q50",
-      "text": "Sinto que explorar kinks é uma forma saudável de autoconhecimento.",
+      "text": "Explorar kinks e fetiches é uma forma saudável de autoconhecimento e conexão íntima.",
       "kink": "general",
       "subtype": "acceptance",
-      "reverse": false
+      "invert": false
     }
   ]
 }
