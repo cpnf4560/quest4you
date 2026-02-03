@@ -15,7 +15,7 @@
     { "min": 81, "max": 100, "label": "Kinky Assumido", "emoji": "🔥", "description": "Abraças plenamente práticas alternativas e intensas. A exploração e a experimentação são fundamentais para ti." }
   ],
   "questions": [
-    {"id": 1, "text": "Um beijo longo e apaixonado satisfaz-me mais do que qualquer técnica elaborada", "invert": true, "category": "intensity"},
+    {"id": 1, "text": "Um beijo longo e apaixonado satisfaz-me mais do que posições acrobáticas ou brinquedos", "invert": true, "category": "intensity"},
     {"id": 2, "text": "Prefiro fazer amor com as luzes apagadas e debaixo dos lençóis", "invert": true, "category": "comfort"},
     {"id": 3, "text": "A posição missionário, com contacto visual, é das minhas favoritas", "invert": true, "category": "traditional"},
     {"id": 4, "text": "Acho que brinquedos e acessórios só complicam as coisas", "invert": true, "category": "toys"},
@@ -29,7 +29,7 @@
     {"id": 12, "text": "A ideia de sexo rápido e intenso contra uma parede excita-me", "invert": false, "category": "intensity"},
     {"id": 13, "text": "Prefiro que a intimidade seja sempre no quarto", "invert": true, "category": "location"},
     {"id": 14, "text": "Sexo na cozinha, sala ou casa de banho soa divertido", "invert": false, "category": "location"},
-    {"id": 15, "text": "Um fim de semana num hotel só para nós seria perfeito - sem extras", "invert": true, "category": "romantic"},
+    {"id": 15, "text": "Um fim de semana num hotel só para nós seria perfeito - só romance, sem brinquedos ou fantasias", "invert": true, "category": "romantic"},
     {"id": 16, "text": "Num hotel, gostaria de experimentar coisas que não faço em casa", "invert": false, "category": "adventure"},
     {"id": 17, "text": "A ideia de um encontro às escuras com alguém excita-me", "invert": false, "category": "adventure"},
     {"id": 18, "text": "Prefiro conhecer bem a pessoa antes de qualquer intimidade", "invert": true, "category": "connection"},
