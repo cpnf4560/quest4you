@@ -3027,5 +3027,3 @@ const articlesData = [  {
       </div>
     `
   }
-
-];

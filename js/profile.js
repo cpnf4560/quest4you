@@ -334,9 +334,14 @@ async function loadResults() {
   });
   
   grid.innerHTML = html;
-  
-  // Store results for later use
+    // Store results for later use
   window.profileResults = allResults;
+  
+  // Show full report button if user has at least 2 quizzes
+  const fullReportContainer = document.getElementById("fullReportContainer");
+  if (fullReportContainer && resultIds.length >= 2) {
+    fullReportContainer.style.display = "block";
+  }
 }
 
 // loadLocalResults is deprecated - now using cloud only
@@ -775,3 +780,239 @@ window.viewResult = viewResult;
 window.closeResultModal = closeResultModal;
 window.shareResult = shareResult;
 window.retakeQuiz = retakeQuiz;
+window.viewFullReport = viewFullReport;
+window.closeFullReport = closeFullReport;
+window.shareFullReport = shareFullReport;
+window.downloadFullReport = downloadFullReport;
+window.saveNickname = saveNickname;
+
+// ================================
+// FULL REPORT
+// ================================
+function viewFullReport() {
+  const allResults = window.profileResults || userData?.quizResults || {};
+  
+  // Filter valid quiz IDs
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const resultIds = Object.keys(allResults).filter(key => validQuizIds.includes(key));
+  
+  if (resultIds.length < 2) {
+    alert("Precisas de completar pelo menos 2 questionários para ver o relatório completo.");
+    return;
+  }
+  
+  // Generate report content
+  const reportBody = document.getElementById("fullReportBody");
+  let html = "";
+  
+  // Overview Section
+  html += '<div class="report-section">';
+  html += '<h2 class="report-section-title">📈 Visão Geral</h2>';
+  html += '<div class="report-overview-grid">';
+  
+  // Calculate average score
+  let totalScore = 0;
+  resultIds.forEach(id => {
+    totalScore += allResults[id].score || 0;
+  });
+  const avgScore = Math.round(totalScore / resultIds.length);
+  
+  html += '<div class="report-stat-card">';
+  html += '  <div class="report-stat-icon">📝</div>';
+  html += '  <div class="report-stat-value">' + resultIds.length + '</div>';
+  html += '  <div class="report-stat-label">Questionários</div>';
+  html += '</div>';
+  
+  html += '<div class="report-stat-card">';
+  html += '  <div class="report-stat-icon">📊</div>';
+  html += '  <div class="report-stat-value">' + avgScore + '%</div>';
+  html += '  <div class="report-stat-label">Média Global</div>';
+  html += '</div>';
+  
+  html += '<div class="report-stat-card">';
+  html += '  <div class="report-stat-icon">❓</div>';
+  html += '  <div class="report-stat-value">' + (resultIds.length * 50) + '</div>';
+  html += '  <div class="report-stat-label">Perguntas Respondidas</div>';
+  html += '</div>';
+  
+  html += '</div></div>';
+  
+  // Scores Comparison Section
+  html += '<div class="report-section">';
+  html += '<h2 class="report-section-title">🎯 Comparação de Resultados</h2>';
+  html += '<div class="report-scores-chart">';
+  
+  // Sort by score descending
+  const sortedResults = resultIds.map(id => ({
+    id,
+    ...allResults[id],
+    meta: QUIZ_META[id] || { name: id, icon: "📝", color: "#666" }
+  })).sort((a, b) => (b.score || 0) - (a.score || 0));
+  
+  sortedResults.forEach(result => {
+    html += '<div class="report-score-row">';
+    html += '  <div class="report-score-quiz">';
+    html += '    <span class="report-quiz-icon" style="color: ' + result.meta.color + '">' + result.meta.icon + '</span>';
+    html += '    <span class="report-quiz-name">' + result.meta.name + '</span>';
+    html += '  </div>';
+    html += '  <div class="report-score-bar-container">';
+    html += '    <div class="report-score-bar" style="width: ' + (result.score || 0) + '%; background: ' + result.meta.color + '"></div>';
+    html += '  </div>';
+    html += '  <span class="report-score-value">' + (result.score || 0) + '%</span>';
+    html += '</div>';
+  });
+  
+  html += '</div></div>';
+  
+  // Detailed Results Section
+  html += '<div class="report-section">';
+  html += '<h2 class="report-section-title">📋 Resultados Detalhados</h2>';
+  html += '<div class="report-details-grid">';
+  
+  sortedResults.forEach(result => {
+    html += '<div class="report-detail-card">';
+    html += '  <div class="report-detail-header" style="background: ' + result.meta.color + '">';
+    html += '    <span class="report-detail-icon">' + result.meta.icon + '</span>';
+    html += '    <span class="report-detail-title">' + result.meta.name + '</span>';
+    html += '  </div>';
+    html += '  <div class="report-detail-body">';
+    html += '    <div class="report-detail-score">' + (result.score || 0) + '%</div>';
+    
+    if (result.category) {
+      html += '    <div class="report-detail-category">';
+      html += '      <span>' + (result.categoryEmoji || result.meta.icon) + ' ' + result.category + '</span>';
+      html += '    </div>';
+    } else if (result.dominantRole) {
+      html += '    <div class="report-detail-category">';
+      html += '      <span>🎭 Role: ' + result.dominantRole + '</span>';
+      html += '    </div>';
+    }
+    
+    // Show top categories if available
+    if (result.categoryScores) {
+      const topCategories = Object.entries(result.categoryScores)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
+      
+      if (topCategories.length > 0) {
+        html += '    <div class="report-detail-breakdown">';
+        topCategories.forEach(([cat, score]) => {
+          html += '      <div class="report-mini-bar">';
+          html += '        <span>' + formatCategoryLabel(cat) + '</span>';
+          html += '        <div class="report-mini-bar-bg"><div class="report-mini-bar-fill" style="width: ' + score + '%; background: ' + result.meta.color + '"></div></div>';
+          html += '        <span>' + score + '%</span>';
+          html += '      </div>';
+        });
+        html += '    </div>';
+      }
+    }
+    
+    if (result.date) {
+      html += '    <div class="report-detail-date">Completado em ' + formatDate(new Date(result.date)) + '</div>';
+    }
+    
+    html += '  </div>';
+    html += '</div>';
+  });
+  
+  html += '</div></div>';
+  
+  // Profile Summary Section
+  html += '<div class="report-section">';
+  html += '<h2 class="report-section-title">✨ O Teu Perfil</h2>';
+  html += '<div class="report-profile-summary">';
+  
+  // Generate profile insights based on results
+  const profileInsights = generateProfileInsights(sortedResults);
+  html += '<p class="report-profile-text">' + profileInsights + '</p>';
+  
+  // Highlight areas
+  if (sortedResults.length >= 3) {
+    const top3 = sortedResults.slice(0, 3);
+    html += '<div class="report-highlights">';
+    html += '  <h4>🏆 Top 3 Áreas de Interesse:</h4>';
+    html += '  <div class="report-highlight-tags">';
+    top3.forEach(r => {
+      html += '    <span class="report-tag" style="background: ' + r.meta.color + '">' + r.meta.icon + ' ' + r.meta.name + '</span>';
+    });
+    html += '  </div>';
+    html += '</div>';
+  }
+  
+  html += '</div></div>';
+  
+  reportBody.innerHTML = html;
+  
+  // Show modal
+  const modal = document.getElementById("fullReportModal");
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function generateProfileInsights(sortedResults) {
+  if (sortedResults.length === 0) return "Completa mais questionários para descobrir o teu perfil!";
+  
+  const avgScore = sortedResults.reduce((sum, r) => sum + (r.score || 0), 0) / sortedResults.length;
+  const topQuiz = sortedResults[0];
+  
+  let text = "";
+  
+  if (avgScore >= 70) {
+    text = "Os teus resultados mostram que és uma pessoa muito aberta à exploração e novas experiências. ";
+  } else if (avgScore >= 50) {
+    text = "Tens uma mente curiosa e equilibrada, aberta a explorar mas com limites bem definidos. ";
+  } else if (avgScore >= 30) {
+    text = "Preferes uma abordagem mais tradicional, mas manténs curiosidade sobre diferentes temas. ";
+  } else {
+    text = "Valorizas experiências mais convencionais e confortáveis. E está tudo bem assim! ";
+  }
+  
+  text += "A tua área de maior interesse é <strong>" + topQuiz.meta.name + "</strong> com " + topQuiz.score + "% de afinidade";
+  
+  if (topQuiz.category) {
+    text += ", classificando-te como <strong>" + topQuiz.category + "</strong>";
+  }
+  
+  text += ". ";
+  
+  if (sortedResults.length >= 5) {
+    text += "Com " + sortedResults.length + " questionários completos, tens um perfil bem definido e detalhado!";
+  } else {
+    text += "Completa mais questionários para ter um perfil ainda mais detalhado.";
+  }
+  
+  return text;
+}
+
+function closeFullReport() {
+  const modal = document.getElementById("fullReportModal");
+  if (modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+}
+
+function shareFullReport() {
+  const allResults = window.profileResults || {};
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const count = Object.keys(allResults).filter(k => validQuizIds.includes(k)).length;
+  
+  const text = '🎯 O meu perfil Quest4You!\n\nCompletei ' + count + ' questionários de autoconhecimento.\n\nDescobre o teu perfil também em quest4you.com';
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Quest4You - Meu Perfil',
+      text: text,
+      url: window.location.origin
+    });
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Texto copiado para a área de transferência!");
+    });
+  }
+}
+
+function downloadFullReport() {
+  // For now, show message - PDF generation would require a library
+  alert("📥 Funcionalidade de download PDF em breve!\n\nPor agora, podes usar Ctrl+P (ou Cmd+P no Mac) para imprimir/guardar como PDF enquanto o relatório está aberto.");
+}

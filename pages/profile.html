@@ -22,7 +22,7 @@
       <nav class="nav">
         <a href="../index.html" class="nav-link">🏠 Início</a>
         <a href="./smart-match.html" class="nav-link">💕 Smart Match</a>
-        <a href="./explorar.html" class="nav-link">🌟 Explorar</a>
+        <a href="./explorar.html" class="nav-link">👥 Comunidade</a>
         <a href="#" class="nav-link" id="logoutBtn">🚪 Sair</a>
       </nav>
     </div>
@@ -106,9 +106,7 @@
         <div class="stat-value" id="statMatches">0</div>
         <div class="stat-label">Compatibilidades</div>
       </div>
-    </div>
-
-    <!-- Results Section -->
+    </div>    <!-- Results Section -->
     <section class="results-section">
       <h2 class="section-title">📊 Os Meus Resultados</h2>
       <div class="results-grid" id="resultsGrid">
@@ -117,6 +115,20 @@
           <div class="empty-icon">🎯</div>
           <p>Ainda não completaste nenhum questionário.</p>
           <a href="../index.html#quizzes" class="btn btn-primary">Começar Agora</a>
+        </div>
+      </div>
+      
+      <!-- Full Report Button -->
+      <div class="full-report-container" id="fullReportContainer" style="display: none;">
+        <div class="full-report-card">
+          <div class="full-report-icon">📋</div>
+          <div class="full-report-info">
+            <h3>Relatório Pessoal Completo</h3>
+            <p>Visualiza todos os teus resultados num único relatório detalhado</p>
+          </div>
+          <button class="btn btn-primary btn-full-report" onclick="viewFullReport()">
+            📊 Ver Relatório Completo
+          </button>
         </div>
       </div>
     </section>
@@ -213,7 +225,6 @@
       </form>
     </div>
   </div>
-
   <!-- Result Modal -->
   <div class="result-modal" id="resultModal" style="display: none;">
     <div class="result-content">
@@ -242,6 +253,26 @@
           <button class="btn btn-secondary" onclick="retakeQuiz()">🔄 Refazer</button>
           <button class="btn btn-outline" onclick="closeResultModal()">🏠 Fechar</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Report Modal -->
+  <div class="full-report-modal" id="fullReportModal" style="display: none;">
+    <div class="full-report-content">
+      <button class="result-close" onclick="closeFullReport()">✕</button>
+      <div class="full-report-header">
+        <div class="full-report-header-icon">📋</div>
+        <h1>Relatório Pessoal Completo</h1>
+        <p class="full-report-subtitle">Análise detalhada de todos os teus questionários</p>
+      </div>
+      <div class="full-report-body" id="fullReportBody">
+        <!-- Content will be generated dynamically -->
+      </div>
+      <div class="full-report-actions">
+        <button class="btn btn-primary" onclick="shareFullReport()">📤 Partilhar</button>
+        <button class="btn btn-secondary" onclick="downloadFullReport()">📥 Guardar PDF</button>
+        <button class="btn btn-outline" onclick="closeFullReport()">🏠 Fechar</button>
       </div>
     </div>
   </div>
