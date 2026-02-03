@@ -621,8 +621,9 @@ function buildRoleBreakdown(results) {
     const roleId = entry[0];
     const percentage = entry[1];
     const roleInfo = roles[roleId];
-    const label = roleInfo ? roleInfo.name : formatCategoryLabel(roleId);
-    const emoji = roleInfo ? roleInfo.emoji : '🎭';
+    // Use 'label' first (JSON format), fallback to 'name', then format the roleId
+    const label = roleInfo ? (roleInfo.label || roleInfo.name || formatCategoryLabel(roleId)) : formatCategoryLabel(roleId);
+    const emoji = roleInfo ? (roleInfo.emoji || '🎭') : '🎭';
     
     html += '<div class="result-breakdown-item">';
     html += '<span class="result-breakdown-label">' + emoji + ' ' + label + '</span>';
@@ -639,8 +640,9 @@ function buildRoleBreakdown(results) {
     results.matchWith.forEach(function(matchRole) {
       const matchInfo = roles[matchRole];
       if (matchInfo) {
+        const matchLabel = matchInfo.label || matchInfo.name || matchRole;
         html += '<span style="display: inline-block; background: white; padding: 6px 12px; border-radius: 20px; margin: 4px; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">';
-        html += matchInfo.emoji + ' ' + matchInfo.name;
+        html += (matchInfo.emoji || '🎭') + ' ' + matchLabel;
         html += '</span>';
       }
     });
