@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artigos - Quest4Couple</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/artigos.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-content">
+      <a href="../index.html" class="logo">
+        <img src="../assets/quest4couple_logo.png" alt="Quest4Couple" class="logo-img">
+        <span class="logo-text">Quest4Couple</span>
+      </a>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link">🏠 Início</a>
+        <a href="quizzes.html" class="nav-link">💕 Questionários</a>
+        <a href="artigos.html" class="nav-link active">📚 Artigos</a>
+      </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- HERO -->
+    <section class="artigos-hero">
+      <div class="container">
+        <h1>📚 Artigos</h1>
+        <p>Guias educativos sobre intimidade, fantasias e relacionamentos</p>
+      </div>
+    </section>
+
+    <!-- ARTICLES SECTION -->
+    <section class="artigos-section">
+      <div class="container">
+        <!-- Categories Filter -->
+        <div class="articles-filter">
+          <button class="filter-btn active" data-category="all">Todos</button>
+          <button class="filter-btn" data-category="dinamicas">👀 Dinâmicas</button>
+          <button class="filter-btn" data-category="brinquedos">🎲 Brinquedos</button>
+          <button class="filter-btn" data-category="dicas">💡 Dicas</button>
+          <button class="filter-btn" data-category="viagens">✈️ Viagens</button>
+          <button class="filter-btn" data-category="saude">🩺 Saúde</button>
+          <button class="filter-btn" data-category="lifestyle">🏖️ Lifestyle</button>
+        </div>
+
+        <!-- Articles Grid -->
+        <div class="articles-grid" id="articlesGrid">
+          <!-- Articles loaded dynamically -->
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>A carregar artigos...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ARTICLE MODAL -->
+  <div class="modal" id="articleModal">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2 id="articleModalTitle">Título do Artigo</h2>
+        <button class="modal-close" onclick="closeArticleModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="articleModalBody">
+        <!-- Article content loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="../assets/quest4couple_logo.png" alt="Quest4Couple" class="footer-logo">
+        <span>Quest4Couple</span>
+      </div>
+      <div class="footer-links">
+        <a href="privacidade.html">Privacidade</a>
+        <a href="termos.html">Termos</a>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2025 Quest4Couple. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/articlesData.js"></script>
+  <script src="../js/artigos.js"></script>
+</body>
+</html>

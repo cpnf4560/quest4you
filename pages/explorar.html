@@ -38,55 +38,19 @@
     <section class="explorar-hero">
       <div class="container">
         <h1>🌟 Explorar</h1>
-        <p>Artigos educativos, discussões abertas e comunidade</p>
+        <p>Discussões abertas, chat e comunidade</p>
         
         <!-- TAB NAVIGATION -->
         <div class="explorar-tabs">
-          <button class="tab-btn active" data-tab="artigos">📚 Artigos</button>
-          <button class="tab-btn" data-tab="forum">💬 Fórum</button>
+          <button class="tab-btn active" data-tab="forum">💬 Fórum</button>
           <button class="tab-btn" data-tab="chat">🗨️ Chat</button>
           <button class="tab-btn" data-tab="mensagens">💕 Mensagens</button>
         </div>
       </div>
     </section>
 
-    <!-- ARTIGOS TAB -->
-    <section id="artigosTab" class="tab-content active">
-      <div class="container">
-        <!-- Admin Controls (visible only for admins) -->
-        <div class="admin-controls" id="adminControls">
-          <h4>🛡️ Modo Administrador</h4>
-          <div class="admin-actions">
-            <button class="btn-admin" onclick="showCreateArticleModal()">
-              ➕ Criar Artigo
-            </button>
-          </div>
-        </div>
-
-        <!-- Categories Filter -->
-        <div class="articles-filter">
-          <button class="filter-btn active" data-category="all">Todos</button>
-          <button class="filter-btn" data-category="dinamicas">Dinâmicas</button>
-          <button class="filter-btn" data-category="brinquedos">Brinquedos</button>
-          <button class="filter-btn" data-category="dicas">Dicas</button>
-          <button class="filter-btn" data-category="viagens">Viagens</button>
-          <button class="filter-btn" data-category="saude">Saúde</button>
-          <button class="filter-btn" data-category="lifestyle">Lifestyle</button>
-        </div>
-
-        <!-- Articles Grid -->
-        <div class="articles-grid" id="articlesGrid">
-          <!-- Articles loaded dynamically -->
-          <div class="loading-spinner">
-            <div class="spinner"></div>
-            <p>A carregar artigos...</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- FORUM TAB -->
-    <section id="forumTab" class="tab-content">
+    <section id="forumTab" class="tab-content active">
       <div class="container">
         <div class="forum-header">
           <h2>💬 Fórum da Comunidade</h2>
@@ -241,139 +205,6 @@
       </form>
     </div>
   </div>
-
-  <!-- ARTICLE MODAL -->
-  <div class="modal" id="articleModal">
-    <div class="modal-content modal-large">
-      <div class="modal-header" id="articleModalHeader">
-        <h2 id="articleModalTitle">Título do Artigo</h2>
-        <button class="modal-close" onclick="closeArticleModal()">&times;</button>
-      </div>
-      
-      <!-- Admin Edit Header -->
-      <div class="admin-edit-header" id="adminEditHeader">
-        <span>🛡️ Modo Admin</span>
-        <button class="btn-admin" onclick="toggleEditMode()">✏️ Editar</button>
-        <button class="btn-admin delete" onclick="confirmDeleteArticle()">🗑️ Eliminar</button>
-      </div>
-      
-      <!-- Edit Form (hidden by default) -->
-      <div class="article-edit-form" id="articleEditForm">
-        <div class="form-group">
-          <label for="editTitle">Título</label>
-          <input type="text" id="editTitle" maxlength="100">
-        </div>
-        <div class="form-group">
-          <label for="editCategory">Categoria</label>
-          <select id="editCategory">
-            <option value="dinamicas">👀 Dinâmicas</option>
-            <option value="brinquedos">🎲 Brinquedos</option>
-            <option value="dicas">💡 Dicas</option>
-            <option value="viagens">✈️ Viagens</option>
-            <option value="saude">🩺 Saúde</option>
-            <option value="lifestyle">🏖️ Lifestyle</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="editExcerpt">Resumo</label>
-          <input type="text" id="editExcerpt" maxlength="200">
-        </div>
-        <div class="form-group">
-          <label for="editIcon">Ícone (emoji)</label>
-          <input type="text" id="editIcon" maxlength="5" style="width: 80px;">
-        </div>
-        <div class="form-group">
-          <label for="editReadTime">Tempo de leitura (minutos)</label>
-          <input type="number" id="editReadTime" min="1" max="60" style="width: 100px;">
-        </div>
-        <div class="form-group">
-          <label for="editContent">Conteúdo (HTML)</label>
-          <textarea id="editContent" placeholder="Use tags HTML como <h3>, <h4>, <p>, <ul>, <li>..."></textarea>
-          <span class="help-text">Usa HTML: &lt;h3&gt;, &lt;h4&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, etc.</span>
-        </div>
-        <div class="article-edit-actions">
-          <button class="btn btn-secondary" onclick="cancelEdit()">Cancelar</button>
-          <button class="btn btn-primary" onclick="saveArticleEdit()">💾 Guardar</button>
-        </div>
-      </div>
-      
-      <div class="modal-body" id="articleModalBody">
-        <!-- Article content loaded dynamically -->
-      </div>
-      <div class="article-comments" id="articleComments">
-        <h3>💬 Comentários</h3>
-        <div class="comments-list" id="commentsList"></div>
-        <div class="comment-form" id="commentForm">
-          <textarea id="commentText" placeholder="Escreve um comentário..." maxlength="1000"></textarea>
-          <button class="btn btn-primary" onclick="submitComment()">Comentar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CREATE ARTICLE MODAL -->
-  <div class="modal" id="createArticleModal">
-    <div class="modal-content modal-large">
-      <div class="modal-header">
-        <h2>➕ Criar Novo Artigo</h2>
-        <button class="modal-close" onclick="closeCreateArticleModal()">&times;</button>
-      </div>
-      <form id="createArticleForm" onsubmit="createArticle(event)">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="newTitle">Título *</label>
-            <input type="text" id="newTitle" maxlength="100" required>
-          </div>
-          <div class="form-group">
-            <label for="newCategory">Categoria *</label>
-            <select id="newCategory" required>
-              <option value="dinamicas">👀 Dinâmicas</option>
-              <option value="brinquedos">🎲 Brinquedos</option>
-              <option value="dicas">💡 Dicas</option>
-              <option value="viagens">✈️ Viagens</option>
-              <option value="saude">🩺 Saúde</option>
-              <option value="lifestyle">🏖️ Lifestyle</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="newExcerpt">Resumo *</label>
-            <input type="text" id="newExcerpt" maxlength="200" placeholder="Breve descrição do artigo..." required>
-          </div>
-          <div class="form-group" style="display: flex; gap: 1rem;">
-            <div style="flex: 0 0 120px;">
-              <label for="newIcon">Ícone (emoji)</label>
-              <input type="text" id="newIcon" value="📖" maxlength="5">
-            </div>
-            <div style="flex: 0 0 120px;">
-              <label for="newReadTime">Tempo leitura</label>
-              <input type="number" id="newReadTime" value="5" min="1" max="60">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="newContent">Conteúdo (HTML) *</label>
-            <textarea id="newContent" placeholder="<h3>Título da Secção</h3>&#10;<p>Parágrafo de texto...</p>&#10;<ul>&#10;  <li>Item 1</li>&#10;  <li>Item 2</li>&#10;</ul>" required></textarea>
-            <span class="help-text">Usa HTML: &lt;h3&gt;Título&lt;/h3&gt;, &lt;p&gt;Texto&lt;/p&gt;, &lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;, &lt;strong&gt;Bold&lt;/strong&gt;</span>
-          </div>
-        </div>
-        <div class="form-actions" style="padding: 1rem 1.5rem; background: #f8f9fa; border-top: 1px solid #e0e0e0;">
-          <button type="button" class="btn btn-secondary" onclick="closeCreateArticleModal()">Cancelar</button>
-          <button type="submit" class="btn btn-primary">✨ Criar Artigo</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- DELETE CONFIRMATION -->
-  <div class="delete-confirm-overlay" id="deleteConfirmOverlay" onclick="cancelDelete()"></div>
-  <div class="delete-confirm" id="deleteConfirm">
-    <h3>🗑️ Eliminar Artigo?</h3>
-    <p>Tens a certeza que queres eliminar este artigo? Esta ação não pode ser revertida.</p>
-    <div class="delete-confirm-actions">
-      <button class="btn btn-secondary" onclick="cancelDelete()">Cancelar</button>
-      <button class="btn btn-danger" onclick="deleteArticle()" style="background: #ff6b6b;">Eliminar</button>
-    </div>
-  </div>
-
   <!-- TOPIC MODAL -->
   <div class="modal" id="topicModal">
     <div class="modal-content modal-large">

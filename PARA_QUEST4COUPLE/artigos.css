@@ -1,0 +1,333 @@
+/**
+ * Quest4Couple - Artigos Styles
+ */
+
+/* ================================
+   HERO SECTION
+   ================================ */
+.artigos-hero {
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #ff6b9d 100%);
+  padding: 3rem 0;
+  text-align: center;
+  color: white;
+}
+
+.artigos-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.artigos-hero p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ================================
+   ARTICLES SECTION
+   ================================ */
+.artigos-section {
+  padding: 2rem 0 4rem;
+}
+
+/* Filter Buttons */
+.articles-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  background: white;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: #ff6b9d;
+  color: #ff6b9d;
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #ff6b9d, #c44569);
+  border-color: transparent;
+  color: white;
+}
+
+/* Articles Grid */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.no-articles {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+}
+
+/* Article Card */
+.article-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.2);
+}
+
+.article-image {
+  height: 160px;
+  background: linear-gradient(135deg, #ff6b9d20, #c4456920);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.article-image.has-image {
+  background-color: #333;
+}
+
+.article-image.has-image .article-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.article-body {
+  padding: 1.25rem;
+}
+
+.article-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, #ff6b9d20, #c4456920);
+  color: #c44569;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.article-title {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.article-excerpt {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.article-meta {
+  display: flex;
+  gap: 1rem;
+  color: #999;
+  font-size: 0.85rem;
+}
+
+/* ================================
+   MODAL STYLES
+   ================================ */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-content.modal-large {
+  max-width: 800px;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-header h2 {
+  font-size: 1.25rem;
+  color: #333;
+  margin: 0;
+  padding-right: 2rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+  transition: color 0.3s;
+}
+
+.modal-close:hover {
+  color: #ff6b9d;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  line-height: 1.7;
+  color: #444;
+}
+
+.modal-body h3 {
+  color: #c44569;
+  margin: 1.5rem 0 1rem;
+  font-size: 1.3rem;
+}
+
+.modal-body h4 {
+  color: #333;
+  margin: 1.25rem 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.modal-body p {
+  margin-bottom: 1rem;
+}
+
+.modal-body ul, .modal-body ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.modal-body li {
+  margin-bottom: 0.5rem;
+}
+
+.modal-body strong {
+  color: #333;
+}
+
+.modal-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.modal-body th, .modal-body td {
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.modal-body th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+/* ================================
+   LOADING SPINNER
+   ================================ */
+.loading-spinner {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #999;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top-color: #ff6b9d;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 768px) {
+  .artigos-hero h1 {
+    font-size: 1.8rem;
+  }
+  
+  .articles-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal {
+    padding: 1rem;
+  }
+  
+  .modal-content.modal-large {
+    max-width: 100%;
+  }
+}
