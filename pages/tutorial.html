@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial - Quest4You</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css?v=202601202240">
+  <link rel="stylesheet" href="../css/tutorial.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="../index.html" class="logo">
+        <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
+        <span class="logo-text">Quest4You</span>
+      </a>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link">🏠 Início</a>
+        <a href="./smart-match.html" class="nav-link">💕 Smart Match</a>
+        <a href="./explorar.html" class="nav-link">👥 Comunidade</a>
+        <a href="./profile.html" class="nav-link">👤 Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="tutorial-container">
+    <!-- Hero Section -->
+    <section class="tutorial-hero">
+      <div class="hero-content">
+        <h1>📚 Tutorial Quest4You</h1>
+        <p>Aprende a tirar o máximo partido da plataforma</p>
+      </div>
+    </section>
+
+    <!-- Progress Bar -->
+    <div class="tutorial-progress">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <span class="progress-text" id="progressText">Passo 1 de 6</span>
+    </div>
+
+    <!-- Tutorial Steps -->
+    <div class="tutorial-steps">
+      <!-- Step 1: Welcome -->
+      <section class="tutorial-step active" id="step1">
+        <div class="step-card">
+          <div class="step-icon">👋</div>
+          <h2>Bem-vindo ao Quest4You!</h2>
+          <p class="step-intro">O Quest4You é uma plataforma de autoconhecimento e conexão através de questionários sobre sexualidade e intimidade.</p>
+          
+          <div class="step-content">
+            <div class="feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">📝</span>
+                <div class="feature-text">
+                  <h4>9 Questionários</h4>
+                  <p>Descobre os teus interesses em diferentes áreas da sexualidade</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">💕</span>
+                <div class="feature-text">
+                  <h4>Smart Match</h4>
+                  <p>Encontra pessoas compatíveis com base nos teus resultados</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">👥</span>
+                <div class="feature-text">
+                  <h4>Comunidade</h4>
+                  <p>Participa em discussões no fórum e chat ao vivo</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">🔒</span>
+                <div class="feature-text">
+                  <h4>Privacidade</h4>
+                  <p>Os teus dados são privados e encriptados</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button class="btn btn-primary btn-large" onclick="nextStep()">
+              Começar Tutorial →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2: Account & Profile -->
+      <section class="tutorial-step" id="step2">
+        <div class="step-card">
+          <div class="step-icon">👤</div>
+          <h2>Criar Conta & Perfil</h2>
+          <p class="step-intro">O primeiro passo é criar a tua conta e configurar o teu perfil.</p>
+          
+          <div class="step-content">
+            <div class="tutorial-grid">
+              <div class="tutorial-item">
+                <div class="tutorial-number">1</div>
+                <h4>Cria uma conta</h4>
+                <p>Usa o teu email ou conta Google para registar</p>
+              </div>
+              <div class="tutorial-item">
+                <div class="tutorial-number">2</div>
+                <h4>Escolhe um nickname</h4>
+                <p>Este nome será visível na comunidade - não uses o teu nome real</p>
+              </div>
+              <div class="tutorial-item">
+                <div class="tutorial-number">3</div>
+                <h4>Configura a privacidade</h4>
+                <p>Decide se queres aparecer no Smart Match</p>
+              </div>
+            </div>
+
+            <div class="info-box">
+              <span class="info-icon">💡</span>
+              <p><strong>Dica:</strong> Podes usar um email secundário para maior privacidade.</p>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button class="btn btn-secondary" onclick="prevStep()">← Voltar</button>
+            <button class="btn btn-primary" onclick="nextStep()">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3: Photos & Gender Validation -->
+      <section class="tutorial-step" id="step3">
+        <div class="step-card">
+          <div class="step-icon">📷</div>
+          <h2>Fotos & Validação de Género</h2>
+          <p class="step-intro">Gere as tuas fotos com diferentes níveis de privacidade.</p>
+          
+          <div class="step-content">
+            <div class="photo-levels">
+              <div class="photo-level">
+                <span class="level-badge public">🌍 Pública</span>
+                <p>Visível para todos os utilizadores no Smart Match</p>
+              </div>
+              <div class="photo-level">
+                <span class="level-badge private">🔒 Privada</span>
+                <p>Só visível para conexões que aceitaste</p>
+              </div>
+              <div class="photo-level">
+                <span class="level-badge secret">🔐 Secreta</span>
+                <p>Requer validação de género para ver e ser vista</p>
+              </div>
+            </div>
+
+            <div class="validation-info">
+              <h4>🔐 Como funciona a Validação de Género?</h4>
+              <ol>
+                <li>Envia uma foto do teu rosto (sem nudez)</li>
+                <li>A equipa de moderação analisa em 24-48h</li>
+                <li>Se aprovado, desbloqueias fotos secretas</li>
+                <li>Podes ver fotos secretas de outros utilizadores validados</li>
+              </ol>
+              <div class="warning-box">
+                <span class="warning-icon">⚠️</span>
+                <p>Fotos com nudez, conteúdo sexual ou que não mostrem claramente o rosto serão rejeitadas.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button class="btn btn-secondary" onclick="prevStep()">← Voltar</button>
+            <button class="btn btn-primary" onclick="nextStep()">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 4: Quizzes -->
+      <section class="tutorial-step" id="step4">
+        <div class="step-card">
+          <div class="step-icon">📝</div>
+          <h2>Questionários</h2>
+          <p class="step-intro">Responde a questionários para descobrir os teus interesses e encontrar matches compatíveis.</p>
+          
+          <div class="step-content">
+            <div class="quiz-categories">
+              <div class="quiz-category">
+                <span class="category-emoji">🔥</span>
+                <span class="category-name">Vanilla ou Kink</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">🌈</span>
+                <span class="category-name">Orientação Sexual</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">🎭</span>
+                <span class="category-name">BDSM</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">👀</span>
+                <span class="category-name">Voyeurismo</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">👥</span>
+                <span class="category-name">Swing & Poliamor</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">⛓️</span>
+                <span class="category-name">Fetiches</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">🎲</span>
+                <span class="category-name">Aventura</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">🔮</span>
+                <span class="category-name">Fantasias</span>
+              </div>
+              <div class="quiz-category">
+                <span class="category-emoji">📸</span>
+                <span class="category-name">Exibicionismo</span>
+              </div>
+            </div>
+
+            <div class="quiz-tips">
+              <h4>💡 Dicas para os questionários:</h4>
+              <ul>
+                <li>Responde honestamente - não há respostas certas ou erradas</li>
+                <li>Cada questionário tem ~50 perguntas (10-15 min)</li>
+                <li>Podes pausar e continuar mais tarde</li>
+                <li>Os resultados são privados por defeito</li>
+                <li>Quanto mais questionários fizeres, melhor o Smart Match funciona</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button class="btn btn-secondary" onclick="prevStep()">← Voltar</button>
+            <button class="btn btn-primary" onclick="nextStep()">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 5: Smart Match -->
+      <section class="tutorial-step" id="step5">
+        <div class="step-card">
+          <div class="step-icon">💕</div>
+          <h2>Smart Match</h2>
+          <p class="step-intro">Encontra pessoas compatíveis com base nos teus resultados dos questionários.</p>
+          
+          <div class="step-content">
+            <div class="match-features">
+              <div class="match-feature">
+                <div class="feature-visual">🎯</div>
+                <h4>Compatibilidade Real</h4>
+                <p>O algoritmo compara os teus resultados com outros utilizadores para encontrar matches genuínos</p>
+              </div>
+              <div class="match-feature">
+                <div class="feature-visual">🔍</div>
+                <h4>Filtros</h4>
+                <p>Filtra por género, localização e compatibilidade mínima</p>
+              </div>
+              <div class="match-feature">
+                <div class="feature-visual">💬</div>
+                <h4>Mensagens</h4>
+                <p>Envia mensagens privadas para os teus matches</p>
+              </div>
+            </div>
+
+            <div class="compatibility-explanation">
+              <h4>📊 Como funciona a compatibilidade?</h4>
+              <p>O sistema compara as tuas respostas em cada questionário com as de outros utilizadores. Scores semelhantes = alta compatibilidade.</p>
+              <p>Para dinâmicas como BDSM, o sistema também considera <strong>matching inverso</strong> (Dom+Sub = match perfeito).</p>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button class="btn btn-secondary" onclick="prevStep()">← Voltar</button>
+            <button class="btn btn-primary" onclick="nextStep()">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 6: Community & Safety -->
+      <section class="tutorial-step" id="step6">
+        <div class="step-card">
+          <div class="step-icon">🛡️</div>
+          <h2>Comunidade & Segurança</h2>
+          <p class="step-intro">Participa na comunidade de forma segura e responsável.</p>
+          
+          <div class="step-content">
+            <div class="community-features">
+              <div class="community-item">
+                <span class="community-icon">💬</span>
+                <h4>Fórum</h4>
+                <p>Discussões organizadas por tópico com moderação</p>
+              </div>
+              <div class="community-item">
+                <span class="community-icon">🗨️</span>
+                <h4>Chat ao Vivo</h4>
+                <p>Conversa em tempo real com outros utilizadores</p>
+              </div>
+              <div class="community-item">
+                <span class="community-icon">✉️</span>
+                <h4>Mensagens Privadas</h4>
+                <p>Comunicação 1-a-1 com matches e conexões</p>
+              </div>
+            </div>
+
+            <div class="safety-rules">
+              <h4>⚠️ Regras de Segurança:</h4>
+              <ul>
+                <li>✅ Sê respeitoso/a com todos</li>
+                <li>✅ Mantém conversas consensuais</li>
+                <li>✅ Reporta comportamento inadequado</li>
+                <li>❌ Não partilhes informação pessoal (nome real, morada, etc.)</li>
+                <li>❌ Não envies conteúdo não solicitado</li>
+                <li>❌ Não faças spam ou assédio</li>
+              </ul>
+            </div>
+
+            <div class="final-tips">
+              <h4>🎉 Estás pronto/a!</h4>
+              <p>Agora que sabes como funciona o Quest4You, está na hora de começar a explorar. Lembra-te:</p>
+              <ul>
+                <li>Os teus dados são privados e encriptados</li>
+                <li>Podes apagar a tua conta a qualquer momento</li>
+                <li>A equipa de suporte está disponível para ajudar</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button class="btn btn-secondary" onclick="prevStep()">← Voltar</button>
+            <a href="../index.html" class="btn btn-primary btn-large">🚀 Começar a Explorar</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Quick Navigation -->
+    <nav class="tutorial-nav">
+      <button class="nav-dot active" onclick="goToStep(1)" title="Bem-vindo"></button>
+      <button class="nav-dot" onclick="goToStep(2)" title="Conta & Perfil"></button>
+      <button class="nav-dot" onclick="goToStep(3)" title="Fotos"></button>
+      <button class="nav-dot" onclick="goToStep(4)" title="Questionários"></button>
+      <button class="nav-dot" onclick="goToStep(5)" title="Smart Match"></button>
+      <button class="nav-dot" onclick="goToStep(6)" title="Comunidade"></button>
+    </nav>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Quest4You - Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <script>
+    // Tutorial Navigation
+    let currentStep = 1;
+    const totalSteps = 6;
+
+    function updateProgress() {
+      const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('progressText').textContent = 'Passo ' + currentStep + ' de ' + totalSteps;
+      
+      // Update nav dots
+      document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i + 1 === currentStep);
+        dot.classList.toggle('completed', i + 1 < currentStep);
+      });
+    }
+
+    function showStep(stepNum) {
+      document.querySelectorAll('.tutorial-step').forEach((step, i) => {
+        step.classList.toggle('active', i + 1 === stepNum);
+      });
+      currentStep = stepNum;
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextStep() {
+      if (currentStep < totalSteps) {
+        showStep(currentStep + 1);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        showStep(currentStep - 1);
+      }
+    }
+
+    function goToStep(stepNum) {
+      showStep(stepNum);
+    }
+
+    // Initialize
+    updateProgress();
+  </script>
+</body>
+</html>

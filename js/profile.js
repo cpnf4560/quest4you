@@ -72,6 +72,7 @@ async function loadUserProfile() {
         loadResults();
         loadBadges();
         updateStats();
+        loadAllPhotos();
       } else {
         // Create profile if doesn't exist
         await createUserProfile();
@@ -1016,3 +1017,303 @@ function downloadFullReport() {
   // For now, show message - PDF generation would require a library
   alert("📥 Funcionalidade de download PDF em breve!\n\nPor agora, podes usar Ctrl+P (ou Cmd+P no Mac) para imprimir/guardar como PDF enquanto o relatório está aberto.");
 }
+
+// ================================
+// PROFILE PHOTOS
+// ================================
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024; // 5MB
+
+async function uploadPhoto(type, inputElement) {
+  if (!currentUser) {
+    alert("Precisas de estar autenticado para fazer upload de fotos.");
+    return;
+  }
+
+  const file = inputElement.files[0];
+  if (!file) return;
+
+  // Validate file type
+  if (!file.type.startsWith('image/')) {
+    alert("Por favor, seleciona uma imagem válida.");
+    return;
+  }
+
+  // Validate file size
+  if (file.size > MAX_PHOTO_SIZE) {
+    alert("A imagem é demasiado grande. Máximo: 5MB");
+    return;
+  }
+
+  // Check if secret photo requires validation
+  if (type === 'secret') {
+    const validationStatus = userData?.genderValidation?.status;
+    if (validationStatus !== 'approved') {
+      alert("Precisas de ter a validação de género aprovada para usar fotos secretas.");
+      inputElement.value = '';
+      return;
+    }
+  }
+
+  try {
+    // Show loading state
+    const previewEl = document.getElementById(type + 'PhotoPreview');
+    previewEl.innerHTML = '<div class="photo-loading">📤 A carregar...</div>';
+
+    // Convert to base64 (for now - later use Firebase Storage)
+    const base64 = await fileToBase64(file);
+
+    // Resize image if needed
+    const resizedBase64 = await resizeImage(base64, 800);
+
+    // Save to Firestore
+    const photoKey = type + 'Photo';
+    await db.collection("quest4you_users").doc(currentUser.uid).update({
+      [photoKey]: resizedBase64,
+      [photoKey + 'UpdatedAt']: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Update local data
+    if (userData) {
+      userData[photoKey] = resizedBase64;
+    }
+
+    // Update UI
+    updatePhotoPreview(type, resizedBase64);
+    
+    console.log("✅ Photo uploaded:", type);
+    alert("Foto atualizada com sucesso!");
+
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    alert("Erro ao carregar foto. Por favor, tenta novamente.");
+    loadPhotoPreview(type); // Restore previous state
+  }
+
+  inputElement.value = '';
+}
+
+async function removePhoto(type) {
+  if (!currentUser) return;
+
+  if (!confirm("Tens a certeza que queres remover esta foto?")) {
+    return;
+  }
+
+  try {
+    const photoKey = type + 'Photo';
+    await db.collection("quest4you_users").doc(currentUser.uid).update({
+      [photoKey]: firebase.firestore.FieldValue.delete(),
+      [photoKey + 'UpdatedAt']: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Update local data
+    if (userData) {
+      delete userData[photoKey];
+    }
+
+    // Update UI
+    updatePhotoPreview(type, null);
+    
+    console.log("✅ Photo removed:", type);
+
+  } catch (error) {
+    console.error("Error removing photo:", error);
+    alert("Erro ao remover foto.");
+  }
+}
+
+function updatePhotoPreview(type, photoUrl) {
+  const previewEl = document.getElementById(type + 'PhotoPreview');
+  const imgEl = document.getElementById(type + 'PhotoImg');
+  const removeBtn = document.getElementById('remove' + capitalizeFirst(type) + 'Btn');
+
+  if (photoUrl) {
+    imgEl.src = photoUrl;
+    imgEl.style.display = 'block';
+    previewEl.querySelector('.photo-placeholder')?.remove();
+    if (removeBtn) removeBtn.style.display = 'inline-flex';
+  } else {
+    imgEl.src = '';
+    imgEl.style.display = 'none';
+    if (!previewEl.querySelector('.photo-placeholder')) {
+      const placeholders = { public: '👤', private: '🔒', secret: '🔐' };
+      previewEl.innerHTML = '<span class="photo-placeholder">' + placeholders[type] + '</span>' + previewEl.innerHTML;
+    }
+    if (removeBtn) removeBtn.style.display = 'none';
+  }
+}
+
+function loadAllPhotos() {
+  if (!userData) return;
+
+  ['public', 'private', 'secret'].forEach(type => {
+    const photoKey = type + 'Photo';
+    if (userData[photoKey]) {
+      updatePhotoPreview(type, userData[photoKey]);
+    }
+  });
+
+  // Update gender validation status
+  updateValidationStatusUI();
+}
+
+// ================================
+// GENDER VALIDATION
+// ================================
+async function submitGenderValidation(inputElement) {
+  if (!currentUser) {
+    alert("Precisas de estar autenticado.");
+    return;
+  }
+
+  const file = inputElement.files[0];
+  if (!file) return;
+
+  // Validate file
+  if (!file.type.startsWith('image/')) {
+    alert("Por favor, seleciona uma imagem válida.");
+    return;
+  }
+
+  if (file.size > MAX_PHOTO_SIZE) {
+    alert("A imagem é demasiado grande. Máximo: 5MB");
+    return;
+  }
+
+  try {
+    // Show loading
+    const statusSection = document.getElementById('validationNotStarted');
+    statusSection.innerHTML = '<div class="photo-loading">📤 A enviar...</div>';
+
+    // Convert and resize
+    const base64 = await fileToBase64(file);
+    const resizedBase64 = await resizeImage(base64, 600);
+
+    // Save validation request to Firestore
+    await db.collection("quest4you_users").doc(currentUser.uid).update({
+      genderValidation: {
+        status: 'pending',
+        photoUrl: resizedBase64,
+        submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        reviewedAt: null,
+        reviewedBy: null,
+        rejectionReason: null
+      }
+    });
+
+    // Update local data
+    if (userData) {
+      userData.genderValidation = {
+        status: 'pending',
+        submittedAt: new Date().toISOString()
+      };
+    }
+
+    // Update UI
+    updateValidationStatusUI();
+    
+    console.log("✅ Gender validation submitted");
+    alert("Foto de validação enviada! Será analisada em 24-48 horas.");
+
+  } catch (error) {
+    console.error("Error submitting validation:", error);
+    alert("Erro ao enviar. Por favor, tenta novamente.");
+    updateValidationStatusUI(); // Restore state
+  }
+
+  inputElement.value = '';
+}
+
+function updateValidationStatusUI() {
+  const notStarted = document.getElementById('validationNotStarted');
+  const pending = document.getElementById('validationPending');
+  const approved = document.getElementById('validationApproved');
+  const rejected = document.getElementById('validationRejected');
+  const secretUpload = document.getElementById('secretPhotoInput');
+  const genderStatus = document.getElementById('genderValidationStatus');
+
+  // Hide all
+  [notStarted, pending, approved, rejected].forEach(el => {
+    if (el) el.style.display = 'none';
+  });
+
+  const validation = userData?.genderValidation;
+
+  if (!validation || !validation.status) {
+    // Not started
+    if (notStarted) notStarted.style.display = 'block';
+    if (secretUpload) secretUpload.disabled = true;
+    if (genderStatus) genderStatus.innerHTML = '<span class="validation-pending">⏳ Validação pendente</span>';
+  } else if (validation.status === 'pending') {
+    // Pending review
+    if (pending) pending.style.display = 'block';
+    if (secretUpload) secretUpload.disabled = true;
+    if (genderStatus) genderStatus.innerHTML = '<span class="validation-pending">⏳ Em análise</span>';
+  } else if (validation.status === 'approved') {
+    // Approved
+    if (approved) approved.style.display = 'block';
+    if (secretUpload) secretUpload.disabled = false;
+    if (genderStatus) genderStatus.innerHTML = '<span style="color: #4CAF50;">✅ Validado</span>';
+  } else if (validation.status === 'rejected') {
+    // Rejected
+    if (rejected) {
+      rejected.style.display = 'block';
+      const reasonEl = document.getElementById('rejectionReason');
+      if (reasonEl && validation.rejectionReason) {
+        reasonEl.textContent = 'Motivo: ' + validation.rejectionReason;
+      }
+    }
+    if (secretUpload) secretUpload.disabled = true;
+    if (genderStatus) genderStatus.innerHTML = '<span style="color: #f44336;">❌ Rejeitado</span>';
+  }
+}
+
+// ================================
+// UTILITY FUNCTIONS
+// ================================
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function resizeImage(base64, maxSize) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      
+      if (width > maxSize || height > maxSize) {
+        if (width > height) {
+          height = (height / width) * maxSize;
+          width = maxSize;
+        } else {
+          width = (width / height) * maxSize;
+          height = maxSize;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      resolve(canvas.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = base64;
+  });
+}
+
+function capitalizeFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Export new functions
+window.uploadPhoto = uploadPhoto;
+window.removePhoto = removePhoto;
+window.submitGenderValidation = submitGenderValidation;

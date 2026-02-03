@@ -79,8 +79,118 @@
             <input type="text" id="nicknameInput" placeholder="O teu nickname..." maxlength="20" class="nickname-input">
           </div>
           <button class="btn btn-primary" onclick="saveNickname()">💾 Guardar</button>
+        </div>        <p class="nickname-hint">💡 Máximo 20 caracteres. Evita usar o teu nome real.</p>
+      </div>
+    </section>
+
+    <!-- Profile Photos Section -->
+    <section class="photos-section">
+      <h2 class="section-title">📷 Fotos de Perfil</h2>
+      <div class="photos-card">
+        <p class="photos-desc">Gere as tuas fotos com diferentes níveis de privacidade. Fotos secretas requerem validação de género.</p>
+        
+        <div class="photos-grid">
+          <!-- Public Photo -->
+          <div class="photo-slot" data-type="public">
+            <div class="photo-preview" id="publicPhotoPreview">
+              <span class="photo-placeholder">👤</span>
+              <img src="" alt="Foto Pública" id="publicPhotoImg" style="display: none;">
+            </div>
+            <div class="photo-info">
+              <span class="photo-type-badge public">🌍 Pública</span>
+              <p class="photo-type-desc">Visível para todos no Smart Match</p>
+            </div>
+            <div class="photo-actions">
+              <label class="btn btn-secondary btn-small">
+                📤 Upload
+                <input type="file" accept="image/*" onchange="uploadPhoto('public', this)" hidden>
+              </label>
+              <button class="btn btn-outline btn-small" onclick="removePhoto('public')" id="removePublicBtn" style="display: none;">🗑️</button>
+            </div>
+          </div>
+
+          <!-- Private Photo -->
+          <div class="photo-slot" data-type="private">
+            <div class="photo-preview" id="privatePhotoPreview">
+              <span class="photo-placeholder">🔒</span>
+              <img src="" alt="Foto Privada" id="privatePhotoImg" style="display: none;">
+            </div>
+            <div class="photo-info">
+              <span class="photo-type-badge private">🔒 Privada</span>
+              <p class="photo-type-desc">Só visível para conexões aceites</p>
+            </div>
+            <div class="photo-actions">
+              <label class="btn btn-secondary btn-small">
+                📤 Upload
+                <input type="file" accept="image/*" onchange="uploadPhoto('private', this)" hidden>
+              </label>
+              <button class="btn btn-outline btn-small" onclick="removePhoto('private')" id="removePrivateBtn" style="display: none;">🗑️</button>
+            </div>
+          </div>
+
+          <!-- Secret Photo -->
+          <div class="photo-slot" data-type="secret">
+            <div class="photo-preview" id="secretPhotoPreview">
+              <span class="photo-placeholder">🔐</span>
+              <img src="" alt="Foto Secreta" id="secretPhotoImg" style="display: none;">
+            </div>
+            <div class="photo-info">
+              <span class="photo-type-badge secret">🔐 Secreta</span>
+              <p class="photo-type-desc">Requer validação de género</p>
+            </div>
+            <div class="photo-actions">
+              <label class="btn btn-secondary btn-small" id="secretUploadLabel">
+                📤 Upload
+                <input type="file" accept="image/*" onchange="uploadPhoto('secret', this)" hidden id="secretPhotoInput">
+              </label>
+              <button class="btn btn-outline btn-small" onclick="removePhoto('secret')" id="removeSecretBtn" style="display: none;">🗑️</button>
+            </div>
+            <div class="gender-validation-status" id="genderValidationStatus">
+              <span class="validation-pending">⏳ Validação pendente</span>
+            </div>
+          </div>
         </div>
-        <p class="nickname-hint">💡 Máximo 20 caracteres. Evita usar o teu nome real.</p>
+
+        <!-- Gender Validation Section -->
+        <div class="gender-validation-card" id="genderValidationCard">
+          <h4>🔐 Validação de Género</h4>
+          <p>Para desbloquear fotos secretas e participar em matches avançados, valida o teu género.</p>
+          <div class="validation-requirements">
+            <p>📋 <strong>Requisitos:</strong></p>
+            <ul>
+              <li>Foto do rosto claramente visível</li>
+              <li>Iluminação adequada</li>
+              <li>Sem filtros ou edições</li>
+              <li>⚠️ <strong>Sem nudez</strong> - fotos inadequadas serão rejeitadas</li>
+            </ul>
+          </div>
+          <div class="validation-status" id="validationStatusSection">
+            <div class="validation-not-started" id="validationNotStarted">
+              <label class="btn btn-primary">
+                📷 Enviar Foto de Validação
+                <input type="file" accept="image/*" onchange="submitGenderValidation(this)" hidden>
+              </label>
+            </div>
+            <div class="validation-pending-review" id="validationPending" style="display: none;">
+              <span class="status-badge pending">⏳ Em análise</span>
+              <p>A tua foto está a ser analisada. Receberás uma notificação em breve.</p>
+            </div>
+            <div class="validation-approved" id="validationApproved" style="display: none;">
+              <span class="status-badge approved">✅ Validado</span>
+              <p>Género validado! Podes usar fotos secretas.</p>
+            </div>
+            <div class="validation-rejected" id="validationRejected" style="display: none;">
+              <span class="status-badge rejected">❌ Rejeitado</span>
+              <p id="rejectionReason">Motivo: Foto não cumpre os requisitos.</p>
+              <label class="btn btn-secondary">
+                🔄 Tentar Novamente
+                <input type="file" accept="image/*" onchange="submitGenderValidation(this)" hidden>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <p class="photos-hint">💡 Mantém as fotos apropriadas. Conteúdo impróprio resultará em suspensão da conta.</p>
       </div>
     </section>
 
