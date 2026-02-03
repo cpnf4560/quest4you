@@ -430,28 +430,33 @@ function calculateResults() {
     return calculateRoleResults();
   }
   
-  // Standard spectrum/percentage calculation
-  let totalScore = 0;
-  let maxPossibleScore = filteredQuestions.length * 5;
+  // Standard spectrum/percentage calculation with weight support
+  let totalWeightedScore = 0;
+  let totalWeight = 0;
   let categoryScores = {};
+  
   filteredQuestions.forEach(function(question) {
     let value = answers[question.id] || 3;
     // Support both 'invert' and 'reverse' property names
     if (question.invert || question.reverse) {
       value = 6 - value;
     }
-    totalScore += value;
+    
+    // Apply weight (default to 1 if not specified)
+    const weight = question.weight !== undefined ? question.weight : 1;
+    totalWeightedScore += value * weight;
+    totalWeight += 5 * weight; // Max score per question is 5
 
     if (question.category) {
       if (!categoryScores[question.category]) {
-        categoryScores[question.category] = { total: 0, count: 0 };
+        categoryScores[question.category] = { total: 0, weight: 0 };
       }
-      categoryScores[question.category].total += value;
-      categoryScores[question.category].count++;
+      categoryScores[question.category].total += value * weight;
+      categoryScores[question.category].weight += 5 * weight;
     }
   });
 
-  const percentage = Math.round((totalScore / maxPossibleScore) * 100);
+  const percentage = Math.round((totalWeightedScore / totalWeight) * 100);
 
   let resultCategory = null;
   if (quizData.categories) {
@@ -467,13 +472,13 @@ function calculateResults() {
   const categoryAverages = {};
   for (const key in categoryScores) {
     const data = categoryScores[key];
-    categoryAverages[key] = Math.round((data.total / data.count) * 20);
+    categoryAverages[key] = Math.round((data.total / data.weight) * 100);
   }
 
   return {
     score: percentage,
-    totalPoints: totalScore,
-    maxPoints: maxPossibleScore,
+    totalPoints: Math.round(totalWeightedScore),
+    maxPoints: Math.round(totalWeight),
     category: resultCategory,
     categoryScores: categoryAverages
   };
