@@ -1186,13 +1186,40 @@ async function submitGenderValidation(inputElement) {
   try {
     // Show loading
     const statusSection = document.getElementById('validationNotStarted');
-    statusSection.innerHTML = '<div class="photo-loading">📤 A enviar...</div>';
+    if (statusSection) {
+      statusSection.innerHTML = '<div class="photo-loading">📤 A enviar...</div>';
+    }
 
     // Convert and resize
     const base64 = await fileToBase64(file);
     const resizedBase64 = await resizeImage(base64, 600);
 
-    // Save validation request to Firestore
+    // Get user data for the validation request
+    const userDoc = await db.collection("quest4you_users").doc(currentUser.uid).get();
+    const userDataForValidation = userDoc.data() || {};
+
+    // Create validation request in separate collection (for admin panel)
+    const validationRef = db.collection("genderValidations").doc(currentUser.uid);
+    await validationRef.set({
+      userId: currentUser.uid,
+      email: currentUser.email || userDataForValidation.email,
+      displayName: userDataForValidation.displayName || 'Utilizador',
+      declaredGender: userDataForValidation.smartMatchPreferences?.gender || userDataForValidation.gender || 'not_specified',
+      orientation: userDataForValidation.smartMatchPreferences?.orientation || 'not_specified',
+      lookingFor: userDataForValidation.smartMatchPreferences?.lookingFor || 'not_specified',
+      quizzesCompleted: userDataForValidation.results ? Object.keys(userDataForValidation.results).length : 0,
+      publicPhotoUrl: userDataForValidation.photos?.public || null,
+      privatePhotoUrl: userDataForValidation.photos?.private || null,
+      secretPhotoUrl: userDataForValidation.photos?.secret || null,
+      validationPhotoUrl: resizedBase64,
+      status: 'pending',
+      requestedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      reviewedAt: null,
+      reviewedBy: null,
+      rejectionReason: null
+    });
+
+    // Also update user document
     await db.collection("quest4you_users").doc(currentUser.uid).update({
       genderValidation: {
         status: 'pending',

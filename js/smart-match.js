@@ -88,11 +88,10 @@ async function initializeAuthenticatedUser(user) {
       showSection('profileSetup');
       prefillProfileForm(user);
       return;
-    }
-
-    // Show main match section
+    }    // Show main match section
     showSection('matchMain');
     updateYourProfileCard();
+    await updateGenderValidationStatus(user);
     await loadMatches();
 
   } catch (error) {
@@ -547,6 +546,148 @@ function showToast(message, type = 'info') {
 }
 
 // ================================
+// GENDER VALIDATION
+// ================================
+async function updateGenderValidationStatus(user) {
+  if (!user) return;
+  
+  try {
+    const userDoc = await window.db.collection('quest4you_users').doc(user.uid).get();
+    
+    if (!userDoc.exists) return;
+    
+    const userData = userDoc.data();
+    const statusContainer = document.getElementById('genderValidationStatus');
+    const requestBtn = document.getElementById('requestValidationBtn');
+    
+    if (!statusContainer || !requestBtn) return;
+    
+    // Verificar estado de validação
+    if (userData.genderValidated) {
+      // Validado ✅
+      statusContainer.innerHTML = `
+        <div class="validation-badge validated">
+          <span class="badge-icon">✅</span>
+          <span class="badge-text">Género Validado</span>
+        </div>
+      `;
+      requestBtn.style.display = 'none';
+      
+    } else if (userData.genderValidationRequested && !userData.genderValidationRejected) {
+      // Pendente ⏳
+      statusContainer.innerHTML = `
+        <div class="validation-badge pending">
+          <span class="badge-icon">⏳</span>
+          <span class="badge-text">Validação Pendente</span>
+        </div>
+      `;
+      requestBtn.style.display = 'none';
+      
+    } else if (userData.genderValidationRejected) {
+      // Rejeitado ❌
+      const reason = userData.genderValidationRejectionReason || 'Não especificado';
+      statusContainer.innerHTML = `
+        <div class="validation-badge rejected">
+          <span class="badge-icon">❌</span>
+          <span class="badge-text">Validação Rejeitada</span>
+        </div>
+        <div class="validation-reason">Motivo: ${reason}</div>
+      `;
+      requestBtn.style.display = 'inline-block';
+      requestBtn.textContent = '🔄 Solicitar Novamente';
+      
+    } else {
+      // Não validado - mostrar botão
+      statusContainer.innerHTML = `
+        <div class="validation-badge not-validated">
+          <span class="badge-icon">⚠️</span>
+          <span class="badge-text">Género Não Validado</span>
+        </div>
+      `;
+      requestBtn.style.display = 'inline-block';
+      requestBtn.textContent = '✅ Solicitar Validação de Género';
+    }
+    
+  } catch (error) {
+    console.error('Error updating validation status:', error);
+  }
+}
+
+async function requestGenderValidation() {
+  if (!currentUser) {
+    alert('❌ Precisas de estar autenticado para solicitar validação de género.');
+    return;
+  }
+  
+  try {
+    // Buscar dados do utilizador
+    const userDoc = await window.db.collection('quest4you_users').doc(currentUser.uid).get();
+    
+    if (!userDoc.exists) {
+      alert('❌ Dados do utilizador não encontrados.');
+      return;
+    }
+    
+    const userData = userDoc.data();
+    
+    // Verificar se tem fotos
+    const hasPhotos = userData.publicPhotoUrl || userData.privatePhotoUrl || userData.secretPhotoUrl ||
+                      userData.photos?.public || userData.photos?.private || userData.photos?.secret;
+    
+    if (!hasPhotos) {
+      if (!confirm('⚠️ Não tens fotos no perfil. É altamente recomendado adicionar fotos para facilitar a validação.\n\nDesejas continuar mesmo assim?')) {
+        return;
+      }
+    }
+    
+    // Verificar se já tem pedido pendente
+    const existingRequest = await window.db.collection('genderValidations')
+      .where('userId', '==', currentUser.uid)
+      .where('status', '==', 'pending')
+      .get();
+    
+    if (!existingRequest.empty) {
+      alert('⏳ Já tens um pedido de validação pendente. Aguarda pela análise dos administradores.');
+      return;
+    }
+    
+    // Criar pedido de validação
+    const validationData = {
+      userId: currentUser.uid,
+      email: userData.email,
+      displayName: userData.displayName || 'Utilizador',
+      declaredGender: userData.smartMatchPreferences?.gender || 'not_specified',
+      orientation: userData.smartMatchPreferences?.orientation || 'not_specified',
+      lookingFor: userData.smartMatchPreferences?.lookingFor || 'not_specified',
+      publicPhotoUrl: userData.publicPhotoUrl || userData.photos?.public || null,
+      privatePhotoUrl: userData.privatePhotoUrl || userData.photos?.private || null,
+      secretPhotoUrl: userData.secretPhotoUrl || userData.photos?.secret || null,
+      quizzesCompleted: userData.results ? Object.keys(userData.results).length : 0,
+      status: 'pending',
+      requestedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    await window.db.collection('genderValidations').add(validationData);
+    
+    // Atualizar flag no utilizador
+    await window.db.collection('quest4you_users').doc(currentUser.uid).update({
+      genderValidationRequested: true,
+      genderValidationRequestedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      genderValidationRejected: false // Reset rejection flag
+    });
+    
+    alert('✅ Pedido de validação de género submetido com sucesso!\n\nOs administradores irão analisar o teu pedido em breve. Receberás uma notificação quando for processado.');
+    
+    // Atualizar status na interface
+    await updateGenderValidationStatus(currentUser);
+    
+  } catch (error) {
+    console.error('Error requesting gender validation:', error);
+    alert('❌ Erro ao submeter pedido de validação. Por favor, tenta novamente.');
+  }
+}
+
+// ================================
 // EXPORTS
 // ================================
 window.applyFilters = applyFilters;
@@ -556,3 +697,4 @@ window.toggleProfileVisibility = toggleProfileVisibility;
 window.openMatchDetail = openMatchDetail;
 window.closeMatchModal = closeMatchModal;
 window.initiateContact = initiateContact;
+window.requestGenderValidation = requestGenderValidation;

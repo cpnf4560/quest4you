@@ -14,12 +14,27 @@ service cloud.firestore {
     // Verificar se o utilizador é o dono do documento
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
+    }    // Verificar se o utilizador é admin
+    // Verifica se existe na coleção admins
+    function isAdminByCollection() {
+      return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
     
-    // Verificar se o utilizador é admin
+    // Verifica se o documento do user tem isAdmin = true
+    function isAdminByField() {
+      return exists(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Verifica se o documento do user tem role = 'admin'
+    function isAdminByRole() {
+      return exists(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Função principal para verificar admin
     function isAdmin() {
-      return isAuthenticated() && 
-        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      return isAuthenticated() && (isAdminByCollection() || isAdminByField() || isAdminByRole());
     }
     
     // ================================
@@ -36,10 +51,32 @@ service cloud.firestore {
     // UTILIZADORES (quest4you_users) - Coleção principal
     // ================================
     match /quest4you_users/{userId} {
-      // Utilizadores autenticados podem ler perfis (para buscar nicknames)
+      // Admins podem ler todos os perfis
+      // Utilizadores autenticados podem ler perfis (para buscar nicknames e SmartMatch)
       allow read: if isAuthenticated();
       // Só o próprio utilizador pode escrever no seu perfil
       allow write: if isOwner(userId);
+      // Admins podem atualizar qualquer perfil (para validação de género)
+      allow update: if isAdmin();
+      // Admins podem eliminar utilizadores
+      allow delete: if isAdmin();
+    }
+    
+    // ================================
+    // VALIDAÇÃO DE GÉNERO (genderValidations)
+    // ================================
+    match /genderValidations/{validationId} {
+      // Admins podem ler TODAS as validações (para listagem no painel)
+      // Utilizadores podem ler a sua própria validação
+      allow read: if isAuthenticated();
+      // Utilizadores autenticados podem criar pedidos de validação
+      allow create: if isAuthenticated();
+      // Utilizadores podem atualizar a sua própria validação (até ser revista)
+      // Admins podem atualizar qualquer validação
+      allow update: if isAuthenticated() && 
+        (isAdmin() || (resource.data.userId == request.auth.uid && resource.data.status == 'pending'));
+      // Apenas admins podem apagar validações
+      allow delete: if isAdmin();
     }
     
     // ================================

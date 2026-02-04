@@ -154,8 +154,7 @@
         </button>
       </div>
 
-      <!-- Your Profile Card -->
-      <div class="your-profile-card" id="yourProfileCard">
+      <!-- Your Profile Card -->      <div class="your-profile-card" id="yourProfileCard">
         <div class="your-profile-header">
           <span class="your-profile-label">O Teu Perfil</span>
           <button class="btn btn-outline btn-small" onclick="toggleProfileVisibility()">
@@ -167,10 +166,18 @@
           <div class="your-profile-info">
             <h3 id="yourName">Utilizador</h3>
             <p id="yourDetails"></p>
+            <div class="gender-validation-status" id="genderValidationStatus">
+              <!-- Status will be dynamically updated -->
+            </div>
           </div>
         </div>
         <div class="your-quizzes" id="yourQuizzes">
           <!-- Quiz badges -->
+        </div>
+        <div class="profile-actions">
+          <button class="btn btn-outline btn-small" id="requestValidationBtn" onclick="requestGenderValidation()" style="display: none;">
+            ✅ Solicitar Validação de Género
+          </button>
         </div>
       </div>
 

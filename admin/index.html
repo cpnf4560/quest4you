@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=202601210001">
+  <link rel="stylesheet" href="./admin.css?v=202602040003">
 </head>
 <body>
   <!-- Sidebar -->
@@ -42,10 +42,14 @@
       <a href="#results" class="nav-item" data-section="results">
         <span class="nav-icon">📈</span>
         <span>Resultados</span>
-      </a>
-      <a href="#matches" class="nav-item" data-section="matches">
+      </a>      <a href="#matches" class="nav-item" data-section="matches">
         <span class="nav-icon">💕</span>
         <span>Smart Matches</span>
+      </a>
+      <a href="#validation" class="nav-item" data-section="validation">
+        <span class="nav-icon">✅</span>
+        <span>Validação de Género</span>
+        <span class="nav-badge" id="pendingValidationsBadge" style="display: none;">0</span>
       </a>
       <a href="#settings" class="nav-item" data-section="settings">
         <span class="nav-icon">⚙️</span>
@@ -95,8 +99,26 @@
           </button>
         </form>
         
+        <div class="login-divider">
+          <span>ou</span>
+        </div>
+        
+        <button type="button" class="btn btn-google btn-full" onclick="adminLoginGoogle()">
+          <svg viewBox="0 0 24 24" width="20" height="20" style="margin-right: 8px;">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Entrar com Google
+        </button>
+        
         <div class="login-error" id="loginError" style="display: none;">
           ⚠️ Credenciais inválidas ou sem permissões de admin.
+        </div>
+        
+        <div class="login-help">
+          <small>💡 Não tens acesso? Usa <a href="make-admin.html" target="_blank">make-admin.html</a> para te tornares admin.</small>
         </div>
       </div>
     </section>
@@ -173,31 +195,36 @@
             <h3>📊 Questionários Populares</h3>
           </div>
           <div class="card-body">
-            <div class="quiz-stats">
-              <div class="quiz-stat-item">
+            <div class="quiz-stats" id="dashboardQuizStats">
+              <div class="quiz-stat-item" data-quiz="vanilla">
                 <span class="quiz-name">Vanilla ou Kink</span>
-                <div class="quiz-bar" style="--percent: 85%; --color: #e91e63;"></div>
-                <span class="quiz-percent">85%</span>
+                <div class="quiz-bar" id="bar-vanilla" style="--percent: 0%; --color: #e91e63;"></div>
+                <span class="quiz-percent" id="percent-vanilla">0%</span>
               </div>
-              <div class="quiz-stat-item">
-                <span class="quiz-name">Orientação Sexual</span>
-                <div class="quiz-bar" style="--percent: 72%; --color: #9c27b0;"></div>
-                <span class="quiz-percent">72%</span>
+              <div class="quiz-stat-item" data-quiz="orientation">
+                <span class="quiz-name">Espectro de Atração</span>
+                <div class="quiz-bar" id="bar-orientation" style="--percent: 0%; --color: #9c27b0;"></div>
+                <span class="quiz-percent" id="percent-orientation">0%</span>
               </div>
-              <div class="quiz-stat-item">
-                <span class="quiz-name">Fetiches e Kinks</span>
-                <div class="quiz-bar" style="--percent: 68%; --color: #f44336;"></div>
-                <span class="quiz-percent">68%</span>
+              <div class="quiz-stat-item" data-quiz="kinks">
+                <span class="quiz-name">Fetiches & Parafilias</span>
+                <div class="quiz-bar" id="bar-kinks" style="--percent: 0%; --color: #f44336;"></div>
+                <span class="quiz-percent" id="percent-kinks">0%</span>
               </div>
-              <div class="quiz-stat-item">
+              <div class="quiz-stat-item" data-quiz="swing">
                 <span class="quiz-name">Swing/Poliamor</span>
-                <div class="quiz-bar" style="--percent: 54%; --color: #00bcd4;"></div>
-                <span class="quiz-percent">54%</span>
+                <div class="quiz-bar" id="bar-swing" style="--percent: 0%; --color: #00bcd4;"></div>
+                <span class="quiz-percent" id="percent-swing">0%</span>
               </div>
-              <div class="quiz-stat-item">
+              <div class="quiz-stat-item" data-quiz="cuckold">
                 <span class="quiz-name">Stag/Cuckold</span>
-                <div class="quiz-bar" style="--percent: 41%; --color: #673ab7;"></div>
-                <span class="quiz-percent">41%</span>
+                <div class="quiz-bar" id="bar-cuckold" style="--percent: 0%; --color: #673ab7;"></div>
+                <span class="quiz-percent" id="percent-cuckold">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="bdsm">
+                <span class="quiz-name">BDSM & Power Play</span>
+                <div class="quiz-bar" id="bar-bdsm" style="--percent: 0%; --color: #795548;"></div>
+                <span class="quiz-percent" id="percent-bdsm">0%</span>
               </div>
             </div>
           </div>
@@ -238,81 +265,153 @@
     <section class="content-section" id="quizzesSection" style="display: none;">
       <div class="section-header">
         <h2>📝 Gestão de Questionários</h2>
+        <div class="header-actions">
+          <button class="btn btn-outline" onclick="loadQuizzesData()">🔄 Atualizar</button>
+        </div>
       </div>
       
-      <div class="quizzes-admin-grid">
-        <div class="quiz-admin-card">
-          <div class="quiz-admin-header" style="background: #e91e63;">
+      <div class="quizzes-admin-grid" id="quizzesGrid">
+        <!-- Vanilla ou Kink -->
+        <div class="quiz-admin-card" data-quiz="vanilla">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #e91e63, #c2185b);">
             <span class="quiz-admin-icon">🔥</span>
             <h3>Vanilla ou Kink</h3>
           </div>
           <div class="quiz-admin-body">
             <p>50 perguntas</p>
             <div class="quiz-admin-stats">
-              <span>Respostas: <strong>1,234</strong></span>
-              <span>Completos: <strong>890</strong></span>
+              <span id="vanilla-completed">0 completados</span>
+              <span id="vanilla-progress">0 em progresso</span>
+              <span id="vanilla-rate">0% taxa</span>
             </div>
-            <button class="btn btn-outline btn-small">Editar Perguntas</button>
           </div>
         </div>
         
-        <div class="quiz-admin-card">
-          <div class="quiz-admin-header" style="background: #9c27b0;">
+        <!-- Espectro de Atração -->
+        <div class="quiz-admin-card" data-quiz="orientation">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #9c27b0, #7b1fa2);">
             <span class="quiz-admin-icon">🌈</span>
-            <h3>Orientação Sexual</h3>
+            <h3>Espectro de Atração</h3>
           </div>
           <div class="quiz-admin-body">
             <p>50 perguntas</p>
             <div class="quiz-admin-stats">
-              <span>Respostas: <strong>1,105</strong></span>
-              <span>Completos: <strong>782</strong></span>
+              <span id="orientation-completed">0 completados</span>
+              <span id="orientation-progress">0 em progresso</span>
+              <span id="orientation-rate">0% taxa</span>
             </div>
-            <button class="btn btn-outline btn-small">Editar Perguntas</button>
           </div>
         </div>
         
-        <div class="quiz-admin-card">
-          <div class="quiz-admin-header" style="background: #673ab7;">
+        <!-- Fetiches & Parafilias -->
+        <div class="quiz-admin-card" data-quiz="kinks">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #f44336, #d32f2f);">
+            <span class="quiz-admin-icon">⛓️</span>
+            <h3>Fetiches & Parafilias</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="kinks-completed">0 completados</span>
+              <span id="kinks-progress">0 em progresso</span>
+              <span id="kinks-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Exibicionismo -->
+        <div class="quiz-admin-card" data-quiz="exhibitionism">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #ff9800, #f57c00);">
             <span class="quiz-admin-icon">👀</span>
-            <h3>Stag/Cuckold</h3>
+            <h3>Exibicionismo</h3>
           </div>
           <div class="quiz-admin-body">
             <p>50 perguntas</p>
             <div class="quiz-admin-stats">
-              <span>Respostas: <strong>567</strong></span>
-              <span>Completos: <strong>421</strong></span>
+              <span id="exhibitionism-completed">0 completados</span>
+              <span id="exhibitionism-progress">0 em progresso</span>
+              <span id="exhibitionism-rate">0% taxa</span>
             </div>
-            <button class="btn btn-outline btn-small">Editar Perguntas</button>
           </div>
         </div>
         
-        <div class="quiz-admin-card">
-          <div class="quiz-admin-header" style="background: #00bcd4;">
+        <!-- Fantasias Secretas -->
+        <div class="quiz-admin-card" data-quiz="fantasies">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #e040fb, #aa00ff);">
+            <span class="quiz-admin-icon">💭</span>
+            <h3>Fantasias Secretas</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="fantasies-completed">0 completados</span>
+              <span id="fantasies-progress">0 em progresso</span>
+              <span id="fantasies-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Swing/Poliamor -->
+        <div class="quiz-admin-card" data-quiz="swing">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #00bcd4, #0097a7);">
             <span class="quiz-admin-icon">💑</span>
             <h3>Swing/Poliamor</h3>
           </div>
           <div class="quiz-admin-body">
             <p>50 perguntas</p>
             <div class="quiz-admin-stats">
-              <span>Respostas: <strong>789</strong></span>
-              <span>Completos: <strong>543</strong></span>
+              <span id="swing-completed">0 completados</span>
+              <span id="swing-progress">0 em progresso</span>
+              <span id="swing-rate">0% taxa</span>
             </div>
-            <button class="btn btn-outline btn-small">Editar Perguntas</button>
           </div>
         </div>
         
-        <div class="quiz-admin-card">
-          <div class="quiz-admin-header" style="background: #f44336;">
-            <span class="quiz-admin-icon">⛓️</span>
-            <h3>Fetiches e Kinks</h3>
+        <!-- Stag/Hotwife/Cuckold -->
+        <div class="quiz-admin-card" data-quiz="cuckold">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #673ab7, #512da8);">
+            <span class="quiz-admin-icon">🦊</span>
+            <h3>Stag/Hotwife/Cuckold</h3>
           </div>
           <div class="quiz-admin-body">
             <p>50 perguntas</p>
             <div class="quiz-admin-stats">
-              <span>Respostas: <strong>998</strong></span>
-              <span>Completos: <strong>723</strong></span>
+              <span id="cuckold-completed">0 completados</span>
+              <span id="cuckold-progress">0 em progresso</span>
+              <span id="cuckold-rate">0% taxa</span>
             </div>
-            <button class="btn btn-outline btn-small">Editar Perguntas</button>
+          </div>
+        </div>
+        
+        <!-- BDSM & Power Play -->
+        <div class="quiz-admin-card" data-quiz="bdsm">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #795548, #5d4037);">
+            <span class="quiz-admin-icon">🔗</span>
+            <h3>BDSM & Power Play</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="bdsm-completed">0 completados</span>
+              <span id="bdsm-progress">0 em progresso</span>
+              <span id="bdsm-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Comunicação Sexual -->
+        <div class="quiz-admin-card" data-quiz="communication">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #4caf50, #388e3c);">
+            <span class="quiz-admin-icon">💬</span>
+            <h3>Comunicação Sexual</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>50 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="communication-completed">0 completados</span>
+              <span id="communication-progress">0 em progresso</span>
+              <span id="communication-rate">0% taxa</span>
+            </div>
           </div>
         </div>
       </div>
@@ -320,43 +419,71 @@
 
     <!-- Results Section -->
     <section class="content-section" id="resultsSection" style="display: none;">
+      <!-- Content loaded dynamically by loadResultsData() -->
       <div class="section-header">
         <h2>📈 Análise de Resultados</h2>
       </div>
-      
-      <div class="results-overview">
-        <div class="result-chart-card">
-          <h3>Distribuição de Resultados - Vanilla ou Kink</h3>
-          <div class="distribution-chart">
-            <div class="dist-bar" style="--height: 15%"><span>10%</span><label>Muito Vanilla</label></div>
-            <div class="dist-bar" style="--height: 25%"><span>20%</span><label>Vanilla</label></div>
-            <div class="dist-bar" style="--height: 35%"><span>35%</span><label>Equilibrado</label></div>
-            <div class="dist-bar" style="--height: 20%"><span>25%</span><label>Kink</label></div>
-            <div class="dist-bar" style="--height: 10%"><span>10%</span><label>Muito Kink</label></div>
-          </div>
-        </div>
+      <div class="loading-container">
+        <div class="loading-spinner">⏳</div>
+        <p>A carregar análise de resultados...</p>
       </div>
     </section>
 
     <!-- Matches Section -->
     <section class="content-section" id="matchesSection" style="display: none;">
+      <!-- Content loaded dynamically by loadMatchesData() -->
       <div class="section-header">
         <h2>💕 Smart Matches</h2>
       </div>
-      
-      <div class="matches-overview">
-        <div class="match-stat">
-          <span class="match-stat-value">2,345</span>
-          <span class="match-stat-label">Matches Totais</span>
+      <div class="loading-container">
+        <div class="loading-spinner">⏳</div>
+        <p>A carregar dados do SmartMatch...</p>
+      </div>
+    </section>
+
+    <!-- Gender Validation Section -->
+    <section class="content-section" id="validationSection" style="display: none;">
+      <div class="section-header">
+        <h2>✅ Validação de Género</h2>
+        <div class="header-actions">
+          <button class="btn btn-outline" onclick="filterValidations('all')">Todos</button>
+          <button class="btn btn-primary" onclick="filterValidations('pending')">Pendentes</button>
+          <button class="btn btn-outline" onclick="filterValidations('approved')">Aprovados</button>
+          <button class="btn btn-outline" onclick="filterValidations('rejected')">Rejeitados</button>
         </div>
-        <div class="match-stat">
-          <span class="match-stat-value">78%</span>
-          <span class="match-stat-label">Compatibilidade Média</span>
+      </div>
+
+      <div class="validation-stats-grid">
+        <div class="stat-card stat-pending">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-value" id="validationPendingCount">0</div>
+          <div class="stat-label">Pendentes</div>
         </div>
-        <div class="match-stat">
-          <span class="match-stat-value">456</span>
-          <span class="match-stat-label">Conversas Iniciadas</span>
+        <div class="stat-card stat-approved">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="validationApprovedCount">0</div>
+          <div class="stat-label">Aprovados</div>
         </div>
+        <div class="stat-card stat-rejected">
+          <div class="stat-icon">❌</div>
+          <div class="stat-value" id="validationRejectedCount">0</div>
+          <div class="stat-label">Rejeitados</div>
+        </div>
+        <div class="stat-card stat-rate">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value" id="validationApprovalRate">0%</div>
+          <div class="stat-label">Taxa de Aprovação</div>
+        </div>
+      </div>
+
+      <div id="validationRequestsContainer" class="validation-requests-grid">
+        <!-- Validation requests loaded dynamically -->
+      </div>
+
+      <div id="validationEmptyState" class="empty-state" style="display: none;">
+        <div class="empty-icon">🎉</div>
+        <h3>Nenhum pedido pendente</h3>
+        <p>Todos os pedidos de validação foram processados!</p>
       </div>
     </section>
 
@@ -395,8 +522,7 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202601210001"></script>
-  <script src="./admin.js?v=202601210001"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>  <script src="../js/firebase-config.js?v=202602040003"></script>
+  <script src="./admin.js?v=202602040003"></script>
 </body>
 </html>

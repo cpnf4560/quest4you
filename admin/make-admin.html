@@ -225,10 +225,11 @@
           const doc = await db.collection('quest4you_users').doc(user.uid).get();
           if (doc.exists) {
             const data = doc.data();
-            const currentRole = data.role || 'user';
+            const isAdmin = data.isAdmin === true || data.role === 'admin';
+            const currentRole = data.role || (isAdmin ? 'admin' : 'user');
             userRole.textContent = currentRole;
             
-            if (currentRole === 'admin' || currentRole === 'superadmin') {
+            if (isAdmin) {
               userRole.textContent += ' ✅';
               makeAdminBtn.textContent = '✅ Já é Admin';
               makeAdminBtn.disabled = true;
@@ -278,7 +279,8 @@
       makeAdminBtn.textContent = '⏳ A processar...';
 
       try {
-        // Update user document
+        // Atualizar documento do utilizador com flag isAdmin
+        // As regras do Firestore verificam este campo para dar acesso de admin
         await db.collection('quest4you_users').doc(user.uid).set({
           role: 'admin',
           isAdmin: true,
@@ -286,6 +288,18 @@
         }, { merge: true });
 
         console.log('✅ Admin role added successfully!');
+        
+        // Tentar criar na coleção admins (opcional, pode falhar se regras não permitirem)
+        try {
+          await db.collection('admins').doc(user.uid).set({
+            email: user.email,
+            displayName: user.displayName || 'Admin',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          console.log('✅ Admin document created in admins collection');
+        } catch (adminError) {
+          console.log('ℹ️ Could not create admin document (optional):', adminError.message);
+        }
         
         successMsg.style.display = 'block';
         makeAdminBtn.textContent = '✅ Admin Definido!';
