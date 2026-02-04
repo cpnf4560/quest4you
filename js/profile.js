@@ -1075,9 +1075,7 @@ async function uploadPhoto(type, inputElement) {
     // Update local data
     if (userData) {
       userData[photoKey] = resizedBase64;
-    }
-
-    // Update UI
+    }    // Update UI
     updatePhotoPreview(type, resizedBase64);
     
     console.log("✅ Photo uploaded:", type);
@@ -1086,7 +1084,6 @@ async function uploadPhoto(type, inputElement) {
   } catch (error) {
     console.error("Error uploading photo:", error);
     alert("Erro ao carregar foto. Por favor, tenta novamente.");
-    loadPhotoPreview(type); // Restore previous state
   }
 
   inputElement.value = '';
@@ -1127,18 +1124,24 @@ function updatePhotoPreview(type, photoUrl) {
   const imgEl = document.getElementById(type + 'PhotoImg');
   const removeBtn = document.getElementById('remove' + capitalizeFirst(type) + 'Btn');
 
+  if (!previewEl || !imgEl) {
+    console.warn(`Preview elements not found for ${type} photo`);
+    return;
+  }
+
   if (photoUrl) {
     imgEl.src = photoUrl;
     imgEl.style.display = 'block';
-    previewEl.querySelector('.photo-placeholder')?.remove();
+    // Remove placeholder if exists
+    const placeholder = previewEl.querySelector('.photo-placeholder');
+    if (placeholder) placeholder.style.display = 'none';
     if (removeBtn) removeBtn.style.display = 'inline-flex';
   } else {
     imgEl.src = '';
     imgEl.style.display = 'none';
-    if (!previewEl.querySelector('.photo-placeholder')) {
-      const placeholders = { public: '👤', private: '🔒', secret: '🔐' };
-      previewEl.innerHTML = '<span class="photo-placeholder">' + placeholders[type] + '</span>' + previewEl.innerHTML;
-    }
+    // Show placeholder
+    const placeholder = previewEl.querySelector('.photo-placeholder');
+    if (placeholder) placeholder.style.display = 'block';
     if (removeBtn) removeBtn.style.display = 'none';
   }
 }
