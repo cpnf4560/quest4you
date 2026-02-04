@@ -1522,7 +1522,14 @@ async function loadValidationData() {
   try {
     console.log('🔄 Loading gender validation requests...');
     
-    // Buscar todos os pedidos de validação - tentar com orderBy primeiro
+    allValidationRequests = [];
+    const stats = {
+      pending: 0,
+      approved: 0,
+      rejected: 0
+    };
+    
+    // 1. Primeiro, buscar da coleção genderValidations
     let snapshot;
     try {
       snapshot = await db.collection('genderValidations')
@@ -1533,14 +1540,9 @@ async function loadValidationData() {
       snapshot = await db.collection('genderValidations').get();
     }
     
-    console.log(`📊 Found ${snapshot.size} validation requests`);
+    console.log(`📊 Found ${snapshot.size} validation requests in genderValidations collection`);
     
-    allValidationRequests = [];
-    const stats = {
-      pending: 0,
-      approved: 0,
-      rejected: 0
-    };
+    const processedUserIds = new Set();
     
     snapshot.forEach(doc => {
       const data = doc.data();
@@ -1551,14 +1553,53 @@ async function loadValidationData() {
         ...data
       });
       
+      processedUserIds.add(doc.id);
+      
       if (stats.hasOwnProperty(data.status)) {
         stats[data.status]++;
       } else {
-        // Status desconhecido, assumir pending
         stats.pending++;
       }
     });
     
+    // 2. Também verificar documentos de utilizadores com genderValidation (fallback)
+    console.log('🔄 Checking user documents for genderValidation field...');
+    const usersSnapshot = await db.collection('quest4you_users').get();
+    
+    usersSnapshot.forEach(doc => {
+      const data = doc.data();
+      
+      // Se o utilizador tem genderValidation e ainda não foi processado
+      if (data.genderValidation && !processedUserIds.has(doc.id)) {
+        const validation = data.genderValidation;
+        console.log(`  - Found in user doc ${doc.id}: status=${validation.status}`);
+        
+        // Criar objeto de validação a partir dos dados do utilizador
+        allValidationRequests.push({
+          id: doc.id,
+          userId: doc.id,
+          email: data.email || 'N/A',
+          displayName: data.displayName || 'Utilizador',
+          declaredGender: data.smartMatchPreferences?.gender || data.gender || 'not_specified',
+          orientation: data.smartMatchPreferences?.orientation || 'not_specified',
+          lookingFor: data.smartMatchPreferences?.lookingFor || 'not_specified',
+          validationPhotoUrl: validation.photoUrl || null,
+          status: validation.status || 'pending',
+          requestedAt: validation.submittedAt || null,
+          reviewedAt: validation.reviewedAt || null,
+          fromUserDoc: true // Flag para indicar que veio do documento do utilizador
+        });
+        
+        const status = validation.status || 'pending';
+        if (stats.hasOwnProperty(status)) {
+          stats[status]++;
+        } else {
+          stats.pending++;
+        }
+      }
+    });
+    
+    console.log(`📊 Total validation requests found: ${allValidationRequests.length}`);
     console.log('📈 Validation stats:', stats);
     
     // Atualizar estatísticas
