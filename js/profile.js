@@ -446,11 +446,12 @@ async function savePersonalInfo() {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
 
-    await db.collection("quest4you_users").doc(currentUser.uid).update({
+    // Usar set com merge para criar documento se não existir
+    await db.collection("quest4you_users").doc(currentUser.uid).set({
       personalInfo: personalInfo,
       profileComplete: true,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    }, { merge: true });
 
     // Update local data
     if (userData) {
@@ -462,8 +463,8 @@ async function savePersonalInfo() {
     updateProfileCompletion();
 
     // Hide alert if shown
-    const alert = document.getElementById('profileCompletionAlert');
-    if (alert) alert.style.display = 'none';
+    const completionAlert = document.getElementById('profileCompletionAlert');
+    if (completionAlert) completionAlert.style.display = 'none';
 
     alert('✅ Informações pessoais guardadas com sucesso!');
     console.log("Personal info saved:", personalInfo);
@@ -686,36 +687,15 @@ async function loadResults() {
     const meta = quizMeta[quizId] || { name: quizId, icon: "📝", color: "#666" };
     
     html += `
-      <div class="result-card" onclick="viewResult('${quizId}')" style="cursor: pointer;">
-        <div class="result-card-header" style="background: ${meta.color}">
+      <div class="result-card-compact" onclick="viewResult('${quizId}')">
+        <div class="result-card-left" style="background: ${meta.color}">
           <span class="result-card-icon">${meta.icon}</span>
-          <span class="result-card-title">${meta.name}</span>
+          <span class="result-card-score">${result.score || 0}%</span>
         </div>
-        <div class="result-card-body">
-          <div class="result-score">
-            <div class="result-score-bar">
-              <div class="result-score-fill" style="width: ${result.score || 0}%"></div>
-            </div>
-            <span class="result-score-value">${result.score || 0}%</span>
-          </div>
-          ${result.category ? `
-            <div class="result-category">
-              <span>${result.categoryEmoji || ''} ${result.category}</span>
-            </div>
-          ` : ""}
-          ${result.dominantRole ? `
-            <div class="result-category">
-              <span>Role: ${result.dominantRole}</span>
-            </div>
-          ` : ""}
-          ${result.date ? `
-            <div class="result-date">
-              Completado em ${formatDate(new Date(result.date))}
-            </div>
-          ` : ""}
-          <div class="result-card-action">
-            <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); viewResult('${quizId}')">👁️ Ver Detalhes</button>
-          </div>
+        <div class="result-card-right">
+          <h4 class="result-card-title">${meta.name}</h4>
+          ${result.category ? `<p class="result-card-category">${result.categoryEmoji || ''} ${result.category}</p>` : ""}
+          ${result.date ? `<span class="result-card-date">${formatDate(new Date(result.date))}</span>` : ""}
         </div>
       </div>
     `;
