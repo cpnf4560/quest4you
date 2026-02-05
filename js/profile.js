@@ -145,7 +145,394 @@ function updateProfileFromFirestore() {
     document.getElementById("settingPublicProfile").checked = userData.settings.publicProfile === true;
     document.getElementById("settingSmartMatch").checked = userData.settings.smartMatchEnabled !== false;
   }
+
+  // Load personal info fields
+  loadPersonalInfo();
+  
+  // Update profile completion
+  updateProfileCompletion();
 }
+
+// ================================
+// PERSONAL INFO (NEW)
+// ================================
+
+// Portugal districts and cities
+const portugueseLocations = {
+  districts: [
+    { value: 'aveiro', label: 'Aveiro' },
+    { value: 'beja', label: 'Beja' },
+    { value: 'braga', label: 'Braga' },
+    { value: 'braganca', label: 'Bragança' },
+    { value: 'castelo-branco', label: 'Castelo Branco' },
+    { value: 'coimbra', label: 'Coimbra' },
+    { value: 'evora', label: 'Évora' },
+    { value: 'faro', label: 'Faro' },
+    { value: 'guarda', label: 'Guarda' },
+    { value: 'leiria', label: 'Leiria' },
+    { value: 'lisboa', label: 'Lisboa' },
+    { value: 'portalegre', label: 'Portalegre' },
+    { value: 'porto', label: 'Porto' },
+    { value: 'santarem', label: 'Santarém' },
+    { value: 'setubal', label: 'Setúbal' },
+    { value: 'viana-castelo', label: 'Viana do Castelo' },
+    { value: 'vila-real', label: 'Vila Real' },
+    { value: 'viseu', label: 'Viseu' },
+    { value: 'acores', label: 'Açores' },
+    { value: 'madeira', label: 'Madeira' }
+  ],
+  cities: {
+    'lisboa': ['Lisboa', 'Amadora', 'Cascais', 'Sintra', 'Loures', 'Oeiras', 'Almada', 'Vila Franca de Xira', 'Odivelas', 'Mafra'],
+    'porto': ['Porto', 'Vila Nova de Gaia', 'Matosinhos', 'Maia', 'Gondomar', 'Valongo', 'Vila do Conde', 'Póvoa de Varzim', 'Trofa', 'Santo Tirso'],
+    'braga': ['Braga', 'Guimarães', 'Vila Nova de Famalicão', 'Barcelos', 'Fafe', 'Vizela', 'Esposende'],
+    'setubal': ['Setúbal', 'Almada', 'Seixal', 'Barreiro', 'Sesimbra', 'Montijo', 'Moita', 'Palmela'],
+    'faro': ['Faro', 'Portimão', 'Albufeira', 'Loulé', 'Lagos', 'Olhão', 'Tavira', 'Silves'],
+    'aveiro': ['Aveiro', 'Santa Maria da Feira', 'Ovar', 'Ílhavo', 'Oliveira de Azeméis', 'Espinho'],
+    'coimbra': ['Coimbra', 'Figueira da Foz', 'Cantanhede', 'Lousã', 'Condeixa-a-Nova'],
+    'leiria': ['Leiria', 'Caldas da Rainha', 'Marinha Grande', 'Peniche', 'Pombal', 'Alcobaça'],
+    'santarem': ['Santarém', 'Tomar', 'Torres Novas', 'Entroncamento', 'Abrantes', 'Ourém'],
+    'viseu': ['Viseu', 'Lamego', 'São Pedro do Sul', 'Mangualde', 'Tondela'],
+    'viana-castelo': ['Viana do Castelo', 'Ponte de Lima', 'Arcos de Valdevez', 'Caminha'],
+    'vila-real': ['Vila Real', 'Chaves', 'Peso da Régua', 'Mondim de Basto'],
+    'braganca': ['Bragança', 'Mirandela', 'Macedo de Cavaleiros'],
+    'guarda': ['Guarda', 'Seia', 'Gouveia', 'Trancoso'],
+    'castelo-branco': ['Castelo Branco', 'Covilhã', 'Fundão'],
+    'portalegre': ['Portalegre', 'Elvas', 'Campo Maior', 'Ponte de Sor'],
+    'evora': ['Évora', 'Estremoz', 'Montemor-o-Novo', 'Vendas Novas'],
+    'beja': ['Beja', 'Moura', 'Serpa', 'Castro Verde'],
+    'acores': ['Ponta Delgada', 'Angra do Heroísmo', 'Horta', 'Ribeira Grande'],
+    'madeira': ['Funchal', 'Câmara de Lobos', 'Santa Cruz', 'Machico']
+  }
+};
+
+// Brazil states
+const brazilLocations = {
+  districts: [
+    { value: 'AC', label: 'Acre' },
+    { value: 'AL', label: 'Alagoas' },
+    { value: 'AP', label: 'Amapá' },
+    { value: 'AM', label: 'Amazonas' },
+    { value: 'BA', label: 'Bahia' },
+    { value: 'CE', label: 'Ceará' },
+    { value: 'DF', label: 'Distrito Federal' },
+    { value: 'ES', label: 'Espírito Santo' },
+    { value: 'GO', label: 'Goiás' },
+    { value: 'MA', label: 'Maranhão' },
+    { value: 'MT', label: 'Mato Grosso' },
+    { value: 'MS', label: 'Mato Grosso do Sul' },
+    { value: 'MG', label: 'Minas Gerais' },
+    { value: 'PA', label: 'Pará' },
+    { value: 'PB', label: 'Paraíba' },
+    { value: 'PR', label: 'Paraná' },
+    { value: 'PE', label: 'Pernambuco' },
+    { value: 'PI', label: 'Piauí' },
+    { value: 'RJ', label: 'Rio de Janeiro' },
+    { value: 'RN', label: 'Rio Grande do Norte' },
+    { value: 'RS', label: 'Rio Grande do Sul' },
+    { value: 'RO', label: 'Rondônia' },
+    { value: 'RR', label: 'Roraima' },
+    { value: 'SC', label: 'Santa Catarina' },
+    { value: 'SP', label: 'São Paulo' },
+    { value: 'SE', label: 'Sergipe' },
+    { value: 'TO', label: 'Tocantins' }
+  ],
+  cities: {
+    'SP': ['São Paulo', 'Campinas', 'Santos', 'São Bernardo do Campo', 'Guarulhos', 'Osasco', 'Ribeirão Preto'],
+    'RJ': ['Rio de Janeiro', 'Niterói', 'Petrópolis', 'Nova Iguaçu', 'Duque de Caxias', 'São Gonçalo'],
+    'MG': ['Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora', 'Betim', 'Montes Claros'],
+    'BA': ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna'],
+    'RS': ['Porto Alegre', 'Caxias do Sul', 'Pelotas', 'Canoas', 'Santa Maria', 'Gravataí'],
+    'PR': ['Curitiba', 'Londrina', 'Maringá', 'Ponta Grossa', 'Cascavel', 'Foz do Iguaçu'],
+    'PE': ['Recife', 'Jaboatão dos Guararapes', 'Olinda', 'Caruaru', 'Petrolina'],
+    'CE': ['Fortaleza', 'Caucaia', 'Juazeiro do Norte', 'Maracanaú', 'Sobral'],
+    'SC': ['Florianópolis', 'Joinville', 'Blumenau', 'Chapecó', 'Balneário Camboriú'],
+    'GO': ['Goiânia', 'Aparecida de Goiânia', 'Anápolis', 'Rio Verde'],
+    'DF': ['Brasília', 'Ceilândia', 'Taguatinga', 'Samambaia']
+  }
+};
+
+function loadPersonalInfo() {
+  if (!userData) return;
+
+  // Load saved values into form fields
+  const ageRange = document.getElementById('ageRange');
+  const gender = document.getElementById('gender');
+  const sexualOrientation = document.getElementById('sexualOrientation');
+  const lookingFor = document.getElementById('lookingFor');
+  const country = document.getElementById('country');
+  const district = document.getElementById('district');
+  const city = document.getElementById('city');
+
+  if (userData.personalInfo) {
+    const info = userData.personalInfo;
+    
+    if (ageRange && info.ageRange) {
+      ageRange.value = info.ageRange;
+      markFieldFilled(ageRange);
+    }
+    if (gender && info.gender) {
+      gender.value = info.gender;
+      markFieldFilled(gender);
+    }
+    if (sexualOrientation && info.sexualOrientation) {
+      sexualOrientation.value = info.sexualOrientation;
+      markFieldFilled(sexualOrientation);
+    }
+    if (lookingFor && info.lookingFor) {
+      lookingFor.value = info.lookingFor;
+      markFieldFilled(lookingFor);
+    }
+    if (country && info.country) {
+      country.value = info.country;
+      markFieldFilled(country);
+      loadDistricts(); // Populate districts based on country
+      
+      // Wait for districts to load, then set value
+      setTimeout(() => {
+        if (district && info.district) {
+          district.value = info.district;
+          markFieldFilled(district);
+          loadCities(); // Populate cities based on district
+          
+          setTimeout(() => {
+            if (city && info.city) {
+              city.value = info.city;
+              markFieldFilled(city);
+            }
+          }, 100);
+        }
+      }, 100);
+    }
+  }
+
+  // Add change listeners to mark fields as filled
+  [ageRange, gender, sexualOrientation, lookingFor, country, district, city].forEach(field => {
+    if (field) {
+      field.addEventListener('change', function() {
+        if (this.value) {
+          markFieldFilled(this);
+        } else {
+          this.classList.remove('filled');
+        }
+      });
+    }
+  });
+}
+
+function markFieldFilled(field) {
+  if (field && field.value) {
+    field.classList.add('filled');
+  }
+}
+
+function loadDistricts() {
+  const country = document.getElementById('country').value;
+  const districtSelect = document.getElementById('district');
+  const citySelect = document.getElementById('city');
+
+  // Reset
+  districtSelect.innerHTML = '<option value="">Seleciona o distrito/estado</option>';
+  citySelect.innerHTML = '<option value="">Seleciona primeiro o distrito</option>';
+  districtSelect.classList.remove('filled');
+  citySelect.classList.remove('filled');
+
+  let districts = [];
+
+  if (country === 'PT') {
+    districts = portugueseLocations.districts;
+  } else if (country === 'BR') {
+    districts = brazilLocations.districts;
+  } else if (country === 'ES') {
+    districts = [
+      { value: 'madrid', label: 'Madrid' },
+      { value: 'barcelona', label: 'Barcelona' },
+      { value: 'valencia', label: 'Valência' },
+      { value: 'sevilla', label: 'Sevilha' },
+      { value: 'andalucia', label: 'Andaluzia' },
+      { value: 'galicia', label: 'Galiza' },
+      { value: 'other-es', label: 'Outro' }
+    ];
+  } else if (country) {
+    districts = [{ value: 'other', label: 'Não especificado' }];
+  }
+
+  districts.forEach(d => {
+    const option = document.createElement('option');
+    option.value = d.value;
+    option.textContent = d.label;
+    districtSelect.appendChild(option);
+  });
+}
+
+function loadCities() {
+  const country = document.getElementById('country').value;
+  const district = document.getElementById('district').value;
+  const citySelect = document.getElementById('city');
+
+  // Reset
+  citySelect.innerHTML = '<option value="">Seleciona a cidade</option>';
+  citySelect.classList.remove('filled');
+
+  let cities = [];
+
+  if (country === 'PT' && portugueseLocations.cities[district]) {
+    cities = portugueseLocations.cities[district];
+  } else if (country === 'BR' && brazilLocations.cities[district]) {
+    cities = brazilLocations.cities[district];
+  } else if (district) {
+    cities = ['Não especificado'];
+  }
+
+  cities.forEach(c => {
+    const option = document.createElement('option');
+    option.value = c.toLowerCase().replace(/\s+/g, '-');
+    option.textContent = c;
+    citySelect.appendChild(option);
+  });
+}
+
+async function savePersonalInfo() {
+  if (!currentUser || !db) {
+    alert("Erro: Não estás autenticado.");
+    return;
+  }
+
+  const ageRange = document.getElementById('ageRange').value;
+  const gender = document.getElementById('gender').value;
+  const sexualOrientation = document.getElementById('sexualOrientation').value;
+  const lookingFor = document.getElementById('lookingFor').value;
+  const country = document.getElementById('country').value;
+  const district = document.getElementById('district').value;
+  const city = document.getElementById('city').value;
+
+  // Validate required fields
+  const requiredFields = [
+    { field: 'ageRange', value: ageRange, label: 'Faixa Etária' },
+    { field: 'gender', value: gender, label: 'Género' },
+    { field: 'sexualOrientation', value: sexualOrientation, label: 'Orientação Sexual' },
+    { field: 'lookingFor', value: lookingFor, label: 'À Procura De' },
+    { field: 'country', value: country, label: 'País' }
+  ];
+
+  let missingFields = [];
+  requiredFields.forEach(f => {
+    if (!f.value) {
+      missingFields.push(f.label);
+      document.getElementById(f.field).classList.add('error');
+    } else {
+      document.getElementById(f.field).classList.remove('error');
+    }
+  });
+
+  if (missingFields.length > 0) {
+    alert(`⚠️ Por favor preenche os campos obrigatórios:\n\n• ${missingFields.join('\n• ')}`);
+    return;
+  }
+
+  // Disable button during save
+  const saveBtn = document.getElementById('savePersonalInfoBtn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = '⏳ A guardar...';
+
+  try {
+    const personalInfo = {
+      ageRange,
+      gender,
+      sexualOrientation,
+      lookingFor,
+      country,
+      district: district || null,
+      city: city || null,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    await db.collection("quest4you_users").doc(currentUser.uid).update({
+      personalInfo: personalInfo,
+      profileComplete: true,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Update local data
+    if (userData) {
+      userData.personalInfo = personalInfo;
+      userData.profileComplete = true;
+    }
+
+    // Update completion badge
+    updateProfileCompletion();
+
+    // Hide alert if shown
+    const alert = document.getElementById('profileCompletionAlert');
+    if (alert) alert.style.display = 'none';
+
+    alert('✅ Informações pessoais guardadas com sucesso!');
+    console.log("Personal info saved:", personalInfo);
+
+  } catch (error) {
+    console.error("Error saving personal info:", error);
+    alert("❌ Erro ao guardar informações. Tenta novamente.");
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = '💾 Guardar Informações';
+  }
+}
+
+function updateProfileCompletion() {
+  const badge = document.getElementById('profileCompletionBadge');
+  const alert = document.getElementById('profileCompletionAlert');
+  
+  if (!badge) return;
+
+  // Calculate completion percentage
+  let completed = 0;
+  let total = 7; // Total required fields
+
+  if (userData?.nickname) completed++;
+  if (userData?.personalInfo?.ageRange) completed++;
+  if (userData?.personalInfo?.gender) completed++;
+  if (userData?.personalInfo?.sexualOrientation) completed++;
+  if (userData?.personalInfo?.lookingFor) completed++;
+  if (userData?.personalInfo?.country) completed++;
+  if (userData?.photos?.public) completed++;
+
+  const percent = Math.round((completed / total) * 100);
+
+  // Update badge
+  const percentSpan = badge.querySelector('.completion-percent');
+  if (percentSpan) {
+    percentSpan.textContent = percent + '%';
+  }
+
+  // Update badge color
+  badge.classList.remove('incomplete', 'low');
+  if (percent < 50) {
+    badge.classList.add('low');
+  } else if (percent < 100) {
+    badge.classList.add('incomplete');
+  }
+
+  // Show/hide completion alert
+  if (alert) {
+    if (percent < 100 && !userData?.personalInfo?.ageRange) {
+      alert.style.display = 'flex';
+    } else {
+      alert.style.display = 'none';
+    }
+  }
+}
+
+function scrollToPersonalInfo() {
+  const section = document.getElementById('personalInfoSection');
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// Make functions globally available
+window.loadDistricts = loadDistricts;
+window.loadCities = loadCities;
+window.savePersonalInfo = savePersonalInfo;
+window.scrollToPersonalInfo = scrollToPersonalInfo;
 
 async function createUserProfile() {
   try {

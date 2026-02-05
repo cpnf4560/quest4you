@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css?v=202601202240">
-  <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="../css/main.css?v=202602040006">
+  <link rel="stylesheet" href="../css/profile.css?v=202602040006">
 </head>
 <body>
   <!-- Header -->
@@ -38,24 +38,163 @@
 
   <!-- Profile Container -->
   <main class="profile-container">
-    <!-- Profile Header -->
-    <div class="profile-header" id="profileHeader">
-      <div class="profile-avatar" id="profileAvatar">
-        <img src="" alt="Avatar" id="avatarImg">
-        <span class="avatar-fallback" id="avatarFallback">?</span>
+    <!-- Profile Header - Redesigned -->
+    <div class="profile-header-new" id="profileHeader">
+      <div class="profile-header-bg"></div>
+      <div class="profile-header-content">
+        <div class="profile-avatar-wrapper">
+          <div class="profile-avatar" id="profileAvatar">
+            <img src="" alt="Avatar" id="avatarImg">
+            <span class="avatar-fallback" id="avatarFallback">?</span>
+          </div>
+          <div class="profile-completion-badge" id="profileCompletionBadge">
+            <span class="completion-percent">0%</span>
+          </div>
+        </div>
+        <div class="profile-info">
+          <h1 id="profileName">Carregando...</h1>
+          <p class="profile-nickname" id="profileNickname"></p>
+          <p class="profile-email" id="profileEmail"></p>
+          <p class="profile-joined" id="profileJoined"></p>
+        </div>
       </div>
-      <div class="profile-info">
-        <h1 id="profileName">Carregando...</h1>
-        <p class="profile-nickname" id="profileNickname"></p>
-        <p class="profile-email" id="profileEmail"></p>
-        <p class="profile-joined" id="profileJoined"></p>
-      </div>
-      <button class="btn btn-secondary btn-edit" onclick="editProfile()">
-        ✏️ Editar Perfil
-      </button>
     </div>
 
-    <!-- Nickname Section -->
+    <!-- Profile Completion Alert -->
+    <div class="profile-completion-alert" id="profileCompletionAlert" style="display: none;">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h4>Perfil Incompleto</h4>
+        <p>Completa o teu perfil para poderes usar o Smart Match e encontrar pessoas compatíveis!</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="scrollToPersonalInfo()">Completar Agora</button>
+    </div>
+
+    <!-- NOVA SECÇÃO: Informações Pessoais (Obrigatórias) -->
+    <section class="personal-info-section" id="personalInfoSection">
+      <h2 class="section-title">👤 Informações Pessoais <span class="required-badge">Obrigatório</span></h2>
+      <div class="personal-info-card">
+        <p class="section-description">Esta informação é necessária para o Smart Match. Será usada de forma anónima para encontrar pessoas compatíveis contigo.</p>
+        
+        <div class="personal-info-grid">
+          <!-- Idade -->
+          <div class="form-group">
+            <label for="ageRange" class="form-label">
+              🎂 Faixa Etária <span class="required-star">*</span>
+            </label>
+            <select id="ageRange" class="form-select" required>
+              <option value="">Seleciona a tua idade</option>
+              <option value="18-24">18-24 anos</option>
+              <option value="25-34">25-34 anos</option>
+              <option value="35-44">35-44 anos</option>
+              <option value="45-55">45-55 anos</option>
+              <option value="55+">55+ anos</option>
+            </select>
+          </div>
+
+          <!-- Género -->
+          <div class="form-group">
+            <label for="gender" class="form-label">
+              ⚧️ Género <span class="required-star">*</span>
+            </label>
+            <select id="gender" class="form-select" required>
+              <option value="">Seleciona o teu género</option>
+              <option value="male">Homem</option>
+              <option value="female">Mulher</option>
+              <option value="non-binary">Não-binário</option>
+              <option value="trans-male">Homem trans</option>
+              <option value="trans-female">Mulher trans</option>
+              <option value="other">Outro</option>
+              <option value="prefer-not-say">Prefiro não dizer</option>
+            </select>
+          </div>
+
+          <!-- Orientação Sexual -->
+          <div class="form-group">
+            <label for="sexualOrientation" class="form-label">
+              🌈 Orientação Sexual <span class="required-star">*</span>
+            </label>
+            <select id="sexualOrientation" class="form-select" required>
+              <option value="">Seleciona a tua orientação</option>
+              <option value="heterosexual">Heterossexual</option>
+              <option value="homosexual">Homossexual</option>
+              <option value="bisexual">Bissexual</option>
+              <option value="pansexual">Pansexual</option>
+              <option value="asexual">Assexual</option>
+              <option value="demisexual">Demissexual</option>
+              <option value="queer">Queer</option>
+              <option value="questioning">A explorar</option>
+              <option value="other">Outro</option>
+              <option value="prefer-not-say">Prefiro não dizer</option>
+            </select>
+          </div>
+
+          <!-- À Procura De -->
+          <div class="form-group">
+            <label for="lookingFor" class="form-label">
+              💕 À Procura De <span class="required-star">*</span>
+            </label>
+            <select id="lookingFor" class="form-select" required>
+              <option value="">O que procuras?</option>
+              <option value="friendship">Amizade</option>
+              <option value="casual">Encontros casuais</option>
+              <option value="relationship">Relacionamento sério</option>
+              <option value="open-relationship">Relacionamento aberto</option>
+              <option value="exploration">Explorar sexualidade</option>
+              <option value="couple-activities">Atividades de casal</option>
+              <option value="multiple">Várias opções</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Localização -->
+        <div class="location-section">
+          <h3 class="subsection-title">📍 Localização</h3>
+          <div class="location-grid">
+            <div class="form-group">
+              <label for="country" class="form-label">País <span class="required-star">*</span></label>
+              <select id="country" class="form-select" required onchange="loadDistricts()">
+                <option value="">Seleciona o país</option>
+                <option value="PT">Portugal</option>
+                <option value="BR">Brasil</option>
+                <option value="ES">Espanha</option>
+                <option value="FR">França</option>
+                <option value="UK">Reino Unido</option>
+                <option value="DE">Alemanha</option>
+                <option value="IT">Itália</option>
+                <option value="NL">Holanda</option>
+                <option value="BE">Bélgica</option>
+                <option value="CH">Suíça</option>
+                <option value="LU">Luxemburgo</option>
+                <option value="OTHER">Outro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="district" class="form-label">Distrito/Estado</label>
+              <select id="district" class="form-select" onchange="loadCities()">
+                <option value="">Seleciona primeiro o país</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="city" class="form-label">Cidade</label>
+              <select id="city" class="form-select">
+                <option value="">Seleciona primeiro o distrito</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botão Guardar -->
+        <div class="save-section">
+          <button class="btn btn-primary btn-lg" onclick="savePersonalInfo()" id="savePersonalInfoBtn">
+            💾 Guardar Informações
+          </button>
+          <p class="save-hint" id="saveHint">Campos com <span class="required-star">*</span> são obrigatórios</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nickname Section - Redesigned -->
     <section class="nickname-section">
       <h2 class="section-title">🎭 Nickname Público</h2>
       <div class="nickname-card">
@@ -87,7 +226,8 @@
             <input type="text" id="nicknameInput" placeholder="O teu nickname..." maxlength="20" class="nickname-input">
           </div>
           <button class="btn btn-primary" onclick="saveNickname()">💾 Guardar</button>
-        </div>        <p class="nickname-hint">💡 Máximo 20 caracteres. Evita usar o teu nome real.</p>
+        </div>
+        <p class="nickname-hint">💡 Máximo 20 caracteres. Evita usar o teu nome real.</p>
       </div>
     </section>
 
@@ -406,8 +546,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202601202240"></script>
-  <script src="../js/cloud-sync.js?v=202601202240"></script>
-  <script src="../js/profile.js?v=202601202240"></script>
+  <script src="../js/firebase-config.js?v=202602040006"></script>
+  <script src="../js/cloud-sync.js?v=202602040006"></script>
+  <script src="../js/profile.js?v=202602040006"></script>
 </body>
 </html>

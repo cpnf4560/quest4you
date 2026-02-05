@@ -1737,10 +1737,10 @@ function displayValidationRequests(filter) {
         
         ${isPending ? `
           <div class="validation-actions">
-            <button class="btn btn-approve" onclick="approveValidation('${request.id}', '${request.userId}')">
+            <button class="btn btn-approve" onclick="approveValidation('${request.id}', '${request.userId || request.id}', event)">
               ✅ Aprovar
             </button>
-            <button class="btn btn-reject" onclick="rejectValidation('${request.id}', '${request.userId}')">
+            <button class="btn btn-reject" onclick="rejectValidation('${request.id}', '${request.userId || request.id}', event)">
               ❌ Rejeitar
             </button>
           </div>
@@ -1835,30 +1835,50 @@ function getOrientationLabel(orientation) {
   return labels[orientation] || orientation;
 }
 
-async function approveValidation(validationId, userId) {
+async function approveValidation(validationId, userId, event) {
   if (!confirm('✅ Confirmas que queres APROVAR esta validação de género?')) {
     return;
   }
   
   try {
-    const button = event.target;
-    button.disabled = true;
-    button.textContent = '⏳ A processar...';
+    // Desabilitar botão se evento disponível
+    let button = null;
+    if (event && event.target) {
+      button = event.target;
+      button.disabled = true;
+      button.textContent = '⏳ A processar...';
+    }
     
-    // Atualizar pedido de validação
-    await db.collection('genderValidations').doc(validationId).update({
-      status: 'approved',
-      reviewedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      reviewedBy: currentAdmin.email
-    });
+    console.log('🔄 Approving validation:', { validationId, userId });
     
-    // Atualizar utilizador
-    await db.collection('quest4you_users').doc(userId).update({
+    // Usar userId se validationId não existir (fallback do documento do utilizador)
+    const actualUserId = userId || validationId;
+    
+    // Tentar atualizar na coleção genderValidations (pode não existir)
+    try {
+      const validationDoc = await db.collection('genderValidations').doc(validationId).get();
+      if (validationDoc.exists) {
+        await db.collection('genderValidations').doc(validationId).update({
+          status: 'approved',
+          reviewedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          reviewedBy: currentAdmin.email
+        });
+        console.log('✅ Updated genderValidations collection');
+      }
+    } catch (e) {
+      console.log('ℹ️ genderValidations doc not found, skipping');
+    }
+    
+    // Atualizar utilizador (sempre)
+    await db.collection('quest4you_users').doc(actualUserId).update({
       genderValidated: true,
-      genderValidatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      genderValidatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      'genderValidation.status': 'approved',
+      'genderValidation.reviewedAt': firebase.firestore.FieldValue.serverTimestamp(),
+      'genderValidation.reviewedBy': currentAdmin.email
     });
     
-    console.log(`✅ Validation approved for user ${userId}`);
+    console.log(`✅ Validation approved for user ${actualUserId}`);
     
     // Recarregar dados
     await loadValidationData();
@@ -1867,13 +1887,12 @@ async function approveValidation(validationId, userId) {
     
   } catch (error) {
     console.error('Error approving validation:', error);
-    alert('❌ Erro ao aprovar validação. Por favor tenta novamente.');
-    button.disabled = false;
-    button.textContent = '✅ Aprovar';
+    console.error('Error details:', error.code, error.message);
+    alert('❌ Erro ao aprovar validação: ' + error.message);
   }
 }
 
-async function rejectValidation(validationId, userId) {
+async function rejectValidation(validationId, userId, event) {
   const reason = prompt('❌ Motivo da rejeição (opcional):');
   
   if (reason === null) {
@@ -1881,11 +1900,20 @@ async function rejectValidation(validationId, userId) {
   }
   
   try {
-    const button = event.target;
-    button.disabled = true;
-    button.textContent = '⏳ A processar...';
+    // Desabilitar botão se evento disponível
+    let button = null;
+    if (event && event.target) {
+      button = event.target;
+      button.disabled = true;
+      button.textContent = '⏳ A processar...';
+    }
     
-    // Atualizar pedido de validação
+    console.log('🔄 Rejecting validation:', { validationId, userId });
+    
+    // Usar userId se validationId não existir (fallback do documento do utilizador)
+    const actualUserId = userId || validationId;
+    
+    // Preparar dados de atualização
     const updateData = {
       status: 'rejected',
       reviewedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1896,16 +1924,29 @@ async function rejectValidation(validationId, userId) {
       updateData.rejectionReason = reason;
     }
     
-    await db.collection('genderValidations').doc(validationId).update(updateData);
+    // Tentar atualizar na coleção genderValidations (pode não existir)
+    try {
+      const validationDoc = await db.collection('genderValidations').doc(validationId).get();
+      if (validationDoc.exists) {
+        await db.collection('genderValidations').doc(validationId).update(updateData);
+        console.log('✅ Updated genderValidations collection');
+      }
+    } catch (e) {
+      console.log('ℹ️ genderValidations doc not found, skipping');
+    }
     
-    // Atualizar utilizador
-    await db.collection('quest4you_users').doc(userId).update({
+    // Atualizar utilizador (sempre)
+    await db.collection('quest4you_users').doc(actualUserId).update({
       genderValidated: false,
       genderValidationRejected: true,
-      genderValidationRejectionReason: reason || 'Não especificado'
+      genderValidationRejectionReason: reason || 'Não especificado',
+      'genderValidation.status': 'rejected',
+      'genderValidation.reviewedAt': firebase.firestore.FieldValue.serverTimestamp(),
+      'genderValidation.reviewedBy': currentAdmin.email,
+      'genderValidation.rejectionReason': reason || 'Não especificado'
     });
     
-    console.log(`❌ Validation rejected for user ${userId}`);
+    console.log(`❌ Validation rejected for user ${actualUserId}`);
     
     // Recarregar dados
     await loadValidationData();
@@ -1914,9 +1955,8 @@ async function rejectValidation(validationId, userId) {
     
   } catch (error) {
     console.error('Error rejecting validation:', error);
-    alert('❌ Erro ao rejeitar validação. Por favor tenta novamente.');
-    button.disabled = false;
-    button.textContent = '❌ Rejeitar';
+    console.error('Error details:', error.code, error.message);
+    alert('❌ Erro ao rejeitar validação: ' + error.message);
   }
 }
 

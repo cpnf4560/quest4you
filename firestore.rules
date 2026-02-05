@@ -54,10 +54,10 @@ service cloud.firestore {
       // Admins podem ler todos os perfis
       // Utilizadores autenticados podem ler perfis (para buscar nicknames e SmartMatch)
       allow read: if isAuthenticated();
-      // Só o próprio utilizador pode escrever no seu perfil
-      allow write: if isOwner(userId);
-      // Admins podem atualizar qualquer perfil (para validação de género)
-      allow update: if isAdmin();
+      // Só o próprio utilizador pode criar o seu perfil
+      allow create: if isOwner(userId);
+      // O próprio utilizador OU admins podem atualizar
+      allow update: if isOwner(userId) || isAdmin();
       // Admins podem eliminar utilizadores
       allow delete: if isAdmin();
     }
