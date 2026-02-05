@@ -1,53 +1,59 @@
 ﻿/* ================================
    QUEST4YOU - Main Stylesheet
-   Cores baseadas no logo: Vermelho, Rosa, Amarelo, Verde (Arco-íris)
+   Paleta Excitante & Elegante - Color Emotion Guide
+   Paixão • Desejo • Mistério • Conexão
    ================================ */
 
 :root {
-  /* Cores Principais - Paleta Sóbria e Elegante */
-  --primary: #8B4A5E;        /* Burgundy/Rose escuro - elegante */
-  --primary-dark: #6B3A4E;
-  --primary-light: #A65D73;
-  --secondary: #5C4B6B;      /* Plum/Roxo escuro - sofisticado */
-  --secondary-light: #7B6B8B;
-  --accent-gold: #C4A962;    /* Dourado suave */
-  --accent-copper: #B87333;  /* Bronze/cobre */
-  --accent-green: #5D8A66;   /* Verde sage - mais sóbrio */
-  --accent-rainbow: linear-gradient(90deg, #8B4A5E, #5C4B6B, #C4A962, #5D8A66);
+  /* Cores Principais - Paleta Excitante */
+  --primary: #C41E3A;          /* Vermelho Cardinal - paixão, desejo */
+  --primary-dark: #9B1B30;     /* Vermelho escuro - profundo */
+  --primary-light: #E63950;    /* Vermelho coral - energia */
+  --secondary: #2D1B4E;        /* Roxo escuro - mistério, sedução */
+  --secondary-light: #4A3270;  /* Roxo médio */
+  --accent-gold: #D4AF37;      /* Dourado rico - premium */
+  --accent-copper: #E8833A;    /* Coral/Laranja - energia quente */
+  --accent-teal: #1A6B6B;      /* Teal escuro - equilíbrio */
+  --accent-pink: #FF6B8A;      /* Rosa quente - romântico */
+  --accent-rainbow: linear-gradient(90deg, #C41E3A, #E8833A, #D4AF37, #1A6B6B);
   
-  /* Quiz Colors - tons mais suaves */
-  --quiz-vanilla: #A65D73;
-  --quiz-orientation: #7B6B8B;
-  --quiz-cuckold: #5C4B6B;
-  --quiz-swing: #4A8B8B;
-  --quiz-kinks: #8B4A5E;
+  /* Quiz Colors - vibrantes mas elegantes */
+  --quiz-vanilla: #E63950;
+  --quiz-orientation: #FF6B8A;
+  --quiz-cuckold: #4A3270;
+  --quiz-swing: #E8833A;
+  --quiz-kinks: #C41E3A;
   
   /* Status */
-  --success: #5D8A66;
-  --warning: #C4A962;
-  --danger: #A65D73;
+  --success: #2E8B57;
+  --warning: #D4AF37;
+  --danger: #C41E3A;
   
-  /* Neutrals - tons mais quentes */
-  --bg-light: #FAFAFA;
-  --bg-warm: #F8F6F4;
+  /* Neutrals - tons quentes e sofisticados */
+  --bg-light: #FDFBF9;
+  --bg-warm: #FBF7F4;
   --bg-card: #ffffff;
-  --text-primary: #2D2D2D;
-  --text-secondary: #5A5A5A;
-  --text-muted: #8A8A8A;
-  --border: #E8E4E0;
+  --bg-dark: #1A1218;          /* Preto quente para contraste */
+  --text-primary: #1A1218;
+  --text-secondary: #4A4045;
+  --text-muted: #7A7075;
+  --border: #E8E0DC;
   
-  /* Gradients - mais suaves */
-  --gradient-primary: linear-gradient(135deg, #8B4A5E 0%, #5C4B6B 100%);
-  --gradient-warm: linear-gradient(135deg, #C4A962 0%, #8B4A5E 100%);
-  --gradient-elegant: linear-gradient(135deg, #6B3A4E 0%, #5C4B6B 50%, #4A8B8B 100%);
-  --gradient-rainbow: linear-gradient(135deg, #8B4A5E, #5C4B6B, #C4A962, #5D8A66);
+  /* Gradients - mais dinâmicos e excitantes */
+  --gradient-primary: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%);
+  --gradient-secondary: linear-gradient(135deg, #2D1B4E 0%, #4A3270 100%);
+  --gradient-warm: linear-gradient(135deg, #E8833A 0%, #C41E3A 100%);
+  --gradient-elegant: linear-gradient(135deg, #1A1218 0%, #2D1B4E 50%, #C41E3A 100%);
+  --gradient-hero: linear-gradient(135deg, #1A1218 0%, #2D1B4E 35%, #4A3270 70%, #C41E3A 100%);
+  --gradient-rainbow: linear-gradient(135deg, #C41E3A, #E8833A, #D4AF37, #1A6B6B);
   
-  /* Shadows - mais suaves */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
-  --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
-  --shadow-primary: 0 4px 20px rgba(139, 74, 94, 0.25);
+  /* Shadows - mais pronunciadas */
+  --shadow-sm: 0 2px 4px rgba(26, 18, 24, 0.06);
+  --shadow-md: 0 4px 16px rgba(26, 18, 24, 0.10);
+  --shadow-lg: 0 10px 40px rgba(26, 18, 24, 0.15);
+  --shadow-xl: 0 25px 60px rgba(26, 18, 24, 0.20);
+  --shadow-primary: 0 4px 25px rgba(196, 30, 58, 0.35);
+  --shadow-glow: 0 0 30px rgba(196, 30, 58, 0.25);
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -58,9 +64,9 @@
   --spacing-2xl: 3rem;
   
   /* Border Radius */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
   --radius-full: 50%;
 }
 
@@ -90,11 +96,11 @@ body {
    EXPERIMENTAL VERSION BANNER
    ================================ */
 .experimental-banner {
-  background: linear-gradient(135deg, #5C4B6B, #4A3D5A);
+  background: linear-gradient(135deg, #1A1218, #2D1B4E);
   color: white;
   padding: 10px 20px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(92, 75, 107, 0.2);
+  box-shadow: 0 2px 12px rgba(45, 27, 78, 0.3);
   position: relative;
   z-index: 101;
 }
@@ -177,9 +183,9 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #8B4A5E, #5C4B6B, #C4A962);
-  opacity: 0.7;
+  height: 3px;
+  background: linear-gradient(90deg, #C41E3A, #E8833A, #D4AF37, #1A6B6B);
+  opacity: 1;
 }
 
 .header-content {
@@ -253,15 +259,19 @@ body {
    HERO
    ================================ */
 .hero {
-  background: linear-gradient(135deg, #8B4A5E 0%, #6B3A4E 40%, #5C4B6B 100%);
+  background: var(--gradient-hero);
   padding: var(--spacing-2xl) var(--spacing-lg);
   text-align: center;
   color: white;
   position: relative;
   overflow: hidden;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Padrão de pontos decorativos - mais subtil */
+/* Padrão de pontos decorativos - sofisticado */
 .hero::before {
   content: '';
   position: absolute;
@@ -270,17 +280,31 @@ body {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.6;
+    radial-gradient(circle at 20% 30%, rgba(196, 30, 58, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(232, 131, 58, 0.1) 0%, transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 30px 30px;
+  opacity: 1;
   pointer-events: none;
 }
 
-/* Adicionar sombra ao logo/emojis no hero para contraste */
+/* Efeito de brilho sutil nas bordas */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(196, 30, 58, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Logo destaca-se no fundo escuro */
 .hero .hero-logo,
 .hero img,
 .hero-content img {
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.5));
 }
 
 .hero-content {
@@ -417,15 +441,15 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
+  background: var(--gradient-primary);
   color: white;
-  box-shadow: 0 4px 20px rgba(139, 74, 94, 0.3);
+  box-shadow: var(--shadow-primary);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #A65D73, #7B6B8B);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 25px rgba(139, 74, 94, 0.4);
+  background: linear-gradient(135deg, #E63950, #C41E3A);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(196, 30, 58, 0.45);
 }
 
 .btn-primary:active {
@@ -433,22 +457,22 @@ body {
 }
 
 .btn-secondary {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
   color: white;
-  border: 2px solid rgba(255,255,255,0.4);
-  backdrop-filter: blur(5px);
+  border: 2px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.3);
-  border-color: rgba(255,255,255,0.6);
-  transform: translateY(-2px);
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-3px);
 }
 
 .btn-accent {
-  background: linear-gradient(135deg, #C4A962, #B87333);
-  color: #2D2D2D;
-  box-shadow: 0 4px 15px rgba(196, 169, 98, 0.3);
+  background: linear-gradient(135deg, #E8833A, #D4AF37);
+  color: #1A1218;
+  box-shadow: 0 4px 20px rgba(232, 131, 58, 0.35);
 }
 
 .btn-accent:hover {
@@ -764,34 +788,34 @@ body {
 .shape {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.15;
-  animation: float 6s ease-in-out infinite;
+  opacity: 0.12;
+  animation: float 8s ease-in-out infinite;
 }
 
 .shape-1 {
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 255, 255, 0.3);
-  top: 10%;
-  left: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(196, 30, 58, 0.4) 0%, transparent 70%);
+  top: 5%;
+  left: 5%;
   animation-delay: 0s;
 }
 
 .shape-2 {
-  width: 200px;
-  height: 200px;
-  background: rgba(253, 216, 53, 0.4);
-  top: 60%;
-  right: 15%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(232, 131, 58, 0.35) 0%, transparent 70%);
+  top: 50%;
+  right: 10%;
   animation-delay: 2s;
 }
 
 .shape-3 {
-  width: 150px;
-  height: 150px;
-  background: rgba(76, 175, 80, 0.4);
-  bottom: 20%;
-  left: 20%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+  bottom: 15%;
+  left: 15%;
   animation-delay: 4s;
 }
 
@@ -805,23 +829,27 @@ body {
 }
 
 .hero-logo-large {
-  max-width: 200px;
+  max-width: 220px;
   height: auto;
-  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
-  animation: logoFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.4)) brightness(1.05);
+  animation: logoFloat 4s ease-in-out infinite;
 }
 
 @keyframes logoFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.02); }
 }
 
 .hero-title-main {
-  font-size: 4rem;
+  font-size: 4.5rem;
   font-weight: 800;
   margin-bottom: var(--spacing-md);
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  letter-spacing: -1px;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  letter-spacing: -2px;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-subtitle-main {
@@ -835,9 +863,9 @@ body {
 
 /* Smart Match Promo Card */
 .smart-match-promo {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   display: flex;
@@ -847,13 +875,26 @@ body {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.smart-match-promo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #C41E3A, #E8833A, #D4AF37);
 }
 
 .smart-match-promo:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), var(--shadow-glow);
+  border-color: rgba(196, 30, 58, 0.3);
 }
 
 .promo-icon-large {
@@ -883,21 +924,24 @@ body {
 
 /* Button Glow Effect */
 .btn-glow {
-  background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
+  background: linear-gradient(135deg, #C41E3A, #E63950);
   color: white;
-  padding: 14px 28px;
+  padding: 16px 32px;
   font-weight: 700;
-  animation: glow 3s ease-in-out infinite;
+  animation: glow 2.5s ease-in-out infinite;
   flex-shrink: 0;
+  border: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 15px rgba(139, 74, 94, 0.3); }
-  50% { box-shadow: 0 0 30px rgba(139, 74, 94, 0.5), 0 0 50px rgba(92, 75, 107, 0.3); }
+  0%, 100% { box-shadow: 0 0 20px rgba(196, 30, 58, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(196, 30, 58, 0.6), 0 0 60px rgba(232, 131, 58, 0.3); }
 }
 
 .btn-glow:hover {
-  transform: translateY(-3px) scale(1.05);
+  transform: translateY(-4px) scale(1.05);
+  background: linear-gradient(135deg, #E63950, #C41E3A);
 }
 
 /* Hero CTA */
@@ -906,9 +950,11 @@ body {
 }
 
 .btn-xl {
-  padding: 18px 40px;
-  font-size: 1.2rem;
-  border-radius: 15px;
+  padding: 20px 48px;
+  font-size: 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .hero-cta-note {
@@ -927,13 +973,14 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: var(--spacing-lg);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .welcome-text span {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.2rem 0.6rem;
+  background: rgba(196, 30, 58, 0.3);
+  padding: 0.2rem 0.8rem;
   border-radius: 8px;
+  border: 1px solid rgba(196, 30, 58, 0.4);
 }
 
 .welcome-actions {
@@ -946,14 +993,14 @@ body {
 /* Button variants for hero welcome */
 .btn-white {
   background: white;
-  color: #8B4A5E;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: var(--primary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .btn-white:hover {
   background: #FAFAFA;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 .btn-outline-white {
