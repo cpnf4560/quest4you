@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css?v=202602040007">
-  <link rel="stylesheet" href="../css/profile.css?v=202602040007">
+  <link rel="stylesheet" href="../css/main.css?v=202602050001">
+  <link rel="stylesheet" href="../css/profile.css?v=202602050001">
 </head>
 <body>
   <!-- Header -->
@@ -432,6 +432,57 @@
           </label>
         </div>
       </div>
+    </section>    <!-- Feedback Section -->
+    <section class="feedback-section">
+      <h2 class="section-title">💬 Feedback & Sugestões</h2>
+      <div class="feedback-card">
+        <div class="feedback-info">
+          <div class="feedback-icon">🚧</div>
+          <div class="feedback-text">
+            <h3>Projeto em Desenvolvimento</h3>
+            <p>O Quest4You está em constante evolução! A tua opinião é muito importante para nos ajudar a criar a melhor experiência possível. Partilha as tuas sugestões, reporta bugs ou diz-nos o que gostarias de ver no futuro.</p>
+          </div>
+        </div>
+        <div class="feedback-form">
+          <textarea id="feedbackText" class="feedback-textarea" placeholder="Escreve aqui o teu feedback, sugestões ou ideias..." rows="4"></textarea>
+          <div class="feedback-type-selector">
+            <label class="feedback-type">
+              <input type="radio" name="feedbackType" value="suggestion" checked>
+              <span>💡 Sugestão</span>
+            </label>
+            <label class="feedback-type">
+              <input type="radio" name="feedbackType" value="bug">
+              <span>🐛 Bug</span>
+            </label>
+            <label class="feedback-type">
+              <input type="radio" name="feedbackType" value="feature">
+              <span>✨ Nova Funcionalidade</span>
+            </label>
+            <label class="feedback-type">
+              <input type="radio" name="feedbackType" value="other">
+              <span>💭 Outro</span>
+            </label>
+          </div>
+          <button class="btn btn-primary" onclick="submitFeedback()">📤 Enviar Feedback</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Section - Buy Me a Coffee -->
+    <section class="support-section">
+      <h2 class="section-title">☕ Apoiar o Projeto</h2>
+      <div class="support-card">
+        <div class="support-info">
+          <div class="support-icon">❤️</div>
+          <div class="support-text">
+            <h3>Gostaste do Quest4You?</h3>
+            <p>Este projeto é desenvolvido com paixão e dedicação. Se gostavas de apoiar o desenvolvimento contínuo e ajudar-nos a criar novas funcionalidades, considera oferecer-nos um café!</p>
+          </div>
+        </div>
+        <a href="https://buymeacoffee.com/quest4couple" target="_blank" rel="noopener noreferrer" class="btn btn-support">
+          ☕ Buy Me a Coffee
+        </a>
+      </div>
     </section>
 
     <!-- Danger Zone -->
@@ -544,8 +595,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202602040007"></script>
-  <script src="../js/cloud-sync.js?v=202602040007"></script>
-  <script src="../js/profile.js?v=202602040007"></script>
+  <script src="../js/firebase-config.js?v=202602050001"></script>
+  <script src="../js/cloud-sync.js?v=202602050001"></script>
+  <script src="../js/profile.js?v=202602050001"></script>
 </body>
 </html>

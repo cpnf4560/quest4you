@@ -1761,32 +1761,43 @@ function displayValidationRequests(filter) {
 function generatePhotoElements(request) {
   let html = '';
   
-  // Foto de validação principal
+  // Mostrar watermark/identificador se existir
+  const watermark = request.watermark || (request.userShortId ? `Q4Y-${request.userShortId}` : '');
+  const requestDate = request.requestedAt ? new Date(request.requestedAt.toDate()).toLocaleDateString('pt-PT') : '';
+  
+  // Foto de validação principal (com watermark)
   if (request.validationPhotoUrl) {
     html += `
-      <img src="${request.validationPhotoUrl}" 
-           alt="Foto de validação" 
-           class="validation-photo"
-           onclick="openPhotoModal('${request.validationPhotoUrl}')"
-           title="Foto de validação">
+      <div class="validation-photo-wrapper">
+        <img src="${request.validationPhotoUrl}" 
+             alt="Foto de validação" 
+             class="validation-photo main-validation-photo"
+             onclick="openPhotoModal('${request.validationPhotoUrl}')"
+             title="Foto de validação">
+        ${watermark ? `<div class="photo-watermark">${watermark}</div>` : ''}
+        ${requestDate ? `<div class="photo-date">${requestDate}</div>` : ''}
+      </div>
     `;
   }
   
   // Fotos do perfil (públicas, privadas, secretas)
   const photoTypes = [
-    { key: 'publicPhotoUrl', label: 'pública' },
-    { key: 'privatePhotoUrl', label: 'privada' },
-    { key: 'secretPhotoUrl', label: 'secreta' }
+    { key: 'publicPhotoUrl', label: 'pública', icon: '🌍' },
+    { key: 'privatePhotoUrl', label: 'privada', icon: '🔒' },
+    { key: 'secretPhotoUrl', label: 'secreta', icon: '🔐' }
   ];
   
-  photoTypes.forEach(({ key, label }) => {
+  photoTypes.forEach(({ key, label, icon }) => {
     if (request[key]) {
       html += `
-        <img src="${request[key]}" 
-             alt="Foto ${label}" 
-             class="validation-photo"
-             onclick="openPhotoModal('${request[key]}')"
-             title="Foto ${label}">
+        <div class="validation-photo-wrapper">
+          <img src="${request[key]}" 
+               alt="Foto ${label}" 
+               class="validation-photo"
+               onclick="openPhotoModal('${request[key]}')"
+               title="Foto ${label}">
+          <div class="photo-type-label">${icon} ${label}</div>
+        </div>
       `;
     }
   });
@@ -1795,7 +1806,7 @@ function generatePhotoElements(request) {
   if (!html) {
     html = `
       <div class="validation-photo no-photo">
-        Sem fotos disponíveis
+        ❌ Sem fotos disponíveis
       </div>
     `;
   }

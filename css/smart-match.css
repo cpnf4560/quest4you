@@ -489,6 +489,58 @@
 }
 
 /* ================================
+   SPECIAL BADGES (Location & Rare Fetishes)
+   ================================ */
+
+.special-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.special-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.location-badge {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: white;
+}
+
+.rare-badge {
+  background: linear-gradient(135deg, #FF6B6B, #EE5A5A);
+  color: white;
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(255, 107, 107, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(255, 107, 107, 0.6); }
+}
+
+.match-card.nearby {
+  border: 2px solid #4CAF50;
+}
+
+.match-card.rare-match {
+  border: 2px solid #FF6B6B;
+}
+
+.match-card.nearby.rare-match {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #4CAF50, #FF6B6B) 1;
+}
+
+/* ================================
    NO MATCHES
    ================================ */
 

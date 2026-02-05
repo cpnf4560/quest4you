@@ -287,9 +287,14 @@ async function loadMatches() {
       userScores[quizId] = result.score;
     }
 
-    // Get matches from cloud
+    // Get matches from cloud (using advanced algorithm)
     if (window.CloudSync) {
-      allMatches = await window.CloudSync.findMatches(currentUser.uid, userScores);
+      allMatches = await window.CloudSync.findMatchesAdvanced(currentUser.uid);
+      
+      // Fallback to basic if advanced fails
+      if (!allMatches || allMatches.length === 0) {
+        allMatches = await window.CloudSync.findMatches(currentUser.uid, userScores);
+      }
     } else {
       allMatches = [];
     }
@@ -380,8 +385,22 @@ function renderMatches() {
     // Compatibility color
     const compatClass = match.compatibility >= 80 ? 'high' : (match.compatibility >= 50 ? 'medium' : 'low');
 
+    // Special badges for location and rare fetishes
+    let specialBadges = '';
+    if (match.sameLocation) {
+      specialBadges += '<span class="special-badge location-badge" title="Mesma zona geográfica">📍 Perto de ti</span>';
+    }
+    if (match.hasRareFetishMatch && match.rareFetishesInCommon?.length > 0) {
+      const fetishNames = match.rareFetishesInCommon.map(f => {
+        const quiz = quizIndex[f.quizId];
+        return quiz ? quiz.icon : '🔥';
+      }).join(' ');
+      specialBadges += `<span class="special-badge rare-badge" title="Interesses raros em comum!">🔥 Match Raro ${fetishNames}</span>`;
+    }
+
     html += `
-      <div class="match-card" onclick="openMatchDetail(${index})">
+      <div class="match-card ${match.sameLocation ? 'nearby' : ''} ${match.hasRareFetishMatch ? 'rare-match' : ''}" onclick="openMatchDetail(${index})">
+        ${specialBadges ? '<div class="special-badges">' + specialBadges + '</div>' : ''}
         <div class="match-card-header">
           <div class="match-avatar">${getAvatarEmoji(match.gender)}</div>
           <div class="match-info">

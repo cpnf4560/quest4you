@@ -453,6 +453,168 @@ function calculateCompatibility(userScores, theirScores, userResults, theirRoles
 }
 
 // ================================
+// ADVANCED MATCHING ALGORITHM
+// Includes: Location priority, Rare fetish bonus, Detailed breakdown
+// ================================
+
+// Rare/niche interests that get bonus when matched (scores > 70 indicate strong interest)
+const RARE_FETISH_QUIZZES = ['cuckold', 'exhibitionism', 'kinks'];
+const RARE_THRESHOLD = 70; // Score above which we consider it a "strong interest"
+
+function calculateAdvancedCompatibility(userProfile, otherProfile, userScores, theirScores, userResults, theirRoles) {
+  let baseCompatibility = calculateCompatibility(userScores, theirScores, userResults, theirRoles);
+  
+  let locationBonus = 0;
+  let rareFetishBonus = 0;
+  let rareFetishesInCommon = [];
+  
+  // ========== LOCATION BONUS ==========
+  // Same country = +5%, Same district = +10%, Same city = +15%
+  if (userProfile.location && otherProfile.location) {
+    const userLoc = userProfile.location;
+    const otherLoc = otherProfile.location;
+    
+    // Check location fields
+    if (userLoc.country && otherLoc.country && userLoc.country === otherLoc.country) {
+      locationBonus += 5;
+      
+      if (userLoc.district && otherLoc.district && userLoc.district === otherLoc.district) {
+        locationBonus += 10;
+        
+        // Check city (can be string comparison)
+        const userCity = (userLoc.city || '').toLowerCase().trim();
+        const otherCity = (otherLoc.city || '').toLowerCase().trim();
+        
+        if (userCity && otherCity && userCity === otherCity) {
+          locationBonus += 15;
+        }
+      }
+    }
+  }
+  
+  // ========== RARE FETISH BONUS ==========
+  // When both users have strong interest (>70) in rare/niche quizzes, add significant bonus
+  for (const quizId of RARE_FETISH_QUIZZES) {
+    const userScore = userScores[quizId];
+    const theirScore = theirScores[quizId];
+    
+    if (userScore !== undefined && theirScore !== undefined) {
+      // Both have strong interest in this rare fetish
+      if (userScore >= RARE_THRESHOLD && theirScore >= RARE_THRESHOLD) {
+        // Calculate how rare this is (higher scores = rarer = more bonus)
+        const avgInterest = (userScore + theirScore) / 2;
+        const rarityBonus = Math.round((avgInterest - RARE_THRESHOLD) / 3); // 0-10 bonus
+        rareFetishBonus += 10 + rarityBonus; // 10-20 bonus per rare match
+        
+        rareFetishesInCommon.push({
+          quizId: quizId,
+          userScore: userScore,
+          theirScore: theirScore,
+          bonus: 10 + rarityBonus
+        });
+      }
+    }
+  }
+  
+  // Cap the rare fetish bonus at 30% to not overshadow other factors
+  rareFetishBonus = Math.min(rareFetishBonus, 30);
+  
+  // ========== FINAL SCORE ==========
+  // Base: 0-100, Location: 0-30, Rare: 0-30
+  // Normalize to 0-100 scale
+  const totalScore = baseCompatibility + locationBonus + rareFetishBonus;
+  const normalizedScore = Math.min(100, Math.round(totalScore));
+  
+  return {
+    score: normalizedScore,
+    base: baseCompatibility,
+    locationBonus: locationBonus,
+    rareFetishBonus: rareFetishBonus,
+    rareFetishesInCommon: rareFetishesInCommon,
+    sameLocation: locationBonus >= 15, // At least same district
+    hasRareFetishMatch: rareFetishesInCommon.length > 0
+  };
+}
+
+// Update findMatches to use advanced algorithm
+async function findMatchesAdvanced(userId) {
+  if (!db) return [];
+  
+  try {
+    // Get user's data
+    const userDoc = await db.collection(COLLECTION_USERS).doc(userId).get();
+    const userProfile = userDoc.exists ? userDoc.data() : {};
+    
+    // Get user's results
+    const userResults = await getQuizResults(userId);
+    const userScores = {};
+    
+    for (const [quizId, result] of Object.entries(userResults)) {
+      userScores[quizId] = result.score;
+    }
+    
+    // Get user location from personalInfo
+    const userLocation = userProfile.personalInfo || {};
+    
+    // Get all public profiles
+    const snapshot = await db.collection(COLLECTION_PUBLIC_PROFILES)
+      .where('isPublic', '==', true)
+      .limit(100)
+      .get();
+    
+    const matches = [];
+    
+    snapshot.forEach(doc => {
+      const profile = doc.data();
+      
+      // Skip self
+      if (profile.uid === userId) return;
+      
+      // Calculate advanced compatibility
+      const compatResult = calculateAdvancedCompatibility(
+        { location: userLocation },
+        { location: profile.personalInfo || {} },
+        userScores,
+        profile.quizScores || {},
+        userResults,
+        profile.quizRoles || {}
+      );
+      
+      matches.push({
+        id: doc.id,
+        ...profile,
+        compatibility: compatResult.score,
+        compatibilityDetails: compatResult,
+        sameLocation: compatResult.sameLocation,
+        hasRareFetishMatch: compatResult.hasRareFetishMatch,
+        rareFetishesInCommon: compatResult.rareFetishesInCommon
+      });
+    });
+    
+    // Sort: Prioritize location first, then rare fetishes, then overall compatibility
+    matches.sort((a, b) => {
+      // First: Same location matches at top
+      if (a.sameLocation !== b.sameLocation) {
+        return b.sameLocation ? 1 : -1;
+      }
+      
+      // Second: Rare fetish matches
+      if (a.hasRareFetishMatch !== b.hasRareFetishMatch) {
+        return b.hasRareFetishMatch ? 1 : -1;
+      }
+      
+      // Third: Overall compatibility
+      return b.compatibility - a.compatibility;
+    });
+    
+    return matches;
+  } catch (error) {
+    console.error("Error finding advanced matches:", error);
+    return [];
+  }
+}
+
+// ================================
 // MIGRATE FROM LOCALSTORAGE (one-time)
 // ================================
 async function migrateFromLocalStorage(userId) {
@@ -527,6 +689,8 @@ window.CloudSync = {
   
   // Matching
   findMatches,
+  findMatchesAdvanced,
+  calculateAdvancedCompatibility,
   
   // Migration
   migrateFromLocalStorage,

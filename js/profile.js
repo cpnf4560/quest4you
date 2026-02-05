@@ -1561,6 +1561,9 @@ async function submitGenderValidation(inputElement) {
     const base64 = await fileToBase64(file);
     const resizedBase64 = await resizeImage(base64, 600);
 
+    // Generate watermark for validation
+    const watermark = generateValidationWatermark(currentUser.uid);
+
     // Get user data for the validation request
     const userDoc = await db.collection("quest4you_users").doc(currentUser.uid).get();
     const userDataForValidation = userDoc.data() || {};
@@ -1569,6 +1572,8 @@ async function submitGenderValidation(inputElement) {
     const validationRef = db.collection("genderValidations").doc(currentUser.uid);
     await validationRef.set({
       userId: currentUser.uid,
+      userShortId: currentUser.uid.slice(-6).toUpperCase(),
+      watermark: watermark,
       email: currentUser.email || userDataForValidation.email,
       displayName: userDataForValidation.displayName || 'Utilizador',
       declaredGender: userDataForValidation.smartMatchPreferences?.gender || userDataForValidation.gender || 'not_specified',
@@ -1710,7 +1715,78 @@ function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// ================================
+// FEEDBACK SYSTEM
+// ================================
+async function submitFeedback() {
+  if (!currentUser) {
+    alert("❌ Precisas de estar autenticado para enviar feedback.");
+    return;
+  }
+
+  const feedbackText = document.getElementById('feedbackText').value.trim();
+  const feedbackType = document.querySelector('input[name="feedbackType"]:checked')?.value || 'other';
+
+  if (!feedbackText) {
+    alert("⚠️ Por favor, escreve o teu feedback antes de enviar.");
+    return;
+  }
+
+  if (feedbackText.length < 10) {
+    alert("⚠️ O feedback precisa de ter pelo menos 10 caracteres.");
+    return;
+  }
+
+  try {
+    // Create feedback document
+    await db.collection("quest4you_feedback").add({
+      userId: currentUser.uid,
+      email: currentUser.email,
+      displayName: userData?.displayName || 'Anónimo',
+      type: feedbackType,
+      message: feedbackText,
+      userAgent: navigator.userAgent,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      status: 'new'
+    });
+
+    // Clear form
+    document.getElementById('feedbackText').value = '';
+    
+    // Show success
+    alert("✅ Obrigado pelo teu feedback!\n\nA tua opinião é muito importante para nós e ajuda-nos a melhorar o Quest4You. 💕");
+    
+    console.log("✅ Feedback submitted:", feedbackType);
+
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    alert("❌ Erro ao enviar feedback. Por favor, tenta novamente.");
+  }
+}
+
+// ================================
+// GENERATE VALIDATION WATERMARK
+// ================================
+function generateValidationWatermark(userId) {
+  const date = new Date();
+  const formattedDate = date.toLocaleDateString('pt-PT', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  const formattedTime = date.toLocaleTimeString('pt-PT', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  
+  // Create short user identifier (last 6 chars of UID)
+  const shortId = userId.slice(-6).toUpperCase();
+  
+  return `Q4Y-${shortId} | ${formattedDate} ${formattedTime}`;
+}
+
 // Export new functions
 window.uploadPhoto = uploadPhoto;
 window.removePhoto = removePhoto;
 window.submitGenderValidation = submitGenderValidation;
+window.submitFeedback = submitFeedback;
