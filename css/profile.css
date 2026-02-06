@@ -113,6 +113,33 @@
   margin-bottom: 4px;
 }
 
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-edit-name {
+  background: none;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-edit-name:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
 .profile-nickname {
   font-size: 1.1rem;
   color: var(--primary);

@@ -15,6 +15,9 @@ let conversationsUnsubscribe = null;
 let typingUnsubscribe = null;
 let typingTimeout = null;
 let isTyping = false;
+let conversationsLoadedResolve = null;
+let conversationsLoaded = new Promise(resolve => { conversationsLoadedResolve = resolve; });
+let openingFriendConversation = false;
 
 // ================================
 // INITIALIZATION
@@ -61,14 +64,24 @@ function handleAuthChange(user) {
       initNotifications(user.uid);
     }
     
+    // Hide empty state while loading if we have a pending friend
+    if (window.pendingFriendId) {
+      const empty = document.getElementById("emptyConversations");
+      if (empty) empty.style.display = 'none';
+    }
+    
     loadConversations();
     
-    // Open pending conversation if any
+    // Open pending conversation after conversations are loaded
     if (window.pendingFriendId) {
-      setTimeout(() => {
-        openConversationWithFriend(window.pendingFriendId);
-        delete window.pendingFriendId;
-      }, 500);
+      const friendId = window.pendingFriendId;
+      delete window.pendingFriendId;
+      openingFriendConversation = true;
+      conversationsLoaded.then(() => {
+        openConversationWithFriend(friendId).finally(() => {
+          openingFriendConversation = false;
+        });
+      });
     }
   } else {
     console.log("User not logged in, redirecting...");
@@ -122,11 +135,21 @@ async function loadConversations() {
           unreadCount: data.unreadCount?.[currentUser.uid] || 0
         });
       }
-      
-      renderConversations();
+        renderConversations();
       updateTotalUnread();
+      
+      // Signal that conversations are loaded (first snapshot)
+      if (conversationsLoadedResolve) {
+        conversationsLoadedResolve();
+        conversationsLoadedResolve = null;
+      }
     }, (error) => {
       console.error("Error loading conversations:", error);
+      // Resolve even on error so pending friend flow doesn't hang
+      if (conversationsLoadedResolve) {
+        conversationsLoadedResolve();
+        conversationsLoadedResolve = null;
+      }
     });
 }
 
@@ -135,11 +158,13 @@ function renderConversations() {
   const empty = document.getElementById("emptyConversations");
   
   if (!list) return;
-  
-  if (conversations.length === 0) {
+    if (conversations.length === 0) {
     list.innerHTML = '';
-    list.appendChild(empty);
-    empty.style.display = 'block';
+    // Don't show "Ver Amigos" redirect while actively opening a friend conversation
+    if (!openingFriendConversation) {
+      list.appendChild(empty);
+      empty.style.display = 'block';
+    }
     return;
   }
   
@@ -281,15 +306,28 @@ async function openConversationWithFriend(friendId) {
     if (isAdminConversation && typeof WELCOME_MESSAGE !== 'undefined') {
       await sendWelcomeMessage(conversationRef.id, friendId);
     }
-    
-    // Wait for conversation to appear in list
-    setTimeout(() => {
-      openConversation(conversationRef.id);
-    }, 500);
+      // Wait for conversation to appear in list via snapshot, then open it
+    const convId = conversationRef.id;
+    const maxRetries = 20; // 20 x 250ms = 5 seconds max
+    let retries = 0;
+    const waitForConversation = () => {
+      const found = conversations.find(c => c.id === convId);
+      if (found) {
+        openConversation(convId);
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(waitForConversation, 250);
+      } else {
+        // Fallback: force open even if not in list yet
+        console.warn("Conversation not found in list after retries, opening directly");
+        openConversation(convId);
+      }
+    };
+    waitForConversation();
     
   } catch (error) {
     console.error("Error creating conversation:", error);
-    alert("Erro ao criar conversa.");
+    alert("Erro ao criar conversa. Tenta novamente.");
   }
 }
 
