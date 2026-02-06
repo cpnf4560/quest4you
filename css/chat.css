@@ -202,6 +202,76 @@
 }
 
 /* ================================
+   FRIENDS LIST IN CHAT SIDEBAR
+   ================================ */
+.friend-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid var(--border-lighter);
+  position: relative;
+}
+
+.friend-list-item:hover {
+  background: var(--bg-light);
+}
+
+.friend-list-item:hover .friend-chat-action {
+  opacity: 1;
+}
+
+.friend-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.friend-nick-tag {
+  font-size: 0.8rem;
+  color: var(--text-lighter);
+  display: inline-block;
+}
+
+.friend-has-conv {
+  font-size: 0.78rem;
+  color: var(--cardinal-red);
+  opacity: 0.8;
+}
+
+.friend-new-conv {
+  font-size: 0.78rem;
+  color: var(--deep-purple);
+  opacity: 0.8;
+}
+
+.friend-chat-action {
+  font-size: 1.3rem;
+  opacity: 0.3;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.friends-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+}
+
+.friends-loading .empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ================================
    CHAT AREA
    ================================ */
 .chat-area {

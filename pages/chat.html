@@ -47,15 +47,15 @@
         <h2>💬 Conversas</h2>
         <span class="unread-badge" id="totalUnreadBadge" style="display: none;">0</span>
       </div>
-      
-      <!-- Tabs: Conversas / Grupos -->
+        <!-- Tabs: Conversas / Amigos / Grupos -->
       <div class="sidebar-tabs">
         <button class="sidebar-tab active" onclick="switchChatTab('conversations', this)">💬 Conversas</button>
-        <button class="sidebar-tab" onclick="switchChatTab('groups', this)">👥 Grupos</button>
+        <button class="sidebar-tab" onclick="switchChatTab('friends', this)">👥 Amigos</button>
+        <button class="sidebar-tab" onclick="switchChatTab('groups', this)">🏠 Grupos</button>
       </div>
       
       <div class="conversations-search">
-        <input type="text" class="search-input" placeholder="🔍 Procurar..." oninput="filterConversations(this.value)">
+        <input type="text" class="search-input" placeholder="🔍 Procurar..." oninput="filterCurrentTab(this.value)">
       </div>
       
       <!-- Tab: Conversas -->
@@ -65,8 +65,23 @@
           <div class="empty-conversations" id="emptyConversations">
             <div class="empty-icon">💬</div>
             <p>Ainda não tens conversas.</p>
-            <p class="empty-hint">Vai ao teu perfil e envia uma mensagem a um amigo!</p>
-            <a href="./profile.html#friendsSection" class="btn btn-primary btn-sm">Ver Amigos</a>
+            <p class="empty-hint">Clica em "Amigos" para iniciar uma conversa!</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tab: Amigos -->
+      <div class="tab-content" id="friendsTab">
+        <div class="conversations-list" id="friendsListChat">
+          <div class="friends-loading" id="friendsLoading">
+            <div class="empty-icon">⏳</div>
+            <p>A carregar amigos...</p>
+          </div>
+          <div class="empty-conversations" id="emptyFriendsChat" style="display: none;">
+            <div class="empty-icon">👥</div>
+            <p>Ainda não tens amigos.</p>
+            <p class="empty-hint">Adiciona amigos no teu perfil!</p>
+            <a href="./profile.html#friendsSection" class="btn btn-primary btn-sm">Adicionar Amigos</a>
           </div>
         </div>
       </div>

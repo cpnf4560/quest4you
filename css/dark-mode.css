@@ -2447,3 +2447,48 @@ textarea,
 [data-theme="dark"] .text-muted-force {
   color: #8b949e !important;
 }
+
+/* =========================================
+   FRIENDS TAB IN CHAT
+   ========================================= */
+[data-theme="dark"] .friend-list-item {
+  border-bottom-color: #30363d !important;
+}
+
+[data-theme="dark"] .friend-list-item:hover {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .friend-nick-tag {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .friend-has-conv {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .friend-new-conv {
+  color: #a78bfa !important;
+}
+
+[data-theme="dark"] .friend-chat-action {
+  opacity: 0.25;
+}
+
+[data-theme="dark"] .friend-list-item:hover .friend-chat-action {
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .friends-loading {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] #emptyFriendsChat {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] #emptyFriendsChat .btn-primary {
+  background: linear-gradient(135deg, #ff6b8a 0%, #a78bfa 100%) !important;
+  border: none !important;
+  color: #fff !important;
+}

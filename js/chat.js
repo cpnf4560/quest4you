@@ -18,6 +18,9 @@ let isTyping = false;
 let conversationsLoadedResolve = null;
 let conversationsLoaded = new Promise(resolve => { conversationsLoadedResolve = resolve; });
 let openingFriendConversation = false;
+let chatFriendsList = [];
+let friendsLoaded = false;
+let currentSidebarTab = 'conversations';
 
 // ================================
 // INITIALIZATION
@@ -923,9 +926,11 @@ function escapeHtml(text) {
 }
 
 // ================================
-// TAB SWITCHING (Conversations/Groups)
+// TAB SWITCHING (Conversations/Friends/Groups)
 // ================================
 function switchChatTab(tab, btn) {
+  currentSidebarTab = tab;
+  
   // Update active tab button
   document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
   btn?.classList.add('active');
@@ -933,15 +938,172 @@ function switchChatTab(tab, btn) {
   // Update active tab content
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   
-  if (tab === 'groups') {
+  if (tab === 'friends') {
+    document.getElementById('friendsTab')?.classList.add('active');
+    if (!friendsLoaded) {
+      loadChatFriends();
+    }
+  } else if (tab === 'groups') {
     document.getElementById('groupsTab')?.classList.add('active');
-    // Load groups if function exists
     if (typeof loadUserGroups === 'function') {
       loadUserGroups();
     }
   } else {
     document.getElementById('conversationsTab')?.classList.add('active');
   }
+}
+
+// ================================
+// FRIENDS LIST IN CHAT
+// ================================
+async function loadChatFriends() {
+  if (!currentUser || !db) return;
+  
+  const loading = document.getElementById('friendsLoading');
+  const empty = document.getElementById('emptyFriendsChat');
+  const list = document.getElementById('friendsListChat');
+  
+  try {
+    // Get accepted friendships (sent + received)
+    const [sentSnap, receivedSnap] = await Promise.all([
+      db.collection("quest4you_friendships")
+        .where("senderId", "==", currentUser.uid)
+        .where("status", "==", "accepted")
+        .get(),
+      db.collection("quest4you_friendships")
+        .where("receiverId", "==", currentUser.uid)
+        .where("status", "==", "accepted")
+        .get()
+    ]);
+    
+    // Collect friend IDs
+    const friendIds = new Set();
+    sentSnap.docs.forEach(doc => friendIds.add(doc.data().receiverId));
+    receivedSnap.docs.forEach(doc => friendIds.add(doc.data().senderId));
+    
+    // Fetch friend profiles
+    chatFriendsList = [];
+    for (const friendId of friendIds) {
+      const friendDoc = await db.collection("quest4you_users").doc(friendId).get();
+      if (friendDoc.exists) {
+        const data = friendDoc.data();
+        chatFriendsList.push({
+          id: friendId,
+          name: data.displayName || data.nickname || 'Utilizador',
+          nickname: data.nickname ? `${data.nicknameEmoji || '👤'} ${data.nickname}` : null,
+          photo: data.photos?.public || null
+        });
+      }
+    }
+    
+    friendsLoaded = true;
+    renderChatFriends();
+    
+  } catch (error) {
+    console.error("Error loading friends for chat:", error);
+    if (loading) loading.innerHTML = '<div class="empty-icon">❌</div><p>Erro ao carregar amigos.</p>';
+  }
+}
+
+function renderChatFriends() {
+  const list = document.getElementById('friendsListChat');
+  const loading = document.getElementById('friendsLoading');
+  const empty = document.getElementById('emptyFriendsChat');
+  
+  if (!list) return;
+  
+  if (loading) loading.style.display = 'none';
+  
+  if (chatFriendsList.length === 0) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  
+  if (empty) empty.style.display = 'none';
+  
+  // Check which friends already have conversations
+  const friendsWithConvs = new Set(conversations.map(c => c.friendId));
+  
+  const html = chatFriendsList.map(friend => {
+    const hasConv = friendsWithConvs.has(friend.id);
+    const existingConv = hasConv ? conversations.find(c => c.friendId === friend.id) : null;
+    
+    return `
+      <div class="conversation-item friend-list-item" onclick="startChatWithFriend('${friend.id}')">
+        <div class="conversation-avatar">
+          ${friend.photo 
+            ? `<img src="${friend.photo}" alt="${friend.name}">`
+            : friend.name.charAt(0).toUpperCase()
+          }
+        </div>
+        <div class="conversation-info">
+          <div class="conversation-header">
+            <span class="conversation-name">${friend.name}</span>
+          </div>
+          <div class="conversation-preview friend-preview">
+            ${friend.nickname ? `<span class="friend-nick-tag">${friend.nickname}</span>` : ''}
+            ${hasConv 
+              ? '<span class="friend-has-conv">💬 Conversa existente</span>' 
+              : '<span class="friend-new-conv">✉️ Iniciar conversa</span>'
+            }
+          </div>
+        </div>
+        <div class="friend-chat-action">
+          💬
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Keep loading/empty elements, add friends HTML before them
+  const loadingEl = document.getElementById('friendsLoading');
+  const emptyEl = document.getElementById('emptyFriendsChat');
+  list.innerHTML = html;
+  if (loadingEl) list.appendChild(loadingEl);
+  if (emptyEl) list.appendChild(emptyEl);
+}
+
+async function startChatWithFriend(friendId) {
+  // Check if conversation already exists
+  const existingConv = conversations.find(c => c.friendId === friendId);
+  
+  if (existingConv) {
+    // Switch to conversations tab and open it
+    const convTab = document.querySelector('.sidebar-tab');
+    switchChatTab('conversations', convTab);
+    openConversation(existingConv.id);
+    return;
+  }
+  
+  // Create new conversation
+  openingFriendConversation = true;
+  try {
+    await openConversationWithFriend(friendId);
+    // Switch to conversations tab after creating
+    const convTab = document.querySelector('.sidebar-tab');
+    switchChatTab('conversations', convTab);
+  } finally {
+    openingFriendConversation = false;
+  }
+}
+
+// Filter based on current active tab
+function filterCurrentTab(query) {
+  if (currentSidebarTab === 'friends') {
+    filterFriendsChat(query);
+  } else {
+    filterConversations(query);
+  }
+}
+
+function filterFriendsChat(query) {
+  query = query.toLowerCase().trim();
+  const items = document.querySelectorAll('#friendsListChat .friend-list-item');
+  
+  items.forEach(item => {
+    const name = item.querySelector('.conversation-name')?.textContent.toLowerCase() || '';
+    item.style.display = name.includes(query) ? 'flex' : 'none';
+  });
 }
 
 // ================================
@@ -961,3 +1123,7 @@ window.viewFriendProfileFromChat = viewFriendProfileFromChat;
 window.closeChatMobile = closeChatMobile;
 window.handleTyping = handleTyping;
 window.switchChatTab = switchChatTab;
+window.startChatWithFriend = startChatWithFriend;
+window.filterCurrentTab = filterCurrentTab;
+window.filterFriendsChat = filterFriendsChat;
+window.loadChatFriends = loadChatFriends;
