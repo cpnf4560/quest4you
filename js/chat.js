@@ -112,47 +112,63 @@ async function logout() {
 async function loadConversations() {
   if (!currentUser || !db) return;
 
-  // Real-time listener for conversations
-  conversationsUnsubscribe = db.collection("quest4you_conversations")
-    .where("participants", "array-contains", currentUser.uid)
+  const baseQuery = db.collection("quest4you_conversations")
+    .where("participants", "array-contains", currentUser.uid);
+
+  const processSnapshot = async (snapshot) => {
+    conversations = [];
+    
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      const friendId = data.participants.find(p => p !== currentUser.uid);
+      
+      // Get friend info
+      const friendDoc = await db.collection("quest4you_users").doc(friendId).get();
+      const friendData = friendDoc.exists ? friendDoc.data() : {};
+      
+      conversations.push({
+        id: doc.id,
+        friendId: friendId,
+        friendName: friendData.displayName || friendData.nickname || 'Utilizador',
+        friendNickname: friendData.nickname ? `${friendData.nicknameEmoji || '👤'} ${friendData.nickname}` : null,
+        friendPhoto: friendData.photos?.public || null,
+        lastMessage: data.lastMessage || '',
+        lastMessageAt: data.lastMessageAt?.toDate() || new Date(),
+        unreadCount: data.unreadCount?.[currentUser.uid] || 0
+      });
+    }
+    
+    // Sort client-side (needed for fallback query without orderBy)
+    conversations.sort((a, b) => b.lastMessageAt - a.lastMessageAt);
+    
+    renderConversations();
+    updateTotalUnread();
+    
+    // Signal that conversations are loaded (first snapshot)
+    if (conversationsLoadedResolve) {
+      conversationsLoadedResolve();
+      conversationsLoadedResolve = null;
+    }
+  };
+
+  const resolveOnError = () => {
+    if (conversationsLoadedResolve) {
+      conversationsLoadedResolve();
+      conversationsLoadedResolve = null;
+    }
+  };
+
+  // Try with orderBy first (requires composite index)
+  conversationsUnsubscribe = baseQuery
     .orderBy("lastMessageAt", "desc")
-    .onSnapshot(async (snapshot) => {
-      conversations = [];
-      
-      for (const doc of snapshot.docs) {
-        const data = doc.data();
-        const friendId = data.participants.find(p => p !== currentUser.uid);
-        
-        // Get friend info
-        const friendDoc = await db.collection("quest4you_users").doc(friendId).get();
-        const friendData = friendDoc.exists ? friendDoc.data() : {};
-        
-        conversations.push({
-          id: doc.id,
-          friendId: friendId,
-          friendName: friendData.displayName || friendData.nickname || 'Utilizador',
-          friendNickname: friendData.nickname ? `${friendData.nicknameEmoji || '👤'} ${friendData.nickname}` : null,
-          friendPhoto: friendData.photos?.public || null,
-          lastMessage: data.lastMessage || '',
-          lastMessageAt: data.lastMessageAt?.toDate() || new Date(),
-          unreadCount: data.unreadCount?.[currentUser.uid] || 0
+    .onSnapshot(processSnapshot, (error) => {
+      console.warn("Conversations query with orderBy failed (index missing?), falling back:", error.message);
+      // Fallback: query without orderBy (no composite index needed), sort client-side
+      conversationsUnsubscribe = baseQuery
+        .onSnapshot(processSnapshot, (error2) => {
+          console.error("Error loading conversations (fallback):", error2);
+          resolveOnError();
         });
-      }
-        renderConversations();
-      updateTotalUnread();
-      
-      // Signal that conversations are loaded (first snapshot)
-      if (conversationsLoadedResolve) {
-        conversationsLoadedResolve();
-        conversationsLoadedResolve = null;
-      }
-    }, (error) => {
-      console.error("Error loading conversations:", error);
-      // Resolve even on error so pending friend flow doesn't hang
-      if (conversationsLoadedResolve) {
-        conversationsLoadedResolve();
-        conversationsLoadedResolve = null;
-      }
     });
 }
 
@@ -256,12 +272,36 @@ async function openConversation(conversationId) {
 }
 
 async function openConversationWithFriend(friendId) {
-  // Check if conversation exists
+  // Check in-memory list first
   let existingConv = conversations.find(c => c.friendId === friendId);
   
   if (existingConv) {
     openConversation(existingConv.id);
     return;
+  }
+  
+  // Also check Firestore directly (conversations list may not be loaded)
+  try {
+    const existingSnap = await db.collection("quest4you_conversations")
+      .where("participants", "array-contains", currentUser.uid)
+      .get();
+    
+    const existingDoc = existingSnap.docs.find(doc => {
+      const data = doc.data();
+      return data.participants.includes(friendId);
+    });
+    
+    if (existingDoc) {
+      // Conversation already exists — open it directly
+      const data = existingDoc.data();
+      const friendDoc = await db.collection("quest4you_users").doc(friendId).get();
+      const friendData = friendDoc.exists ? friendDoc.data() : {};
+      
+      openConversationDirect(existingDoc.id, friendId, friendData);
+      return;
+    }
+  } catch (e) {
+    console.warn("Could not check existing conversations in Firestore:", e.message);
   }
   
   // Create new conversation
@@ -275,7 +315,6 @@ async function openConversationWithFriend(friendId) {
     if (friendDoc.exists) {
       friendData = friendDoc.data();
     } else if (typeof ADMIN_CONFIG !== 'undefined' && friendId === ADMIN_CONFIG.uid) {
-      // É o admin do sistema - criar com dados do config
       isAdminConversation = true;
       friendData = {
         displayName: ADMIN_CONFIG.displayName,
@@ -288,7 +327,6 @@ async function openConversationWithFriend(friendId) {
       return;
     }
     
-    // Verificar se é conversa com o admin
     if (typeof ADMIN_CONFIG !== 'undefined' && friendId === ADMIN_CONFIG.uid) {
       isAdminConversation = true;
     }
@@ -299,39 +337,70 @@ async function openConversationWithFriend(friendId) {
       lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastMessage: isAdminConversation ? 'Bem-vindo ao Quest4You!' : '',
       unreadCount: {
-        [currentUser.uid]: isAdminConversation ? 1 : 0, // Se for admin, tem 1 mensagem de boas-vindas
+        [currentUser.uid]: isAdminConversation ? 1 : 0,
         [friendId]: 0
       },
       isAdminConversation: isAdminConversation
     });
     
-    // Se for conversa com o admin, enviar mensagem de boas-vindas automaticamente
     if (isAdminConversation && typeof WELCOME_MESSAGE !== 'undefined') {
       await sendWelcomeMessage(conversationRef.id, friendId);
     }
-      // Wait for conversation to appear in list via snapshot, then open it
-    const convId = conversationRef.id;
-    const maxRetries = 20; // 20 x 250ms = 5 seconds max
-    let retries = 0;
-    const waitForConversation = () => {
-      const found = conversations.find(c => c.id === convId);
-      if (found) {
-        openConversation(convId);
-      } else if (retries < maxRetries) {
-        retries++;
-        setTimeout(waitForConversation, 250);
-      } else {
-        // Fallback: force open even if not in list yet
-        console.warn("Conversation not found in list after retries, opening directly");
-        openConversation(convId);
-      }
-    };
-    waitForConversation();
+    
+    // Open conversation directly with the data we already have
+    openConversationDirect(conversationRef.id, friendId, friendData);
     
   } catch (error) {
     console.error("Error creating conversation:", error);
     alert("Erro ao criar conversa. Tenta novamente.");
   }
+}
+
+/**
+ * Opens a conversation directly without relying on the conversations[] array.
+ * Used as fallback when the real-time listener hasn't loaded yet.
+ */
+function openConversationDirect(conversationId, friendId, friendData) {
+  const friendName = friendData.displayName || friendData.nickname || 'Utilizador';
+  const friendNickname = friendData.nickname ? `${friendData.nicknameEmoji || '👤'} ${friendData.nickname}` : null;
+  const friendPhoto = friendData.photos?.public || null;
+  
+  // Build a conv object compatible with openConversation expectations
+  const conv = {
+    id: conversationId,
+    friendId: friendId,
+    friendName: friendName,
+    friendNickname: friendNickname,
+    friendPhoto: friendPhoto,
+    lastMessage: '',
+    lastMessageAt: new Date(),
+    unreadCount: 0
+  };
+  
+  // Add to in-memory list if not already there
+  if (!conversations.find(c => c.id === conversationId)) {
+    conversations.push(conv);
+    renderConversations();
+  }
+  
+  currentConversation = conv;
+  currentFriend = {
+    id: friendId,
+    name: friendName,
+    nickname: friendNickname,
+    photo: friendPhoto
+  };
+  
+  // Update UI
+  document.getElementById('noConversation').style.display = 'none';
+  document.getElementById('activeChat').style.display = 'flex';
+  
+  updateChatHeader();
+  loadMessages(conversationId);
+  markConversationAsRead(conversationId);
+  
+  // Mobile: show chat area
+  document.getElementById('conversationsSidebar')?.classList.add('hidden');
 }
 
 function updateChatHeader() {
@@ -1064,7 +1133,7 @@ function renderChatFriends() {
 }
 
 async function startChatWithFriend(friendId) {
-  // Check if conversation already exists
+  // Check if conversation already exists in memory
   const existingConv = conversations.find(c => c.friendId === friendId);
   
   if (existingConv) {
@@ -1075,11 +1144,11 @@ async function startChatWithFriend(friendId) {
     return;
   }
   
-  // Create new conversation
+  // Open/create conversation (handles Firestore check + creation + direct open)
   openingFriendConversation = true;
   try {
     await openConversationWithFriend(friendId);
-    // Switch to conversations tab after creating
+    // Switch to conversations tab after opening
     const convTab = document.querySelector('.sidebar-tab');
     switchChatTab('conversations', convTab);
   } finally {
