@@ -114,10 +114,11 @@ async function loadConversations() {
 
   const baseQuery = db.collection("quest4you_conversations")
     .where("participants", "array-contains", currentUser.uid);
-
   const processSnapshot = async (snapshot) => {
     conversations = [];
     
+    // Build all conversation objects
+    const allConvs = [];
     for (const doc of snapshot.docs) {
       const data = doc.data();
       const friendId = data.participants.find(p => p !== currentUser.uid);
@@ -126,7 +127,7 @@ async function loadConversations() {
       const friendDoc = await db.collection("quest4you_users").doc(friendId).get();
       const friendData = friendDoc.exists ? friendDoc.data() : {};
       
-      conversations.push({
+      allConvs.push({
         id: doc.id,
         friendId: friendId,
         friendName: friendData.displayName || friendData.nickname || 'Utilizador',
@@ -137,6 +138,40 @@ async function loadConversations() {
         unreadCount: data.unreadCount?.[currentUser.uid] || 0
       });
     }
+    
+    // Deduplicate: keep 1 conversation per friend (prefer one with messages, then most recent)
+    const friendMap = new Map();
+    for (const conv of allConvs) {
+      const existing = friendMap.get(conv.friendId);
+      if (!existing) {
+        friendMap.set(conv.friendId, conv);
+      } else {
+        // Keep the one with a real message, or the more recent one
+        const existingHasMsg = existing.lastMessage && existing.lastMessage !== 'Nova conversa' && existing.lastMessage !== '';
+        const newHasMsg = conv.lastMessage && conv.lastMessage !== 'Nova conversa' && conv.lastMessage !== '';
+        
+        let keep, remove;
+        if (newHasMsg && !existingHasMsg) {
+          keep = conv; remove = existing;
+        } else if (existingHasMsg && !newHasMsg) {
+          keep = existing; remove = conv;
+        } else {
+          // Both have or both lack messages — keep the newer one
+          keep = conv.lastMessageAt > existing.lastMessageAt ? conv : existing;
+          remove = conv.lastMessageAt > existing.lastMessageAt ? existing : conv;
+        }
+        
+        friendMap.set(conv.friendId, keep);
+        
+        // Delete the duplicate from Firestore (fire and forget)
+        console.warn(`Removing duplicate conversation ${remove.id} with ${remove.friendName}`);
+        db.collection("quest4you_conversations").doc(remove.id).delete().catch(e => 
+          console.error("Failed to delete duplicate conversation:", e)
+        );
+      }
+    }
+    
+    conversations = Array.from(friendMap.values());
     
     // Sort client-side (needed for fallback query without orderBy)
     conversations.sort((a, b) => b.lastMessageAt - a.lastMessageAt);
