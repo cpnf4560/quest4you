@@ -1866,6 +1866,35 @@ async function loadFriends() {
       }
     }
     
+    // ================================
+    // AUTO-ADD ADMIN AS FRIEND
+    // ================================
+    // O Admin do Quest4You aparece automaticamente como amigo de todos
+    // para facilitar feedback, sugestões e denúncias
+    if (typeof ADMIN_CONFIG !== 'undefined' && ADMIN_CONFIG.uid && ADMIN_CONFIG.uid !== 'ADMIN_UID_HERE') {
+      // Só adiciona se o utilizador atual não for o próprio admin
+      if (currentUser.uid !== ADMIN_CONFIG.uid) {
+        // Verifica se o admin já não está na lista
+        const adminInList = friendsList.some(f => f.id === ADMIN_CONFIG.uid);
+        
+        if (!adminInList) {
+          // Adiciona o admin no início da lista com badge especial
+          friendsList.unshift({
+            id: ADMIN_CONFIG.uid,
+            friendshipId: 'system-admin', // ID especial para não permitir remover
+            displayName: ADMIN_CONFIG.displayName,
+            nickname: ADMIN_CONFIG.nickname,
+            nicknameEmoji: ADMIN_CONFIG.nicknameEmoji,
+            photos: {
+              public: ADMIN_CONFIG.photo
+            },
+            isSystemAdmin: true,
+            quizResults: {} // Admin não tem quiz results visíveis
+          });
+        }
+      }
+    }
+    
     // Update UI
     renderFriendsList();
     updateFriendsCount();
@@ -1918,7 +1947,10 @@ function renderFriendsList() {
   
   if (!grid) return;
   
-  if (friendsList.length === 0) {
+  // Conta amigos reais (excluindo admin do sistema)
+  const realFriendsCount = friendsList.filter(f => !f.isSystemAdmin).length;
+  
+  if (realFriendsCount === 0 && friendsList.length === 0) {
     grid.innerHTML = '';
     grid.appendChild(emptyState);
     emptyState.style.display = 'block';
@@ -1927,29 +1959,42 @@ function renderFriendsList() {
   
   emptyState.style.display = 'none';
   
-  grid.innerHTML = friendsList.map(friend => `
-    <div class="friend-card" onclick="viewFriendProfile('${friend.id}')">
-      <div class="friend-avatar">
+  grid.innerHTML = friendsList.map(friend => {
+    const isAdmin = friend.isSystemAdmin === true;
+    
+    return `
+    <div class="friend-card ${isAdmin ? 'admin-friend-card' : ''}" onclick="viewFriendProfile('${friend.id}')">
+      ${isAdmin ? '<span class="admin-badge-corner">🎯 Equipa</span>' : ''}
+      <div class="friend-avatar ${isAdmin ? 'admin-avatar' : ''}">
         ${friend.photos?.public 
           ? `<img src="${friend.photos.public}" alt="${friend.displayName || 'Amigo'}">`
           : (friend.displayName || friend.nickname || '?').charAt(0).toUpperCase()
         }
-        <span class="friend-online-indicator offline"></span>
+        ${isAdmin ? '<span class="friend-online-indicator online"></span>' : '<span class="friend-online-indicator offline"></span>'}
       </div>
       <div class="friend-info">
-        <div class="friend-name">${friend.displayName || 'Utilizador'}</div>
+        <div class="friend-name">${friend.displayName || 'Utilizador'}${isAdmin ? ' <span class="admin-verified">✓</span>' : ''}</div>
         <div class="friend-nickname">${friend.nickname ? `${friend.nicknameEmoji || '👤'} ${friend.nickname}` : 'Sem nickname'}</div>
         <div class="friend-stats">
-          <span>📝 ${Object.keys(friend.quizResults || {}).length} quizzes</span>
+          ${isAdmin 
+            ? '<span>💬 Feedback & Suporte</span>' 
+            : `<span>📝 ${Object.keys(friend.quizResults || {}).length} quizzes</span>`
+          }
         </div>
       </div>
       <div class="friend-card-actions">
-        <button class="friend-action-btn" onclick="event.stopPropagation(); removeFriend('${friend.id}', '${friend.friendshipId}')" title="Remover amigo">
-          🗑️
-        </button>
+        ${isAdmin 
+          ? `<button class="friend-action-btn chat-btn" onclick="event.stopPropagation(); window.location.href='chat.html?userId=${friend.id}'" title="Enviar mensagem">
+              💬
+            </button>`
+          : `<button class="friend-action-btn" onclick="event.stopPropagation(); removeFriend('${friend.id}', '${friend.friendshipId}')" title="Remover amigo">
+              🗑️
+            </button>`
+        }
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 // Render pending requests
@@ -2306,19 +2351,73 @@ async function viewFriendProfile(friendId) {
   
   if (!modal || !header || !body) return;
   
+  // Verifica se é o admin do sistema
+  const isAdmin = friend.isSystemAdmin === true;
+  
   // Render header
   header.innerHTML = `
-    <div class="friend-profile-avatar">
+    <div class="friend-profile-avatar ${isAdmin ? 'admin-avatar' : ''}">
       ${friend.photos?.public 
         ? `<img src="${friend.photos.public}" alt="${friend.displayName}">`
         : (friend.displayName || '?').charAt(0).toUpperCase()
       }
+      ${isAdmin ? '<span class="admin-profile-badge">🎯</span>' : ''}
     </div>
-    <div class="friend-profile-name">${friend.displayName || 'Utilizador'}</div>
+    <div class="friend-profile-name">${friend.displayName || 'Utilizador'}${isAdmin ? ' <span class="admin-verified">✓</span>' : ''}</div>
     <div class="friend-profile-nickname">${friend.nickname ? `${friend.nicknameEmoji || '👤'} ${friend.nickname}` : ''}</div>
+    ${isAdmin ? '<div class="admin-profile-tag">Equipa Oficial Quest4You</div>' : ''}
   `;
   
-  // Calculate stats
+  // Se for admin, mostrar layout especial
+  if (isAdmin) {
+    body.innerHTML = `
+      <div class="admin-profile-content">
+        <div class="admin-welcome-section">
+          <div class="admin-welcome-icon">👋</div>
+          <h3>Bem-vindo ao suporte Quest4You!</h3>
+          <p>Esta é a conta oficial da equipa Quest4You. Usa este canal para:</p>
+        </div>
+        
+        <div class="admin-features-grid">
+          <div class="admin-feature-item">
+            <div class="admin-feature-icon">💬</div>
+            <div class="admin-feature-title">Feedback</div>
+            <div class="admin-feature-desc">Diz-nos o que achas da aplicação</div>
+          </div>
+          <div class="admin-feature-item">
+            <div class="admin-feature-icon">💡</div>
+            <div class="admin-feature-title">Sugestões</div>
+            <div class="admin-feature-desc">Partilha ideias para novas funcionalidades</div>
+          </div>
+          <div class="admin-feature-item">
+            <div class="admin-feature-icon">🐛</div>
+            <div class="admin-feature-title">Bugs</div>
+            <div class="admin-feature-desc">Reporta problemas que encontres</div>
+          </div>
+          <div class="admin-feature-item">
+            <div class="admin-feature-icon">⚠️</div>
+            <div class="admin-feature-title">Denúncias</div>
+            <div class="admin-feature-desc">Reporta comportamentos inadequados</div>
+          </div>
+        </div>
+        
+        <div class="admin-action-cta">
+          <button class="btn btn-primary btn-lg" onclick="sendMessageToFriend()">
+            💬 Iniciar Conversa
+          </button>
+        </div>
+      </div>
+    `;
+    
+    // Esconder botão de remover amigo para o admin
+    const removeBtn = modal.querySelector('.btn-danger');
+    if (removeBtn) removeBtn.style.display = 'none';
+    
+    modal.style.display = 'flex';
+    return;
+  }
+  
+  // Calculate stats para amigos normais
   const quizCount = Object.keys(friend.quizResults || {}).length;
   const badges = friend.badges || [];
   

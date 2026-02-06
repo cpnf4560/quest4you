@@ -235,23 +235,48 @@ async function openConversationWithFriend(friendId) {
   // Create new conversation
   try {
     const friendDoc = await db.collection("quest4you_users").doc(friendId).get();
-    if (!friendDoc.exists) {
+    
+    // Se não encontrar o utilizador mas for o admin do sistema, criar com dados do config
+    let friendData = null;
+    let isAdminConversation = false;
+    
+    if (friendDoc.exists) {
+      friendData = friendDoc.data();
+    } else if (typeof ADMIN_CONFIG !== 'undefined' && friendId === ADMIN_CONFIG.uid) {
+      // É o admin do sistema - criar com dados do config
+      isAdminConversation = true;
+      friendData = {
+        displayName: ADMIN_CONFIG.displayName,
+        nickname: ADMIN_CONFIG.nickname,
+        nicknameEmoji: ADMIN_CONFIG.nicknameEmoji,
+        photos: { public: ADMIN_CONFIG.photo }
+      };
+    } else {
       alert("Utilizador não encontrado.");
       return;
     }
     
-    const friendData = friendDoc.data();
+    // Verificar se é conversa com o admin
+    if (typeof ADMIN_CONFIG !== 'undefined' && friendId === ADMIN_CONFIG.uid) {
+      isAdminConversation = true;
+    }
     
     const conversationRef = await db.collection("quest4you_conversations").add({
       participants: [currentUser.uid, friendId],
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastMessage: '',
+      lastMessage: isAdminConversation ? 'Bem-vindo ao Quest4You!' : '',
       unreadCount: {
-        [currentUser.uid]: 0,
+        [currentUser.uid]: isAdminConversation ? 1 : 0, // Se for admin, tem 1 mensagem de boas-vindas
         [friendId]: 0
-      }
+      },
+      isAdminConversation: isAdminConversation
     });
+    
+    // Se for conversa com o admin, enviar mensagem de boas-vindas automaticamente
+    if (isAdminConversation && typeof WELCOME_MESSAGE !== 'undefined') {
+      await sendWelcomeMessage(conversationRef.id, friendId);
+    }
     
     // Wait for conversation to appear in list
     setTimeout(() => {
@@ -313,13 +338,18 @@ function loadMessages(conversationId) {
           lastDate = dateStr;
         }
         
+        // Verifica se é mensagem do sistema (welcome message)
+        const isSystemMessage = data.messageType === 'system_welcome' || data.isSystem === true;
+        
         messages.push({
           type: 'message',
           id: doc.id,
           text: data.text,
           senderId: data.senderId,
           createdAt: messageDate,
-          isSent: data.senderId === currentUser.uid
+          isSent: data.senderId === currentUser.uid,
+          isSystem: isSystemMessage,
+          messageType: data.messageType
         });
       });
       
@@ -339,6 +369,16 @@ function renderMessages(messages) {
       return `<div class="date-separator"><span>${item.date}</span></div>`;
     }
     
+    // Mensagem do sistema (boas-vindas)
+    if (item.isSystem) {
+      return `
+        <div class="message system-message">
+          <div class="system-message-icon">🎯</div>
+          <div class="message-bubble system-bubble">${formatSystemMessage(item.text)}</div>
+        </div>
+      `;
+    }
+    
     return `
       <div class="message ${item.isSent ? 'sent' : 'received'}">
         <div class="message-bubble">${escapeHtml(item.text)}</div>
@@ -346,6 +386,43 @@ function renderMessages(messages) {
       </div>
     `;
   }).join('');
+}
+
+// Formata mensagem do sistema com markdown básico
+function formatSystemMessage(text) {
+  if (!text) return '';
+  
+  // Escape HTML primeiro
+  let formatted = escapeHtml(text);
+  
+  // Converte **bold** para <strong>
+  formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  
+  // Converte quebras de linha para <br>
+  formatted = formatted.replace(/\n/g, '<br>');
+  
+  return formatted;
+}
+
+// Envia mensagem de boas-vindas automática do admin
+async function sendWelcomeMessage(conversationId, adminId) {
+  if (!WELCOME_MESSAGE || !WELCOME_MESSAGE.text) return;
+  
+  try {
+    await db.collection("quest4you_messages").add({
+      conversationId: conversationId,
+      senderId: adminId, // Mensagem enviada "pelo admin"
+      receiverId: currentUser.uid,
+      text: WELCOME_MESSAGE.text,
+      messageType: WELCOME_MESSAGE.type || 'system_welcome',
+      isSystem: true,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    console.log("Welcome message sent successfully");
+  } catch (error) {
+    console.error("Error sending welcome message:", error);
+  }
 }
 
 async function sendMessage() {
