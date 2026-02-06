@@ -495,6 +495,9 @@ async function loadSectionData(section) {
     case 'results':
       await loadResultsData();
       break;
+    case 'user-answers':
+      await loadUserAnswersSection();
+      break;
     case 'matches':
       await loadMatchesData();
       break;
@@ -2155,4 +2158,450 @@ window.loadValidationData = loadValidationData;
 window.openEmailNotification = openEmailNotification;
 window.closeNotification = closeNotification;
 window.navigateToValidation = navigateToValidation;
+window.loadUserAnswersSection = loadUserAnswersSection;
+window.loadUserAnswers = loadUserAnswers;
+window.loadQuizAnswers = loadQuizAnswers;
+window.exportUserAnswers = exportUserAnswers;
+
+// ================================
+// USER ANSWERS SECTION
+// ================================
+
+// Variáveis de estado
+let currentUserData = null;
+let currentQuizAnswers = null;
+let usersCache = [];
+
+// Quiz configurations
+const QUIZ_CONFIG = {
+  vanilla: { name: 'Vanilla ou Kink', icon: '🔥', color: '#e91e63' },
+  orientation: { name: 'Espectro de Atração', icon: '🌈', color: '#9c27b0' },
+  kinks: { name: 'Fetiches & Parafilias', icon: '⛓️', color: '#f44336' },
+  exhibitionism: { name: 'Exibicionismo', icon: '👀', color: '#ff9800' },
+  fantasies: { name: 'Fantasias Secretas', icon: '💭', color: '#e040fb' },
+  swing: { name: 'Swing/Poliamor', icon: '💑', color: '#00bcd4' },
+  cuckold: { name: 'Stag/Hotwife/Cuckold', icon: '🦊', color: '#673ab7' },
+  bdsm: { name: 'BDSM & Power Play', icon: '🔗', color: '#795548' },
+  communication: { name: 'Comunicação Sexual', icon: '💬', color: '#4caf50' },
+  adventure: { name: 'Aventura Sexual', icon: '🎢', color: '#ff5722' }
+};
+
+// Carregar a secção de respostas por utilizador
+async function loadUserAnswersSection() {
+  console.log('📋 Loading User Answers Section...');
+  
+  const select = document.getElementById('userAnswersSelect');
+  if (!select) return;
+  
+  // Reset UI
+  document.getElementById('userAnswersInfo').style.display = 'none';
+  document.getElementById('userAnswersQuizSelector').style.display = 'none';
+  document.getElementById('userAnswersContainer').style.display = 'none';
+  document.getElementById('userAnswersEmpty').style.display = 'block';
+  
+  if (typeof db === 'undefined') {
+    select.innerHTML = '<option value="">⚠️ Firebase não disponível</option>';
+    return;
+  }
+  
+  try {
+    // Carregar utilizadores com questionários completados
+    let snapshot;
+    try {
+      snapshot = await db.collection('quest4you_users')
+        .orderBy('createdAt', 'desc')
+        .get();
+    } catch (e) {
+      snapshot = await db.collection('quest4you_users').get();
+    }
+    
+    usersCache = [];
+    let options = '<option value="">Seleciona um utilizador...</option>';
+    
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const results = data.results || data.quizResults || {};
+      const quizCount = Object.keys(results).length;
+      
+      usersCache.push({
+        id: doc.id,
+        ...data
+      });
+      
+      const displayName = data.displayName || data.name || 'Anónimo';
+      const quizBadge = quizCount > 0 ? `(${quizCount} quiz${quizCount > 1 ? 'zes' : ''})` : '(sem quizzes)';
+      
+      options += `<option value="${doc.id}">${displayName} - ${data.email || 'N/A'} ${quizBadge}</option>`;
+    });
+    
+    select.innerHTML = options;
+    console.log(`✅ Loaded ${usersCache.length} users`);
+    
+  } catch (error) {
+    console.error('Error loading users for answers:', error);
+    select.innerHTML = '<option value="">❌ Erro ao carregar utilizadores</option>';
+  }
+}
+
+// Carregar dados de um utilizador específico
+async function loadUserAnswers(userId) {
+  if (!userId) {
+    document.getElementById('userAnswersInfo').style.display = 'none';
+    document.getElementById('userAnswersQuizSelector').style.display = 'none';
+    document.getElementById('userAnswersContainer').style.display = 'none';
+    document.getElementById('userAnswersEmpty').style.display = 'block';
+    return;
+  }
+  
+  console.log(`📋 Loading answers for user: ${userId}`);
+  
+  try {
+    // Buscar dados do utilizador (do cache ou Firestore)
+    let userData = usersCache.find(u => u.id === userId);
+    
+    if (!userData) {
+      const doc = await db.collection('quest4you_users').doc(userId).get();
+      if (!doc.exists) {
+        alert('❌ Utilizador não encontrado');
+        return;
+      }
+      userData = { id: doc.id, ...doc.data() };
+    }
+    
+    currentUserData = userData;
+    
+    // Mostrar info do utilizador
+    displayUserInfo(userData);
+    
+    // Mostrar selector de quizzes
+    displayQuizSelector(userData);
+    
+    // Esconder estado vazio
+    document.getElementById('userAnswersEmpty').style.display = 'none';
+    document.getElementById('userAnswersContainer').style.display = 'none';
+    
+  } catch (error) {
+    console.error('Error loading user answers:', error);
+    alert('❌ Erro ao carregar respostas do utilizador');
+  }
+}
+
+// Mostrar informações do utilizador
+function displayUserInfo(userData) {
+  const container = document.getElementById('userAnswersInfo');
+  
+  // Avatar
+  const avatarEl = document.getElementById('userAnswersAvatar');
+  const displayName = userData.displayName || userData.name || 'Anónimo';
+  avatarEl.textContent = displayName.charAt(0).toUpperCase();
+  
+  // Nome e email
+  document.getElementById('userAnswersName').textContent = displayName;
+  document.getElementById('userAnswersEmail').textContent = userData.email || 'N/A';
+  
+  // Data de registo
+  let joinedText = 'Registado em: --/--/----';
+  if (userData.createdAt) {
+    try {
+      const date = userData.createdAt.toDate ? userData.createdAt.toDate() : new Date(userData.createdAt);
+      joinedText = `Registado em: ${date.toLocaleDateString('pt-PT')}`;
+    } catch (e) {}
+  }
+  document.getElementById('userAnswersJoined').textContent = joinedText;
+  
+  // Estatísticas
+  const results = userData.results || userData.quizResults || {};
+  const quizCount = Object.keys(results).length;
+  
+  let responseCount = 0;
+  if (userData.progress) {
+    Object.values(userData.progress).forEach(count => {
+      responseCount += count || 0;
+    });
+  }
+  
+  document.getElementById('userAnswersQuizCount').textContent = quizCount;
+  document.getElementById('userAnswersResponseCount').textContent = responseCount;
+  document.getElementById('userAnswersSmartMatch').textContent = userData.smartMatchEnabled ? '✅' : '❌';
+  
+  container.style.display = 'block';
+}
+
+// Mostrar selector de quizzes
+function displayQuizSelector(userData) {
+  const container = document.getElementById('userAnswersQuizSelector');
+  const results = userData.results || userData.quizResults || {};
+  const completedQuizzes = Object.keys(results);
+  
+  let html = '';
+  
+  Object.entries(QUIZ_CONFIG).forEach(([quizId, config]) => {
+    const isCompleted = completedQuizzes.includes(quizId);
+    const disabledClass = isCompleted ? '' : 'disabled';
+    const statusBadge = isCompleted ? '<span class="quiz-status">✓</span>' : '';
+    
+    html += `
+      <button class="quiz-selector-btn ${disabledClass}" 
+              onclick="${isCompleted ? `loadQuizAnswers('${quizId}')` : ''}"
+              ${!isCompleted ? 'disabled' : ''}>
+        <span class="quiz-icon">${config.icon}</span>
+        <span>${config.name}</span>
+        ${statusBadge}
+      </button>
+    `;
+  });
+  
+  if (completedQuizzes.length === 0) {
+    html = '<p style="color: var(--admin-text-light); text-align: center; width: 100%;">Este utilizador ainda não completou nenhum questionário.</p>';
+  }
+  
+  container.innerHTML = html;
+  container.style.display = 'flex';
+}
+
+// Carregar respostas de um quiz específico
+async function loadQuizAnswers(quizId) {
+  if (!currentUserData) return;
+  
+  console.log(`📝 Loading answers for quiz: ${quizId}`);
+  
+  const container = document.getElementById('userAnswersContainer');
+  container.style.display = 'block';
+  container.innerHTML = `
+    <div class="answers-loading">
+      <div class="loading-spinner">⏳</div>
+      <p>A carregar respostas...</p>
+    </div>
+  `;
+  
+  // Atualizar botões ativos
+  document.querySelectorAll('.quiz-selector-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.textContent.includes(QUIZ_CONFIG[quizId]?.name)) {
+      btn.classList.add('active');
+    }
+  });
+  
+  try {
+    const results = currentUserData.results || currentUserData.quizResults || {};
+    const quizResult = results[quizId];
+    
+    if (!quizResult) {
+      container.innerHTML = '<p style="text-align: center; padding: 40px;">❌ Resultado não encontrado</p>';
+      return;
+    }
+    
+    // Carregar perguntas do quiz
+    let quizQuestions = [];
+    try {
+      const response = await fetch(`../data/quizzes/${quizId}.json`);
+      if (response.ok) {
+        const quizData = await response.json();
+        quizQuestions = quizData.questions || [];
+      }
+    } catch (e) {
+      console.warn('Could not load quiz questions:', e);
+    }
+    
+    // Obter respostas do utilizador
+    const userAnswers = currentUserData.answers?.[quizId] || quizResult.answers || {};
+    
+    // Renderizar
+    displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers);
+    
+  } catch (error) {
+    console.error('Error loading quiz answers:', error);
+    container.innerHTML = '<p style="text-align: center; padding: 40px;">❌ Erro ao carregar respostas</p>';
+  }
+}
+
+// Mostrar as respostas do quiz
+function displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers) {
+  const container = document.getElementById('userAnswersContainer');
+  const config = QUIZ_CONFIG[quizId] || { name: quizId, icon: '📝', color: '#666' };
+  
+  // Header
+  let html = `
+    <div class="answers-header">
+      <h3>${config.icon} ${config.name}</h3>
+      <div class="answers-summary">
+        <div class="summary-item">
+          <span class="summary-value">${Object.keys(userAnswers).length}</span>
+          <span class="summary-label">Respostas</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-value">${quizResult.completedAt ? new Date(quizResult.completedAt.toDate ? quizResult.completedAt.toDate() : quizResult.completedAt).toLocaleDateString('pt-PT') : 'N/A'}</span>
+          <span class="summary-label">Completado</span>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Scores
+  const scores = quizResult.scores || quizResult.categoryScores || quizResult.rolePercentages || {};
+  if (Object.keys(scores).length > 0) {
+    html += '<div class="answers-scores">';
+    
+    Object.entries(scores).forEach(([category, score]) => {
+      const scoreValue = typeof score === 'number' ? score : parseFloat(score) || 0;
+      const barColor = getScoreColor(scoreValue);
+      
+      html += `
+        <div class="score-item">
+          <span class="score-label">${formatCategoryName(category)}</span>
+          <div class="score-bar-container">
+            <div class="score-bar">
+              <div class="score-bar-fill" style="width: ${scoreValue}%; background: ${barColor};"></div>
+            </div>
+            <span class="score-value">${Math.round(scoreValue)}%</span>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+  }
+  
+  // Category/Result
+  if (quizResult.category) {
+    html += `
+      <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, ${config.color}22, ${config.color}11); border-radius: 12px; margin-bottom: 24px;">
+        <span style="font-size: 0.85rem; color: var(--admin-text-light);">Resultado:</span>
+        <h4 style="color: ${config.color}; margin-top: 4px;">${quizResult.category}</h4>
+      </div>
+    `;
+  }
+  
+  // Questions and Answers
+  html += '<h4 style="margin-bottom: 16px;">📝 Respostas Detalhadas</h4>';
+  html += '<div class="answers-questions">';
+  
+  if (Object.keys(userAnswers).length > 0) {
+    // Ordenar por número da pergunta
+    const sortedAnswers = Object.entries(userAnswers).sort((a, b) => {
+      const numA = parseInt(a[0].replace(/\D/g, '')) || 0;
+      const numB = parseInt(b[0].replace(/\D/g, '')) || 0;
+      return numA - numB;
+    });
+    
+    sortedAnswers.forEach(([questionId, answer], index) => {
+      // Encontrar a pergunta correspondente
+      const questionIndex = parseInt(questionId.replace(/\D/g, '')) - 1;
+      const question = quizQuestions[questionIndex];
+      const questionText = question?.text || question?.question || `Pergunta ${questionId}`;
+      
+      const answerValue = typeof answer === 'number' ? answer : parseInt(answer) || 0;
+      const barColor = getScoreColor(answerValue * 20); // 0-5 -> 0-100
+      
+      html += `
+        <div class="answer-item">
+          <div class="answer-question">
+            <span class="answer-question-number">Q${index + 1}</span>
+            <span>${questionText}</span>
+          </div>
+          <div class="answer-response">
+            <span class="answer-slider-value">${answerValue}</span>
+            <div style="flex: 1;">
+              <div class="answer-slider-bar">
+                <div class="answer-slider-fill" style="width: ${answerValue * 20}%; background: ${barColor};"></div>
+              </div>
+              <div class="answer-labels">
+                <span>${question?.labels?.[0] || 'Discordo'}</span>
+                <span>${question?.labels?.[1] || 'Concordo'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  } else {
+    html += '<p style="text-align: center; padding: 20px; color: var(--admin-text-light);">Respostas detalhadas não disponíveis para este questionário.</p>';
+  }
+  
+  html += '</div>';
+  
+  // Export button
+  html += `
+    <div class="answers-export">
+      <button class="btn btn-outline" onclick="exportUserAnswers('${quizId}', 'json')">
+        📥 Exportar JSON
+      </button>
+      <button class="btn btn-primary" onclick="exportUserAnswers('${quizId}', 'csv')">
+        📊 Exportar CSV
+      </button>
+    </div>
+  `;
+  
+  container.innerHTML = html;
+}
+
+// Exportar respostas
+function exportUserAnswers(quizId, format) {
+  if (!currentUserData) return;
+  
+  const results = currentUserData.results || currentUserData.quizResults || {};
+  const quizResult = results[quizId];
+  const userAnswers = currentUserData.answers?.[quizId] || quizResult?.answers || {};
+  
+  const exportData = {
+    user: {
+      id: currentUserData.id,
+      name: currentUserData.displayName || currentUserData.name || 'Anónimo',
+      email: currentUserData.email
+    },
+    quiz: quizId,
+    quizName: QUIZ_CONFIG[quizId]?.name || quizId,
+    completedAt: quizResult?.completedAt,
+    scores: quizResult?.scores || quizResult?.categoryScores || {},
+    category: quizResult?.category,
+    answers: userAnswers
+  };
+  
+  if (format === 'json') {
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    downloadBlob(blob, `${currentUserData.id}_${quizId}_answers.json`);
+  } else if (format === 'csv') {
+    let csv = 'Pergunta,Resposta\n';
+    Object.entries(userAnswers).forEach(([questionId, answer]) => {
+      csv += `"${questionId}","${answer}"\n`;
+    });
+    csv += '\nCategoria,Score\n';
+    Object.entries(exportData.scores).forEach(([cat, score]) => {
+      csv += `"${cat}","${Math.round(score)}%"\n`;
+    });
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    downloadBlob(blob, `${currentUserData.id}_${quizId}_answers.csv`);
+  }
+}
+
+// Utility: Download blob
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Utility: Get score color
+function getScoreColor(score) {
+  if (score >= 80) return '#4caf50';
+  if (score >= 60) return '#8bc34a';
+  if (score >= 40) return '#ffc107';
+  if (score >= 20) return '#ff9800';
+  return '#f44336';
+}
+
+// Utility: Format category name
+function formatCategoryName(name) {
+  return name
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, str => str.toUpperCase())
+    .replace(/_/g, ' ')
+    .trim();
+}
 window.deleteUser = deleteUser;

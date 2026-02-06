@@ -14,27 +14,34 @@ service cloud.firestore {
     // Verificar se o utilizador é o dono do documento
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
-    }    // Verificar se o utilizador é admin
-    // Verifica se existe na coleção admins
+    }
+    
+    // ================================
+    // VERIFICAÇÃO DE ADMIN (Suporta Quest4You + Quest4Couple)
+    // ================================
+    
+    // Verifica se existe na coleção admins (partilhada)
     function isAdminByCollection() {
       return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
     
-    // Verifica se o documento do user tem isAdmin = true
-    function isAdminByField() {
+    // Verifica admin no Quest4You
+    function isAdminInQuest4You() {
       return exists(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)) &&
-        get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.isAdmin == true;
+        (get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.isAdmin == true ||
+         get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.role == 'admin');
     }
     
-    // Verifica se o documento do user tem role = 'admin'
-    function isAdminByRole() {
-      return exists(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)) &&
-        get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.role == 'admin';
+    // Verifica admin no Quest4Couple
+    function isAdminInQuest4Couple() {
+      return exists(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid)) &&
+        (get(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid)).data.isAdmin == true ||
+         get(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid)).data.role == 'admin');
     }
     
-    // Função principal para verificar admin
+    // Função principal para verificar admin (ambos os projetos)
     function isAdmin() {
-      return isAuthenticated() && (isAdminByCollection() || isAdminByField() || isAdminByRole());
+      return isAuthenticated() && (isAdminByCollection() || isAdminInQuest4You() || isAdminInQuest4Couple());
     }
     
     // ================================
@@ -48,9 +55,24 @@ service cloud.firestore {
     }
     
     // ================================
-    // UTILIZADORES (quest4you_users) - Coleção principal
+    // UTILIZADORES (quest4you_users) - Quest4You
     // ================================
     match /quest4you_users/{userId} {
+      // Admins podem ler todos os perfis
+      // Utilizadores autenticados podem ler perfis (para buscar nicknames e SmartMatch)
+      allow read: if isAuthenticated();
+      // Só o próprio utilizador pode criar o seu perfil
+      allow create: if isOwner(userId);
+      // O próprio utilizador OU admins podem atualizar
+      allow update: if isOwner(userId) || isAdmin();
+      // Admins podem eliminar utilizadores
+      allow delete: if isAdmin();
+    }
+    
+    // ================================
+    // UTILIZADORES (quest4couple_users) - Quest4Couple
+    // ================================
+    match /quest4couple_users/{userId} {
       // Admins podem ler todos os perfis
       // Utilizadores autenticados podem ler perfis (para buscar nicknames e SmartMatch)
       allow read: if isAuthenticated();
@@ -195,6 +217,113 @@ service cloud.firestore {
       allow read: if isAuthenticated() && 
         request.auth.uid in resource.data.users;
       allow write: if isAuthenticated();
+    }
+    
+    // ================================
+    // ================================
+    // QUEST4COUPLE - COLEÇÕES ESPECÍFICAS
+    // ================================
+    // ================================
+    
+    // ================================
+    // ARTIGOS PERSONALIZADOS (quest4couple_articles)
+    // ================================
+    match /quest4couple_articles/{articleId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ================================
+    // COMENTÁRIOS (quest4couple_comments)
+    // ================================
+    match /quest4couple_comments/{commentId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ================================
+    // TÓPICOS DO FÓRUM (quest4couple_topics)
+    // ================================
+    match /quest4couple_topics/{topicId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ================================
+    // RESPOSTAS DO FÓRUM (quest4couple_replies)
+    // ================================
+    match /quest4couple_replies/{replyId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ================================
+    // CHAT PÚBLICO (quest4couple_chat)
+    // ================================
+    match /quest4couple_chat/{messageId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    // ================================
+    // CONVERSAS PRIVADAS (quest4couple_conversations)
+    // ================================
+    match /quest4couple_conversations/{conversationId} {
+      allow read: if isAuthenticated() && 
+        request.auth.uid in resource.data.participants;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        request.auth.uid in resource.data.participants;
+      allow delete: if false;
+    }
+    
+    // ================================
+    // MENSAGENS PRIVADAS (quest4couple_messages)
+    // ================================
+    match /quest4couple_messages/{messageId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if false;
+    }
+    
+    // ================================
+    // VALIDAÇÃO DE GÉNERO QUEST4COUPLE
+    // ================================
+    match /quest4couple_genderValidations/{validationId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (isAdmin() || (resource.data.userId == request.auth.uid && resource.data.status == 'pending'));
+      allow delete: if isAdmin();
+    }
+    
+    // ================================
+    // FEEDBACK (partilhado ou separado)
+    // ================================
+    match /feedback/{feedbackId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    match /quest4you_feedback/{feedbackId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    match /quest4couple_feedback/{feedbackId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
     }
   }
 }
