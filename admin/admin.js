@@ -210,6 +210,11 @@ function setupNavigation() {
       // Update active state
       navItems.forEach(nav => nav.classList.remove('active'));
       this.classList.add('active');
+      
+      // Fechar sidebar em mobile após clicar num item
+      if (window.innerWidth <= 992) {
+        closeSidebar();
+      }
     });
   });
 }
@@ -245,7 +250,23 @@ function getSectionTitle(section) {
 }
 
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('active');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  
+  sidebar.classList.toggle('active');
+  if (overlay) {
+    overlay.classList.toggle('active');
+  }
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  
+  sidebar.classList.remove('active');
+  if (overlay) {
+    overlay.classList.remove('active');
+  }
 }
 
 // ================================
@@ -2143,6 +2164,7 @@ Quest4You BackOffice
 window.adminLogin = adminLogin;
 window.logout = logout;
 window.toggleSidebar = toggleSidebar;
+window.closeSidebar = closeSidebar;
 window.refreshUsers = refreshUsers;
 window.viewUser = viewUser;
 window.saveSettings = saveSettings;

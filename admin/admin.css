@@ -805,6 +805,7 @@ body {
 @media (max-width: 992px) {
   .sidebar {
     transform: translateX(-100%);
+    z-index: 1000;
   }
 
   .sidebar.active {
@@ -825,6 +826,60 @@ body {
 
   .matches-overview {
     grid-template-columns: 1fr;
+  }
+  
+  /* Overlay quando sidebar está aberta */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+  
+  /* Botão fechar no sidebar mobile */
+  .sidebar-close-mobile {
+    display: flex;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 1001;
+  }
+  
+  .sidebar-close-mobile:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Desktop: esconder botão fechar mobile */
+@media (min-width: 993px) {
+  .sidebar-close-mobile {
+    display: none !important;
+  }
+  
+  .sidebar-overlay {
+    display: none !important;
   }
 }
 

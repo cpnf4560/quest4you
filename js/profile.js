@@ -93,21 +93,15 @@ function updateProfileHeader() {
   // Email
   document.getElementById("profileEmail").textContent = currentUser.email;
   
-  // Avatar
+  // Avatar - Usar apenas foto pública do perfil Quest4You, NÃO usar foto do Google
   const avatarImg = document.getElementById("avatarImg");
   const avatarFallback = document.getElementById("avatarFallback");
   
-  if (currentUser.photoURL) {
-    avatarImg.src = currentUser.photoURL;
-    avatarImg.onload = function() {
-      avatarImg.classList.add("loaded");
-      avatarFallback.style.display = "none";
-    };
-  } else {
-    // Show initials
-    const name = currentUser.displayName || currentUser.email || "?";
-    avatarFallback.textContent = name.charAt(0).toUpperCase();
-  }
+  // Mostrar sempre as iniciais por defeito (não usar foto do Google)
+  const name = currentUser.displayName || currentUser.email || "?";
+  avatarFallback.textContent = name.charAt(0).toUpperCase();
+  avatarImg.style.display = "none";
+  avatarFallback.style.display = "flex";
   
   // Joined date
   const createdAt = currentUser.metadata?.creationTime;
@@ -547,10 +541,9 @@ async function createUserProfile() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
       quizResults: {},
-      progress: {},
-      settings: {
+      progress: {},      settings: {
         notifications: true,
-        publicProfile: false,
+        publicProfile: true,
         smartMatchEnabled: true
       }
     });
@@ -1520,11 +1513,36 @@ function loadAllPhotos() {
     const photoKey = type + 'Photo';
     if (userData[photoKey]) {
       updatePhotoPreview(type, userData[photoKey]);
+      
+      // Se é a foto pública, também mostrar no avatar do perfil
+      if (type === 'public') {
+        updateProfileAvatar(userData[photoKey]);
+      }
     }
   });
 
   // Update gender validation status
   updateValidationStatusUI();
+}
+
+// Atualizar avatar do perfil com foto pública do Quest4You
+function updateProfileAvatar(photoUrl) {
+  const avatarImg = document.getElementById("avatarImg");
+  const avatarFallback = document.getElementById("avatarFallback");
+  
+  if (photoUrl && avatarImg) {
+    avatarImg.src = photoUrl;
+    avatarImg.style.display = "block";
+    avatarImg.onload = function() {
+      avatarImg.classList.add("loaded");
+      avatarFallback.style.display = "none";
+    };
+    avatarImg.onerror = function() {
+      // Se falhar a carregar, mostrar iniciais
+      avatarImg.style.display = "none";
+      avatarFallback.style.display = "flex";
+    };
+  }
 }
 
 // ================================
