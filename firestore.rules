@@ -369,5 +369,94 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       allow write: if isOwner(userId) || isOwner(friendId);
     }
+    
+    // ================================
+    // SISTEMA DE BLOQUEIO (quest4you_blocks)
+    // ================================
+    match /quest4you_blocks/{blockId} {
+      // Utilizadores podem ler os seus próprios bloqueios
+      allow read: if isAuthenticated() && 
+        (request.auth.uid == resource.data.blockerId || isAdmin());
+      // Utilizadores autenticados podem criar bloqueios
+      allow create: if isAuthenticated() && 
+        request.resource.data.blockerId == request.auth.uid;
+      // Só quem bloqueou pode remover o bloqueio
+      allow update, delete: if isAuthenticated() && 
+        request.auth.uid == resource.data.blockerId;
+    }
+    
+    // ================================
+    // DENÚNCIAS (quest4you_reports)
+    // ================================
+    match /quest4you_reports/{reportId} {
+      // Admins podem ler todas as denúncias
+      allow read: if isAdmin();
+      // Utilizadores autenticados podem criar denúncias
+      allow create: if isAuthenticated();
+      // Só admins podem atualizar/resolver denúncias
+      allow update, delete: if isAdmin();
+    }
+    
+    // ================================
+    // GRUPOS DE CHAT (quest4you_groups)
+    // ================================
+    match /quest4you_groups/{groupId} {
+      // Participantes e admins podem ler
+      allow read: if isAuthenticated() && 
+        (request.auth.uid in resource.data.participants || isAdmin());
+      // Utilizadores autenticados podem criar grupos
+      allow create: if isAuthenticated() && 
+        request.auth.uid in request.resource.data.participants;
+      // Participantes podem atualizar (mensagens, etc)
+      // Admins do grupo podem editar detalhes
+      allow update: if isAuthenticated() && 
+        (request.auth.uid in resource.data.participants || isAdmin());
+      // Apenas admins do grupo ou admins gerais podem eliminar
+      allow delete: if isAuthenticated() && 
+        (request.auth.uid in resource.data.admins || isAdmin());
+    }
+    
+    // ================================
+    // HISTÓRICO DE MATCHES (quest4you_match_history)
+    // ================================
+    match /quest4you_match_history/{matchId} {
+      // Utilizadores podem ler o seu próprio histórico
+      allow read: if isAuthenticated() && 
+        (request.auth.uid == resource.data.userId || isAdmin());
+      // Utilizadores autenticados podem criar matches
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      // Utilizadores podem atualizar/eliminar o seu próprio histórico
+      allow update, delete: if isAuthenticated() && 
+        (request.auth.uid == resource.data.userId || isAdmin());
+    }
+    
+    // ================================
+    // PEDIDOS DE VERIFICAÇÃO (quest4you_verification_requests)
+    // ================================
+    match /quest4you_verification_requests/{requestId} {
+      // Utilizadores podem ver os seus próprios pedidos, admins vêem todos
+      allow read: if isAuthenticated() && 
+        (request.auth.uid == resource.data.userId || isAdmin());
+      // Utilizadores autenticados podem criar pedidos
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      // Admins podem atualizar/resolver pedidos
+      allow update: if isAdmin();
+      // Admins podem eliminar pedidos processados
+      allow delete: if isAdmin();
+    }
+    
+    // ================================
+    // BROADCASTS (quest4you_broadcasts)
+    // ================================
+    match /quest4you_broadcasts/{broadcastId} {
+      // Admins podem ler histórico de broadcasts
+      allow read: if isAdmin();
+      // Apenas admins podem criar broadcasts
+      allow create: if isAdmin();
+      // Broadcasts são imutáveis após criação
+      allow update, delete: if false;
+    }
   }
 }

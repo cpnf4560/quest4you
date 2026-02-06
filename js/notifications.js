@@ -11,6 +11,7 @@ let notificationsList = [];
 let unreadCount = 0;
 let previousNotificationIds = new Set();
 let isFirstLoad = true;
+let pushPermission = 'default';
 
 // ================================
 // INITIALIZATION
@@ -25,6 +26,9 @@ function initNotifications(userId) {
 
   // Create notification elements if they don't exist
   createNotificationElements();
+  
+  // Initialize Push Notifications
+  initPushNotifications();
 
   // Real-time listener for notifications
   notificationsUnsubscribe = db.collection("quest4you_notifications")
@@ -46,6 +50,10 @@ function initNotifications(userId) {
         // Show toast for new notifications (not on first load)
         if (!isFirstLoad && !previousNotificationIds.has(doc.id) && !notification.read) {
           showNotificationToast(notification);
+          // Send browser push notification if tab is not focused
+          if (document.hidden && pushPermission === 'granted') {
+            sendBrowserPushNotification(notification);
+          }
         }
       });
 
@@ -63,6 +71,113 @@ function initNotifications(userId) {
     }, (error) => {
       console.error("Error loading notifications:", error);
     });
+}
+
+// ================================
+// PUSH NOTIFICATIONS (Browser)
+// ================================
+async function initPushNotifications() {
+  // Check if browser supports notifications
+  if (!('Notification' in window)) {
+    console.log('Browser does not support notifications');
+    return;
+  }
+
+  pushPermission = Notification.permission;
+  
+  // If permission is default, show the enable button
+  if (pushPermission === 'default') {
+    showPushNotificationPrompt();
+  }
+}
+
+function showPushNotificationPrompt() {
+  // Add a subtle prompt to enable notifications
+  const existingPrompt = document.getElementById('pushNotifPrompt');
+  if (existingPrompt) return;
+
+  const prompt = document.createElement('div');
+  prompt.id = 'pushNotifPrompt';
+  prompt.className = 'push-notif-prompt';
+  prompt.innerHTML = `
+    <div class="push-prompt-content">
+      <span class="push-prompt-icon">🔔</span>
+      <div class="push-prompt-text">
+        <strong>Ativar notificações?</strong>
+        <p>Recebe alertas mesmo quando o Quest4You não está aberto.</p>
+      </div>
+      <div class="push-prompt-actions">
+        <button class="btn btn-primary btn-sm" onclick="requestPushPermission()">Ativar</button>
+        <button class="btn btn-outline btn-sm" onclick="dismissPushPrompt()">Agora não</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(prompt);
+  
+  // Auto dismiss after 10 seconds
+  setTimeout(() => {
+    dismissPushPrompt();
+  }, 10000);
+}
+
+async function requestPushPermission() {
+  try {
+    const permission = await Notification.requestPermission();
+    pushPermission = permission;
+    
+    if (permission === 'granted') {
+      console.log('✅ Push notifications enabled');
+      showNotificationToast({
+        type: 'system',
+        message: 'Notificações ativadas com sucesso!'
+      });
+    }
+    
+    dismissPushPrompt();
+  } catch (error) {
+    console.error('Error requesting notification permission:', error);
+  }
+}
+
+function dismissPushPrompt() {
+  const prompt = document.getElementById('pushNotifPrompt');
+  if (prompt) {
+    prompt.classList.add('hiding');
+    setTimeout(() => prompt.remove(), 300);
+  }
+}
+
+function sendBrowserPushNotification(notification) {
+  if (pushPermission !== 'granted') return;
+
+  try {
+    const title = getNotificationTitle(notification.type);
+    const options = {
+      body: notification.message,
+      icon: '/favicon.ico',
+      badge: '/favicon.ico',
+      tag: notification.id, // Prevents duplicate notifications
+      requireInteraction: false,
+      silent: false
+    };
+
+    const browserNotif = new Notification(title, options);
+
+    // Handle click on notification
+    browserNotif.onclick = () => {
+      window.focus();
+      if (notification.link) {
+        window.location.href = notification.link;
+      }
+      browserNotif.close();
+    };
+
+    // Auto close after 5 seconds
+    setTimeout(() => browserNotif.close(), 5000);
+  } catch (error) {
+    console.error('Error sending browser notification:', error);
+  }
 }
 
 // ================================
@@ -443,6 +558,10 @@ window.markAsRead = markAsRead;
 window.markAllAsRead = markAllAsRead;
 window.deleteNotification = deleteNotification;
 window.handleNotificationClick = handleNotificationClick;
+
+// Push notification functions
+window.requestPushPermission = requestPushPermission;
+window.dismissPushPrompt = dismissPushPrompt;
 
 // Notification creation functions
 window.createNotification = createNotification;

@@ -12,6 +12,9 @@ let currentFriend = null;
 let conversations = [];
 let messagesUnsubscribe = null;
 let conversationsUnsubscribe = null;
+let typingUnsubscribe = null;
+let typingTimeout = null;
+let isTyping = false;
 
 // ================================
 // INITIALIZATION
@@ -78,6 +81,7 @@ async function logout() {
     // Unsubscribe from listeners
     if (messagesUnsubscribe) messagesUnsubscribe();
     if (conversationsUnsubscribe) conversationsUnsubscribe();
+    if (typingUnsubscribe) typingUnsubscribe();
     
     await auth.signOut();
     window.location.href = "../index.html";
@@ -315,6 +319,9 @@ function loadMessages(conversationId) {
   if (messagesUnsubscribe) {
     messagesUnsubscribe();
   }
+  if (typingUnsubscribe) {
+    typingUnsubscribe();
+  }
   
   const messagesList = document.getElementById('messagesList');
   if (!messagesList) return;
@@ -349,8 +356,15 @@ function loadMessages(conversationId) {
           createdAt: messageDate,
           isSent: data.senderId === currentUser.uid,
           isSystem: isSystemMessage,
-          messageType: data.messageType
+          messageType: data.messageType,
+          readAt: data.readAt,
+          readBy: data.readBy || []
         });
+        
+        // Mark message as read if it's from friend
+        if (data.senderId !== currentUser.uid && !data.readBy?.includes(currentUser.uid)) {
+          markMessageAsRead(doc.id);
+        }
       });
       
       renderMessages(messages);
@@ -358,6 +372,131 @@ function loadMessages(conversationId) {
     }, (error) => {
       console.error("Error loading messages:", error);
     });
+  
+  // Listen for typing indicator
+  listenForTyping(conversationId);
+}
+
+// ================================
+// TYPING INDICATOR
+// ================================
+function listenForTyping(conversationId) {
+  if (typingUnsubscribe) {
+    typingUnsubscribe();
+  }
+  
+  typingUnsubscribe = db.collection("quest4you_conversations")
+    .doc(conversationId)
+    .onSnapshot((doc) => {
+      if (!doc.exists || !currentFriend) return;
+      
+      const data = doc.data();
+      const typingUsers = data.typing || {};
+      const friendTyping = typingUsers[currentFriend.id];
+      
+      // Show typing indicator if friend is typing (within last 3 seconds)
+      if (friendTyping) {
+        const typingTime = friendTyping.toDate ? friendTyping.toDate() : new Date(friendTyping);
+        const now = new Date();
+        const diffSeconds = (now - typingTime) / 1000;
+        
+        if (diffSeconds < 3) {
+          showTypingIndicator(currentFriend.name);
+        } else {
+          hideTypingIndicator();
+        }
+      } else {
+        hideTypingIndicator();
+      }
+    });
+}
+
+function showTypingIndicator(name) {
+  let indicator = document.getElementById('typingIndicator');
+  
+  if (!indicator) {
+    const messagesContainer = document.getElementById('messagesContainer');
+    if (!messagesContainer) return;
+    
+    indicator = document.createElement('div');
+    indicator.id = 'typingIndicator';
+    indicator.className = 'typing-indicator-wrapper';
+    indicator.innerHTML = `
+      <div class="typing-indicator">
+        <span class="typing-text"><strong>${name.split(' ')[0]}</strong> está a escrever</span>
+        <span class="typing-dots">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </span>
+      </div>
+    `;
+    
+    messagesContainer.appendChild(indicator);
+    scrollToBottom();
+  }
+}
+
+function hideTypingIndicator() {
+  const indicator = document.getElementById('typingIndicator');
+  if (indicator) {
+    indicator.remove();
+  }
+}
+
+// Called when user is typing
+function handleTyping() {
+  if (!currentConversation || !currentUser) return;
+  
+  // Clear previous timeout
+  if (typingTimeout) {
+    clearTimeout(typingTimeout);
+  }
+  
+  // Update typing status if not already set
+  if (!isTyping) {
+    isTyping = true;
+    updateTypingStatus(true);
+  }
+  
+  // Stop typing after 2 seconds of inactivity
+  typingTimeout = setTimeout(() => {
+    isTyping = false;
+    updateTypingStatus(false);
+  }, 2000);
+}
+
+async function updateTypingStatus(typing) {
+  if (!currentConversation || !currentUser) return;
+  
+  try {
+    const updateData = {};
+    if (typing) {
+      updateData[`typing.${currentUser.uid}`] = firebase.firestore.FieldValue.serverTimestamp();
+    } else {
+      updateData[`typing.${currentUser.uid}`] = firebase.firestore.FieldValue.delete();
+    }
+    
+    await db.collection("quest4you_conversations")
+      .doc(currentConversation.id)
+      .update(updateData);
+  } catch (error) {
+    // Ignore errors - typing indicator is not critical
+  }
+}
+
+// ================================
+// MESSAGE READ STATUS
+// ================================
+async function markMessageAsRead(messageId) {
+  try {
+    await db.collection("quest4you_messages").doc(messageId).update({
+      readAt: firebase.firestore.FieldValue.serverTimestamp(),
+      readBy: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+    });
+  } catch (error) {
+    // Ignore errors - read status is not critical
+  }
 }
 
 function renderMessages(messages) {
@@ -379,10 +518,18 @@ function renderMessages(messages) {
       `;
     }
     
+    // Determine read status for sent messages
+    const isRead = item.isSent && item.readBy && item.readBy.length > 0 && item.readBy.includes(currentFriend?.id);
+    const readStatusIcon = item.isSent ? (isRead ? '✓✓' : '✓') : '';
+    const readStatusClass = isRead ? 'read' : 'sent';
+    
     return `
       <div class="message ${item.isSent ? 'sent' : 'received'}">
         <div class="message-bubble">${escapeHtml(item.text)}</div>
-        <span class="message-time">${formatMessageTime(item.createdAt)}</span>
+        <div class="message-meta">
+          <span class="message-time">${formatMessageTime(item.createdAt)}</span>
+          ${item.isSent ? `<span class="message-status ${readStatusClass}">${readStatusIcon}</span>` : ''}
+        </div>
       </div>
     `;
   }).join('');
@@ -478,8 +625,14 @@ async function markConversationAsRead(conversationId) {
 }
 
 function handleMessageKeydown(event) {
+  // Trigger typing indicator
+  handleTyping();
+  
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
+    // Clear typing status before sending
+    isTyping = false;
+    updateTypingStatus(false);
     sendMessage();
   }
 }
@@ -487,6 +640,9 @@ function handleMessageKeydown(event) {
 function autoResizeTextarea(textarea) {
   textarea.style.height = 'auto';
   textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+  
+  // Also trigger typing indicator
+  handleTyping();
 }
 
 function scrollToBottom() {
@@ -729,6 +885,28 @@ function escapeHtml(text) {
 }
 
 // ================================
+// TAB SWITCHING (Conversations/Groups)
+// ================================
+function switchChatTab(tab, btn) {
+  // Update active tab button
+  document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+  btn?.classList.add('active');
+  
+  // Update active tab content
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  if (tab === 'groups') {
+    document.getElementById('groupsTab')?.classList.add('active');
+    // Load groups if function exists
+    if (typeof loadUserGroups === 'function') {
+      loadUserGroups();
+    }
+  } else {
+    document.getElementById('conversationsTab')?.classList.add('active');
+  }
+}
+
+// ================================
 // EXPORTS
 // ================================
 window.openConversation = openConversation;
@@ -743,3 +921,5 @@ window.compareResultsWithFriend = compareResultsWithFriend;
 window.closeCompareModal = closeCompareModal;
 window.viewFriendProfileFromChat = viewFriendProfileFromChat;
 window.closeChatMobile = closeChatMobile;
+window.handleTyping = handleTyping;
+window.switchChatTab = switchChatTab;

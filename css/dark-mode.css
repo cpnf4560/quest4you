@@ -1,0 +1,2182 @@
+/* =========================================
+   DARK MODE - Quest4You
+   Tema escuro completo para toda a aplicação
+   ========================================= */
+
+/* =========================================
+   DARK MODE VARIABLES
+   Sobrescreve as variáveis do main.css
+   ========================================= */
+
+/* Dark mode variables - aplica ao HTML com data-theme="dark" */
+[data-theme="dark"] {
+  /* Override main.css variables */
+  --bg-light: #0d1117;
+  --bg-warm: #161b22;
+  --bg-card: #1c2128;
+  --bg-dark: #0d1117;
+  --text-primary: #f0f6fc;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --border: #30363d;
+  
+  /* Cores principais mantidas mas ajustadas */
+  --primary: #ff6b8a;
+  --primary-dark: #e55578;
+  --primary-light: #ff8da6;
+  
+  /* Neutrals para dark */
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  --border-color: #30363d;
+  --border-light: #21262d;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 25px 60px rgba(0, 0, 0, 0.6);
+  
+  /* Form inputs */
+  --input-bg: #21262d;
+  --input-border: #30363d;
+  --input-text: #f0f6fc;
+  
+  /* Status colors dark */
+  --success-bg: #1a4d2e;
+  --success-text: #7ee787;
+  --warning-bg: #4d3800;
+  --warning-text: #f0c14b;
+  --danger-bg: #4d1f24;
+  --danger-text: #f85149;
+}
+
+/* Base styles override */
+[data-theme="dark"] body {
+  background: #0d1117 !important;
+  color: #f0f6fc !important;
+}
+
+/* =========================================
+   BUTTONS - CRITICAL FIX
+   ========================================= */
+/* Botão branco (Ver Questionários) - adaptado ao dark mode */
+[data-theme="dark"] .btn-white {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(255, 107, 138, 0.3) !important;
+}
+
+[data-theme="dark"] .btn-white:hover {
+  background: var(--primary-light) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 30px rgba(255, 107, 138, 0.45) !important;
+}
+
+/* Botão outline branco (Meu Perfil no hero) */
+[data-theme="dark"] .btn-outline-white {
+  background: transparent !important;
+  border: 2px solid #f0f6fc !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .btn-outline-white:hover {
+  background: rgba(240, 246, 252, 0.15) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* =========================================
+   SELECT ARROWS - CRITICAL FIX
+   ========================================= */
+/* Fix para as setas dos selects - remover o estilo verde */
+[data-theme="dark"] select.form-select,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .personal-info-grid select,
+[data-theme="dark"] .location-grid select {
+  background-color: #21262d !important;
+  border: 2px solid #30363d !important;
+  color: #f0f6fc !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9d1d9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  background-size: 18px !important;
+}
+
+/* Remove filled green style */
+[data-theme="dark"] .form-select.filled,
+[data-theme="dark"] select.filled {
+  background-color: #21262d !important;
+  border-color: #30363d !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9d1d9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+}
+
+/* =========================================
+   HEADER - Dark Mode
+   ========================================= */
+[data-theme="dark"] .header {
+  background: linear-gradient(135deg, #1c1c3a 0%, #0d1117 100%) !important;
+  border-bottom: 1px solid #30363d;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .logo-text {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .nav-link {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .nav-link:hover,
+[data-theme="dark"] .nav-link.active {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .btn-nav-login,
+[data-theme="dark"] .nav-link.btn-nav-login {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(255, 107, 138, 0.3) !important;
+}
+
+[data-theme="dark"] .btn-nav-login:hover,
+[data-theme="dark"] .nav-link.btn-nav-login:hover {
+  background: var(--primary-light) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(255, 107, 138, 0.45) !important;
+}
+
+/* =========================================
+   CARDS - Dark Mode (Generic)
+   ========================================= */
+[data-theme="dark"] .card,
+[data-theme="dark"] .profile-card,
+[data-theme="dark"] .stats-card,
+[data-theme="dark"] .quiz-card,
+[data-theme="dark"] .match-card,
+[data-theme="dark"] .friend-card,
+[data-theme="dark"] .notification-card,
+[data-theme="dark"] .login-required-card,
+[data-theme="dark"] .no-quizzes-card,
+[data-theme="dark"] .profile-setup-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .card h2,
+[data-theme="dark"] .card h3,
+[data-theme="dark"] .card h4,
+[data-theme="dark"] .card p,
+[data-theme="dark"] .card span,
+[data-theme="dark"] .card label {
+  color: #f0f6fc !important;
+}
+
+/* =========================================
+   FORMS & INPUTS - Dark Mode
+   ========================================= */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  border-color: #ff6b8a !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 138, 0.2) !important;
+}
+
+[data-theme="dark"] label {
+  color: #c9d1d9 !important;
+}
+
+/* =========================================
+   PROFILE PAGE - Dark Mode
+   ========================================= */
+[data-theme="dark"] .profile-container {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .profile-header-new {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .profile-info h1 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .profile-nickname {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .profile-email,
+[data-theme="dark"] .profile-joined {
+  color: #c9d1d9 !important;
+}
+
+/* Profile Forms */
+[data-theme="dark"] .profile-section,
+[data-theme="dark"] .info-card,
+[data-theme="dark"] .settings-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .profile-section h2,
+[data-theme="dark"] .profile-section h3,
+[data-theme="dark"] .info-card h2,
+[data-theme="dark"] .info-card h3,
+[data-theme="dark"] .section-title {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .profile-section p,
+[data-theme="dark"] .info-card p,
+[data-theme="dark"] .form-helper,
+[data-theme="dark"] .info-text {
+  color: #c9d1d9 !important;
+}
+
+/* Form labels específicos do profile */
+[data-theme="dark"] .form-label,
+[data-theme="dark"] .input-label,
+[data-theme="dark"] .field-label {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .form-group label {
+  color: #c9d1d9 !important;
+}
+
+/* Location section */
+[data-theme="dark"] .location-card,
+[data-theme="dark"] .location-section {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .location-card h3,
+[data-theme="dark"] .location-card label {
+  color: #c9d1d9 !important;
+}
+
+/* Nickname section */
+[data-theme="dark"] .nickname-card,
+[data-theme="dark"] .nickname-section {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .nickname-card h3,
+[data-theme="dark"] .nickname-card p,
+[data-theme="dark"] .nickname-section h3 {
+  color: #c9d1d9 !important;
+}
+
+/* Profile completion alert */
+[data-theme="dark"] .profile-completion-alert {
+  background: linear-gradient(135deg, #4d3800 0%, #3d2d00 100%) !important;
+  border-color: #f0c14b !important;
+}
+
+[data-theme="dark"] .profile-completion-alert h3 {
+  color: #f0c14b !important;
+}
+
+[data-theme="dark"] .profile-completion-alert p {
+  color: #c9d1d9 !important;
+}
+
+/* =========================================
+   COMUNIDADE / EXPLORAR PAGE - Dark Mode
+   ========================================= */
+[data-theme="dark"] .explorar-hero {
+  background: linear-gradient(135deg, #2d1b4e 0%, #1c1c3a 100%) !important;
+}
+
+[data-theme="dark"] .explorar-container,
+[data-theme="dark"] .forum-container,
+[data-theme="dark"] .community-container {
+  background: #0d1117 !important;
+}
+
+/* Forum Section */
+[data-theme="dark"] .forum-section,
+[data-theme="dark"] .forum-content {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .forum-header h2,
+[data-theme="dark"] .section-header h2,
+[data-theme="dark"] .forum-title {
+  color: #f0f6fc !important;
+}
+
+/* Category Tabs */
+[data-theme="dark"] .category-tabs {
+  background: #161b22 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .category-tab,
+[data-theme="dark"] .filter-btn {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .category-tab:hover,
+[data-theme="dark"] .filter-btn:hover {
+  background: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .category-tab.active,
+[data-theme="dark"] .filter-btn.active {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+/* Topic items */
+[data-theme="dark"] .topic-item,
+[data-theme="dark"] .forum-topic {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .topic-item:hover,
+[data-theme="dark"] .forum-topic:hover {
+  border-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .topic-title {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .topic-meta,
+[data-theme="dark"] .topic-author,
+[data-theme="dark"] .topic-date {
+  color: #8b949e !important;
+}
+
+/* Empty state */
+[data-theme="dark"] .empty-topics,
+[data-theme="dark"] .no-topics {
+  color: #8b949e !important;
+}
+
+/* Tab content area */
+[data-theme="dark"] .tab-content {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .tab-pane {
+  background: #0d1117 !important;
+}
+
+/* =========================================
+   SMART MATCH PAGE - Dark Mode
+   ========================================= */
+[data-theme="dark"] .smart-match-container {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .match-hero {
+  background: linear-gradient(135deg, #2d1b4e 0%, #1c1c3a 50%, #0d1117 100%) !important;
+}
+
+[data-theme="dark"] .match-section,
+[data-theme="dark"] .match-content {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .match-section h2,
+[data-theme="dark"] .section-title {
+  color: #f0f6fc !important;
+}
+
+/* Match cards */
+[data-theme="dark"] .potential-match,
+[data-theme="dark"] .match-result-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .potential-match:hover,
+[data-theme="dark"] .match-result-card:hover {
+  border-color: #ff6b8a !important;
+  box-shadow: 0 8px 30px rgba(255, 107, 138, 0.15) !important;
+}
+
+[data-theme="dark"] .match-name,
+[data-theme="dark"] .match-nickname {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .match-info,
+[data-theme="dark"] .match-details {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .compatibility-label {
+  color: #8b949e !important;
+}
+
+/* Score cards */
+[data-theme="dark"] .score-card,
+[data-theme="dark"] .compatibility-card {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .score-label {
+  color: #c9d1d9 !important;
+}
+
+/* Filters */
+[data-theme="dark"] .match-filters {
+  background: #161b22 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .filter-label {
+  color: #c9d1d9 !important;
+}
+
+/* =========================================
+   QUIZ PAGE - Dark Mode
+   ========================================= */
+[data-theme="dark"] .quiz-container {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .quiz-header {
+  background: linear-gradient(135deg, #2d1b4e 0%, #1c1c3a 100%) !important;
+}
+
+/* Quiz cards (questionários) - Manter coloridos */
+[data-theme="dark"] .quiz-card-grid .quiz-card {
+  /* Manter os cards coloridos originais */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .quiz-card .quiz-description {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Quiz question area */
+[data-theme="dark"] .question-container {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .question-text {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .question-number {
+  color: #8b949e !important;
+}
+
+/* Answer options */
+[data-theme="dark"] .answer-option {
+  background: #21262d !important;
+  border: 2px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .answer-option:hover {
+  border-color: #ff6b8a !important;
+  background: #2d333b !important;
+}
+
+[data-theme="dark"] .answer-option.selected {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  border-color: transparent !important;
+  color: white !important;
+}
+
+/* Progress bar */
+[data-theme="dark"] .progress-bar-bg {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .progress-text {
+  color: #c9d1d9 !important;
+}
+
+/* =========================================
+   INDEX/HOME PAGE - Dark Mode
+   ========================================= */
+[data-theme="dark"] .hero-section {
+  background: linear-gradient(135deg, #1c1c3a 0%, #0d1117 100%) !important;
+}
+
+[data-theme="dark"] .how-it-works,
+[data-theme="dark"] .features-section {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .how-it-works h2,
+[data-theme="dark"] .features-section h2 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .step-card,
+[data-theme="dark"] .feature-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .step-card h3,
+[data-theme="dark"] .feature-card h3 {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .step-card p,
+[data-theme="dark"] .feature-card p {
+  color: #c9d1d9 !important;
+}
+
+/* Testimonials */
+[data-theme="dark"] .testimonials-section {
+  background: #161b22 !important;
+}
+
+[data-theme="dark"] .testimonial-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .testimonial-text {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .testimonial-author {
+  color: #8b949e !important;
+}
+
+/* =========================================
+   PROFILE STAT VALUES - Dark Mode
+   ========================================= */
+[data-theme="dark"] .profile-stat-value {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .profile-stat-label {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .tabs-nav {
+  background: #161b22 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .tab-btn {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .tab-btn:hover {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .tab-btn.active {
+  color: #f0f6fc !important;
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+}
+
+/* =========================================
+   CHAT PAGE - Dark Mode
+   ========================================= */
+[data-theme="dark"] .chat-container {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .conversations-sidebar {
+  background: #161b22 !important;
+  border-right: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .sidebar-header {
+  background: #1c2128 !important;
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .sidebar-header h2 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .search-input {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .conversation-item {
+  border-bottom: 1px solid #21262d !important;
+}
+
+[data-theme="dark"] .conversation-item:hover {
+  background: rgba(255, 107, 138, 0.1) !important;
+}
+
+[data-theme="dark"] .conversation-item.active {
+  background: rgba(255, 107, 138, 0.15) !important;
+  border-left: 3px solid #ff6b8a !important;
+}
+
+[data-theme="dark"] .conversation-name {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .conversation-preview {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .chat-area {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .chat-header {
+  background: #161b22 !important;
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .chat-user-name {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .chat-user-status {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .chat-messages {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .message {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .message.sent {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .message-time {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .message.sent .message-time {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-theme="dark"] .chat-input-area {
+  background: #161b22 !important;
+  border-top: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .chat-input {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .typing-indicator {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+  color: #8b949e !important;
+}
+
+/* Chat tabs */
+[data-theme="dark"] .chat-tabs {
+  background: #1c2128 !important;
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .chat-tab {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .chat-tab:hover {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .chat-tab.active {
+  color: #ff6b8a !important;
+  border-bottom-color: #ff6b8a !important;
+}
+
+/* Empty chat state */
+[data-theme="dark"] .no-chat-selected,
+[data-theme="dark"] .empty-conversations {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .no-chat-selected h3,
+[data-theme="dark"] .empty-conversations h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .no-chat-selected p,
+[data-theme="dark"] .empty-conversations p {
+  color: #8b949e !important;
+}
+
+/* =========================================
+   MODALS - Dark Mode
+   ========================================= */
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .modal-box,
+[data-theme="dark"] .modal-dialog {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-theme="dark"] .modal-header {
+  border-bottom: 1px solid #30363d !important;
+  background: #161b22 !important;
+}
+
+[data-theme="dark"] .modal-header h2,
+[data-theme="dark"] .modal-header h3,
+[data-theme="dark"] .modal-title {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .modal-body {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .modal-body p,
+[data-theme="dark"] .modal-body span,
+[data-theme="dark"] .modal-body label {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .modal-footer {
+  border-top: 1px solid #30363d !important;
+  background: #161b22 !important;
+}
+
+[data-theme="dark"] .modal-overlay,
+[data-theme="dark"] .modal-backdrop {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* =========================================
+   NOTIFICATIONS - Dark Mode
+   ========================================= */
+[data-theme="dark"] .notification-bell {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .notification-dropdown {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .notification-header {
+  border-bottom: 1px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .notification-item {
+  border-bottom: 1px solid #21262d !important;
+}
+
+[data-theme="dark"] .notification-item:hover {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .notification-item.unread {
+  background: rgba(255, 107, 138, 0.1) !important;
+}
+
+[data-theme="dark"] .notification-text {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .notification-time {
+  color: #8b949e !important;
+}
+
+/* =========================================
+   BUTTONS - Dark Mode
+   ========================================= */
+[data-theme="dark"] .btn-secondary {
+  background: #21262d !important;
+  color: #f0f6fc !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background: #30363d !important;
+}
+
+[data-theme="dark"] .btn-outline {
+  background: transparent !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .btn-outline:hover {
+  background: #21262d !important;
+}
+
+/* =========================================
+   QUIZ/QUESTIONS - Dark Mode
+   ========================================= */
+[data-theme="dark"] .question-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .question-text {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .answer-option {
+  background: #21262d !important;
+  border: 2px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .answer-option:hover {
+  border-color: #ff6b8a !important;
+  background: #2d333b !important;
+}
+
+[data-theme="dark"] .answer-option.selected {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+}
+
+/* =========================================
+   FOOTER - Dark Mode
+   ========================================= */
+[data-theme="dark"] .footer {
+  background: #161b22 !important;
+  border-top: 1px solid #30363d !important;
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .footer a {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .footer a:hover {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .footer-content {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .footer-logo span {
+  color: #f0f6fc !important;
+}
+
+/* =========================================
+   SCROLLBAR - Dark Mode
+   ========================================= */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #161b22;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #ff6b8a;
+}
+
+/* =========================================
+   BADGES - Dark Mode
+   ========================================= */
+[data-theme="dark"] .badge {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .badge-success {
+  background: #1a4d2e !important;
+  color: #7ee787 !important;
+}
+
+[data-theme="dark"] .badge-warning {
+  background: #4d3800 !important;
+  color: #f0c14b !important;
+}
+
+[data-theme="dark"] .badge-danger {
+  background: #4d1f24 !important;
+  color: #f85149 !important;
+}
+
+/* =========================================
+   TABLES - Dark Mode
+   ========================================= */
+[data-theme="dark"] table {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] th {
+  background: #21262d !important;
+  color: #f0f6fc !important;
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] td {
+  border-bottom: 1px solid #21262d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] tr:hover {
+  background: rgba(255, 107, 138, 0.05) !important;
+}
+
+/* =========================================
+   BLOCK SYSTEM - Dark Mode
+   ========================================= */
+[data-theme="dark"] .block-report-modal .modal-content {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .block-option {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .block-option:hover {
+  border-color: #ff6b8a !important;
+}
+
+/* =========================================
+   EMPTY STATES - Dark Mode
+   ========================================= */
+[data-theme="dark"] .empty-state {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .empty-state h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .empty-state p {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .empty-state-icon {
+  opacity: 0.5;
+}
+
+/* =========================================
+   DARK MODE TOGGLE BUTTON
+   ========================================= */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(196, 30, 58, 0.6);
+}
+
+.dark-mode-toggle .icon-sun,
+.dark-mode-toggle .icon-moon {
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.dark-mode-toggle .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.dark-mode-toggle .icon-moon {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+[data-theme="dark"] .dark-mode-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+[data-theme="dark"] .dark-mode-toggle .icon-moon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* =========================================
+   VERIFIED BADGE
+   ========================================= */
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #1da1f2 0%, #0d8bd9 100%);
+  border-radius: 50%;
+  margin-left: 5px;
+  font-size: 10px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(29, 161, 242, 0.4);
+}
+
+.verified-badge-large {
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+body,
+.header,
+.card,
+.modal-content,
+.btn,
+input,
+select,
+textarea,
+.footer,
+.sidebar,
+.chat-area {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* =========================================
+   ADMIN DASHBOARD - Dark Mode
+   ========================================= */
+[data-theme="dark"] .admin-sidebar {
+  background: #161b22 !important;
+  border-right: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .admin-nav-item {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .admin-nav-item:hover,
+[data-theme="dark"] .admin-nav-item.active {
+  background: rgba(255, 107, 138, 0.1) !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .stat-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .report-item {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+/* =========================================
+   MATCH HISTORY - Dark Mode
+   ========================================= */
+[data-theme="dark"] .match-history-item {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .match-history-item:hover {
+  border-color: #ff6b8a !important;
+}
+
+/* =========================================
+   GROUP CHAT - Dark Mode
+   ========================================= */
+[data-theme="dark"] .group-avatar {
+  background: #21262d !important;
+  border: 2px solid #30363d !important;
+}
+
+[data-theme="dark"] .group-member-item {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+/* =========================================
+   IMAGE VIEWER - Dark Mode
+   ========================================= */
+[data-theme="dark"] .image-viewer-overlay {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
+/* =========================================
+   ADDITIONAL FIXES
+   ========================================= */
+
+/* Main page sections */
+[data-theme="dark"] main,
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .page-content {
+  background: #0d1117 !important;
+}
+
+/* All text elements that might be missed */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] p {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] span:not(.icon-sun):not(.icon-moon):not(.verified-badge):not(.badge):not([class*="btn"]) {
+  color: inherit;
+}
+
+/* Links */
+[data-theme="dark"] a:not(.btn):not(.nav-link):not([class*="btn"]) {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] a:not(.btn):not(.nav-link):not([class*="btn"]):hover {
+  color: #ff8da6 !important;
+}
+
+/* Dropdown menus */
+[data-theme="dark"] .dropdown-menu,
+[data-theme="dark"] .select-dropdown {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background: #21262d !important;
+  color: #f0f6fc !important;
+}
+
+/* Tooltips */
+[data-theme="dark"] .tooltip {
+  background: #21262d !important;
+  color: #f0f6fc !important;
+  border: 1px solid #30363d !important;
+}
+
+/* Loading skeleton */
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(90deg, #21262d 25%, #161b22 50%, #21262d 75%) !important;
+}
+
+/* Alert boxes */
+[data-theme="dark"] .alert {
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .alert-info {
+  background: #1a3a4d !important;
+  color: #79c0ff !important;
+}
+
+[data-theme="dark"] .alert-success {
+  background: #1a4d2e !important;
+  color: #7ee787 !important;
+}
+
+[data-theme="dark"] .alert-warning {
+  background: #4d3800 !important;
+  color: #f0c14b !important;
+}
+
+[data-theme="dark"] .alert-danger {
+  background: #4d1f24 !important;
+  color: #f85149 !important;
+}
+
+/* Mobile menu */
+[data-theme="dark"] .mobile-menu {
+  background: #161b22 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .mobile-menu-btn {
+  color: #f0f6fc !important;
+}
+
+/* Experimental banner */
+[data-theme="dark"] .experimental-banner {
+  background: linear-gradient(135deg, #0d1117, #1c1c3a) !important;
+}
+
+/* =========================================
+   PROFILE PAGE - SPECIFIC ELEMENTS
+   ========================================= */
+
+/* Personal info card */
+[data-theme="dark"] .personal-info-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .section-description {
+  color: #c9d1d9 !important;
+}
+
+/* Form labels - CRITICAL FIX */
+[data-theme="dark"] .form-label {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .subsection-title {
+  color: #f0f6fc !important;
+}
+
+/* Form selects */
+[data-theme="dark"] .form-select {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9d1d9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+}
+
+[data-theme="dark"] .form-select:focus {
+  border-color: #ff6b8a !important;
+  box-shadow: 0 0 0 4px rgba(255, 107, 138, 0.2) !important;
+}
+
+[data-theme="dark"] .form-select.filled {
+  border-color: #7ee787 !important;
+  background-color: #1a4d2e !important;
+}
+
+/* Form inputs */
+[data-theme="dark"] .form-input {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .form-input::placeholder {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .form-input:focus {
+  border-color: #ff6b8a !important;
+  box-shadow: 0 0 0 4px rgba(255, 107, 138, 0.2) !important;
+}
+
+[data-theme="dark"] .form-input.filled {
+  border-color: #7ee787 !important;
+  background-color: #1a4d2e !important;
+}
+
+/* Location section */
+[data-theme="dark"] .location-section {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+/* Save section */
+[data-theme="dark"] .save-section {
+  border-top-color: #30363d !important;
+}
+
+[data-theme="dark"] .save-hint {
+  color: #8b949e !important;
+}
+
+/* Nickname card */
+[data-theme="dark"] .nickname-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .nickname-desc {
+  color: #c9d1d9 !important;
+}
+
+/* Avatar selection */
+[data-theme="dark"] .avatar-option {
+  border-color: #30363d !important;
+}
+
+[data-theme="dark"] .avatar-option:hover {
+  border-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .avatar-option.selected {
+  border-color: #ff6b8a !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 138, 0.3) !important;
+}
+
+/* Required star */
+[data-theme="dark"] .required-star {
+  color: #f85149 !important;
+}
+
+/* =========================================
+   AUTH PAGE - Dark Mode
+   ========================================= */
+[data-theme="dark"] .auth-container {
+  background: linear-gradient(135deg, #0d1117 0%, #1c1c3a 50%, #2d1b4e 100%) !important;
+}
+
+[data-theme="dark"] .auth-box {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .auth-logo h1 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .auth-tabs .tab-btn {
+  color: #c9d1d9 !important;
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .auth-tabs .tab-btn.active {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .auth-input {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .auth-input::placeholder {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .auth-message {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .back-home a {
+  color: #ff6b8a !important;
+}
+
+/* =========================================
+   LEGAL PAGES - Dark Mode
+   ========================================= */
+[data-theme="dark"] .legal-container,
+[data-theme="dark"] .legal-content {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .legal-hero {
+  background: linear-gradient(135deg, #2d1b4e 0%, #1c1c3a 100%) !important;
+}
+
+[data-theme="dark"] .legal-section {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .legal-section h2,
+[data-theme="dark"] .legal-section h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .legal-section p,
+[data-theme="dark"] .legal-section li {
+  color: #c9d1d9 !important;
+}
+
+/* Contact page */
+[data-theme="dark"] .contact-form {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .contact-info {
+  background: #21262d !important;
+}
+
+/* =========================================
+   EXPLORAR/COMUNIDADE - More Fixes
+   ========================================= */
+[data-theme="dark"] .forum-section {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .forum-header {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .topic-list {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .new-topic-btn {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+}
+
+/* Topic modal */
+[data-theme="dark"] .topic-modal-content {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .topic-modal-content h2 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .topic-modal-content input,
+[data-theme="dark"] .topic-modal-content textarea,
+[data-theme="dark"] .topic-modal-content select {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+/* =========================================
+   SMART MATCH - More Fixes
+   ========================================= */
+[data-theme="dark"] .match-section-title {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .match-list {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .no-matches {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .no-matches h3 {
+  color: #f0f6fc !important;
+}
+
+/* Login required card in smart match */
+[data-theme="dark"] .login-required-card h2,
+[data-theme="dark"] .no-quizzes-card h2,
+[data-theme="dark"] .profile-setup-card h2 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .login-required-card p,
+[data-theme="dark"] .no-quizzes-card p,
+[data-theme="dark"] .profile-setup-card p {
+  color: #c9d1d9 !important;
+}
+
+/* Filter buttons */
+[data-theme="dark"] .filter-group label {
+  color: #c9d1d9 !important;
+}
+
+/* =========================================
+   SMART MATCH - YOUR PROFILE CARD (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .your-profile-card {
+  background: linear-gradient(135deg, #1c2128 0%, #161b22 100%) !important;
+  border: 2px solid #30363d !important;
+}
+
+[data-theme="dark"] .your-profile-label {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .your-profile-info h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .your-profile-info p {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .your-quizzes {
+  border-top-color: #30363d !important;
+}
+
+[data-theme="dark"] .quiz-badge {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .quiz-badge-score {
+  color: #ff6b8a !important;
+}
+
+/* =========================================
+   SMART MATCH - MATCH CARDS INNER (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .match-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .match-card:hover {
+  box-shadow: 0 8px 30px rgba(255, 107, 138, 0.15) !important;
+  border-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .match-card-body {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .match-quiz-tag {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .match-card-footer {
+  border-top: 1px solid #30363d !important;
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .match-compat {
+  background: #21262d !important;
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .matches-title {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .match-count {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .special-badges {
+  background: #161b22 !important;
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .loading-matches {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .loading-spinner {
+  border-color: #30363d !important;
+  border-top-color: #ff6b8a !important;
+}
+
+/* =========================================
+   SMART MATCH - MATCH MODAL (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .match-modal {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+[data-theme="dark"] .match-modal-content {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-theme="dark"] .match-modal-close {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .match-modal-close:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+[data-theme="dark"] .compat-circle {
+  background: #21262d !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .compat-value {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .compat-label {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .compat-text {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .breakdown-item {
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .breakdown-name {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .breakdown-bar {
+  background: #30363d !important;
+}
+
+[data-theme="dark"] .breakdown-match {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .match-modal-actions {
+  border-top: 1px solid #30363d !important;
+}
+
+/* =========================================
+   GLOBAL FIX - Ensure all sections
+   ========================================= */
+[data-theme="dark"] section {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .container {
+  background: transparent !important;
+}
+
+/* Fix any remaining white backgrounds */
+[data-theme="dark"] [style*="background: white"],
+[data-theme="dark"] [style*="background-color: white"],
+[data-theme="dark"] [style*="background:#fff"],
+[data-theme="dark"] [style*="background: #fff"] {
+  background: #1c2128 !important;
+}
+
+/* =========================================
+   PROFILE - PHOTOS SECTION (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .photos-section {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .photos-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .photos-desc {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .photo-slot {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .photo-preview {
+  background: linear-gradient(135deg, #21262d, #161b22) !important;
+}
+
+[data-theme="dark"] .photo-type-desc {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .gender-validation-status {
+  border-top-color: #30363d !important;
+}
+
+/* Gender Validation Card */
+[data-theme="dark"] .gender-validation-card {
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.15), rgba(156, 39, 176, 0.08)) !important;
+  border: 1px solid rgba(156, 39, 176, 0.3) !important;
+}
+
+[data-theme="dark"] .gender-validation-card h4 {
+  color: #ce93d8 !important;
+}
+
+[data-theme="dark"] .gender-validation-card > p {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .validation-requirements {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .validation-requirements p {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .validation-requirements li {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .status-badge.pending {
+  background: #4d3800 !important;
+  color: #f0c14b !important;
+}
+
+[data-theme="dark"] .status-badge.approved {
+  background: #1a4d2e !important;
+  color: #7ee787 !important;
+}
+
+[data-theme="dark"] .status-badge.rejected {
+  background: #4d1f24 !important;
+  color: #f85149 !important;
+}
+
+/* =========================================
+   PROFILE - SUPPORT SECTION (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .support-section {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .support-card {
+  background: linear-gradient(135deg, #3d3520 0%, #2d2815 100%) !important;
+  border: 2px solid #f0c14b !important;
+}
+
+[data-theme="dark"] .support-text h3 {
+  color: #f0c14b !important;
+}
+
+[data-theme="dark"] .support-text p {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .btn-support {
+  background: #f0c14b !important;
+  color: #000 !important;
+}
+
+/* =========================================
+   PROFILE - DANGER ZONE (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .danger-section {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .danger-card {
+  background: #1c2128 !important;
+  border: 2px solid rgba(248, 81, 73, 0.4) !important;
+}
+
+[data-theme="dark"] .danger-item {
+  border-bottom-color: #30363d !important;
+}
+
+[data-theme="dark"] .danger-label {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .danger-desc {
+  color: #8b949e !important;
+}
+
+/* =========================================
+   PROFILE - FEEDBACK SECTION (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .feedback-section {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .feedback-card {
+  background: #1c2128 !important;
+  border: 2px dashed #79c0ff !important;
+}
+
+[data-theme="dark"] .feedback-text h3 {
+  color: #79c0ff !important;
+}
+
+[data-theme="dark"] .feedback-text p {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .feedback-textarea {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .feedback-textarea:focus {
+  border-color: #79c0ff !important;
+  box-shadow: 0 0 0 4px rgba(121, 192, 255, 0.2) !important;
+}
+
+[data-theme="dark"] .feedback-type {
+  background: #21262d !important;
+  border-color: #30363d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .feedback-type:hover {
+  border-color: #79c0ff !important;
+  background: #2d333b !important;
+}
+
+[data-theme="dark"] .feedback-type:has(input:checked) {
+  border-color: #79c0ff !important;
+  background: #79c0ff !important;
+  color: #000 !important;
+}
+
+/* =========================================
+   PROFILE - FRIENDS SECTION (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .friends-section {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .friends-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .friend-requests-card {
+  background: linear-gradient(135deg, #3d2d15 0%, #2d2210 100%) !important;
+  border: 2px solid #f0c14b !important;
+}
+
+[data-theme="dark"] .friend-requests-card .subsection-title {
+  color: #f0c14b !important;
+}
+
+[data-theme="dark"] .friend-request-item {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .friend-item,
+[data-theme="dark"] .friend-card-item {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .friend-name {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .friend-nickname,
+[data-theme="dark"] .friend-status {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .friends-empty {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .friends-empty p {
+  color: #8b949e !important;
+}
+
+/* Friends search */
+[data-theme="dark"] .friends-search {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .friends-search input {
+  background: transparent !important;
+  color: #f0f6fc !important;
+}
+
+/* =========================================
+   PROFILE - RESULTS SECTION (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .results-section {
+  background: transparent !important;
+}
+
+/* New compact result cards */
+[data-theme="dark"] .result-card-compact {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .result-card-compact:hover {
+  box-shadow: 0 4px 16px rgba(255, 107, 138, 0.15) !important;
+  border-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .result-card-right {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .result-card-right .result-card-title {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .result-card-right .result-card-category {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .result-card-right .result-card-date {
+  color: #8b949e !important;
+}
+
+/* Full report card */
+[data-theme="dark"] .full-report-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .full-report-info h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .full-report-info p {
+  color: #c9d1d9 !important;
+}
+
+/* Old result-card styles */
+[data-theme="dark"] .result-card {
+  /* Manter o gradiente colorido do header */
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .result-card-body {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .result-card-category {
+  background: #21262d !important;
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .result-card-score {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .empty-state {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .empty-state p {
+  color: #8b949e !important;
+}
+
+/* Result modal */
+[data-theme="dark"] .result-modal {
+  background: rgba(0, 0, 0, 0.85) !important;
+}
+
+[data-theme="dark"] .result-content {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .result-close {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .result-details {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .breakdown-item {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .breakdown-label {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .breakdown-bar {
+  background: #30363d !important;
+}
+
+/* Personal Report */
+[data-theme="dark"] .report-section,
+[data-theme="dark"] .personal-report-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .report-section h3,
+[data-theme="dark"] .report-section p {
+  color: #c9d1d9 !important;
+}
+
+/* =========================================
+   PROFILE - BADGES SECTION (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .badges-section {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .badge-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .badge-name {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .badge-desc {
+  color: #8b949e !important;
+}
+
+/* =========================================
+   PROFILE - SETTINGS SECTION (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .settings-section {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .settings-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .setting-item {
+  border-bottom-color: #30363d !important;
+}
+
+[data-theme="dark"] .setting-label {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .setting-desc {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .toggle-slider {
+  background-color: #30363d !important;
+}
+
+/* =========================================
+   SMART MATCH - USER CARDS (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .user-card,
+[data-theme="dark"] .match-user-card,
+[data-theme="dark"] .potential-match-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .user-card h3,
+[data-theme="dark"] .user-card h4,
+[data-theme="dark"] .match-user-card h3,
+[data-theme="dark"] .match-user-card h4 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .user-card p,
+[data-theme="dark"] .user-card span,
+[data-theme="dark"] .match-user-card p,
+[data-theme="dark"] .match-user-card span {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .user-gender,
+[data-theme="dark"] .user-location {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .quiz-badge,
+[data-theme="dark"] .completion-badge {
+  background: #21262d !important;
+  border: 1px solid #30363d !important;
+  color: #c9d1d9 !important;
+}
+
+/* Filters section */
+[data-theme="dark"] .filters-card,
+[data-theme="dark"] .filters-section {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .filter-group label {
+  color: #c9d1d9 !important;
+}
+
+/* =========================================
+   INDEX - PROGRESS CARDS (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .progress-card,
+[data-theme="dark"] .quiz-progress-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .progress-text {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .progress-status {
+  color: #8b949e !important;
+}
+
+/* =========================================
+   MISC FIXES
+   ========================================= */
+
+/* All white background cards and sections */
+[data-theme="dark"] div[style*="background: white"],
+[data-theme="dark"] div[style*="background-color: white"],
+[data-theme="dark"] section[style*="background: white"] {
+  background: #1c2128 !important;
+}
+
+/* Any card with white bg class */
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .white-bg {
+  background: #1c2128 !important;
+}
+
+/* Text that should be visible */
+[data-theme="dark"] .text-dark,
+[data-theme="dark"] .text-primary-force {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .text-muted-force {
+  color: #8b949e !important;
+}

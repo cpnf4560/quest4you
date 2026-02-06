@@ -451,25 +451,84 @@
   font-size: 0.75rem;
 }
 
-/* Typing indicator */
-.typing-indicator {
+/* ================================
+   MESSAGE META (time + read status)
+   ================================ */
+.message-meta {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 12px 16px;
-  max-width: 100px;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+.message.sent .message-meta {
+  justify-content: flex-end;
+}
+
+.message-time {
+  font-size: 0.7rem;
+  color: var(--text-lighter);
+}
+
+.message-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.message-status.sent {
+  color: var(--text-lighter);
+}
+
+.message-status.read {
+  color: #10b981;
+}
+
+/* ================================
+   TYPING INDICATOR - Enhanced
+   ================================ */
+.typing-indicator-wrapper {
+  padding: 8px 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
   background: white;
   border: 1px solid var(--border-light);
   border-radius: 18px;
-  margin-top: 8px;
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+.typing-text {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.typing-text strong {
+  color: var(--text-dark);
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
 }
 
 .typing-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--text-lighter);
+  width: 6px;
+  height: 6px;
+  background: var(--cardinal-red);
   border-radius: 50%;
-  animation: typing 1.4s infinite ease-in-out;
+  animation: typingBounce 1.4s infinite ease-in-out;
 }
 
 .typing-dot:nth-child(2) {
@@ -480,15 +539,15 @@
   animation-delay: 0.4s;
 }
 
-@keyframes typing {
-  0%, 60%, 100% { transform: translateY(0); }
-  30% { transform: translateY(-6px); }
-}
-
-.typing-text {
-  font-size: 0.75rem;
-  color: var(--text-lighter);
-  margin-left: 4px;
+@keyframes typingBounce {
+  0%, 60%, 100% { 
+    transform: translateY(0); 
+    opacity: 0.4;
+  }
+  30% { 
+    transform: translateY(-4px); 
+    opacity: 1;
+  }
 }
 
 /* Message Input Area */

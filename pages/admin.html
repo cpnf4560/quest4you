@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Quest4You</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css?v=202602080001">
+  <link rel="stylesheet" href="../css/admin-dashboard.css?v=202602080001">
+  <link rel="stylesheet" href="../css/notifications.css?v=202602060002">
+  <link rel="stylesheet" href="../css/dark-mode.css?v=202602080003">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="../index.html" class="logo">
+        <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
+        <span class="logo-text">Quest4You</span>
+      </a>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link">🏠 Início</a>
+        <a href="./profile.html" class="nav-link">👤 Perfil</a>
+        <a href="./chat.html" class="nav-link">💬 Chat</a>
+        <a href="#" class="nav-link" id="logoutBtn">🚪 Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Admin Dashboard Container -->
+  <main class="admin-container">
+    <!-- Header -->
+    <div class="admin-header">
+      <h1>🔧 Admin Dashboard</h1>
+      <div class="admin-actions">
+        <button class="btn btn-primary" onclick="showBroadcastModal()">📢 Broadcast</button>
+        <button class="btn btn-secondary" onclick="location.reload()">🔄 Atualizar</button>
+      </div>
+    </div>
+
+    <!-- Real-time Stats -->
+    <div id="adminStats">
+      <div class="admin-stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-details">
+          <span class="stat-value">...</span>
+          <span class="stat-label">A carregar...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="reports">⚠️ Denúncias</button>
+      <button class="admin-tab" data-tab="users">👥 Utilizadores</button>
+      <button class="admin-tab" data-tab="verification">✓ Verificações</button>
+      <button class="admin-tab" data-tab="broadcasts">📢 Broadcasts</button>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="admin-grid">
+      <!-- Main Content -->
+      <div class="admin-main">
+        <!-- Reports Tab -->
+        <div class="admin-tab-content active" id="tab-reports">
+          <div class="admin-section">
+            <h2>⚠️ Denúncias de Utilizadores</h2>
+            
+            <div class="reports-filters">
+              <button class="filter-btn active" onclick="filterReports('all', this)">Todas</button>
+              <button class="filter-btn" onclick="filterReports('pending', this)">Pendentes</button>
+              <button class="filter-btn" onclick="filterReports('resolved', this)">Resolvidas</button>
+            </div>
+            
+            <div id="reportsList">
+              <div class="loading-spinner">⏳ A carregar denúncias...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div class="admin-tab-content" id="tab-users">
+          <div class="admin-section">
+            <h2>👥 Utilizadores Recentes</h2>
+            <div id="recentUsersList">
+              <div class="loading-spinner">⏳ A carregar utilizadores...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification Tab -->
+        <div class="admin-tab-content" id="tab-verification">
+          <div class="admin-section">
+            <h2>✓ Pedidos de Verificação</h2>
+            <div id="verificationRequestsList">
+              <div class="loading-spinner">⏳ A carregar pedidos...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Broadcasts Tab -->
+        <div class="admin-tab-content" id="tab-broadcasts">
+          <div class="admin-section">
+            <h2>📢 Histórico de Broadcasts</h2>
+            <div id="broadcastHistory">
+              <div class="loading-spinner">⏳ A carregar histórico...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="admin-sidebar-panel">
+        <div class="admin-section">
+          <h2>⚡ Ações Rápidas</h2>
+          <div class="quick-actions">
+            <button class="btn btn-block btn-primary" onclick="showBroadcastModal()">
+              📢 Enviar Broadcast
+            </button>
+            <button class="btn btn-block btn-secondary" onclick="loadVerificationRequests()">
+              ✓ Ver Verificações Pendentes
+            </button>
+            <button class="btn btn-block btn-outline" onclick="exportStats()">
+              📊 Exportar Estatísticas
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <h2>📊 Resumo</h2>
+          <div id="adminSummary">
+            <p class="summary-item">
+              <span class="summary-label">Versão:</span>
+              <span class="summary-value">1.0.0</span>
+            </p>
+            <p class="summary-item">
+              <span class="summary-label">Última atualização:</span>
+              <span class="summary-value" id="lastUpdate">-</span>
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Quest4You - Admin Dashboard</p>
+    </div>
+  </footer>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+  <script src="../js/firebase-config.js?v=202602050001"></script>
+  <script src="../js/config.js?v=202602080001"></script>
+  <script src="../js/notifications.js?v=202602060002"></script>
+  <script src="../js/dark-mode.js?v=202602080002"></script>
+  <script src="../js/admin-dashboard.js?v=202602080001"></script>
+  
+  <script>
+    // Global state
+    let currentUser = null;
+    
+    // Auth handling
+    document.addEventListener('DOMContentLoaded', function() {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          currentUser = user;
+          
+          // Initialize notifications
+          if (typeof initNotifications === 'function') {
+            initNotifications(user.uid);
+          }
+          
+          // Initialize admin dashboard
+          await initAdminDashboard();
+          
+          // Setup tabs
+          setupTabs();
+          
+          // Update last update time
+          document.getElementById('lastUpdate').textContent = new Date().toLocaleString('pt-PT');
+          
+        } else {
+          window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.href);
+        }
+      });
+      
+      // Logout
+      document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+        cleanupAdminListeners();
+        await auth.signOut();
+        window.location.href = '../index.html';
+      });
+    });
+    
+    // Tab navigation
+    function setupTabs() {
+      document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabId = tab.dataset.tab;
+          
+          // Update active tab
+          document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          // Update active content
+          document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+          document.getElementById(`tab-${tabId}`)?.classList.add('active');
+          
+          // Load content if needed
+          if (tabId === 'verification') {
+            loadVerificationRequests();
+          }
+        });
+      });
+    }
+    
+    // Filter reports
+    function filterReports(status, btn) {
+      document.querySelectorAll('.reports-filters .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadReports(status);
+    }
+    
+    // Export stats
+    function exportStats() {
+      const stats = {
+        ...realtimeStats,
+        exportedAt: new Date().toISOString()
+      };
+      
+      const blob = new Blob([JSON.stringify(stats, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `quest4you_stats_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      showToast('Estatísticas exportadas!', 'success');
+    }
+    
+    // Escape HTML helper
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    // Toast helper (if not available)
+    if (typeof showToast !== 'function') {
+      window.showToast = function(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 12px 24px;
+          background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#6a11cb'};
+          color: white;
+          border-radius: 8px;
+          z-index: 10000;
+          animation: fadeIn 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), duration);
+      };
+    }
+  </script>
+  
+  <style>
+    /* Quick fixes for this page */
+    .admin-sidebar-panel {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+    
+    .quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .btn-block {
+      width: 100%;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-light, #f1f3f5);
+    }
+    
+    .summary-label {
+      color: var(--text-muted, #6c757d);
+    }
+    
+    .summary-value {
+      font-weight: 600;
+      color: var(--text-primary, #1a1a2e);
+    }
+    
+    @media (max-width: 992px) {
+      .admin-sidebar-panel {
+        position: static;
+      }
+    }
+  </style>
+</body>
+</html>

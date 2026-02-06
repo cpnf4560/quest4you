@@ -1,0 +1,551 @@
+/* =========================================
+   CHAT GROUPS & IMAGE MESSAGES - Quest4You
+   Estilos para grupos de chat e envio de imagens
+   ========================================= */
+
+/* ================================
+   GROUP ITEMS IN SIDEBAR
+   ================================ */
+.group-item {
+  position: relative;
+}
+
+.group-avatar {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  position: relative;
+}
+
+.group-icon {
+  font-size: 1.2rem;
+}
+
+.group-icon-large {
+  font-size: 1.5rem;
+}
+
+.group-count {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: var(--accent-gradient, linear-gradient(135deg, #6a11cb 0%, #2575fc 100%));
+  color: white;
+  font-size: 0.65rem;
+  padding: 1px 4px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 2px solid var(--bg-secondary, #fff);
+}
+
+.empty-groups {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted, #6c757d);
+}
+
+.empty-groups p {
+  margin-bottom: 15px;
+}
+
+/* ================================
+   GROUP HEADER
+   ================================ */
+.chat-header .group-avatar {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+/* ================================
+   GROUP MESSAGES
+   ================================ */
+.message-sender {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6a11cb;
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+
+.message.received .message-sender {
+  display: block;
+}
+
+.message.sent .message-sender {
+  display: none;
+}
+
+/* System messages in groups */
+.message.system-message {
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.system-bubble {
+  background: var(--bg-tertiary, #f1f3f5) !important;
+  color: var(--text-muted, #6c757d) !important;
+  font-size: 0.85rem;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  text-align: center;
+}
+
+/* ================================
+   IMAGE MESSAGES
+   ================================ */
+.message-image {
+  position: relative;
+  max-width: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.message-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.message-image:hover img {
+  transform: scale(1.02);
+}
+
+.image-zoom-icon {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.message-image:hover .image-zoom-icon {
+  opacity: 1;
+}
+
+/* ================================
+   IMAGE VIEWER OVERLAY
+   ================================ */
+.image-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: zoom-out;
+}
+
+.image-viewer-overlay.active {
+  opacity: 1;
+}
+
+.image-viewer-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.image-viewer-content .full-image {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+}
+
+.image-viewer-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.image-viewer-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.image-viewer-download {
+  position: absolute;
+  bottom: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.image-viewer-download:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
+/* ================================
+   IMAGE PREVIEW MODAL
+   ================================ */
+.image-preview-content {
+  max-width: 500px;
+}
+
+.image-preview-container {
+  max-height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  background: var(--bg-tertiary, #f1f3f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-preview-container img {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+}
+
+#imageCaption {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color, #e9ecef);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: var(--input-bg, #fff);
+  color: var(--text-primary, #1a1a2e);
+}
+
+/* ================================
+   CREATE GROUP MODAL
+   ================================ */
+#createGroupModal .modal-content {
+  max-width: 450px;
+}
+
+.friends-selector {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color, #e9ecef);
+  border-radius: 10px;
+  padding: 10px;
+  background: var(--bg-secondary, #f8f9fa);
+}
+
+.friend-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-bottom: 5px;
+}
+
+.friend-checkbox:hover {
+  background: var(--hover-bg, rgba(106, 17, 203, 0.08));
+}
+
+.friend-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #6a11cb;
+}
+
+.friend-checkbox-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  overflow: hidden;
+}
+
+.friend-checkbox-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.friend-checkbox-name {
+  flex: 1;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a2e);
+}
+
+.selected-members {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(106, 17, 203, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.selected-count {
+  color: #6a11cb;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.loading-text,
+.empty-text,
+.error-text {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted, #6c757d);
+}
+
+.error-text {
+  color: #dc3545;
+}
+
+/* ================================
+   GROUP INFO MODAL
+   ================================ */
+#groupInfoModal .modal-content {
+  max-width: 400px;
+}
+
+.group-description {
+  color: var(--text-secondary, #4a4a5a);
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--bg-secondary, #f8f9fa);
+  border-radius: 10px;
+}
+
+.group-info-section {
+  margin-bottom: 20px;
+}
+
+.group-info-section h4 {
+  margin-bottom: 15px;
+  color: var(--text-primary, #1a1a2e);
+  font-size: 1rem;
+}
+
+.group-members-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.group-member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--bg-secondary, #f8f9fa);
+  margin-bottom: 8px;
+}
+
+.member-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  overflow: hidden;
+}
+
+.member-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-name {
+  flex: 1;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a2e);
+}
+
+.admin-badge {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.you-badge {
+  background: var(--bg-tertiary, #f1f3f5);
+  color: var(--text-muted, #6c757d);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+.group-admin-actions,
+.group-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color, #e9ecef);
+}
+
+/* ================================
+   CHAT INPUT - IMAGE BUTTON
+   ================================ */
+.chat-input-area {
+  position: relative;
+}
+
+.btn-image {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+  margin-right: 5px;
+}
+
+.btn-image:hover {
+  background: var(--hover-bg, rgba(106, 17, 203, 0.1));
+}
+
+/* ================================
+   SIDEBAR TABS (Conversations / Groups)
+   ================================ */
+.sidebar-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color, #e9ecef);
+}
+
+.sidebar-tab {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-muted, #6c757d);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.sidebar-tab.active {
+  color: #6a11cb;
+}
+
+.sidebar-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 20%;
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border-radius: 3px 3px 0 0;
+}
+
+.sidebar-tab:hover:not(.active) {
+  background: var(--hover-bg, rgba(106, 17, 203, 0.05));
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ================================
+   CREATE GROUP BUTTON
+   ================================ */
+.create-group-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.create-group-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(106, 17, 203, 0.5);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 768px) {
+  .image-preview-container {
+    max-height: 300px;
+  }
+  
+  .image-viewer-content .full-image {
+    max-width: 95vw;
+    max-height: 80vh;
+  }
+  
+  .friends-selector {
+    max-height: 200px;
+  }
+  
+  .group-members-list {
+    max-height: 150px;
+  }
+  
+  .group-admin-actions,
+  .group-actions {
+    flex-direction: column;
+  }
+  
+  .group-admin-actions .btn,
+  .group-actions .btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,200 @@
+/**
+ * Quest4You - Block & Report System CSS
+ * Estilos para bloqueio e denúncia de utilizadores
+ */
+
+/* ================================
+   BLOCK/REPORT MODAL
+   ================================ */
+#blockReportModal .modal-content {
+  max-width: 480px;
+}
+
+#blockReportModal .modal-desc {
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+#blockReportModal .modal-desc strong {
+  color: var(--text-dark);
+}
+
+/* ================================
+   OPTION CARDS
+   ================================ */
+.block-report-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.option-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-light);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-card:hover {
+  border-color: var(--cardinal-red);
+  background: rgba(229, 57, 53, 0.05);
+}
+
+.option-card.selected {
+  border-color: var(--cardinal-red);
+  background: rgba(229, 57, 53, 0.1);
+}
+
+.option-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.option-info h4 {
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.option-info p {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* ================================
+   FORM
+   ================================ */
+.block-report-form {
+  padding-top: 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--cardinal-red);
+}
+
+/* ================================
+   BLOCKED USERS LIST (Settings)
+   ================================ */
+.blocked-users-section {
+  margin-top: 24px;
+}
+
+.blocked-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blocked-user-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-light);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+}
+
+.blocked-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cardinal-red), var(--deep-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.blocked-user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.blocked-user-info {
+  flex: 1;
+}
+
+.blocked-user-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.blocked-user-reason {
+  font-size: 0.8rem;
+  color: var(--text-lighter);
+}
+
+.blocked-user-actions .btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.no-blocked-users {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-light);
+}
+
+.no-blocked-users .empty-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+/* ================================
+   BLOCK BUTTON IN PROFILES
+   ================================ */
+.block-user-btn {
+  color: var(--danger-color, #ef4444);
+  font-size: 0.85rem;
+}
+
+.block-user-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 480px) {
+  .option-card {
+    padding: 12px;
+  }
+  
+  .option-icon {
+    font-size: 1.5rem;
+  }
+  
+  .option-info h4 {
+    font-size: 0.95rem;
+  }
+  
+  .option-info p {
+    font-size: 0.8rem;
+  }
+}
