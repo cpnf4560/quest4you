@@ -1261,7 +1261,6 @@ function viewFullReport() {
           html += '        <span>' + formatCategoryLabel(cat) + '</span>';
           html += '        <div class="report-mini-bar-bg"><div class="report-mini-bar-fill" style="width: ' + score + '%; background: ' + result.meta.color + '"></div></div>';
           html += '        <span>' + score + '%</span>';
-          html += '      </div>';
         });
         html += '    </div>';
       }
@@ -2336,10 +2335,15 @@ async function viewFriendProfile(friendId) {
         <div class="friend-info-item">
           <span class="friend-info-label">💕 À procura de</span>
           <span class="friend-info-value">${getLookingForLabel(friend.personalInfo.lookingFor)}</span>
-        </div>
-      ` : ''}
+        </div>      ` : ''}
     </div>
   `;
+  
+  // Show send message button
+  const btnSendMessage = document.getElementById("btnSendMessage");
+  if (btnSendMessage) {
+    btnSendMessage.style.display = "inline-flex";
+  }
   
   modal.style.display = "flex";
 }
@@ -2375,6 +2379,14 @@ async function removeFriendFromModal() {
   }
 }
 
+// Send message to friend - redirect to chat
+function sendMessageToFriend() {
+  if (currentViewingFriend) {
+    // Redirect to chat page with friend ID as parameter
+    window.location.href = `chat.html?userId=${currentViewingFriend.id}`;
+  }
+}
+
 // Initialize friends on profile load (add to loadUserProfile)
 async function initFriendsSystem() {
   await loadFriends();
@@ -2396,3 +2408,4 @@ window.removeFriend = removeFriend;
 window.viewFriendProfile = viewFriendProfile;
 window.closeViewFriendModal = closeViewFriendModal;
 window.removeFriendFromModal = removeFriendFromModal;
+window.sendMessageToFriend = sendMessageToFriend;

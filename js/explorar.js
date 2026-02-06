@@ -143,6 +143,11 @@ function updateAuthUI() {
       authLink.textContent = '👤 Perfil';
       authLink.href = 'profile.html';
     }
+    // Show chat link for authenticated users
+    const chatLinks = document.querySelectorAll('.nav-link-auth');
+    chatLinks.forEach(link => {
+      link.style.display = 'inline-flex';
+    });
     if (chatLoginRequired) chatLoginRequired.style.display = 'none';
     if (chatInputWrapper) chatInputWrapper.style.display = 'flex';
     if (messagesLoginRequired) messagesLoginRequired.style.display = 'none';

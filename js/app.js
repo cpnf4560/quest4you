@@ -149,6 +149,12 @@ function updateUIForUser(user) {
     authLink.classList.remove("btn-nav-login");
   }
 
+  // Show chat link for authenticated users
+  const chatLinks = document.querySelectorAll(".nav-link-auth");
+  chatLinks.forEach(link => {
+    link.style.display = "inline-flex";
+  });
+
   // Hide login notice
   const loginNotice = document.getElementById("loginNotice");
   if (loginNotice) {
