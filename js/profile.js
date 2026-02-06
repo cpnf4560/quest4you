@@ -73,6 +73,7 @@ async function loadUserProfile() {
         loadBadges();
         updateStats();
         loadAllPhotos();
+        initFriendsSystem();
       } else {
         // Create profile if doesn't exist
         await createUserProfile();
@@ -1220,7 +1221,6 @@ function viewFullReport() {
     html += '    <div class="report-score-bar" style="width: ' + (result.score || 0) + '%; background: ' + result.meta.color + '"></div>';
     html += '  </div>';
     html += '  <span class="report-score-value">' + (result.score || 0) + '%</span>';
-    html += '</div>';
   });
   
   html += '</div></div>';
@@ -1246,7 +1246,6 @@ function viewFullReport() {
     } else if (result.dominantRole) {
       html += '    <div class="report-detail-category">';
       html += '      <span>🎭 Role: ' + result.dominantRole + '</span>';
-      html += '    </div>';
     }
     
     // Show top categories if available
@@ -1808,3 +1807,592 @@ window.uploadPhoto = uploadPhoto;
 window.removePhoto = removePhoto;
 window.submitGenderValidation = submitGenderValidation;
 window.submitFeedback = submitFeedback;
+
+// ================================
+// FRIENDS SYSTEM
+// ================================
+let friendsList = [];
+let pendingRequests = [];
+let searchTimeout = null;
+let currentViewingFriend = null;
+
+// Load friends on profile load
+async function loadFriends() {
+  if (!currentUser || !db) return;
+  
+  try {
+    // Get friendships where user is sender or receiver and status is accepted
+    const sentFriendships = await db.collection("quest4you_friendships")
+      .where("senderId", "==", currentUser.uid)
+      .where("status", "==", "accepted")
+      .get();
+    
+    const receivedFriendships = await db.collection("quest4you_friendships")
+      .where("receiverId", "==", currentUser.uid)
+      .where("status", "==", "accepted")
+      .get();
+    
+    // Collect friend IDs
+    const friendIds = new Set();
+    const friendshipMap = new Map();
+    
+    sentFriendships.docs.forEach(doc => {
+      const data = doc.data();
+      friendIds.add(data.receiverId);
+      friendshipMap.set(data.receiverId, { id: doc.id, ...data });
+    });
+    
+    receivedFriendships.docs.forEach(doc => {
+      const data = doc.data();
+      friendIds.add(data.senderId);
+      friendshipMap.set(data.senderId, { id: doc.id, ...data });
+    });
+    
+    // Fetch friend profiles
+    friendsList = [];
+    for (const friendId of friendIds) {
+      const friendDoc = await db.collection("quest4you_users").doc(friendId).get();
+      if (friendDoc.exists) {
+        const friendData = friendDoc.data();
+        friendsList.push({
+          id: friendId,
+          friendshipId: friendshipMap.get(friendId).id,
+          ...friendData
+        });
+      }
+    }
+    
+    // Update UI
+    renderFriendsList();
+    updateFriendsCount();
+    
+  } catch (error) {
+    console.error("Error loading friends:", error);
+  }
+}
+
+// Load pending friend requests
+async function loadPendingRequests() {
+  if (!currentUser || !db) return;
+  
+  try {
+    const snapshot = await db.collection("quest4you_friendships")
+      .where("receiverId", "==", currentUser.uid)
+      .where("status", "==", "pending")
+      .get();
+    
+    pendingRequests = [];
+    
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      const senderDoc = await db.collection("quest4you_users").doc(data.senderId).get();
+      
+      if (senderDoc.exists) {
+        const senderData = senderDoc.data();
+        pendingRequests.push({
+          id: doc.id,
+          senderId: data.senderId,
+          senderName: senderData.displayName || senderData.nickname || 'Utilizador',
+          senderNickname: senderData.nickname ? `${senderData.nicknameEmoji || '👤'} ${senderData.nickname}` : null,
+          senderPhoto: senderData.photos?.public || null,
+          createdAt: data.createdAt
+        });
+      }
+    }
+    
+    renderPendingRequests();
+    
+  } catch (error) {
+    console.error("Error loading pending requests:", error);
+  }
+}
+
+// Render friends list
+function renderFriendsList() {
+  const grid = document.getElementById("friendsGrid");
+  const emptyState = document.getElementById("emptyFriends");
+  
+  if (!grid) return;
+  
+  if (friendsList.length === 0) {
+    grid.innerHTML = '';
+    grid.appendChild(emptyState);
+    emptyState.style.display = 'block';
+    return;
+  }
+  
+  emptyState.style.display = 'none';
+  
+  grid.innerHTML = friendsList.map(friend => `
+    <div class="friend-card" onclick="viewFriendProfile('${friend.id}')">
+      <div class="friend-avatar">
+        ${friend.photos?.public 
+          ? `<img src="${friend.photos.public}" alt="${friend.displayName || 'Amigo'}">`
+          : (friend.displayName || friend.nickname || '?').charAt(0).toUpperCase()
+        }
+        <span class="friend-online-indicator offline"></span>
+      </div>
+      <div class="friend-info">
+        <div class="friend-name">${friend.displayName || 'Utilizador'}</div>
+        <div class="friend-nickname">${friend.nickname ? `${friend.nicknameEmoji || '👤'} ${friend.nickname}` : 'Sem nickname'}</div>
+        <div class="friend-stats">
+          <span>📝 ${Object.keys(friend.quizResults || {}).length} quizzes</span>
+        </div>
+      </div>
+      <div class="friend-card-actions">
+        <button class="friend-action-btn" onclick="event.stopPropagation(); removeFriend('${friend.id}', '${friend.friendshipId}')" title="Remover amigo">
+          🗑️
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Render pending requests
+function renderPendingRequests() {
+  const card = document.getElementById("friendRequestsCard");
+  const list = document.getElementById("friendRequestsList");
+  
+  if (!card || !list) return;
+  
+  if (pendingRequests.length === 0) {
+    card.style.display = 'none';
+    return;
+  }
+  
+  card.style.display = 'block';
+  
+  list.innerHTML = pendingRequests.map(request => `
+    <div class="friend-request-item" id="request-${request.id}">
+      <div class="friend-request-avatar">
+        ${request.senderPhoto 
+          ? `<img src="${request.senderPhoto}" alt="${request.senderName}">`
+          : request.senderName.charAt(0).toUpperCase()
+        }
+      </div>
+      <div class="friend-request-info">
+        <div class="friend-request-name">${request.senderName}</div>
+        ${request.senderNickname ? `<div class="friend-request-nickname">${request.senderNickname}</div>` : ''}
+      </div>
+      <div class="friend-request-actions">
+        <button class="btn btn-primary btn-sm" onclick="acceptFriendRequest('${request.id}', '${request.senderId}')">
+          ✅ Aceitar
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="rejectFriendRequest('${request.id}')">
+          ❌ Rejeitar
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Update friends count badge
+function updateFriendsCount() {
+  const badge = document.getElementById("friendsCountBadge");
+  if (badge) {
+    badge.textContent = friendsList.length;
+  }
+}
+
+// Filter friends by search
+function filterFriends() {
+  const query = document.getElementById("friendSearchInput").value.toLowerCase().trim();
+  const cards = document.querySelectorAll(".friend-card");
+  
+  cards.forEach(card => {
+    const name = card.querySelector(".friend-name")?.textContent.toLowerCase() || '';
+    const nickname = card.querySelector(".friend-nickname")?.textContent.toLowerCase() || '';
+    
+    if (name.includes(query) || nickname.includes(query)) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// Open add friend modal
+function openAddFriendModal() {
+  const modal = document.getElementById("addFriendModal");
+  if (modal) {
+    modal.style.display = "flex";
+    document.getElementById("friendSearchQuery").value = '';
+    document.getElementById("friendSearchResults").innerHTML = `
+      <div class="search-hint">
+        <span class="hint-icon">💡</span>
+        <span>Escreve pelo menos 3 caracteres para procurar</span>
+      </div>
+    `;
+  }
+}
+
+// Close add friend modal
+function closeAddFriendModal() {
+  const modal = document.getElementById("addFriendModal");
+  if (modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Search users with debounce
+function searchUsersDebounced() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(searchUsers, 300);
+}
+
+// Search users
+async function searchUsers() {
+  const query = document.getElementById("friendSearchQuery").value.trim().toLowerCase();
+  const resultsDiv = document.getElementById("friendSearchResults");
+  const loadingSpan = document.getElementById("searchLoading");
+  
+  if (query.length < 3) {
+    resultsDiv.innerHTML = `
+      <div class="search-hint">
+        <span class="hint-icon">💡</span>
+        <span>Escreve pelo menos 3 caracteres para procurar</span>
+      </div>
+    `;
+    return;
+  }
+  
+  loadingSpan.style.display = 'inline';
+  
+  try {
+    // Search by nickname or email
+    const usersSnapshot = await db.collection("quest4you_users")
+      .where("settings.publicProfile", "==", true)
+      .limit(50)
+      .get();
+    
+    const results = [];
+    const existingFriendIds = new Set(friendsList.map(f => f.id));
+    const pendingRequestIds = new Set(pendingRequests.map(r => r.senderId));
+    
+    // Check for pending sent requests
+    const sentRequests = await db.collection("quest4you_friendships")
+      .where("senderId", "==", currentUser.uid)
+      .where("status", "==", "pending")
+      .get();
+    const sentRequestIds = new Set(sentRequests.docs.map(d => d.data().receiverId));
+    
+    usersSnapshot.docs.forEach(doc => {
+      const data = doc.data();
+      const userId = doc.id;
+      
+      // Skip self
+      if (userId === currentUser.uid) return;
+      
+      // Check if matches search
+      const nickname = (data.nickname || '').toLowerCase();
+      const email = (data.email || '').toLowerCase();
+      const displayName = (data.displayName || '').toLowerCase();
+      
+      if (nickname.includes(query) || email.includes(query) || displayName.includes(query)) {
+        let status = 'available';
+        if (existingFriendIds.has(userId)) {
+          status = 'friend';
+        } else if (pendingRequestIds.has(userId)) {
+          status = 'pending-received';
+        } else if (sentRequestIds.has(userId)) {
+          status = 'pending-sent';
+        }
+        
+        results.push({
+          id: userId,
+          displayName: data.displayName || 'Utilizador',
+          nickname: data.nickname,
+          nicknameEmoji: data.nicknameEmoji || '👤',
+          photo: data.photos?.public || null,
+          status: status
+        });
+      }
+    });
+    
+    loadingSpan.style.display = 'none';
+    
+    if (results.length === 0) {
+      resultsDiv.innerHTML = `
+        <div class="search-no-results">
+          <div class="no-results-icon">🔍</div>
+          <p>Nenhum utilizador encontrado para "${query}"</p>
+          <p style="font-size: 0.85rem; color: var(--text-lighter);">Tenta outro termo de pesquisa</p>
+        </div>
+      `;
+      return;
+    }
+    
+    resultsDiv.innerHTML = results.map(user => `
+      <div class="search-result-item">
+        <div class="search-result-avatar">
+          ${user.photo 
+            ? `<img src="${user.photo}" alt="${user.displayName}">`
+            : user.displayName.charAt(0).toUpperCase()
+          }
+        </div>
+        <div class="search-result-info">
+          <div class="search-result-name">${user.displayName}</div>
+          ${user.nickname ? `<div class="search-result-nickname">${user.nicknameEmoji} ${user.nickname}</div>` : ''}
+          <div class="search-result-status">
+            ${user.status === 'friend' ? '✅ Já são amigos' : ''}
+            ${user.status === 'pending-sent' ? '⏳ Pedido enviado' : ''}
+            ${user.status === 'pending-received' ? '📩 Pedido recebido' : ''}
+          </div>
+        </div>
+        <div class="search-result-action">
+          ${user.status === 'available' 
+            ? `<button class="btn btn-primary btn-sm" onclick="sendFriendRequest('${user.id}', '${user.displayName}')">➕ Adicionar</button>`
+            : user.status === 'pending-received'
+            ? `<button class="btn btn-primary btn-sm" onclick="acceptFriendRequestByUserId('${user.id}')">✅ Aceitar</button>`
+            : ''
+          }
+        </div>
+      </div>
+    `).join('');
+    
+  } catch (error) {
+    console.error("Error searching users:", error);
+    loadingSpan.style.display = 'none';
+    resultsDiv.innerHTML = `
+      <div class="search-no-results">
+        <div class="no-results-icon">❌</div>
+        <p>Erro ao procurar utilizadores</p>
+      </div>
+    `;
+  }
+}
+
+// Send friend request
+async function sendFriendRequest(receiverId, receiverName) {
+  if (!currentUser || !db) return;
+  
+  try {
+    // Check if friendship already exists
+    const existing = await db.collection("quest4you_friendships")
+      .where("senderId", "==", currentUser.uid)
+      .where("receiverId", "==", receiverId)
+      .get();
+    
+    if (!existing.empty) {
+      alert("⚠️ Já enviaste um pedido de amizade a este utilizador.");
+      return;
+    }
+    
+    // Create friendship request
+    await db.collection("quest4you_friendships").add({
+      senderId: currentUser.uid,
+      senderName: userData?.displayName || currentUser.displayName || 'Utilizador',
+      receiverId: receiverId,
+      receiverName: receiverName,
+      status: "pending",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    alert(`✅ Pedido de amizade enviado para ${receiverName}!`);
+    
+    // Refresh search results
+    searchUsers();
+    
+  } catch (error) {
+    console.error("Error sending friend request:", error);
+    alert("❌ Erro ao enviar pedido de amizade.");
+  }
+}
+
+// Accept friend request
+async function acceptFriendRequest(requestId, senderId) {
+  if (!currentUser || !db) return;
+  
+  try {
+    // Update friendship status
+    await db.collection("quest4you_friendships").doc(requestId).update({
+      status: "accepted",
+      acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    alert("✅ Pedido de amizade aceite! Agora são amigos.");
+    
+    // Refresh lists
+    await loadPendingRequests();
+    await loadFriends();
+    
+  } catch (error) {
+    console.error("Error accepting friend request:", error);
+    alert("❌ Erro ao aceitar pedido de amizade.");
+  }
+}
+
+// Accept friend request by user ID (from search)
+async function acceptFriendRequestByUserId(senderId) {
+  const request = pendingRequests.find(r => r.senderId === senderId);
+  if (request) {
+    await acceptFriendRequest(request.id, senderId);
+    closeAddFriendModal();
+  }
+}
+
+// Reject friend request
+async function rejectFriendRequest(requestId) {
+  if (!currentUser || !db) return;
+  
+  if (!confirm("Tens a certeza que queres rejeitar este pedido de amizade?")) return;
+  
+  try {
+    await db.collection("quest4you_friendships").doc(requestId).delete();
+    
+    // Remove from UI
+    const element = document.getElementById(`request-${requestId}`);
+    if (element) element.remove();
+    
+    // Update pending requests
+    pendingRequests = pendingRequests.filter(r => r.id !== requestId);
+    
+    if (pendingRequests.length === 0) {
+      document.getElementById("friendRequestsCard").style.display = 'none';
+    }
+    
+  } catch (error) {
+    console.error("Error rejecting friend request:", error);
+    alert("❌ Erro ao rejeitar pedido de amizade.");
+  }
+}
+
+// Remove friend
+async function removeFriend(friendId, friendshipId) {
+  if (!currentUser || !db) return;
+  
+  if (!confirm("Tens a certeza que queres remover este amigo?")) return;
+  
+  try {
+    await db.collection("quest4you_friendships").doc(friendshipId).delete();
+    
+    // Refresh friends list
+    await loadFriends();
+    
+    alert("✅ Amigo removido.");
+    
+  } catch (error) {
+    console.error("Error removing friend:", error);
+    alert("❌ Erro ao remover amigo.");
+  }
+}
+
+// View friend profile
+async function viewFriendProfile(friendId) {
+  const friend = friendsList.find(f => f.id === friendId);
+  if (!friend) return;
+  
+  currentViewingFriend = friend;
+  
+  const modal = document.getElementById("viewFriendModal");
+  const header = document.getElementById("friendProfileHeader");
+  const body = document.getElementById("friendProfileBody");
+  
+  if (!modal || !header || !body) return;
+  
+  // Render header
+  header.innerHTML = `
+    <div class="friend-profile-avatar">
+      ${friend.photos?.public 
+        ? `<img src="${friend.photos.public}" alt="${friend.displayName}">`
+        : (friend.displayName || '?').charAt(0).toUpperCase()
+      }
+    </div>
+    <div class="friend-profile-name">${friend.displayName || 'Utilizador'}</div>
+    <div class="friend-profile-nickname">${friend.nickname ? `${friend.nicknameEmoji || '👤'} ${friend.nickname}` : ''}</div>
+  `;
+  
+  // Calculate stats
+  const quizCount = Object.keys(friend.quizResults || {}).length;
+  const badges = friend.badges || [];
+  
+  // Render body
+  body.innerHTML = `
+    <div class="friend-profile-stats">
+      <div class="friend-stat">
+        <div class="friend-stat-value">${quizCount}</div>
+        <div class="friend-stat-label">Questionários</div>
+      </div>
+      <div class="friend-stat">
+        <div class="friend-stat-value">${badges.length}</div>
+        <div class="friend-stat-label">Badges</div>
+      </div>
+      <div class="friend-stat">
+        <div class="friend-stat-value">
+          ${friend.personalInfo?.ageRange || '?'}
+        </div>
+        <div class="friend-stat-label">Idade</div>
+      </div>
+    </div>
+    
+    <div class="friend-profile-info">
+      ${friend.personalInfo?.country ? `
+        <div class="friend-info-item">
+          <span class="friend-info-label">📍 Localização</span>
+          <span class="friend-info-value">${friend.personalInfo.city || ''} ${friend.personalInfo.district ? `(${friend.personalInfo.district})` : ''}</span>
+        </div>
+      ` : ''}
+      ${friend.personalInfo?.lookingFor ? `
+        <div class="friend-info-item">
+          <span class="friend-info-label">💕 À procura de</span>
+          <span class="friend-info-value">${getLookingForLabel(friend.personalInfo.lookingFor)}</span>
+        </div>
+      ` : ''}
+    </div>
+  `;
+  
+  modal.style.display = "flex";
+}
+
+// Get looking for label
+function getLookingForLabel(value) {
+  const labels = {
+    'friendship': 'Amizade',
+    'casual': 'Encontros casuais',
+    'relationship': 'Relacionamento sério',
+    'open-relationship': 'Relacionamento aberto',
+    'exploration': 'Explorar sexualidade',
+    'couple-activities': 'Atividades de casal',
+    'multiple': 'Várias opções'
+  };
+  return labels[value] || value;
+}
+
+// Close view friend modal
+function closeViewFriendModal() {
+  const modal = document.getElementById("viewFriendModal");
+  if (modal) {
+    modal.style.display = "none";
+    currentViewingFriend = null;
+  }
+}
+
+// Remove friend from modal
+async function removeFriendFromModal() {
+  if (currentViewingFriend) {
+    await removeFriend(currentViewingFriend.id, currentViewingFriend.friendshipId);
+    closeViewFriendModal();
+  }
+}
+
+// Initialize friends on profile load (add to loadUserProfile)
+async function initFriendsSystem() {
+  await loadFriends();
+  await loadPendingRequests();
+}
+
+// Export friends functions
+window.loadFriends = loadFriends;
+window.loadPendingRequests = loadPendingRequests;
+window.filterFriends = filterFriends;
+window.openAddFriendModal = openAddFriendModal;
+window.closeAddFriendModal = closeAddFriendModal;
+window.searchUsersDebounced = searchUsersDebounced;
+window.sendFriendRequest = sendFriendRequest;
+window.acceptFriendRequest = acceptFriendRequest;
+window.acceptFriendRequestByUserId = acceptFriendRequestByUserId;
+window.rejectFriendRequest = rejectFriendRequest;
+window.removeFriend = removeFriend;
+window.viewFriendProfile = viewFriendProfile;
+window.closeViewFriendModal = closeViewFriendModal;
+window.removeFriendFromModal = removeFriendFromModal;

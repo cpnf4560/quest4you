@@ -15,9 +15,8 @@
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css?v=202602050001">
-  <link rel="stylesheet" href="../css/profile.css?v=202602050001">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">  <link rel="stylesheet" href="../css/main.css?v=202602060002">
+  <link rel="stylesheet" href="../css/profile.css?v=202602060002">
 </head>
 <body>
   <!-- Header -->
@@ -397,6 +396,43 @@
       </div>
     </section>
 
+    <!-- Friends Section - NEW -->
+    <section class="friends-section" id="friendsSection">
+      <h2 class="section-title">
+        👥 Amigos
+        <span class="friends-count-badge" id="friendsCountBadge">0</span>
+      </h2>
+      
+      <!-- Pending Friend Requests -->
+      <div class="friend-requests-card" id="friendRequestsCard" style="display: none;">
+        <h3 class="subsection-title">📩 Pedidos de Amizade</h3>
+        <div class="friend-requests-list" id="friendRequestsList">
+          <!-- Friend requests loaded dynamically -->
+        </div>
+      </div>
+      
+      <!-- Friends List -->
+      <div class="friends-card">
+        <div class="friends-header">
+          <div class="friends-search">
+            <input type="text" id="friendSearchInput" class="form-input" placeholder="🔍 Procurar amigo..." oninput="filterFriends()">
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="openAddFriendModal()">
+            ➕ Adicionar Amigo
+          </button>
+        </div>
+        
+        <div class="friends-grid" id="friendsGrid">
+          <!-- Friends loaded dynamically -->
+          <div class="empty-state" id="emptyFriends">
+            <div class="empty-icon">👥</div>
+            <p>Ainda não tens amigos adicionados.</p>
+            <button class="btn btn-primary" onclick="openAddFriendModal()">Adicionar Primeiro Amigo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Settings Section -->
     <section class="settings-section">
       <h2 class="section-title">⚙️ Definições</h2>
@@ -532,6 +568,53 @@
       </form>
     </div>
   </div>
+
+  <!-- Add Friend Modal -->
+  <div class="modal" id="addFriendModal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeAddFriendModal()">×</button>
+      <h2>➕ Adicionar Amigo</h2>
+      <p class="modal-desc">Procura utilizadores pelo nickname ou email para enviar um pedido de amizade.</p>
+      
+      <div class="form-group">
+        <label for="friendSearchQuery">🔍 Procurar</label>
+        <div class="search-input-wrapper">
+          <input type="text" id="friendSearchQuery" class="form-input" placeholder="Nickname ou email..." oninput="searchUsersDebounced()">
+          <span class="search-loading" id="searchLoading" style="display: none;">⏳</span>
+        </div>
+      </div>
+      
+      <div class="search-results" id="friendSearchResults">
+        <div class="search-hint">
+          <span class="hint-icon">💡</span>
+          <span>Escreve pelo menos 3 caracteres para procurar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Friend Profile Modal -->
+  <div class="modal" id="viewFriendModal" style="display: none;">
+    <div class="modal-content modal-lg">
+      <button class="modal-close" onclick="closeViewFriendModal()">×</button>
+      <div class="friend-profile-header" id="friendProfileHeader">
+        <!-- Content loaded dynamically -->
+      </div>
+      <div class="friend-profile-body" id="friendProfileBody">
+        <!-- Content loaded dynamically -->
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeViewFriendModal()">Fechar</button>
+        <button class="btn btn-primary" onclick="sendMessageToFriend()" id="btnSendMessage" style="display: none;">
+          💬 Enviar Mensagem
+        </button>
+        <button class="btn btn-danger" onclick="removeFriendFromModal()" id="btnRemoveFriend">
+          🗑️ Remover Amigo
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Result Modal -->
   <div class="result-modal" id="resultModal" style="display: none;">
     <div class="result-content">
@@ -597,6 +680,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="../js/firebase-config.js?v=202602050001"></script>
   <script src="../js/cloud-sync.js?v=202602050001"></script>
-  <script src="../js/profile.js?v=202602060001"></script>
+  <script src="../js/profile.js?v=202602060002"></script>
 </body>
 </html>
