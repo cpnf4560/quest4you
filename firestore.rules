@@ -203,6 +203,23 @@ service cloud.firestore {
     }
     
     // ================================
+    // NOTIFICAÇÕES (quest4you_notifications)
+    // ================================
+    match /quest4you_notifications/{notificationId} {
+      // Só o destinatário pode ler as suas notificações
+      allow read: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      // Utilizadores autenticados podem criar notificações para outros
+      allow create: if isAuthenticated();
+      // Só o destinatário pode atualizar (marcar como lida)
+      allow update: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      // Só o destinatário pode apagar
+      allow delete: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+    }
+    
+    // ================================
     // QUIZZES (para futuras funcionalidades)
     // ================================
     match /quizResults/{resultId} {

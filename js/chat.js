@@ -52,6 +52,12 @@ function handleAuthChange(user) {
   if (user) {
     currentUser = user;
     console.log("User logged in:", user.email);
+    
+    // Initialize notifications
+    if (typeof initNotifications === "function") {
+      initNotifications(user.uid);
+    }
+    
     loadConversations();
     
     // Open pending conversation if any
@@ -364,6 +370,12 @@ async function sendMessage() {
       lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
       [`unreadCount.${currentFriend.id}`]: firebase.firestore.FieldValue.increment(1)
     });
+    
+    // Send notification to friend
+    const senderName = currentUser.displayName || 'Alguém';
+    if (typeof notifyNewMessage === "function") {
+      await notifyNewMessage(currentFriend.id, senderName, currentConversation.id);
+    }
     
     // Clear input
     input.value = '';

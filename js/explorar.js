@@ -148,6 +148,10 @@ function updateAuthUI() {
     chatLinks.forEach(link => {
       link.style.display = 'inline-flex';
     });
+    // Initialize notifications
+    if (typeof initNotifications === 'function') {
+      initNotifications(currentUser.uid);
+    }
     if (chatLoginRequired) chatLoginRequired.style.display = 'none';
     if (chatInputWrapper) chatInputWrapper.style.display = 'flex';
     if (messagesLoginRequired) messagesLoginRequired.style.display = 'none';

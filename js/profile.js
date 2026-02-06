@@ -61,6 +61,11 @@ async function loadUserProfile() {
   // Update basic info from Firebase Auth
   updateProfileHeader();
 
+  // Initialize notifications
+  if (typeof initNotifications === "function") {
+    initNotifications(currentUser.uid);
+  }
+
   // Load full profile from Firestore
   if (typeof db !== "undefined") {
     try {
@@ -2187,6 +2192,12 @@ async function sendFriendRequest(receiverId, receiverName) {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
+    // Send notification to receiver
+    const senderName = userData?.displayName || currentUser.displayName || 'Alguém';
+    if (typeof notifyFriendRequest === "function") {
+      await notifyFriendRequest(receiverId, senderName);
+    }
+    
     alert(`✅ Pedido de amizade enviado para ${receiverName}!`);
     
     // Refresh search results
@@ -2208,6 +2219,12 @@ async function acceptFriendRequest(requestId, senderId) {
       status: "accepted",
       acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+    
+    // Notify the sender that their request was accepted
+    const accepterName = userData?.displayName || currentUser.displayName || 'Alguém';
+    if (typeof notifyFriendAccepted === "function") {
+      await notifyFriendAccepted(senderId, accepterName);
+    }
     
     alert("✅ Pedido de amizade aceite! Agora são amigos.");
     

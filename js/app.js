@@ -155,6 +155,11 @@ function updateUIForUser(user) {
     link.style.display = "inline-flex";
   });
 
+  // Initialize notifications
+  if (typeof initNotifications === "function") {
+    initNotifications(user.uid);
+  }
+
   // Hide login notice
   const loginNotice = document.getElementById("loginNotice");
   if (loginNotice) {
