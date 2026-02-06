@@ -822,6 +822,21 @@
   color: #8b949e !important;
 }
 
+/* Push notification prompt */
+[data-theme="dark"] .push-notif-prompt {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .push-prompt-text strong {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .push-prompt-text p {
+  color: #8b949e !important;
+}
+
 /* =========================================
    BUTTONS - Dark Mode
    ========================================= */
@@ -1482,6 +1497,248 @@ textarea,
   background: #21262d !important;
   border-color: #30363d !important;
   color: #f0f6fc !important;
+}
+
+/* =========================================
+   EXPLORAR - TABS (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .explorar-tabs .tab-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 2px solid rgba(255, 255, 255, 0.15) !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .explorar-tabs .tab-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .explorar-tabs .tab-btn.active {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+}
+
+/* Forum category buttons */
+[data-theme="dark"] .forum-cat-btn {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+  border: 2px solid #30363d !important;
+}
+
+[data-theme="dark"] .forum-cat-btn:hover {
+  background: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .forum-cat-btn.active {
+  background: #1c2128 !important;
+  border-color: #ff6b8a !important;
+  color: #ff6b8a !important;
+}
+
+/* =========================================
+   EXPLORAR - CHAT TAB (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .chat-container {
+  background: #1c2128 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .chat-sidebar {
+  background: #161b22 !important;
+  border-right: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .chat-sidebar h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .room-btn {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+  border: 2px solid transparent !important;
+}
+
+[data-theme="dark"] .room-btn:hover {
+  border-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .room-btn.active {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .room-users {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .room-btn.active .room-users {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .chat-header {
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .chat-header h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .chat-messages {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .chat-welcome {
+  background: #161b22 !important;
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .chat-welcome p {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .chat-message-content {
+  background: #21262d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .chat-message.own .chat-message-content {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .chat-message-name {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .chat-message-time {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .chat-input-container {
+  background: #161b22 !important;
+  border-top: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .chat-login-required {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .chat-login-required a {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .chat-input-wrapper input {
+  background: #21262d !important;
+  border: 2px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .chat-input-wrapper input:focus {
+  border-color: #ff6b8a !important;
+}
+
+/* =========================================
+   EXPLORAR - MENSAGENS TAB (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .messages-container {
+  background: #1c2128 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .messages-sidebar {
+  background: #161b22 !important;
+  border-right: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .messages-sidebar h3 {
+  color: #f0f6fc !important;
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .no-conversations {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .no-conversations a {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .conversation-item {
+  border-bottom: 1px solid #21262d !important;
+}
+
+[data-theme="dark"] .conversation-item:hover {
+  background: rgba(255, 107, 138, 0.1) !important;
+}
+
+[data-theme="dark"] .conversation-item.active {
+  background: #1c2128 !important;
+  border-left: 3px solid #ff6b8a !important;
+}
+
+[data-theme="dark"] .conversation-name {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .conversation-preview {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .conversation-meta {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .messages-main {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .messages-empty {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .messages-empty h3 {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .messages-header {
+  border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .messages-user-name {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .messages-list {
+  background: #0d1117 !important;
+}
+
+[data-theme="dark"] .private-message-content {
+  background: #21262d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .private-message.own .private-message-content {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .messages-input {
+  border-top: 1px solid #30363d !important;
+  background: #161b22 !important;
+}
+
+[data-theme="dark"] .messages-input input {
+  background: #21262d !important;
+  border: 2px solid #30363d !important;
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .messages-input input:focus {
+  border-color: #ff6b8a !important;
 }
 
 /* =========================================
