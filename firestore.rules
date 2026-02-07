@@ -36,10 +36,16 @@ service cloud.firestore {
       return user != null && (user.data.isAdmin == true || user.data.role == 'admin');
     }
     
+    // Fallback: verifica campo isAdmin no perfil users (coleção antiga Quest4Couple) (1 read)
+    function isAdminInUsersLegacy() {
+      let user = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      return user != null && user.data.isAdmin == true;
+    }
+    
     // Função principal — curto-circuito: admins collection primeiro (1 read),
-    // só vai ao perfil se necessário (máx 3 reads no total)
+    // só vai ao perfil se necessário (máx 4 reads no total)
     function isAdmin() {
-      return isAuthenticated() && (isAdminByCollection() || isAdminInQuest4You() || isAdminInQuest4Couple());
+      return isAuthenticated() && (isAdminByCollection() || isAdminInQuest4You() || isAdminInQuest4Couple() || isAdminInUsersLegacy());
     }
       // ================================
     // UTILIZADORES (users) - Coleção antiga
