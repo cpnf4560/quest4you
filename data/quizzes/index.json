@@ -1,6 +1,6 @@
 ﻿{
-  "version": "1.0.0",
-  "lastUpdated": "2026-01-22",
+  "version": "1.1.0",
+  "lastUpdated": "2026-02-07",
   "scale": {
     "min": 1,
     "max": 5,
@@ -111,8 +111,41 @@
       "estimatedTime": 10,
       "resultType": "spectrum",
       "description": "O prazer de mostrar, ser admirado/a e apreciar a beleza de outras pessoas"
+    },
+    {
+      "id": "communication",
+      "name": "Comunicação Sexual",
+      "icon": "💬",
+      "color": "#4caf50",
+      "file": "communication.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Descobre como comunicas os teus desejos, limites e fantasias na intimidade"
+    },
+    {
+      "id": "intimacy",
+      "name": "Intimidade & Conexão",
+      "icon": "💕",
+      "color": "#e91e63",
+      "file": "intimacy.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Explora a importância da conexão emocional na tua vida sexual e íntima"
+    },
+    {
+      "id": "rhythm",
+      "name": "Ritmo & Frequência",
+      "icon": "⏰",
+      "color": "#ff9800",
+      "file": "rhythm.json",
+      "questions": 50,
+      "estimatedTime": 10,
+      "resultType": "spectrum",
+      "description": "Descobre o teu ritmo sexual ideal: frequência, duração, espontaneidade e energia"
     }
   ],
-  "totalQuestions": 450,
+  "totalQuestions": 600,
   "smartMatchMinQuizzes": 2
 }
