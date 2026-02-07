@@ -13,23 +13,27 @@ let answers = {};
 let quizId = null;
 let currentUser = null;
 let userGender = null; // User's gender for filtering questions
+let isEditMode = false; // Flag for edit mode (coming from homepage with saved answers)
+let quizLoaded = false; // Prevent double loading
 
 // ================================
 // INITIALIZATION
 // ================================
 document.addEventListener("DOMContentLoaded", function() {
-  // Get quiz ID from URL
+  // Get quiz ID and mode from URL
   const urlParams = new URLSearchParams(window.location.search);
   quizId = urlParams.get("id");
+  isEditMode = urlParams.get("mode") === "edit";
+  
   if (!quizId) {
     alert("Quiz nao especificado!");
     window.location.href = "../";
     return;
   }
 
-  console.log("Loading quiz:", quizId);
+  console.log("Loading quiz:", quizId, isEditMode ? "(edit mode)" : "");
 
-  // Check authentication state
+  // Wait for authentication before loading quiz (important for edit mode)
   if (typeof firebase !== 'undefined' && window.firebaseAuth) {
     window.firebaseAuth.onAuthStateChanged(function(user) {
       currentUser = user;
@@ -37,10 +41,13 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Utilizador autenticado:", user.email);
         updateUserUI(user);
       }
+      // Load quiz after auth state is known
+      loadQuiz(quizId);
     });
+  } else {
+    // Firebase not available, load quiz anyway
+    loadQuiz(quizId);
   }
-
-  loadQuiz(quizId);
 });
 
 // ================================
@@ -61,6 +68,10 @@ function updateUserUI(user) {
 // LOAD QUIZ DATA
 // ================================
 async function loadQuiz(id) {
+  // Prevent double loading
+  if (quizLoaded) return;
+  quizLoaded = true;
+  
   try {
     const response = await fetch('../data/quizzes/' + id + '.json');
     if (!response.ok) {
@@ -82,23 +93,37 @@ async function loadQuiz(id) {
       // Filter questions by gender
     filterQuestionsByGender();
 
-    // Load saved progress from cloud
+    // Load saved answers from cloud
     if (currentUser && window.CloudSync) {
       try {
-        const progress = await window.CloudSync.getQuizProgress(currentUser.uid, id);
-        if (progress && progress.answers) {
-          answers = progress.answers;
-          // Find first unanswered question
-          for (let i = 0; i < filteredQuestions.length; i++) {
-            if (!answers[filteredQuestions[i].id]) {
-              currentQuestion = i;
-              break;
-            }
+        // If in edit mode, load answers from saved results
+        if (isEditMode) {
+          const savedResult = await window.CloudSync.getQuizResult(currentUser.uid, id);
+          if (savedResult && savedResult.answers) {
+            answers = savedResult.answers;
+            console.log("📝 Edit mode: Loaded", Object.keys(answers).length, "saved answers from results");
+            // Show edit mode message after UI is ready
+            setTimeout(showEditModeMessage, 500);
+          } else {
+            console.warn("Edit mode but no saved answers found");
           }
-          console.log("Progress loaded from cloud:", Object.keys(answers).length, "answers");
+        } else {
+          // Normal mode: load progress (incomplete quiz)
+          const progress = await window.CloudSync.getQuizProgress(currentUser.uid, id);
+          if (progress && progress.answers) {
+            answers = progress.answers;
+            // Find first unanswered question
+            for (let i = 0; i < filteredQuestions.length; i++) {
+              if (!answers[filteredQuestions[i].id]) {
+                currentQuestion = i;
+                break;
+              }
+            }
+            console.log("Progress loaded from cloud:", Object.keys(answers).length, "answers");
+          }
         }
       } catch (error) {
-        console.error("Error loading progress from cloud:", error);
+        console.error("Error loading answers from cloud:", error);
       }
     }
 
@@ -106,8 +131,9 @@ async function loadQuiz(id) {
     initQuizUI();
     renderQuestion();
     renderQuickNav();
-
-  } catch (error) {    console.error("Error loading quiz:", error);
+  } catch (error) {
+    console.error("Error loading quiz:", error);
+    quizLoaded = false; // Reset flag on error
     alert("Erro ao carregar o questionario. Por favor, tenta novamente.");
     window.location.href = "../";
   }

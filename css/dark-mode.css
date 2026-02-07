@@ -2673,3 +2673,109 @@ textarea,
 [data-theme="dark"] .report-highlights h4 {
   color: #f0f6fc !important;
 }
+
+/* =========================================
+   QUIZ CARD - Completed State Dark Mode
+   ========================================= */
+[data-theme="dark"] .quiz-card-body {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .quiz-card-description {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .quiz-completed-badge {
+  background: #238636 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .quiz-card-progress {
+  background: transparent;
+}
+
+[data-theme="dark"] .quiz-progress-bar {
+  background: #30363d !important;
+}
+
+[data-theme="dark"] .quiz-progress-score {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .quiz-card-actions .btn-outline {
+  background: transparent !important;
+  border: 1px solid #30363d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .quiz-card-actions .btn-outline:hover {
+  background: #21262d !important;
+  border-color: #ff6b8a !important;
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .quiz-card-actions .btn-primary {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .quiz-card-actions .btn-primary:hover {
+  background: linear-gradient(135deg, #d62347 0%, #af1e36 100%) !important;
+}
+
+[data-theme="dark"] .quiz-card-footer {
+  border-top-color: #30363d !important;
+}
+
+[data-theme="dark"] .quiz-meta {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .quiz-badge.free {
+  background: linear-gradient(135deg, #238636 0%, #1a7f37 100%) !important;
+}
+
+[data-theme="dark"] .quiz-start-btn {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+}
+
+[data-theme="dark"] .quiz-start-btn:hover {
+  background: linear-gradient(135deg, #d62347 0%, #af1e36 100%) !important;
+}
+
+/* =========================================
+   STATS OVERVIEW - Dark Mode
+   ========================================= */
+[data-theme="dark"] .stats-overview .stat-card {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .stat-value {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .stat-label {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .stat-detail {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .stats-progress-bar {
+  background: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .stats-progress-label {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .stats-progress-label span:last-child {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .stats-progress-track {
+  background: #30363d !important;
+}

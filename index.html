@@ -137,11 +137,43 @@
     </div>
   </section>
 
-  <!-- Progress Section (for logged users) -->
+  <!-- Progress Section (for logged users) - Now shows general stats -->
   <section class="progress-section" id="progressSection" style="display: none;">
-    <h2 class="section-title">📊 O Teu Progresso</h2>
-    <div class="progress-grid" id="progressGrid">
-      <!-- Progress cards will be loaded dynamically -->
+    <h2 class="section-title">📊 As Tuas Estatísticas</h2>
+    <div class="stats-overview" id="statsOverview">
+      <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value" id="statQuizzesCompleted">0</div>
+        <div class="stat-label">Questionários Completos</div>
+        <div class="stat-detail" id="statQuizzesDetail">de 12 disponíveis</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">❓</div>
+        <div class="stat-value" id="statQuestionsAnswered">0</div>
+        <div class="stat-label">Perguntas Respondidas</div>
+        <div class="stat-detail" id="statQuestionsDetail">de 600 totais</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="statFriends">0</div>
+        <div class="stat-label">Amigos</div>
+        <div class="stat-detail">conexões feitas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💕</div>
+        <div class="stat-value" id="statMatches">0</div>
+        <div class="stat-label">Matches</div>
+        <div class="stat-detail">compatibilidades encontradas</div>
+      </div>
+    </div>
+    <div class="stats-progress-bar">
+      <div class="stats-progress-label">
+        <span>Progresso Geral</span>
+        <span id="statsProgressPercent">0%</span>
+      </div>
+      <div class="stats-progress-track">
+        <div class="stats-progress-fill" id="statsProgressFill" style="width: 0%"></div>
+      </div>
     </div>
   </section>
 

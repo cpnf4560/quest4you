@@ -276,13 +276,14 @@ async function loadUserProgress() {
           }
         }
       }
-      
-      console.log("📊 User results loaded from cloud:", Object.keys(userResults).length, "quizzes");
+        console.log("📊 User results loaded from cloud:", Object.keys(userResults).length, "quizzes");
     } catch (error) {
       console.error("Error loading results from cloud:", error);
     }
   }
   
+  // Re-render quizzes grid with loaded results
+  renderQuizzes();
   renderProgress();
 }
 
@@ -297,18 +298,43 @@ function renderQuizzes() {
   
   for (let i = 0; i < QUIZZES_CONFIG.length; i++) {
     const quiz = QUIZZES_CONFIG[i];
+    const result = userResults[quiz.id];
+    const isCompleted = result && result.score !== undefined;
+    const score = isCompleted ? result.score : 0;
     
-    html += '<div class="quiz-card" data-quiz="' + quiz.id + '" onclick="openQuiz(\'' + quiz.id + '\')">';
+    html += '<div class="quiz-card ' + (isCompleted ? 'completed' : '') + '" data-quiz="' + quiz.id + '">';
     html += '  <div class="quiz-card-header" style="background: ' + quiz.color + '">';
+    if (isCompleted) {
+      html += '    <div class="quiz-completed-badge">✓</div>';
+    }
     html += '    <div class="quiz-card-icon">' + quiz.icon + '</div>';
     html += '    <h3 class="quiz-card-title">' + quiz.name + '</h3>';
     html += '  </div>';
     html += '  <div class="quiz-card-body">';
     html += '    <p class="quiz-card-description">' + quiz.description + '</p>';
-    html += '    <div class="quiz-card-footer">';
-    html += '      <span class="quiz-meta">📝 ' + quiz.questions + ' perguntas</span>';
-    html += '      <span class="quiz-badge free">✓ Grátis</span>';
-    html += '    </div>';
+      // Show progress bar and score if completed
+    if (isCompleted) {
+      html += '    <div class="quiz-card-progress">';
+      html += '      <div class="quiz-progress-bar">';
+      html += '        <div class="quiz-progress-fill" style="width: ' + score + '%; background: ' + quiz.color + '"></div>';
+      html += '      </div>';
+      html += '      <span class="quiz-progress-score">' + score + '%</span>';
+      html += '    </div>';
+      html += '    <div class="quiz-card-actions">';
+      html += '      <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); viewResults(\'' + quiz.id + '\')">👁️ Ver Resultados</button>';
+      html += '    </div>';
+      html += '    <div class="quiz-card-actions">';
+      html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); editQuizAnswers(\'' + quiz.id + '\')">✏️ Editar</button>';
+      html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); openQuiz(\'' + quiz.id + '\')">🔄 Refazer</button>';
+      html += '    </div>';
+    } else {
+      html += '    <div class="quiz-card-footer">';
+      html += '      <span class="quiz-meta">📝 ' + quiz.questions + ' perguntas</span>';
+      html += '      <span class="quiz-badge free">✓ Grátis</span>';
+      html += '    </div>';
+      html += '    <button class="btn btn-primary btn-full quiz-start-btn" onclick="event.stopPropagation(); openQuiz(\'' + quiz.id + '\')">Começar</button>';
+    }
+    
     html += '  </div>';
     html += '</div>';
   }
@@ -316,64 +342,56 @@ function renderQuizzes() {
   grid.innerHTML = html;
 }
 
-function renderProgress() {
-  const grid = document.getElementById("progressGrid");
-  if (!grid) return;
+// Open quiz in edit mode (keep previous answers)
+function editQuizAnswers(quizId) {
+  window.location.href = './pages/quiz.html?id=' + quizId + '&mode=edit';
+}
+
+async function renderProgress() {
+  // Calculate statistics
+  const totalQuizzes = QUIZZES_CONFIG.length;
+  const completedQuizzes = Object.keys(userResults).length;
+  const totalQuestions = totalQuizzes * 50; // 50 questions per quiz
+  const questionsAnswered = completedQuizzes * 50;
+  const progressPercent = Math.round((completedQuizzes / totalQuizzes) * 100);
   
-  let html = "";
+  // Update stats cards
+  const statQuizzesCompleted = document.getElementById("statQuizzesCompleted");
+  const statQuizzesDetail = document.getElementById("statQuizzesDetail");
+  const statQuestionsAnswered = document.getElementById("statQuestionsAnswered");
+  const statQuestionsDetail = document.getElementById("statQuestionsDetail");
+  const statFriends = document.getElementById("statFriends");
+  const statMatches = document.getElementById("statMatches");
+  const statsProgressPercent = document.getElementById("statsProgressPercent");
+  const statsProgressFill = document.getElementById("statsProgressFill");
   
-  for (let i = 0; i < QUIZZES_CONFIG.length; i++) {
-    const quiz = QUIZZES_CONFIG[i];
-    const progress = userProgress[quiz.id] || 0;
-    const completed = progress >= quiz.questions;
-    const percent = Math.round((progress / quiz.questions) * 100);
-    
-    // Determine status
-    let statusClass = "not-started";
-    let statusText = "Não iniciado";
-    let statusIcon = "○";
-    let actionText = "Iniciar";
-    
-    if (completed) {
-      statusClass = "completed";
-      statusText = "Concluído";
-      statusIcon = "✓";
-      actionText = "Ver Resultados";
-    } else if (progress > 0) {
-      statusClass = "in-progress";
-      statusText = "Em progresso";
-      statusIcon = "◐";
-      actionText = "Continuar";
+  if (statQuizzesCompleted) statQuizzesCompleted.textContent = completedQuizzes;
+  if (statQuizzesDetail) statQuizzesDetail.textContent = "de " + totalQuizzes + " disponíveis";
+  if (statQuestionsAnswered) statQuestionsAnswered.textContent = questionsAnswered;
+  if (statQuestionsDetail) statQuestionsDetail.textContent = "de " + totalQuestions + " totais";
+  if (statsProgressPercent) statsProgressPercent.textContent = progressPercent + "%";
+  if (statsProgressFill) statsProgressFill.style.width = progressPercent + "%";
+  
+  // Load friends and matches count from Firestore
+  if (currentUser && typeof db !== "undefined") {
+    try {
+      // Get friends count
+      const friendsDoc = await db.collection("quest4you_friends").doc(currentUser.uid).get();
+      if (friendsDoc.exists && friendsDoc.data().friends) {
+        const friendsCount = friendsDoc.data().friends.length;
+        if (statFriends) statFriends.textContent = friendsCount;
+      }
+      
+      // Get matches count (users with compatibility > 70%)
+      const userDoc = await db.collection("quest4you_users_public").doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        // For now, show 0 - could add a real query later
+        if (statMatches) statMatches.textContent = "0";
+      }
+    } catch (error) {
+      console.warn("Could not load friends/matches count:", error);
     }
-    
-    html += '<div class="progress-card ' + (completed ? "completed" : "") + '">';
-    html += '  <div class="progress-header" style="background: ' + quiz.color + '">';
-    html += '    <span class="progress-icon">' + quiz.icon + '</span>';
-    html += '    <span class="progress-title">' + quiz.name + '</span>';
-    html += '  </div>';
-    html += '  <div class="progress-body">';
-    html += '    <div class="progress-bar-container">';
-    html += '      <div class="progress-bar" style="width: ' + percent + '%"></div>';
-    html += '    </div>';
-    html += '    <div class="progress-text">';
-    html += '      <span>' + progress + '/' + quiz.questions + ' perguntas</span>';
-    html += '      <span class="progress-percent">' + percent + '%</span>';
-    html += '    </div>';
-    html += '    <div class="progress-status ' + statusClass + '">';
-    html += '      <span>' + statusIcon + '</span>';
-    html += '      <span>' + statusText + '</span>';
-    html += '    </div>';    html += '    <div class="progress-action">';
-    if (completed) {
-      html += '      <button class="btn btn-primary" onclick="viewResults(\'' + quiz.id + '\')">👁️ Ver Resultados</button>';
-    } else {
-      html += '      <button class="btn btn-primary" onclick="openQuiz(\'' + quiz.id + '\')">' + actionText + '</button>';
-    }
-    html += '    </div>';
-    html += '  </div>';
-    html += '</div>';
   }
-  
-  grid.innerHTML = html;
 }
 
 // ================================
