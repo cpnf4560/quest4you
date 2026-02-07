@@ -647,7 +647,7 @@ async function loadResults() {
   }
   
   // Filter out invalid keys (like user IDs that got saved incorrectly)
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   const resultIds = Object.keys(allResults).filter(key => {
     // Only keep valid quiz IDs
     if (validQuizIds.includes(key)) return true;
@@ -798,7 +798,7 @@ function getQuizCount() {
   const results = window.profileResults || userData?.quizResults || {};
   
   // Filter valid quiz IDs
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   const validResults = Object.keys(results).filter(key => validQuizIds.includes(key));
   
   return validResults.length;
@@ -973,7 +973,10 @@ const QUIZ_META = {
   bdsm: { name: "BDSM & Dinâmicas de Poder", icon: "🎭", color: "#7B1FA2" },
   adventure: { name: "Aventura Sexual", icon: "🎲", color: "#FF5722" },
   fantasies: { name: "Fantasias Secretas", icon: "🔮", color: "#E91E63" },
-  exhibitionism: { name: "Exibicionismo & Admiração", icon: "📸", color: "#FFC107" }
+  exhibitionism: { name: "Exibicionismo & Admiração", icon: "📸", color: "#FFC107" },
+  communication: { name: "Comunicação Sexual", icon: "💬", color: "#4CAF50" },
+  intimacy: { name: "Intimidade Emocional", icon: "💝", color: "#E91E63" },
+  rhythm: { name: "Ritmo & Frequência", icon: "⏱️", color: "#FF9800" }
 };
 
 async function viewResult(quizId) {
@@ -1160,7 +1163,7 @@ function viewFullReport() {
   const allResults = window.profileResults || userData?.quizResults || {};
   
   // Filter valid quiz IDs
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   const resultIds = Object.keys(allResults).filter(key => validQuizIds.includes(key));
   
   if (resultIds.length < 2) {
@@ -1358,7 +1361,7 @@ function closeFullReport() {
 
 function shareFullReport() {
   const allResults = window.profileResults || {};
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   const count = Object.keys(allResults).filter(k => validQuizIds.includes(k)).length;
   
   const text = '🎯 O meu perfil Quest4You!\n\nCompletei ' + count + ' questionários de autoconhecimento.\n\nDescobre o teu perfil também em quest4you.com';

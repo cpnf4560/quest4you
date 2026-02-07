@@ -1,0 +1,278 @@
+{
+  "id": "communication",
+  "name": "Comunicação Sexual",
+  "icon": "💬",
+  "color": "#4caf50",
+  "description": "Descobre como comunicas os teus desejos, limites e fantasias na intimidade",
+  "resultType": "spectrum",
+  "spectrum": {
+    "low": {
+      "label": "Reservado",
+      "emoji": "🔇",
+      "description": "Preferes comunicação subtil e não-verbal. Expressas-te mais através de gestos e olhares do que palavras."
+    },
+    "high": {
+      "label": "Comunicador Aberto",
+      "emoji": "📢",
+      "description": "Falas abertamente sobre tudo. Acreditas que a comunicação clara é a chave para uma vida sexual plena."
+    }
+  },
+  "questions": [
+    {
+      "id": "comm_1",
+      "text": "Se algo não me está a agradar durante o sexo, consigo dizê-lo no momento sem estragar o clima.",
+      "category": "expressar_limites"
+    },
+    {
+      "id": "comm_2",
+      "text": "Já iniciei conversas sobre sexo durante um jantar ou passeio, fora do contexto íntimo.",
+      "category": "iniciar_conversas"
+    },
+    {
+      "id": "comm_3",
+      "text": "Quando tenho uma fantasia nova, partilho-a mesmo sem saber como o outro vai reagir.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "comm_4",
+      "text": "Digo frases como 'assim mesmo' ou 'mais devagar' durante o sexo para guiar o parceiro.",
+      "category": "feedback_durante"
+    },
+    {
+      "id": "comm_5",
+      "text": "Consigo perguntar diretamente 'O que é que te excita?' sem me sentir estranho/a.",
+      "category": "iniciar_conversas"
+    },
+    {
+      "id": "comm_6",
+      "text": "Prefiro mostrar o que quero através de gestos do que explicar por palavras.",
+      "category": "estilo_comunicacao",
+      "reverse": true
+    },
+    {
+      "id": "comm_7",
+      "text": "Se o sexo não foi bom, consigo falar sobre isso depois de forma construtiva.",
+      "category": "resolver_problemas"
+    },
+    {
+      "id": "comm_8",
+      "text": "Já enviei mensagens a descrever o que gostava de fazer antes de um encontro.",
+      "category": "antecipar_desejos"
+    },
+    {
+      "id": "comm_9",
+      "text": "Sinto-me confortável a dizer 'não' ou 'agora não me apetece' sem dar grandes explicações.",
+      "category": "expressar_limites"
+    },
+    {
+      "id": "comm_10",
+      "text": "Pergunto ativamente se o parceiro está a gostar, em vez de assumir que sim.",
+      "category": "ouvir_parceiro"
+    },
+    {
+      "id": "comm_11",
+      "text": "Consigo falar sobre as minhas inseguranças sexuais com alguém de confiança.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "comm_12",
+      "text": "Uso humor para quebrar o gelo quando quero falar de algo mais 'picante'.",
+      "category": "iniciar_conversas"
+    },
+    {
+      "id": "comm_13",
+      "text": "Quando descubro algo novo que gosto, partilho essa descoberta com entusiasmo.",
+      "category": "partilhar_descobertas"
+    },
+    {
+      "id": "comm_14",
+      "text": "Presto atenção aos suspiros, tensão muscular e respiração do parceiro como feedback.",
+      "category": "ouvir_parceiro"
+    },
+    {
+      "id": "comm_15",
+      "text": "Tenho dificuldade em pedir exatamente o que quero — parece-me demasiado direto.",
+      "category": "expressar_desejos",
+      "reverse": true
+    },
+    {
+      "id": "comm_16",
+      "text": "Já criei uma 'lista de desejos' ou falei sobre fantasias de forma estruturada com um parceiro.",
+      "category": "antecipar_desejos"
+    },
+    {
+      "id": "comm_17",
+      "text": "Se algo correr mal ou for estranho, consigo rir da situação em vez de ficar em silêncio constrangido.",
+      "category": "resolver_problemas"
+    },
+    {
+      "id": "comm_18",
+      "text": "Dou feedback positivo específico ('adorei quando fizeste X') em vez de apenas 'foi bom'.",
+      "category": "feedback_durante"
+    },
+    {
+      "id": "comm_19",
+      "text": "Sinto que algumas coisas são mais fáceis de fazer do que de pedir.",
+      "category": "expressar_desejos",
+      "reverse": true
+    },
+    {
+      "id": "comm_20",
+      "text": "Consigo expressar quando quero mais intimidade emocional e não apenas física.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "comm_21",
+      "text": "Faço check-ins durante práticas mais intensas: 'Está tudo bem?' ou 'Queres continuar?'",
+      "category": "ouvir_parceiro"
+    },
+    {
+      "id": "comm_22",
+      "text": "Já sugeri ver conteúdo erótico juntos para iniciar uma conversa sobre preferências.",
+      "category": "iniciar_conversas"
+    },
+    {
+      "id": "comm_23",
+      "text": "Quando algo me magoa (física ou emocionalmente), digo imediatamente.",
+      "category": "expressar_limites"
+    },
+    {
+      "id": "comm_24",
+      "text": "Prefiro que o parceiro adivinhe o que quero através da 'química'.",
+      "category": "estilo_comunicacao",
+      "reverse": true
+    },
+    {
+      "id": "comm_25",
+      "text": "Depois do sexo, gosto de conversar sobre o que correu bem ou o que podíamos explorar.",
+      "category": "resolver_problemas"
+    },
+    {
+      "id": "comm_26",
+      "text": "Consigo articular a diferença entre o que 'tolero', o que 'gosto' e o que 'adoro'.",
+      "category": "expressar_desejos"
+    },
+    {
+      "id": "comm_27",
+      "text": "Fico desconfortável quando o parceiro fala muito durante o sexo.",
+      "category": "estilo_comunicacao",
+      "reverse": true
+    },
+    {
+      "id": "comm_28",
+      "text": "Sei explicar porque é que certas coisas me excitam, não apenas que me excitam.",
+      "category": "autoconhecimento"
+    },
+    {
+      "id": "comm_29",
+      "text": "Uso palavras de segurança (safe words) ou sinais quando exploro práticas mais intensas.",
+      "category": "expressar_limites"
+    },
+    {
+      "id": "comm_30",
+      "text": "Já mudei de opinião sobre um limite e comuniquei essa mudança ao parceiro.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "comm_31",
+      "text": "Consigo distinguir entre o que quero experimentar uma vez e o que quero regularmente.",
+      "category": "autoconhecimento"
+    },
+    {
+      "id": "comm_32",
+      "text": "Faço perguntas abertas como 'O que gostavas de experimentar?' em vez de sim/não.",
+      "category": "ouvir_parceiro"
+    },
+    {
+      "id": "comm_33",
+      "text": "Partilho artigos, vídeos ou ideias sobre sexualidade com parceiros para abrir diálogo.",
+      "category": "partilhar_descobertas"
+    },
+    {
+      "id": "comm_34",
+      "text": "Quando estou stressado/a ou distraído/a, comunico isso em vez de forçar intimidade.",
+      "category": "expressar_limites"
+    },
+    {
+      "id": "comm_35",
+      "text": "Sei pedir o que quero de forma sedutora, não como uma lista de compras.",
+      "category": "expressar_desejos"
+    },
+    {
+      "id": "comm_36",
+      "text": "Já tive conversas sobre ISTs, contraceção ou saúde sexual de forma tranquila.",
+      "category": "conversas_dificeis"
+    },
+    {
+      "id": "comm_37",
+      "text": "Consigo receber críticas ou sugestões sobre a minha performance sem ficar defensivo/a.",
+      "category": "ouvir_parceiro"
+    },
+    {
+      "id": "comm_38",
+      "text": "Expresso gratidão e apreciação depois de momentos íntimos especiais.",
+      "category": "feedback_durante"
+    },
+    {
+      "id": "comm_39",
+      "text": "Se há uma incompatibilidade sexual, consigo discuti-la como um problema do 'nós' e não do 'tu'.",
+      "category": "resolver_problemas"
+    },
+    {
+      "id": "comm_40",
+      "text": "Sinto que falar demasiado sobre sexo tira a espontaneidade.",
+      "category": "estilo_comunicacao",
+      "reverse": true
+    },
+    {
+      "id": "comm_41",
+      "text": "Consigo iniciar sexo de forma verbal ('Apetecia-me...') e não apenas física.",
+      "category": "iniciar_conversas"
+    },
+    {
+      "id": "comm_42",
+      "text": "Adapto a forma como comunico conforme o parceiro — alguns precisam de mais palavras que outros.",
+      "category": "ouvir_parceiro"
+    },
+    {
+      "id": "comm_43",
+      "text": "Já recusei algo que não me apetecia mesmo quando senti pressão para aceitar.",
+      "category": "expressar_limites"
+    },
+    {
+      "id": "comm_44",
+      "text": "Falo sobre o que aprendi com experiências passadas sem criar desconforto.",
+      "category": "partilhar_descobertas"
+    },
+    {
+      "id": "comm_45",
+      "text": "Consigo ser específico/a sobre o tipo de toque, velocidade ou intensidade que prefiro.",
+      "category": "expressar_desejos"
+    },
+    {
+      "id": "comm_46",
+      "text": "Verifico se o consentimento se mantém ao longo do encontro, não apenas no início.",
+      "category": "ouvir_parceiro"
+    },
+    {
+      "id": "comm_47",
+      "text": "Expresso quando preciso de uma pausa ou de abrandar sem sentir que 'estraguei o momento'.",
+      "category": "expressar_limites"
+    },
+    {
+      "id": "comm_48",
+      "text": "Partilho quando algo foi particularmente especial ou significativo para mim.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "comm_49",
+      "text": "Consigo ter conversas sobre sexo com amigos próximos para trocar perspetivas.",
+      "category": "conversas_dificeis"
+    },
+    {
+      "id": "comm_50",
+      "text": "Acredito que falar abertamente sobre sexo fortalece a relação em vez de a complicar.",
+      "category": "autoconhecimento"
+    }
+  ]
+}

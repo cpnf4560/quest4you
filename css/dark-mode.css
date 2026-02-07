@@ -2492,3 +2492,107 @@ textarea,
   border: none !important;
   color: #fff !important;
 }
+
+/* =========================================
+   FULL REPORT MODAL (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .full-report-modal {
+  background: rgba(0, 0, 0, 0.9) !important;
+}
+
+[data-theme="dark"] .full-report-content {
+  background: #161b22 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .full-report-content .result-close {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .full-report-content .result-close:hover {
+  background: #30363d !important;
+}
+
+[data-theme="dark"] .full-report-body {
+  background: #161b22 !important;
+}
+
+[data-theme="dark"] .full-report-actions {
+  background: #0d1117 !important;
+  border-top-color: #30363d !important;
+}
+
+[data-theme="dark"] .report-section-title {
+  color: #f0f6fc !important;
+  border-bottom-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .report-stat-card {
+  background: #21262d !important;
+  border-color: #30363d !important;
+}
+
+[data-theme="dark"] .report-stat-value {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .report-stat-label {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .report-quiz-name {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .report-score-bar-container {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .report-score-value {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .report-detail-card {
+  border-color: #30363d !important;
+}
+
+[data-theme="dark"] .report-detail-body {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .report-detail-score {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .report-detail-category {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .report-mini-bar span:first-child {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .report-mini-bar-bg {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .report-mini-bar span:last-child {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .report-detail-date {
+  color: #6e7681 !important;
+}
+
+[data-theme="dark"] .report-profile-summary {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .report-profile-text {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .report-highlights h4 {
+  color: #f0f6fc !important;
+}

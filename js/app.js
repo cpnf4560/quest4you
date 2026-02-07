@@ -88,6 +88,33 @@ const QUIZZES_CONFIG = [
     description: "O prazer de mostrar, ser admirado/a e apreciar a beleza de outras pessoas",
     questions: 50,
     resultType: "spectrum"
+  },
+  {
+    id: "communication",
+    name: "Comunicação Sexual",
+    icon: "💬",
+    color: "#4CAF50",
+    description: "Descobre como comunicas os teus desejos, limites e fantasias com o/a parceiro/a",
+    questions: 50,
+    resultType: "spectrum"
+  },
+  {
+    id: "intimacy",
+    name: "Intimidade Emocional",
+    icon: "💝",
+    color: "#E91E63",
+    description: "Explora a ligação emocional como base da satisfação sexual e conexão profunda",
+    questions: 50,
+    resultType: "spectrum"
+  },
+  {
+    id: "rhythm",
+    name: "Ritmo & Frequência",
+    icon: "⏱️",
+    color: "#FF9800",
+    description: "Descobre os teus padrões ideais de frequência, timing e energia sexual",
+    questions: 50,
+    resultType: "spectrum"
   }
 ];
 
@@ -224,7 +251,7 @@ async function loadUserProgress() {
   if (!currentUser) return;
   
   // Valid quiz IDs
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   
   // Load from cloud via CloudSync
   if (window.CloudSync) {

@@ -630,7 +630,7 @@ async function migrateFromLocalStorage(userId) {
   let migrated = 0;
   
   // Valid quiz IDs
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism'];
+  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   
   for (const [quizId, result] of Object.entries(localResults)) {
     // Skip invalid quiz IDs
