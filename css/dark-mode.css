@@ -2320,8 +2320,46 @@ textarea,
   color: #c9d1d9 !important;
 }
 
+[data-theme="dark"] .result-body {
+  background: #1c2128 !important;
+}
+
+[data-theme="dark"] .result-score-circle {
+  background: linear-gradient(135deg, #21262d, #2d333b) !important;
+  border-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .result-score-value {
+  color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .result-score-label {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .result-description {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .result-breakdown-item {
+  background: #21262d !important;
+}
+
+[data-theme="dark"] .result-breakdown-label {
+  color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .result-breakdown-bar {
+  background: #30363d !important;
+}
+
 [data-theme="dark"] .result-details {
   color: #c9d1d9 !important;
+}
+
+[data-theme="dark"] .result-actions {
+  background: #161b22 !important;
+  border-top: 1px solid #30363d !important;
 }
 
 [data-theme="dark"] .breakdown-item {
