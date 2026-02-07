@@ -531,6 +531,40 @@
   color: #c9d1d9 !important;
 }
 
+/* Likert Scale Buttons */
+[data-theme="dark"] .likert-btn {
+  background: #21262d !important;
+  border-color: #30363d !important;
+}
+
+[data-theme="dark"] .likert-btn:hover {
+  background: #2d333b !important;
+  border-color: #ff6b8a !important;
+}
+
+[data-theme="dark"] .likert-number {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .likert-btn.selected {
+  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+  border-color: transparent !important;
+}
+
+[data-theme="dark"] .likert-btn.selected .likert-number {
+  color: white !important;
+}
+
+[data-theme="dark"] .likert-label-left,
+[data-theme="dark"] .likert-label-right {
+  color: #8b949e !important;
+}
+
+[data-theme="dark"] .question-card {
+  background: #1c2128 !important;
+  border-color: #30363d !important;
+}
+
 /* =========================================
    INDEX/HOME PAGE - Dark Mode
    ========================================= */

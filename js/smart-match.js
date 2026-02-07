@@ -317,15 +317,21 @@ async function loadMatches() {
 function applyFilters() {
   const genderFilter = document.getElementById('filterGender').value;
   const minCompat = parseInt(document.getElementById('filterMinCompat').value) || 0;
+  
+  // In early phase (few users), show everyone regardless of compatibility filter
+  // This helps users see all potential matches when the community is small
+  const EARLY_PHASE_THRESHOLD = 50; // Show all if less than 50 total users
+  const isEarlyPhase = allMatches.length < EARLY_PHASE_THRESHOLD;
 
   filteredMatches = allMatches.filter(match => {
-    // Gender filter
+    // Gender filter always applies
     if (genderFilter && match.gender !== genderFilter) {
       return false;
     }
 
-    // Compatibility filter
-    if (match.compatibility < minCompat) {
+    // Compatibility filter - only apply if we have many users
+    // In early phase, show everyone to help users explore
+    if (!isEarlyPhase && match.compatibility < minCompat) {
       return false;
     }
 
@@ -333,6 +339,14 @@ function applyFilters() {
   });
 
   renderMatches();
+  
+  // Show info message if in early phase and filter would hide users
+  if (isEarlyPhase && minCompat > 0) {
+    const hiddenCount = allMatches.filter(m => m.compatibility < minCompat && (!genderFilter || m.gender === genderFilter)).length;
+    if (hiddenCount > 0) {
+      console.log("ℹ️ Early phase mode: showing all " + filteredMatches.length + " users (filter would hide " + hiddenCount + ")");
+    }
+  }
 }
 
 function updateCompatLabel() {
