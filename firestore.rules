@@ -15,31 +15,29 @@ service cloud.firestore {
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
-    
-    // ================================
+      // ================================
     // VERIFICAÇÃO DE ADMIN (Suporta Quest4You + Quest4Couple)
     // ================================
     
-    // Verifica se existe na coleção admins (partilhada)
+    // Verifica se existe na coleção admins (partilhada) - método principal
     function isAdminByCollection() {
       return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
     
-    // Verifica admin no Quest4You
+    // Fallback: verifica campo isAdmin/role no perfil Quest4You (1 read)
     function isAdminInQuest4You() {
-      return exists(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)) &&
-        (get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.isAdmin == true ||
-         get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid)).data.role == 'admin');
+      let user = get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid));
+      return user != null && (user.data.isAdmin == true || user.data.role == 'admin');
     }
     
-    // Verifica admin no Quest4Couple
+    // Fallback: verifica campo isAdmin/role no perfil Quest4Couple (1 read)
     function isAdminInQuest4Couple() {
-      return exists(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid)) &&
-        (get(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid)).data.isAdmin == true ||
-         get(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid)).data.role == 'admin');
+      let user = get(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid));
+      return user != null && (user.data.isAdmin == true || user.data.role == 'admin');
     }
     
-    // Função principal para verificar admin (ambos os projetos)
+    // Função principal — curto-circuito: admins collection primeiro (1 read),
+    // só vai ao perfil se necessário (máx 3 reads no total)
     function isAdmin() {
       return isAuthenticated() && (isAdminByCollection() || isAdminInQuest4You() || isAdminInQuest4Couple());
     }
