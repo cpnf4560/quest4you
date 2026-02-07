@@ -216,8 +216,10 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       // Utilizadores autenticados podem criar mensagens
       allow create: if isAuthenticated();
-      // Ninguém pode editar/apagar mensagens privadas
-      allow update, delete: if false;
+      // Apenas admins podem apagar mensagens (moderação)
+      allow delete: if isAuthenticated() && isAdmin();
+      // Utilizadores podem atualizar mensagens para marcar como lidas
+      allow update: if isAuthenticated();
     }
     
     // ================================

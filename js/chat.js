@@ -21,6 +21,7 @@ let openingFriendConversation = false;
 let chatFriendsList = [];
 let friendsLoaded = false;
 let currentSidebarTab = 'conversations';
+let isCurrentUserAdmin = false; // Track if current user is admin
 
 // ================================
 // INITIALIZATION
@@ -61,6 +62,9 @@ function handleAuthChange(user) {
   if (user) {
     currentUser = user;
     console.log("User logged in:", user.email);
+    
+    // Check if user is admin
+    checkIfUserIsAdmin(user);
     
     // Initialize notifications
     if (typeof initNotifications === "function") {
@@ -105,6 +109,77 @@ async function logout() {
     console.error("Logout error:", error);
   }
 }
+
+// ================================
+// ADMIN CHECK
+// ================================
+async function checkIfUserIsAdmin(user) {
+  if (!user) {
+    isCurrentUserAdmin = false;
+    return;
+  }
+  
+  // Check by email first
+  if (typeof isAdminEmail === 'function' && isAdminEmail(user.email)) {
+    isCurrentUserAdmin = true;
+    console.log("🔑 Admin detected (by email)");
+    return;
+  }
+  
+  // Check by UID
+  if (typeof ADMIN_CONFIG !== 'undefined' && user.uid === ADMIN_CONFIG.uid) {
+    isCurrentUserAdmin = true;
+    console.log("🔑 Admin detected (by UID)");
+    return;
+  }
+  
+  // Check Firestore for admin status
+  try {
+    const userDoc = await db.collection("quest4you_users").doc(user.uid).get();
+    if (userDoc.exists) {
+      const data = userDoc.data();
+      if (data.isAdmin === true || data.role === 'admin') {
+        isCurrentUserAdmin = true;
+        console.log("🔑 Admin detected (by Firestore)");
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("Could not check admin status in Firestore:", error);
+  }
+  
+  isCurrentUserAdmin = false;
+}
+
+// ================================
+// DELETE MESSAGE (Admin only)
+// ================================
+async function deleteMessage(messageId) {
+  if (!isCurrentUserAdmin) {
+    console.warn("Delete message attempted by non-admin");
+    return;
+  }
+  
+  if (!confirm("Tens a certeza que queres apagar esta mensagem? Esta ação não pode ser desfeita.")) {
+    return;
+  }
+  
+  try {
+    await db.collection("quest4you_messages").doc(messageId).delete();
+    console.log("🗑️ Message deleted:", messageId);
+    
+    // Show success toast if available
+    if (typeof showToast === 'function') {
+      showToast("Mensagem apagada com sucesso", "success");
+    }
+  } catch (error) {
+    console.error("Error deleting message:", error);
+    alert("Erro ao apagar mensagem: " + error.message);
+  }
+}
+
+// Make deleteMessage available globally
+window.deleteMessage = deleteMessage;
 
 // ================================
 // CONVERSATIONS
@@ -653,6 +728,11 @@ function renderMessages(messages) {
       return `<div class="date-separator"><span>${item.date}</span></div>`;
     }
     
+    // Admin delete button (only for non-system messages)
+    const adminDeleteBtn = isCurrentUserAdmin && !item.isSystem 
+      ? `<button class="btn-delete-msg" onclick="deleteMessage('${item.id}')" title="Apagar mensagem (Admin)">🗑️</button>`
+      : '';
+    
     // Mensagem do sistema (boas-vindas)
     if (item.isSystem) {
       return `
@@ -674,6 +754,7 @@ function renderMessages(messages) {
         <div class="message-meta">
           <span class="message-time">${formatMessageTime(item.createdAt)}</span>
           ${item.isSent ? `<span class="message-status ${readStatusClass}">${readStatusIcon}</span>` : ''}
+          ${adminDeleteBtn}
         </div>
       </div>
     `;

@@ -734,6 +734,11 @@
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
+/* Admin delete message button */
+[data-theme="dark"] .btn-delete-msg:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+}
+
 [data-theme="dark"] .chat-input-area {
   background: #161b22 !important;
   border-top: 1px solid #30363d !important;
