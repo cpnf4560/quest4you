@@ -818,6 +818,77 @@ async function retakeQuiz() {
 }
 
 // ================================
+// EDIT ANSWERS (keep answers, go back to review)
+// ================================
+function editAnswers() {
+  // Close the result modal
+  closeResult();
+  
+  // Go to first question (user can navigate with quick-nav)
+  currentQuestion = 0;
+  renderQuestion();
+  renderQuickNav();
+  
+  // Show a helpful toast/message
+  showEditModeMessage();
+}
+
+function showEditModeMessage() {
+  // Create toast notification
+  const toast = document.createElement('div');
+  toast.className = 'edit-mode-toast';
+  toast.innerHTML = `
+    <span>✏️ Modo de edição ativo</span>
+    <p>Navega pelas perguntas e altera as que quiseres. Clica em "Ver Resultado" quando terminares.</p>
+  `;
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+    z-index: 10000;
+    text-align: center;
+    animation: slideUp 0.3s ease-out;
+    max-width: 90%;
+    width: 400px;
+  `;
+  toast.querySelector('span').style.cssText = 'font-weight: 600; font-size: 1.1rem; display: block; margin-bottom: 8px;';
+  toast.querySelector('p').style.cssText = 'margin: 0; font-size: 0.9rem; opacity: 0.9;';
+  
+  // Add animation style if not exists
+  if (!document.getElementById('editModeStyle')) {
+    const style = document.createElement('style');
+    style.id = 'editModeStyle';
+    style.textContent = `
+      @keyframes slideUp {
+        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+      }
+      @keyframes slideDown {
+        from { transform: translateX(-50%) translateY(0); opacity: 1; }
+        to { transform: translateX(-50%) translateY(100px); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  document.body.appendChild(toast);
+  
+  // Remove after 4 seconds
+  setTimeout(function() {
+    toast.style.animation = 'slideDown 0.3s ease-in forwards';
+    setTimeout(function() {
+      toast.remove();
+    }, 300);
+  }, 4000);
+}
+
+// ================================
 // CELEBRATION EFFECT
 // ================================
 function celebrateResult() {
@@ -863,4 +934,5 @@ window.finishQuiz = finishQuiz;
 window.closeResult = closeResult;
 window.shareResult = shareResult;
 window.retakeQuiz = retakeQuiz;
+window.editAnswers = editAnswers;
 window.selectGender = selectGender;
