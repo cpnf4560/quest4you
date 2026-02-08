@@ -202,37 +202,76 @@
           <div class="card-header">
             <h3>📊 Questionários Populares</h3>
           </div>
-          <div class="card-body">
-            <div class="quiz-stats" id="dashboardQuizStats">
+          <div class="card-body">            <div class="quiz-stats" id="dashboardQuizStats">
               <div class="quiz-stat-item" data-quiz="vanilla">
                 <span class="quiz-name">Vanilla ou Kink</span>
                 <div class="quiz-bar" id="bar-vanilla" style="--percent: 0%; --color: #e91e63;"></div>
                 <span class="quiz-percent" id="percent-vanilla">0%</span>
               </div>
               <div class="quiz-stat-item" data-quiz="orientation">
-                <span class="quiz-name">Espectro de Atração</span>
+                <span class="quiz-name">Orientação Sexual</span>
                 <div class="quiz-bar" id="bar-orientation" style="--percent: 0%; --color: #9c27b0;"></div>
                 <span class="quiz-percent" id="percent-orientation">0%</span>
               </div>
-              <div class="quiz-stat-item" data-quiz="kinks">
-                <span class="quiz-name">Fetiches & Parafilias</span>
-                <div class="quiz-bar" id="bar-kinks" style="--percent: 0%; --color: #f44336;"></div>
-                <span class="quiz-percent" id="percent-kinks">0%</span>
-              </div>
-              <div class="quiz-stat-item" data-quiz="swing">
-                <span class="quiz-name">Swing/Poliamor</span>
-                <div class="quiz-bar" id="bar-swing" style="--percent: 0%; --color: #00bcd4;"></div>
-                <span class="quiz-percent" id="percent-swing">0%</span>
-              </div>
               <div class="quiz-stat-item" data-quiz="cuckold">
-                <span class="quiz-name">Stag/Cuckold</span>
+                <span class="quiz-name">Voyeurismo & Partilha</span>
                 <div class="quiz-bar" id="bar-cuckold" style="--percent: 0%; --color: #673ab7;"></div>
                 <span class="quiz-percent" id="percent-cuckold">0%</span>
               </div>
+              <div class="quiz-stat-item" data-quiz="swing">
+                <span class="quiz-name">Swing & Não-Monogamia</span>
+                <div class="quiz-bar" id="bar-swing" style="--percent: 0%; --color: #00bcd4;"></div>
+                <span class="quiz-percent" id="percent-swing">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="kinks">
+                <span class="quiz-name">Fetiches e Parafilias</span>
+                <div class="quiz-bar" id="bar-kinks" style="--percent: 0%; --color: #9c27b0;"></div>
+                <span class="quiz-percent" id="percent-kinks">0%</span>
+              </div>
               <div class="quiz-stat-item" data-quiz="bdsm">
-                <span class="quiz-name">BDSM & Power Play</span>
-                <div class="quiz-bar" id="bar-bdsm" style="--percent: 0%; --color: #795548;"></div>
+                <span class="quiz-name">BDSM & Poder</span>
+                <div class="quiz-bar" id="bar-bdsm" style="--percent: 0%; --color: #4a148c;"></div>
                 <span class="quiz-percent" id="percent-bdsm">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="adventure">
+                <span class="quiz-name">Aventura Sexual</span>
+                <div class="quiz-bar" id="bar-adventure" style="--percent: 0%; --color: #ff5722;"></div>
+                <span class="quiz-percent" id="percent-adventure">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="fantasies">
+                <span class="quiz-name">Fantasias Secretas</span>
+                <div class="quiz-bar" id="bar-fantasies" style="--percent: 0%; --color: #7b1fa2;"></div>
+                <span class="quiz-percent" id="percent-fantasies">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="exhibitionism">
+                <span class="quiz-name">Exibicionismo & Voyeurismo</span>
+                <div class="quiz-bar" id="bar-exhibitionism" style="--percent: 0%; --color: #ff9800;"></div>
+                <span class="quiz-percent" id="percent-exhibitionism">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="communication">
+                <span class="quiz-name">Comunicação Sexual</span>
+                <div class="quiz-bar" id="bar-communication" style="--percent: 0%; --color: #2196f3;"></div>
+                <span class="quiz-percent" id="percent-communication">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="intimacy">
+                <span class="quiz-name">Intimidade & Conexão</span>
+                <div class="quiz-bar" id="bar-intimacy" style="--percent: 0%; --color: #e91e63;"></div>
+                <span class="quiz-percent" id="percent-intimacy">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="rhythm">
+                <span class="quiz-name">Ritmo & Frequência</span>
+                <div class="quiz-bar" id="bar-rhythm" style="--percent: 0%; --color: #009688;"></div>
+                <span class="quiz-percent" id="percent-rhythm">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="lifestyle">
+                <span class="quiz-name">Valores & Estilo de Vida</span>
+                <div class="quiz-bar" id="bar-lifestyle" style="--percent: 0%; --color: #4caf50;"></div>
+                <span class="quiz-percent" id="percent-lifestyle">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="digital">
+                <span class="quiz-name">Comunicação & Tecnologia</span>
+                <div class="quiz-bar" id="bar-digital" style="--percent: 0%; --color: #607d8b;"></div>
+                <span class="quiz-percent" id="percent-digital">0%</span>
               </div>
             </div>
           </div>
@@ -277,16 +316,15 @@
           <button class="btn btn-outline" onclick="loadQuizzesData()">🔄 Atualizar</button>
         </div>
       </div>
-      
-      <div class="quizzes-admin-grid" id="quizzesGrid">
-        <!-- Vanilla ou Kink -->
+        <div class="quizzes-admin-grid" id="quizzesGrid">
+        <!-- 1. Vanilla ou Kink -->
         <div class="quiz-admin-card" data-quiz="vanilla">
           <div class="quiz-admin-header" style="background: linear-gradient(135deg, #e91e63, #c2185b);">
             <span class="quiz-admin-icon">🔥</span>
             <h3>Vanilla ou Kink</h3>
           </div>
           <div class="quiz-admin-body">
-            <p>50 perguntas</p>
+            <p>15 perguntas</p>
             <div class="quiz-admin-stats">
               <span id="vanilla-completed">0 completados</span>
               <span id="vanilla-progress">0 em progresso</span>
@@ -295,14 +333,14 @@
           </div>
         </div>
         
-        <!-- Espectro de Atração -->
+        <!-- 2. Orientação Sexual -->
         <div class="quiz-admin-card" data-quiz="orientation">
           <div class="quiz-admin-header" style="background: linear-gradient(135deg, #9c27b0, #7b1fa2);">
             <span class="quiz-admin-icon">🌈</span>
-            <h3>Espectro de Atração</h3>
+            <h3>Orientação Sexual</h3>
           </div>
           <div class="quiz-admin-body">
-            <p>50 perguntas</p>
+            <p>15 perguntas</p>
             <div class="quiz-admin-stats">
               <span id="orientation-completed">0 completados</span>
               <span id="orientation-progress">0 em progresso</span>
@@ -311,11 +349,43 @@
           </div>
         </div>
         
-        <!-- Fetiches & Parafilias -->
+        <!-- 3. Voyeurismo & Partilha -->
+        <div class="quiz-admin-card" data-quiz="cuckold">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #673ab7, #512da8);">
+            <span class="quiz-admin-icon">👀</span>
+            <h3>Voyeurismo & Partilha</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="cuckold-completed">0 completados</span>
+              <span id="cuckold-progress">0 em progresso</span>
+              <span id="cuckold-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 4. Swing & Não-Monogamia -->
+        <div class="quiz-admin-card" data-quiz="swing">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #00bcd4, #0097a7);">
+            <span class="quiz-admin-icon">💑</span>
+            <h3>Swing & Não-Monogamia</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="swing-completed">0 completados</span>
+              <span id="swing-progress">0 em progresso</span>
+              <span id="swing-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 5. Fetiches e Parafilias -->
         <div class="quiz-admin-card" data-quiz="kinks">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #f44336, #d32f2f);">
-            <span class="quiz-admin-icon">⛓️</span>
-            <h3>Fetiches & Parafilias</h3>
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #9c27b0, #7b1fa2);">
+            <span class="quiz-admin-icon">🎭</span>
+            <h3>Fetiches e Parafilias</h3>
           </div>
           <div class="quiz-admin-body">
             <p>50 perguntas</p>
@@ -327,78 +397,14 @@
           </div>
         </div>
         
-        <!-- Exibicionismo -->
-        <div class="quiz-admin-card" data-quiz="exhibitionism">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #ff9800, #f57c00);">
-            <span class="quiz-admin-icon">👀</span>
-            <h3>Exibicionismo</h3>
-          </div>
-          <div class="quiz-admin-body">
-            <p>50 perguntas</p>
-            <div class="quiz-admin-stats">
-              <span id="exhibitionism-completed">0 completados</span>
-              <span id="exhibitionism-progress">0 em progresso</span>
-              <span id="exhibitionism-rate">0% taxa</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Fantasias Secretas -->
-        <div class="quiz-admin-card" data-quiz="fantasies">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #e040fb, #aa00ff);">
-            <span class="quiz-admin-icon">💭</span>
-            <h3>Fantasias Secretas</h3>
-          </div>
-          <div class="quiz-admin-body">
-            <p>50 perguntas</p>
-            <div class="quiz-admin-stats">
-              <span id="fantasies-completed">0 completados</span>
-              <span id="fantasies-progress">0 em progresso</span>
-              <span id="fantasies-rate">0% taxa</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Swing/Poliamor -->
-        <div class="quiz-admin-card" data-quiz="swing">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #00bcd4, #0097a7);">
-            <span class="quiz-admin-icon">💑</span>
-            <h3>Swing/Poliamor</h3>
-          </div>
-          <div class="quiz-admin-body">
-            <p>50 perguntas</p>
-            <div class="quiz-admin-stats">
-              <span id="swing-completed">0 completados</span>
-              <span id="swing-progress">0 em progresso</span>
-              <span id="swing-rate">0% taxa</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Stag/Hotwife/Cuckold -->
-        <div class="quiz-admin-card" data-quiz="cuckold">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #673ab7, #512da8);">
-            <span class="quiz-admin-icon">🦊</span>
-            <h3>Stag/Hotwife/Cuckold</h3>
-          </div>
-          <div class="quiz-admin-body">
-            <p>50 perguntas</p>
-            <div class="quiz-admin-stats">
-              <span id="cuckold-completed">0 completados</span>
-              <span id="cuckold-progress">0 em progresso</span>
-              <span id="cuckold-rate">0% taxa</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- BDSM & Power Play -->
+        <!-- 6. BDSM & Poder -->
         <div class="quiz-admin-card" data-quiz="bdsm">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #795548, #5d4037);">
-            <span class="quiz-admin-icon">🔗</span>
-            <h3>BDSM & Power Play</h3>
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #4a148c, #311b92);">
+            <span class="quiz-admin-icon">⛓️</span>
+            <h3>BDSM & Poder</h3>
           </div>
           <div class="quiz-admin-body">
-            <p>50 perguntas</p>
+            <p>15 perguntas</p>
             <div class="quiz-admin-stats">
               <span id="bdsm-completed">0 completados</span>
               <span id="bdsm-progress">0 em progresso</span>
@@ -407,18 +413,130 @@
           </div>
         </div>
         
-        <!-- Comunicação Sexual -->
+        <!-- 7. Aventura Sexual -->
+        <div class="quiz-admin-card" data-quiz="adventure">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #ff5722, #e64a19);">
+            <span class="quiz-admin-icon">🚀</span>
+            <h3>Aventura Sexual</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="adventure-completed">0 completados</span>
+              <span id="adventure-progress">0 em progresso</span>
+              <span id="adventure-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 8. Fantasias Secretas -->
+        <div class="quiz-admin-card" data-quiz="fantasies">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #7b1fa2, #6a1b9a);">
+            <span class="quiz-admin-icon">🌙</span>
+            <h3>Fantasias Secretas</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="fantasies-completed">0 completados</span>
+              <span id="fantasies-progress">0 em progresso</span>
+              <span id="fantasies-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 9. Exibicionismo & Voyeurismo -->
+        <div class="quiz-admin-card" data-quiz="exhibitionism">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #ff9800, #f57c00);">
+            <span class="quiz-admin-icon">👁️</span>
+            <h3>Exibicionismo & Voyeurismo</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="exhibitionism-completed">0 completados</span>
+              <span id="exhibitionism-progress">0 em progresso</span>
+              <span id="exhibitionism-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 10. Comunicação Sexual -->
         <div class="quiz-admin-card" data-quiz="communication">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #4caf50, #388e3c);">
-            <span class="quiz-admin-icon">💬</span>
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #2196f3, #1976d2);">
+            <span class="quiz-admin-icon">🗣️</span>
             <h3>Comunicação Sexual</h3>
           </div>
           <div class="quiz-admin-body">
-            <p>50 perguntas</p>
+            <p>15 perguntas</p>
             <div class="quiz-admin-stats">
               <span id="communication-completed">0 completados</span>
               <span id="communication-progress">0 em progresso</span>
               <span id="communication-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 11. Intimidade & Conexão -->
+        <div class="quiz-admin-card" data-quiz="intimacy">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #e91e63, #c2185b);">
+            <span class="quiz-admin-icon">💖</span>
+            <h3>Intimidade & Conexão</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="intimacy-completed">0 completados</span>
+              <span id="intimacy-progress">0 em progresso</span>
+              <span id="intimacy-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 12. Ritmo & Frequência -->
+        <div class="quiz-admin-card" data-quiz="rhythm">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #009688, #00796b);">
+            <span class="quiz-admin-icon">⏱️</span>
+            <h3>Ritmo & Frequência</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="rhythm-completed">0 completados</span>
+              <span id="rhythm-progress">0 em progresso</span>
+              <span id="rhythm-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 13. Valores & Estilo de Vida Sexual -->
+        <div class="quiz-admin-card" data-quiz="lifestyle">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #4caf50, #388e3c);">
+            <span class="quiz-admin-icon">🌍</span>
+            <h3>Valores & Estilo de Vida</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="lifestyle-completed">0 completados</span>
+              <span id="lifestyle-progress">0 em progresso</span>
+              <span id="lifestyle-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 14. Comunicação & Tecnologia Íntima -->
+        <div class="quiz-admin-card" data-quiz="digital">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #607d8b, #455a64);">
+            <span class="quiz-admin-icon">📱</span>
+            <h3>Comunicação & Tecnologia</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="digital-completed">0 completados</span>
+              <span id="digital-progress">0 em progresso</span>
+              <span id="digital-rate">0% taxa</span>
             </div>
           </div>
         </div>

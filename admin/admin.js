@@ -428,18 +428,22 @@ async function loadRecentActivity() {
 async function loadQuizStatistics() {
   try {
     const snapshot = await db.collection('quest4you_users').get();
-    
-    // Contadores por questionário
+      // Contadores por questionário
     const quizStats = {
       vanilla: 0,
       orientation: 0,
-      kinks: 0,
-      exhibitionism: 0,
-      fantasies: 0,
-      swing: 0,
       cuckold: 0,
+      swing: 0,
+      kinks: 0,
       bdsm: 0,
-      communication: 0
+      adventure: 0,
+      fantasies: 0,
+      exhibitionism: 0,
+      communication: 0,
+      intimacy: 0,
+      rhythm: 0,
+      lifestyle: 0,
+      digital: 0
     };
     
     const totalUsers = snapshot.size;
@@ -684,17 +688,21 @@ async function viewUser(userId) {
     // Progresso dos Questionários
     info += `📊 PROGRESSO DOS QUESTIONÁRIOS\n`;
     info += `━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    
-    const quizNames = {
+      const quizNames = {
       vanilla: 'Vanilla ou Kink',
-      orientation: 'Espectro de Atração',
-      kinks: 'Fetiches & Parafilias',
-      exhibitionism: 'Exibicionismo',
+      orientation: 'Orientação Sexual',
+      cuckold: 'Voyeurismo & Partilha',
+      swing: 'Swing & Não-Monogamia',
+      kinks: 'Fetiches e Parafilias',
+      bdsm: 'BDSM & Poder',
+      adventure: 'Aventura Sexual',
       fantasies: 'Fantasias Secretas',
-      swing: 'Swing/Poliamor',
-      cuckold: 'Stag/Hotwife/Cuckold',
-      bdsm: 'BDSM & Power Play',
-      communication: 'Comunicação Sexual'
+      exhibitionism: 'Exibicionismo & Voyeurismo',
+      communication: 'Comunicação Sexual',
+      intimacy: 'Intimidade & Conexão',
+      rhythm: 'Ritmo & Frequência',
+      lifestyle: 'Valores & Estilo de Vida',
+      digital: 'Comunicação & Tecnologia'
     };
     
     if (data.progress) {
@@ -834,18 +842,22 @@ async function loadQuizzesData() {
   try {
     console.log('🔄 Loading quiz statistics...');
     const snapshot = await db.collection('quest4you_users').get();
-    
-    // Contadores por questionário
+      // Contadores por questionário
     const quizStats = {
       vanilla: { completed: 0, inProgress: 0 },
       orientation: { completed: 0, inProgress: 0 },
-      kinks: { completed: 0, inProgress: 0 },
-      exhibitionism: { completed: 0, inProgress: 0 },
-      fantasies: { completed: 0, inProgress: 0 },
-      swing: { completed: 0, inProgress: 0 },
       cuckold: { completed: 0, inProgress: 0 },
+      swing: { completed: 0, inProgress: 0 },
+      kinks: { completed: 0, inProgress: 0 },
       bdsm: { completed: 0, inProgress: 0 },
-      communication: { completed: 0, inProgress: 0 }
+      adventure: { completed: 0, inProgress: 0 },
+      fantasies: { completed: 0, inProgress: 0 },
+      exhibitionism: { completed: 0, inProgress: 0 },
+      communication: { completed: 0, inProgress: 0 },
+      intimacy: { completed: 0, inProgress: 0 },
+      rhythm: { completed: 0, inProgress: 0 },
+      lifestyle: { completed: 0, inProgress: 0 },
+      digital: { completed: 0, inProgress: 0 }
     };
     
     const totalUsers = snapshot.size;
@@ -934,18 +946,22 @@ async function loadResultsData() {
       quizData: {},
       distributions: {}
     };
-    
-    // Nomes dos questionários
+      // Nomes dos questionários
     const quizNames = {
       vanilla: { name: 'Vanilla ou Kink', icon: '🔥', color: '#e91e63' },
-      orientation: { name: 'Espectro de Atração', icon: '🌈', color: '#9c27b0' },
-      kinks: { name: 'Fetiches & Parafilias', icon: '⛓️', color: '#f44336' },
-      exhibitionism: { name: 'Exibicionismo', icon: '👀', color: '#ff9800' },
-      fantasies: { name: 'Fantasias Secretas', icon: '💭', color: '#e040fb' },
-      swing: { name: 'Swing/Poliamor', icon: '💑', color: '#00bcd4' },
-      cuckold: { name: 'Stag/Hotwife/Cuckold', icon: '🦊', color: '#673ab7' },
-      bdsm: { name: 'BDSM & Power Play', icon: '🔗', color: '#795548' },
-      communication: { name: 'Comunicação Sexual', icon: '💬', color: '#4caf50' }
+      orientation: { name: 'Orientação Sexual', icon: '🌈', color: '#9c27b0' },
+      cuckold: { name: 'Voyeurismo & Partilha', icon: '👀', color: '#673ab7' },
+      swing: { name: 'Swing & Não-Monogamia', icon: '💑', color: '#00bcd4' },
+      kinks: { name: 'Fetiches e Parafilias', icon: '🎭', color: '#9c27b0' },
+      bdsm: { name: 'BDSM & Poder', icon: '⛓️', color: '#4a148c' },
+      adventure: { name: 'Aventura Sexual', icon: '🚀', color: '#ff5722' },
+      fantasies: { name: 'Fantasias Secretas', icon: '🌙', color: '#7b1fa2' },
+      exhibitionism: { name: 'Exibicionismo & Voyeurismo', icon: '👁️', color: '#ff9800' },
+      communication: { name: 'Comunicação Sexual', icon: '🗣️', color: '#2196f3' },
+      intimacy: { name: 'Intimidade & Conexão', icon: '💖', color: '#e91e63' },
+      rhythm: { name: 'Ritmo & Frequência', icon: '⏱️', color: '#009688' },
+      lifestyle: { name: 'Valores & Estilo de Vida', icon: '🌍', color: '#4caf50' },
+      digital: { name: 'Comunicação & Tecnologia', icon: '📱', color: '#607d8b' }
     };
     
     // Inicializar dados dos questionários
@@ -2197,15 +2213,19 @@ let usersCache = [];
 // Quiz configurations
 const QUIZ_CONFIG = {
   vanilla: { name: 'Vanilla ou Kink', icon: '🔥', color: '#e91e63' },
-  orientation: { name: 'Espectro de Atração', icon: '🌈', color: '#9c27b0' },
-  kinks: { name: 'Fetiches & Parafilias', icon: '⛓️', color: '#f44336' },
-  exhibitionism: { name: 'Exibicionismo', icon: '👀', color: '#ff9800' },
-  fantasies: { name: 'Fantasias Secretas', icon: '💭', color: '#e040fb' },
-  swing: { name: 'Swing/Poliamor', icon: '💑', color: '#00bcd4' },
-  cuckold: { name: 'Stag/Hotwife/Cuckold', icon: '🦊', color: '#673ab7' },
-  bdsm: { name: 'BDSM & Power Play', icon: '🔗', color: '#795548' },
-  communication: { name: 'Comunicação Sexual', icon: '💬', color: '#4caf50' },
-  adventure: { name: 'Aventura Sexual', icon: '🎢', color: '#ff5722' }
+  orientation: { name: 'Orientação Sexual', icon: '🌈', color: '#9c27b0' },
+  cuckold: { name: 'Voyeurismo & Partilha', icon: '👀', color: '#673ab7' },
+  swing: { name: 'Swing & Não-Monogamia', icon: '💑', color: '#00bcd4' },
+  kinks: { name: 'Fetiches e Parafilias', icon: '🎭', color: '#9c27b0' },
+  bdsm: { name: 'BDSM & Poder', icon: '⛓️', color: '#4a148c' },
+  adventure: { name: 'Aventura Sexual', icon: '🚀', color: '#ff5722' },
+  fantasies: { name: 'Fantasias Secretas', icon: '🌙', color: '#7b1fa2' },
+  exhibitionism: { name: 'Exibicionismo & Voyeurismo', icon: '👁️', color: '#ff9800' },
+  communication: { name: 'Comunicação Sexual', icon: '🗣️', color: '#2196f3' },
+  intimacy: { name: 'Intimidade & Conexão', icon: '💖', color: '#e91e63' },
+  rhythm: { name: 'Ritmo & Frequência', icon: '⏱️', color: '#009688' },
+  lifestyle: { name: 'Valores & Estilo de Vida', icon: '🌍', color: '#4caf50' },
+  digital: { name: 'Comunicação & Tecnologia', icon: '📱', color: '#607d8b' }
 };
 
 // Carregar a secção de respostas por utilizador
