@@ -129,11 +129,11 @@ async function deleteMatchFromHistory(matchId) {
   
   try {
     await db.collection("quest4you_match_history").doc(matchId).delete();
-    showToast('Match removido do histórico', 'info');
+    showToast(t('matchHistory.matchRemoved'), 'info');
     return true;
   } catch (error) {
     console.error('Error deleting match:', error);
-    showToast('Erro ao remover match', 'error');
+    showToast(t('matchHistory.removeError'), 'error');
     return false;
   }
 }
@@ -201,9 +201,9 @@ function renderMatchHistory(matches, containerId = 'matchHistoryList') {
     container.innerHTML = `
       <div class="empty-history">
         <span class="empty-icon">💫</span>
-        <h4>Sem matches ainda</h4>
-        <p>Usa o Smart Match para encontrar pessoas compatíveis!</p>
-        <a href="./smart-match.html" class="btn btn-primary">💕 Ir para Smart Match</a>
+        <h4>${t('matchHistory.noMatches')}</h4>
+        <p>${t('matchHistory.useSmartMatch')}</p>
+        <a href="./smart-match.html" class="btn btn-primary">💕 ${t('matchHistory.goToSmartMatch')}</a>
       </div>
     `;
     return;
@@ -219,7 +219,7 @@ function renderMatchHistory(matches, containerId = 'matchHistoryList') {
       </div>
       <div class="match-history-info">
         <div class="match-history-header">
-          <span class="match-name">${escapeHtml(match.matchedUserName || 'Utilizador')}</span>
+          <span class="match-name">${escapeHtml(match.matchedUserName || t('profile.defaultUserName'))}</span>
           ${match.matchedUserNickname ? `<span class="match-nickname">${escapeHtml(match.matchedUserNickname)}</span>` : ''}
         </div>
         <div class="match-compatibility">
@@ -234,15 +234,15 @@ function renderMatchHistory(matches, containerId = 'matchHistoryList') {
       </div>
       <div class="match-history-actions">
         ${match.isFriend 
-          ? `<span class="friend-badge">👥 Amigos</span>`
+          ? `<span class="friend-badge">👥 ${t('matchHistory.friends')}</span>`
           : `<button class="btn btn-sm btn-primary" onclick="sendFriendRequestFromHistory('${match.matchedUserId}', '${match.id}')">
-               ➕ Adicionar
+               ➕ ${t('matchHistory.add')}
              </button>`
         }
-        <button class="btn btn-sm btn-icon" onclick="showMatchDetails('${match.id}')" title="Ver detalhes">
+        <button class="btn btn-sm btn-icon" onclick="showMatchDetails('${match.id}')" title="${t('matchHistory.viewDetails')}">
           ℹ️
         </button>
-        <button class="btn btn-sm btn-icon" onclick="confirmDeleteMatch('${match.id}')" title="Remover">
+        <button class="btn btn-sm btn-icon" onclick="confirmDeleteMatch('${match.id}')" title="${t('matchHistory.remove')}">
           🗑️
         </button>
       </div>
@@ -260,12 +260,12 @@ function formatMatchDate(date) {
   const diff = now - date;
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   
-  if (days === 0) return 'Hoje';
-  if (days === 1) return 'Ontem';
-  if (days < 7) return `Há ${days} dias`;
-  if (days < 30) return `Há ${Math.floor(days / 7)} semanas`;
+  if (days === 0) return t('matchHistory.today');
+  if (days === 1) return t('matchHistory.yesterday');
+  if (days < 7) return t('matchHistory.daysAgo', {days: days});
+  if (days < 30) return t('matchHistory.weeksAgo', {weeks: Math.floor(days / 7)});
   
-  return date.toLocaleDateString('pt-PT', { day: 'numeric', month: 'short' });
+  return date.toLocaleDateString(I18n.getCurrentLang(), { day: 'numeric', month: 'short' });
 }
 
 /**
@@ -284,7 +284,7 @@ async function sendFriendRequestFromHistory(userId, matchId) {
       renderMatchHistory(history);
     }
   } else {
-    showToast('Funcionalidade de amizades não disponível', 'warning');
+    showToast(t('matchHistory.friendsNotAvailable'), 'warning');
   }
 }
 
@@ -295,7 +295,7 @@ async function showMatchDetails(matchId) {
   try {
     const doc = await db.collection("quest4you_match_history").doc(matchId).get();
     if (!doc.exists) {
-      showToast('Match não encontrado', 'error');
+      showToast(t('matchHistory.matchNotFound'), 'error');
       return;
     }
     
@@ -314,7 +314,7 @@ async function showMatchDetails(matchId) {
       <div class="modal-overlay" onclick="closeMatchDetailsModal()"></div>
       <div class="modal-content">
         <div class="modal-header">
-          <h3>💕 Detalhes do Match</h3>
+          <h3>💕 ${t('matchHistory.matchDetails')}</h3>
           <button class="modal-close" onclick="closeMatchDetailsModal()">×</button>
         </div>
         <div class="modal-body">
@@ -325,18 +325,18 @@ async function showMatchDetails(matchId) {
                 : `<span class="avatar-placeholder">${match.matchedUserName?.charAt(0) || '?'}</span>`
               }
             </div>
-            <h4>${escapeHtml(match.matchedUserName || 'Utilizador')}</h4>
+            <h4>${escapeHtml(match.matchedUserName || t('profile.defaultUserName'))}</h4>
             ${match.matchedUserNickname ? `<p>${escapeHtml(match.matchedUserNickname)}</p>` : ''}
           </div>
           
           <div class="match-detail-score">
             <div class="big-score">${match.compatibilityScore || 0}%</div>
-            <span>Compatibilidade</span>
+            <span>${t('matchHistory.compatibility')}</span>
           </div>
           
           ${details && Object.keys(details).length > 0 ? `
             <div class="match-detail-breakdown">
-              <h5>Análise Detalhada</h5>
+              <h5>${t('matchHistory.detailedAnalysis')}</h5>
               ${Object.entries(details).map(([key, value]) => `
                 <div class="breakdown-item">
                   <span class="breakdown-label">${formatBreakdownLabel(key)}</span>
@@ -347,16 +347,16 @@ async function showMatchDetails(matchId) {
           ` : ''}
           
           <div class="match-detail-date">
-            Match encontrado em ${match.createdAt?.toDate()?.toLocaleDateString('pt-PT') || 'data desconhecida'}
+            ${t('matchHistory.matchFoundOn', {date: match.createdAt?.toDate()?.toLocaleDateString(I18n.getCurrentLang()) || t('matchHistory.unknownDate')})}
           </div>
         </div>
         <div class="modal-footer">
           ${match.status !== 'accepted' ? `
             <button class="btn btn-primary" onclick="sendFriendRequestFromHistory('${match.matchedUserId}', '${matchId}'); closeMatchDetailsModal();">
-              ➕ Adicionar como Amigo
+              ➕ ${t('matchHistory.addFriend')}
             </button>
           ` : ''}
-          <button class="btn btn-secondary" onclick="closeMatchDetailsModal()">Fechar</button>
+          <button class="btn btn-secondary" onclick="closeMatchDetailsModal()">${t('matchHistory.close')}</button>
         </div>
       </div>
     `;
@@ -366,7 +366,7 @@ async function showMatchDetails(matchId) {
     
   } catch (error) {
     console.error('Error showing match details:', error);
-    showToast('Erro ao carregar detalhes', 'error');
+    showToast(t('matchHistory.loadDetailsError'), 'error');
   }
 }
 
@@ -380,11 +380,11 @@ function closeMatchDetailsModal() {
 
 function formatBreakdownLabel(key) {
   const labels = {
-    personality: '🧠 Personalidade',
-    values: '💎 Valores',
-    interests: '🎯 Interesses',
-    communication: '💬 Comunicação',
-    lifestyle: '🏠 Estilo de Vida'
+    personality: '🧠 ' + t('matchHistory.labelPersonality'),
+    values: '💎 ' + t('matchHistory.labelValues'),
+    interests: '🎯 ' + t('matchHistory.labelInterests'),
+    communication: '💬 ' + t('matchHistory.labelCommunication'),
+    lifestyle: '🏠 ' + t('matchHistory.labelLifestyle')
   };
   return labels[key] || key;
 }
@@ -393,7 +393,7 @@ function formatBreakdownLabel(key) {
  * Confirma eliminação de match
  */
 function confirmDeleteMatch(matchId) {
-  if (confirm('Tens a certeza que queres remover este match do histórico?')) {
+  if (confirm(t('matchHistory.deleteConfirm'))) {
     deleteMatchFromHistory(matchId).then(() => {
       document.querySelector(`[data-match-id="${matchId}"]`)?.remove();
     });
@@ -414,18 +414,18 @@ async function showMatchHistoryPage() {
     <div class="modal-overlay" onclick="closeMatchHistoryModal()"></div>
     <div class="modal-content fullscreen-content">
       <div class="modal-header">
-        <h3>📜 Histórico de Matches</h3>
+        <h3>📜 ${t('matchHistory.historyTitle')}</h3>
         <button class="modal-close" onclick="closeMatchHistoryModal()">×</button>
       </div>
       <div class="modal-body">
         <div id="matchHistoryStats" class="match-stats-summary"></div>
         <div class="match-history-filters">
-          <button class="filter-btn active" data-filter="all">Todos</button>
-          <button class="filter-btn" data-filter="pending">Pendentes</button>
-          <button class="filter-btn" data-filter="accepted">Aceites</button>
+          <button class="filter-btn active" data-filter="all">${t('matchHistory.filterAll')}</button>
+          <button class="filter-btn" data-filter="pending">${t('matchHistory.filterPending')}</button>
+          <button class="filter-btn" data-filter="accepted">${t('matchHistory.filterAccepted')}</button>
         </div>
         <div id="matchHistoryList" class="match-history-list">
-          <div class="loading-spinner">⏳ A carregar...</div>
+          <div class="loading-spinner">⏳ ${t('matchHistory.loading')}</div>
         </div>
       </div>
     </div>
@@ -440,19 +440,19 @@ async function showMatchHistoryPage() {
     document.getElementById('matchHistoryStats').innerHTML = `
       <div class="stat-item">
         <span class="stat-value">${stats.total}</span>
-        <span class="stat-label">Total Matches</span>
+        <span class="stat-label">${t('matchHistory.statTotal')}</span>
       </div>
       <div class="stat-item">
         <span class="stat-value">${stats.avgCompatibility}%</span>
-        <span class="stat-label">Média Compatib.</span>
+        <span class="stat-label">${t('matchHistory.statAvgCompat')}</span>
       </div>
       <div class="stat-item">
         <span class="stat-value">${stats.highestCompatibility}%</span>
-        <span class="stat-label">Maior</span>
+        <span class="stat-label">${t('matchHistory.statHighest')}</span>
       </div>
       <div class="stat-item">
         <span class="stat-value">${stats.accepted}</span>
-        <span class="stat-label">Amigos</span>
+        <span class="stat-label">${t('matchHistory.statFriends')}</span>
       </div>
     `;
   }

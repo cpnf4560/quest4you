@@ -44,13 +44,22 @@ document.addEventListener("DOMContentLoaded", function() {
     // Will open conversation after auth
     window.pendingFriendId = friendId;
   }
-
   // Close emoji picker on click outside
   document.addEventListener('click', function(e) {
     const emojiPicker = document.getElementById('emojiPicker');
     const emojiBtn = document.querySelector('.btn-emoji');
     if (emojiPicker && !emojiPicker.contains(e.target) && e.target !== emojiBtn) {
       emojiPicker.style.display = 'none';
+    }
+  });
+
+  // Re-render when language changes
+  window.addEventListener('languageChanged', function() {
+    if (conversations.length > 0) {
+      renderConversations();
+    }
+    if (chatFriendsList.length > 0) {
+      renderChatFriends();
     }
   });
 });
@@ -160,7 +169,7 @@ async function deleteMessage(messageId) {
     return;
   }
   
-  if (!confirm("Tens a certeza que queres apagar esta mensagem? Esta ação não pode ser desfeita.")) {
+  if (!confirm(t('chat.deleteConfirm'))) {
     return;
   }
   
@@ -170,11 +179,11 @@ async function deleteMessage(messageId) {
     
     // Show success toast if available
     if (typeof showToast === 'function') {
-      showToast("Mensagem apagada com sucesso", "success");
+      showToast(t('chat.deleteSuccess'), "success");
     }
   } catch (error) {
     console.error("Error deleting message:", error);
-    alert("Erro ao apagar mensagem: " + error.message);
+    alert(t('chat.deleteError') + error.message);
   }
 }
 
@@ -433,7 +442,7 @@ async function openConversationWithFriend(friendId) {
         photos: { public: ADMIN_CONFIG.photo }
       };
     } else {
-      alert("Utilizador não encontrado.");
+      alert(t('chat.userNotFound'));
       return;
     }
     
@@ -462,7 +471,7 @@ async function openConversationWithFriend(friendId) {
     
   } catch (error) {
     console.error("Error creating conversation:", error);
-    alert("Erro ao criar conversa. Tenta novamente.");
+    alert(t('chat.createConvError'));
   }
 }
 
@@ -730,7 +739,7 @@ function renderMessages(messages) {
     
     // Admin delete button (only for non-system messages)
     const adminDeleteBtn = isCurrentUserAdmin && !item.isSystem 
-      ? `<button class="btn-delete-msg" onclick="deleteMessage('${item.id}')" title="Apagar mensagem (Admin)">🗑️</button>`
+      ? `<button class="btn-delete-msg" onclick="deleteMessage('${item.id}')" title="${t('chat.deleteAdmin')}">🗑️</button>`
       : '';
     
     // Mensagem do sistema (boas-vindas)
@@ -836,7 +845,7 @@ async function sendMessage() {
     
   } catch (error) {
     console.error("Error sending message:", error);
-    alert("Erro ao enviar mensagem.");
+    alert(t('chat.sendError'));
   }
 }
 

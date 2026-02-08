@@ -13,33 +13,33 @@
 const VERIFICATION_TYPES = {
   email: {
     icon: '✉️',
-    label: 'Email Verificado',
+    labelKey: 'verification.emailVerified',
     color: '#1da1f2',
-    requirement: 'Verificar email'
+    requirementKey: 'verification.reqEmail'
   },
   phone: {
     icon: '📱',
-    label: 'Telefone Verificado',
+    labelKey: 'verification.phoneVerified',
     color: '#25D366',
-    requirement: 'Verificar número de telefone'
+    requirementKey: 'verification.reqPhone'
   },
   identity: {
     icon: '🪪',
-    label: 'Identidade Verificada',
+    labelKey: 'verification.identityVerified',
     color: '#6a11cb',
-    requirement: 'Submeter documento de identificação'
+    requirementKey: 'verification.reqIdentity'
   },
   premium: {
     icon: '⭐',
-    label: 'Membro Premium',
+    labelKey: 'verification.premiumMember',
     color: '#ffc107',
-    requirement: 'Subscrição Premium ativa'
+    requirementKey: 'verification.reqPremium'
   },
   official: {
     icon: '✓',
-    label: 'Conta Oficial',
+    labelKey: 'verification.officialAccount',
     color: '#1da1f2',
-    requirement: 'Verificação pela equipa Quest4You'
+    requirementKey: 'verification.reqOfficial'
   }
 };
 
@@ -94,31 +94,30 @@ function renderVerificationBadge(verification, size = 'normal') {
   
   const sizeClass = size === 'large' ? 'verified-badge-large' : '';
   const level = verification.verificationLevel || 'basic';
-  
-  let badgeIcon = '✓';
+    let badgeIcon = '✓';
   let badgeColor = '#1da1f2';
-  let badgeTitle = 'Perfil Verificado';
+  let badgeTitle = t('verification.profileVerified');
   
   switch (level) {
     case 'premium':
       badgeIcon = '⭐';
       badgeColor = '#ffc107';
-      badgeTitle = 'Membro Premium Verificado';
+      badgeTitle = t('verification.premiumVerified');
       break;
     case 'official':
       badgeIcon = '✓';
       badgeColor = '#1da1f2';
-      badgeTitle = 'Conta Oficial Verificada';
+      badgeTitle = t('verification.officialVerified');
       break;
     case 'full':
       badgeIcon = '✓✓';
       badgeColor = '#6a11cb';
-      badgeTitle = 'Identidade Totalmente Verificada';
+      badgeTitle = t('verification.fullyVerified');
       break;
     default:
       badgeIcon = '✓';
       badgeColor = '#1da1f2';
-      badgeTitle = 'Perfil Verificado';
+      badgeTitle = t('verification.profileVerified');
   }
   
   return `
@@ -147,7 +146,7 @@ function addVerificationBadge(element, verification, size = 'normal') {
  */
 async function requestVerification(type = 'email') {
   if (!currentUser) {
-    showToast('Tens de fazer login primeiro', 'warning');
+    showToast(t('verification.loginFirst'), 'warning');
     return false;
   }
   
@@ -167,12 +166,12 @@ async function requestVerification(type = 'email') {
       userEmail: currentUser.email
     });
     
-    showToast(`Pedido de verificação (${verType.label}) enviado!`, 'success');
+    showToast(`Pedido de verificação (${t(verType.labelKey)}) enviado!`, 'success');
     return true;
     
   } catch (error) {
     console.error('Error requesting verification:', error);
-    showToast('Erro ao solicitar verificação', 'error');
+    showToast(t('verification.requestError'), 'error');
     return false;
   }
 }
@@ -344,7 +343,7 @@ async function startVerification(type) {
       showIdentityVerificationForm();
       break;
     default:
-      showToast('Tipo de verificação não disponível', 'warning');
+      showToast(t('verification.typeNotAvailable'), 'warning');
   }
 }
 
@@ -353,7 +352,7 @@ async function startVerification(type) {
  */
 async function verifyEmail() {
   if (!currentUser) {
-    showToast('Faz login primeiro', 'warning');
+    showToast(t('verification.loginFirst'), 'warning');
     return;
   }
   
@@ -366,16 +365,16 @@ async function verifyEmail() {
         verifiedAt: new Date().toISOString()
       })
     });
-    showToast('Email já está verificado!', 'success');
+    showToast(t('verification.emailAlreadyVerified'), 'success');
     return;
   }
   
   try {
     await currentUser.sendEmailVerification();
-    showToast('Email de verificação enviado! Verifica a tua caixa de correio.', 'success');
+    showToast(t('verification.emailSent'), 'success');
   } catch (error) {
     console.error('Error sending verification email:', error);
-    showToast('Erro ao enviar email de verificação', 'error');
+    showToast(t('verification.emailSendError'), 'error');
   }
 }
 
@@ -485,12 +484,12 @@ async function submitIdentityVerification() {
   const selfie = document.getElementById('selfieInput')?.files?.[0];
   
   if (!idDoc) {
-    showToast('Por favor, carrega o documento de identificação', 'warning');
+    showToast(t('verification.uploadDoc'), 'warning');
     return;
   }
   
   if (!selfie) {
-    showToast('Por favor, tira uma selfie com o documento', 'warning');
+    showToast(t('verification.takeSelfie'), 'warning');
     return;
   }
   
@@ -528,11 +527,11 @@ async function submitIdentityVerification() {
     });
     
     closeIdentityModal();
-    showToast('Pedido de verificação submetido! Receberás uma notificação quando for processado.', 'success');
+    showToast(t('verification.requestSubmitted'), 'success');
     
   } catch (error) {
     console.error('Error submitting verification:', error);
-    showToast('Erro ao submeter verificação', 'error');
+    showToast(t('verification.submitError'), 'error');
     btn.disabled = false;
     btn.innerHTML = 'Submeter Verificação';
   }

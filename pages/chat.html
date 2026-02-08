@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat - Quest4You</title>
+  <title data-i18n="chat.pageTitle">Chat - Quest4You</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,10 +31,10 @@
         <span class="logo-text">Quest4You</span>
       </a>
       <nav class="nav">
-        <a href="../index.html" class="nav-link">🏠 Início</a>
-        <a href="./profile.html" class="nav-link">👤 Perfil</a>
-        <a href="./smart-match.html" class="nav-link">💕 Smart Match</a>
-        <a href="#" class="nav-link" id="logoutBtn">🚪 Sair</a>
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
+        <a href="./profile.html" class="nav-link" data-i18n="nav.profile">👤 Perfil</a>
+        <a href="./smart-match.html" class="nav-link" data-i18n="nav.smartMatch">💕 Smart Match</a>
+        <a href="#" class="nav-link" id="logoutBtn" data-i18n="nav.logout">🚪 Sair</a>
       </nav>
     </div>
   </header>
@@ -44,18 +44,18 @@
     <!-- Conversations Sidebar -->
     <aside class="conversations-sidebar" id="conversationsSidebar">
       <div class="sidebar-header">
-        <h2>💬 Conversas</h2>
+        <h2 data-i18n="chat.conversations">💬 Conversas</h2>
         <span class="unread-badge" id="totalUnreadBadge" style="display: none;">0</span>
       </div>
         <!-- Tabs: Conversas / Amigos / Grupos -->
       <div class="sidebar-tabs">
-        <button class="sidebar-tab active" onclick="switchChatTab('conversations', this)">💬 Conversas</button>
-        <button class="sidebar-tab" onclick="switchChatTab('friends', this)">👥 Amigos</button>
-        <button class="sidebar-tab" onclick="switchChatTab('groups', this)">🏠 Grupos</button>
+        <button class="sidebar-tab active" onclick="switchChatTab('conversations', this)" data-i18n="chat.tabConversations">💬 Conversas</button>
+        <button class="sidebar-tab" onclick="switchChatTab('friends', this)" data-i18n="chat.tabFriends">👥 Amigos</button>
+        <button class="sidebar-tab" onclick="switchChatTab('groups', this)" data-i18n="chat.tabGroups">🏠 Grupos</button>
       </div>
       
       <div class="conversations-search">
-        <input type="text" class="search-input" placeholder="🔍 Procurar..." oninput="filterCurrentTab(this.value)">
+        <input type="text" class="search-input" data-i18n-placeholder="chat.searchPlaceholder" placeholder="🔍 Procurar..." oninput="filterCurrentTab(this.value)">
       </div>
       
       <!-- Tab: Conversas -->
@@ -64,8 +64,8 @@
           <!-- Conversations loaded dynamically -->
           <div class="empty-conversations" id="emptyConversations">
             <div class="empty-icon">💬</div>
-            <p>Ainda não tens conversas.</p>
-            <p class="empty-hint">Clica em "Amigos" para iniciar uma conversa!</p>
+            <p data-i18n="chat.noConversations">Ainda não tens conversas.</p>
+            <p class="empty-hint" data-i18n="chat.noConversationsHint">Clica em "Amigos" para iniciar uma conversa!</p>
           </div>
         </div>
       </div>
@@ -75,13 +75,13 @@
         <div class="conversations-list" id="friendsListChat">
           <div class="friends-loading" id="friendsLoading">
             <div class="empty-icon">⏳</div>
-            <p>A carregar amigos...</p>
+            <p data-i18n="chat.loadingFriends">A carregar amigos...</p>
           </div>
           <div class="empty-conversations" id="emptyFriendsChat" style="display: none;">
             <div class="empty-icon">👥</div>
-            <p>Ainda não tens amigos.</p>
-            <p class="empty-hint">Adiciona amigos no teu perfil!</p>
-            <a href="./profile.html#friendsSection" class="btn btn-primary btn-sm">Adicionar Amigos</a>
+            <p data-i18n="chat.noFriends">Ainda não tens amigos.</p>
+            <p class="empty-hint" data-i18n="chat.noFriendsHint">Adiciona amigos no teu perfil!</p>
+            <a href="./profile.html#friendsSection" class="btn btn-primary btn-sm" data-i18n="chat.addFriends">Adicionar Amigos</a>
           </div>
         </div>
       </div>
@@ -100,15 +100,15 @@
       <!-- No conversation selected -->
       <div class="no-conversation" id="noConversation">
         <div class="no-conversation-icon">💭</div>
-        <h3>Seleciona uma conversa</h3>
-        <p>Escolhe uma conversa da lista para começar a falar</p>
+        <h3 data-i18n="chat.selectConversation">Seleciona uma conversa</h3>
+        <p data-i18n="chat.selectConversationDesc">Escolhe uma conversa da lista para começar a falar</p>
       </div>
 
       <!-- Active Chat -->
       <div class="active-chat" id="activeChat" style="display: none;">
         <!-- Chat Header -->
         <div class="chat-header" id="chatHeader">
-          <button class="btn-back-mobile" onclick="closeChatMobile()">← Voltar</button>
+          <button class="btn-back-mobile" onclick="closeChatMobile()" data-i18n="nav.back">← Voltar</button>
           <div class="chat-user-info">
             <div class="chat-user-avatar" id="chatUserAvatar">?</div>
             <div class="chat-user-details">
@@ -131,7 +131,7 @@
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
-            <span class="typing-text">A escrever...</span>
+            <span class="typing-text" data-i18n="chat.typing">A escrever...</span>
           </div>
         </div>
 
@@ -142,6 +142,7 @@
             <textarea 
               class="message-input" 
               id="messageInput" 
+              data-i18n-placeholder="chat.typeMessage"
               placeholder="Escreve uma mensagem..." 
               rows="1"
               onkeydown="handleMessageKeydown(event)"
@@ -187,7 +188,7 @@
   <div class="modal" id="compareResultsModal" style="display: none;">
     <div class="modal-content modal-xl">
       <button class="modal-close" onclick="closeCompareModal()">×</button>
-      <h2>📊 Comparar Resultados</h2>
+      <h2 data-i18n="chat.compareResults">📊 Comparar Resultados</h2>
       <div class="compare-header" id="compareHeader">
         <!-- Header with both users -->
       </div>
@@ -200,7 +201,7 @@
   <!-- Footer -->
   <footer class="footer chat-footer">
     <div class="footer-content">
-      <p>&copy; 2025 Quest4You - Todos os direitos reservados</p>
+      <p data-i18n="footer.rights">&copy; 2025 Quest4You - Todos os direitos reservados</p>
     </div>
   </footer>
   <!-- Firebase -->
@@ -212,6 +213,7 @@
   <script src="../js/notifications.js?v=202602060002"></script>
   <script src="../js/blocks.js?v=202602080001"></script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
+  <script src="../js/i18n.js?v=202602080100"></script>
   <script src="../js/chat-groups.js?v=202602080001"></script>
   <script src="../js/chat.js?v=202602080001"></script>
 </body>

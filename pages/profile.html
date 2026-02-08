@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Perfil - Quest4You</title>
+  <title data-i18n="profile.pageTitle">Meu Perfil - Quest4You</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">  <link rel="stylesheet" href="../css/main.css?v=202602060002">
@@ -28,11 +28,11 @@
         <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
         <span class="logo-text">Quest4You</span>
       </a>      <nav class="nav">
-        <a href="../index.html" class="nav-link">🏠 Início</a>
-        <a href="./chat.html" class="nav-link">💬 Chat</a>
-        <a href="./smart-match.html" class="nav-link">💕 Smart Match</a>
-        <a href="./explorar.html" class="nav-link">👥 Comunidade</a>
-        <a href="#" class="nav-link" id="logoutBtn">🚪 Sair</a>
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
+        <a href="./chat.html" class="nav-link" data-i18n="nav.chat">💬 Chat</a>
+        <a href="./smart-match.html" class="nav-link" data-i18n="nav.smartMatch">💕 Smart Match</a>
+        <a href="./explorar.html" class="nav-link" data-i18n="nav.community">👥 Comunidade</a>
+        <a href="#" class="nav-link" id="logoutBtn" data-i18n="nav.logout">🚪 Sair</a>
       </nav>
     </div>
   </header>
@@ -53,8 +53,8 @@
           </div>
         </div>        <div class="profile-info">
           <div class="profile-name-row">
-            <h1 id="profileName">Carregando...</h1>
-            <button class="btn-edit-name" onclick="editProfile()" title="Editar nome">✏️</button>
+            <h1 id="profileName" data-i18n="common.loading">Carregando...</h1>
+            <button class="btn-edit-name" onclick="editProfile()" data-i18n-title="profile.editName" title="Editar nome">✏️</button>
           </div>
           <p class="profile-nickname" id="profileNickname"></p>
           <p class="profile-email" id="profileEmail"></p>
@@ -67,26 +67,26 @@
     <div class="profile-completion-alert" id="profileCompletionAlert" style="display: none;">
       <div class="alert-icon">⚠️</div>
       <div class="alert-content">
-        <h4>Perfil Incompleto</h4>
-        <p>Completa o teu perfil para poderes usar o Smart Match e encontrar pessoas compatíveis!</p>
+        <h4 data-i18n="profile.incompleteTitle">Perfil Incompleto</h4>
+        <p data-i18n="profile.incompleteDesc">Completa o teu perfil para poderes usar o Smart Match e encontrar pessoas compatíveis!</p>
       </div>
-      <button class="btn btn-primary btn-sm" onclick="scrollToPersonalInfo()">Completar Agora</button>
+      <button class="btn btn-primary btn-sm" onclick="scrollToPersonalInfo()" data-i18n="profile.completeNow">Completar Agora</button>
     </div>
 
     <!-- NOVA SECÇÃO: Informações Pessoais (Obrigatórias) -->
     <section class="personal-info-section" id="personalInfoSection">
-      <h2 class="section-title">👤 Informações Pessoais <span class="required-badge">Obrigatório</span></h2>
+      <h2 class="section-title" data-i18n-html="profile.personalInfoTitle">👤 Informações Pessoais <span class="required-badge">Obrigatório</span></h2>
       <div class="personal-info-card">
-        <p class="section-description">Esta informação é necessária para o Smart Match. Será usada de forma anónima para encontrar pessoas compatíveis contigo.</p>
+        <p class="section-description" data-i18n="profile.personalInfoDesc">Esta informação é necessária para o Smart Match. Será usada de forma anónima para encontrar pessoas compatíveis contigo.</p>
         
         <div class="personal-info-grid">
           <!-- Idade -->
           <div class="form-group">
             <label for="ageRange" class="form-label">
-              🎂 Faixa Etária <span class="required-star">*</span>
+              🎂 <span data-i18n="profile.ageRange">Faixa Etária</span> <span class="required-star">*</span>
             </label>
             <select id="ageRange" class="form-select" required>
-              <option value="">Seleciona a tua idade</option>
+              <option value="" data-i18n="profile.selectAge">Seleciona a tua idade</option>
               <option value="18-24">18-24 anos</option>
               <option value="25-34">25-34 anos</option>
               <option value="35-44">35-44 anos</option>
@@ -98,66 +98,66 @@
           <!-- Género -->
           <div class="form-group">
             <label for="gender" class="form-label">
-              ⚧️ Género <span class="required-star">*</span>
+              ⚧️ <span data-i18n="profile.gender">Género</span> <span class="required-star">*</span>
             </label>
             <select id="gender" class="form-select" required>
-              <option value="">Seleciona o teu género</option>
-              <option value="male">Homem</option>
-              <option value="female">Mulher</option>
-              <option value="non-binary">Não-binário</option>
-              <option value="trans-male">Homem trans</option>
-              <option value="trans-female">Mulher trans</option>
-              <option value="other">Outro</option>
-              <option value="prefer-not-say">Prefiro não dizer</option>
+              <option value="" data-i18n="profile.selectGender">Seleciona o teu género</option>
+              <option value="male" data-i18n="profile.genderMale">Homem</option>
+              <option value="female" data-i18n="profile.genderFemale">Mulher</option>
+              <option value="non-binary" data-i18n="profile.genderNonBinary">Não-binário</option>
+              <option value="trans-male" data-i18n="profile.genderTransMale">Homem trans</option>
+              <option value="trans-female" data-i18n="profile.genderTransFemale">Mulher trans</option>
+              <option value="other" data-i18n="profile.genderOther">Outro</option>
+              <option value="prefer-not-say" data-i18n="profile.genderPreferNot">Prefiro não dizer</option>
             </select>
           </div>
 
           <!-- Orientação Sexual -->
           <div class="form-group">
             <label for="sexualOrientation" class="form-label">
-              🌈 Orientação Sexual <span class="required-star">*</span>
+              🌈 <span data-i18n="profile.orientation">Orientação Sexual</span> <span class="required-star">*</span>
             </label>
             <select id="sexualOrientation" class="form-select" required>
-              <option value="">Seleciona a tua orientação</option>
-              <option value="heterosexual">Heterossexual</option>
-              <option value="homosexual">Homossexual</option>
-              <option value="bisexual">Bissexual</option>
-              <option value="pansexual">Pansexual</option>
-              <option value="asexual">Assexual</option>
-              <option value="demisexual">Demissexual</option>
-              <option value="queer">Queer</option>
-              <option value="questioning">A explorar</option>
-              <option value="other">Outro</option>
-              <option value="prefer-not-say">Prefiro não dizer</option>
+              <option value="" data-i18n="profile.selectOrientation">Seleciona a tua orientação</option>
+              <option value="heterosexual" data-i18n="profile.orientHetero">Heterossexual</option>
+              <option value="homosexual" data-i18n="profile.orientHomo">Homossexual</option>
+              <option value="bisexual" data-i18n="profile.orientBi">Bissexual</option>
+              <option value="pansexual" data-i18n="profile.orientPan">Pansexual</option>
+              <option value="asexual" data-i18n="profile.orientAce">Assexual</option>
+              <option value="demisexual" data-i18n="profile.orientDemi">Demissexual</option>
+              <option value="queer" data-i18n="profile.orientQueer">Queer</option>
+              <option value="questioning" data-i18n="profile.orientExploring">A explorar</option>
+              <option value="other" data-i18n="profile.genderOther">Outro</option>
+              <option value="prefer-not-say" data-i18n="profile.genderPreferNot">Prefiro não dizer</option>
             </select>
           </div>
 
           <!-- À Procura De -->
           <div class="form-group">
             <label for="lookingFor" class="form-label">
-              💕 À Procura De <span class="required-star">*</span>
+              💕 <span data-i18n="profile.lookingFor">À Procura De</span> <span class="required-star">*</span>
             </label>
             <select id="lookingFor" class="form-select" required>
-              <option value="">O que procuras?</option>
-              <option value="friendship">Amizade</option>
-              <option value="casual">Encontros casuais</option>
-              <option value="relationship">Relacionamento sério</option>
-              <option value="open-relationship">Relacionamento aberto</option>
-              <option value="exploration">Explorar sexualidade</option>
-              <option value="couple-activities">Atividades de casal</option>
-              <option value="multiple">Várias opções</option>
+              <option value="" data-i18n="profile.selectLookingFor">O que procuras?</option>
+              <option value="friendship" data-i18n="profile.lookFriendship">Amizade</option>
+              <option value="casual" data-i18n="profile.lookCasual">Encontros casuais</option>
+              <option value="relationship" data-i18n="profile.lookRelationship">Relacionamento sério</option>
+              <option value="open-relationship" data-i18n="profile.lookOpen">Relacionamento aberto</option>
+              <option value="exploration" data-i18n="profile.lookExplore">Explorar sexualidade</option>
+              <option value="couple-activities" data-i18n="profile.lookCouple">Atividades de casal</option>
+              <option value="multiple" data-i18n="profile.lookMultiple">Várias opções</option>
             </select>
           </div>
         </div>
 
         <!-- Localização -->
         <div class="location-section">
-          <h3 class="subsection-title">📍 Localização</h3>
+          <h3 class="subsection-title" data-i18n-html="profile.locationTitle">📍 Localização</h3>
           <div class="location-grid">
             <div class="form-group">
-              <label for="country" class="form-label">País <span class="required-star">*</span></label>
+              <label for="country" class="form-label"><span data-i18n="profile.country">País</span> <span class="required-star">*</span></label>
               <select id="country" class="form-select" required onchange="loadDistricts()">
-                <option value="">Seleciona o país</option>
+                <option value="" data-i18n="profile.selectCountry">Seleciona o país</option>
                 <option value="PT">Portugal</option>
                 <option value="BR">Brasil</option>
                 <option value="ES">Espanha</option>
@@ -173,33 +173,31 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="district" class="form-label">Distrito/Estado</label>
+              <label for="district" class="form-label" data-i18n="profile.district">Distrito/Estado</label>
               <select id="district" class="form-select" onchange="loadCities()">
-                <option value="">Seleciona primeiro o país</option>
+                <option value="" data-i18n="profile.selectCountryFirst">Seleciona primeiro o país</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="city" class="form-label">Cidade/Concelho</label>
-              <input type="text" id="city" class="form-input" placeholder="Ex: Penafiel, Lisboa, Porto...">
+              <label for="city" class="form-label" data-i18n="profile.city">Cidade/Concelho</label>
+              <input type="text" id="city" class="form-input" data-i18n-placeholder="profile.cityPlaceholder" placeholder="Ex: Penafiel, Lisboa, Porto...">
             </div>
           </div>
         </div>
 
         <!-- Botão Guardar -->
         <div class="save-section">
-          <button class="btn btn-primary btn-lg" onclick="savePersonalInfo()" id="savePersonalInfoBtn">
-            💾 Guardar Informações
-          </button>
-          <p class="save-hint" id="saveHint">Campos com <span class="required-star">*</span> são obrigatórios</p>
+          <button class="btn btn-primary btn-lg" onclick="savePersonalInfo()" id="savePersonalInfoBtn" data-i18n="profile.saveInfo">💾 Guardar Informações</button>
+          <p class="save-hint" id="saveHint" data-i18n-html="profile.saveHint">Campos com <span class="required-star">*</span> são obrigatórios</p>
         </div>
       </div>
     </section>
 
     <!-- Nickname Section - Redesigned -->
     <section class="nickname-section">
-      <h2 class="section-title">🎭 Nickname Público</h2>
+      <h2 class="section-title" data-i18n="profile.nicknameTitle">🎭 Nickname Público</h2>
       <div class="nickname-card">
-        <p class="nickname-desc">Este nome será mostrado no Chat, Fórum e Mensagens. Mantém a tua privacidade!</p>
+        <p class="nickname-desc" data-i18n="profile.nicknameDesc">Este nome será mostrado no Chat, Fórum e Mensagens. Mantém a tua privacidade!</p>
         <div class="nickname-form">
           <div class="nickname-input-group">
             <select id="nicknameEmoji" class="nickname-emoji-select">
@@ -224,19 +222,19 @@
               <option value="🔮">🔮</option>
               <option value="🎯">🎯</option>
             </select>
-            <input type="text" id="nicknameInput" placeholder="O teu nickname..." maxlength="20" class="nickname-input">
+            <input type="text" id="nicknameInput" data-i18n-placeholder="profile.nicknamePlaceholder" placeholder="O teu nickname..." maxlength="20" class="nickname-input">
           </div>
-          <button class="btn btn-primary" onclick="saveNickname()">💾 Guardar</button>
+          <button class="btn btn-primary" onclick="saveNickname()" data-i18n="common.save">💾 Guardar</button>
         </div>
-        <p class="nickname-hint">💡 Máximo 20 caracteres. Evita usar o teu nome real.</p>
+        <p class="nickname-hint" data-i18n="profile.nicknameHint">💡 Máximo 20 caracteres. Evita usar o teu nome real.</p>
       </div>
     </section>
 
     <!-- Profile Photos Section -->
     <section class="photos-section">
-      <h2 class="section-title">📷 Fotos de Perfil</h2>
+      <h2 class="section-title" data-i18n="profile.photosTitle">📷 Fotos de Perfil</h2>
       <div class="photos-card">
-        <p class="photos-desc">Gere as tuas fotos com diferentes níveis de privacidade. Fotos secretas requerem validação de género.</p>
+        <p class="photos-desc" data-i18n="profile.photosDesc">Gere as tuas fotos com diferentes níveis de privacidade. Fotos secretas requerem validação de género.</p>
         
         <div class="photos-grid">
           <!-- Public Photo -->
@@ -246,8 +244,8 @@
               <img src="" alt="Foto Pública" id="publicPhotoImg" style="display: none;">
             </div>
             <div class="photo-info">
-              <span class="photo-type-badge public">🌍 Pública</span>
-              <p class="photo-type-desc">Visível para todos no Smart Match</p>
+              <span class="photo-type-badge public" data-i18n="profile.photoPublic">🌍 Pública</span>
+              <p class="photo-type-desc" data-i18n="profile.photoPublicDesc">Visível para todos no Smart Match</p>
             </div>
             <div class="photo-actions">
               <label class="btn btn-secondary btn-small">
@@ -265,8 +263,8 @@
               <img src="" alt="Foto Privada" id="privatePhotoImg" style="display: none;">
             </div>
             <div class="photo-info">
-              <span class="photo-type-badge private">🔒 Privada</span>
-              <p class="photo-type-desc">Só visível para conexões aceites</p>
+              <span class="photo-type-badge private" data-i18n="profile.photoPrivate">🔒 Privada</span>
+              <p class="photo-type-desc" data-i18n="profile.photoPrivateDesc">Só visível para conexões aceites</p>
             </div>
             <div class="photo-actions">
               <label class="btn btn-secondary btn-small">
@@ -284,8 +282,8 @@
               <img src="" alt="Foto Secreta" id="secretPhotoImg" style="display: none;">
             </div>
             <div class="photo-info">
-              <span class="photo-type-badge secret">🔐 Secreta</span>
-              <p class="photo-type-desc">Requer validação de género</p>
+              <span class="photo-type-badge secret" data-i18n="profile.photoSecret">🔐 Secreta</span>
+              <p class="photo-type-desc" data-i18n="profile.photoSecretDesc">Requer validação de género</p>
             </div>
             <div class="photo-actions">
               <label class="btn btn-secondary btn-small" id="secretUploadLabel">
@@ -295,15 +293,15 @@
               <button class="btn btn-outline btn-small" onclick="removePhoto('secret')" id="removeSecretBtn" style="display: none;">🗑️</button>
             </div>
             <div class="gender-validation-status" id="genderValidationStatus">
-              <span class="validation-pending">⏳ Validação pendente</span>
+              <span class="validation-pending" data-i18n="profile.validationPending">⏳ Validação pendente</span>
             </div>
           </div>
         </div>
 
         <!-- Gender Validation Section -->
         <div class="gender-validation-card" id="genderValidationCard">
-          <h4>🔐 Validação de Género</h4>
-          <p>Para desbloquear fotos secretas e participar em matches avançados, valida o teu género.</p>          <div class="validation-requirements">
+          <h4 data-i18n="profile.genderValidation">🔐 Validação de Género</h4>
+          <p data-i18n="profile.genderValidationDesc">Para desbloquear fotos secretas e participar em matches avançados, valida o teu género.</p>          <div class="validation-requirements">
             <p>📋 <strong>Requisitos:</strong></p>
             <ul>
               <li>Foto do rosto parcialmente visível</li>
@@ -339,7 +337,7 @@
           </div>
         </div>
 
-        <p class="photos-hint">💡 Mantém as fotos apropriadas. Conteúdo impróprio resultará em suspensão da conta.</p>
+        <p class="photos-hint" data-i18n="profile.photosHint">💡 Mantém as fotos apropriadas. Conteúdo impróprio resultará em suspensão da conta.</p>
       </div>
     </section>
 
@@ -348,32 +346,32 @@
       <div class="stat-card">
         <div class="stat-icon">📝</div>
         <div class="stat-value" id="statQuizzes">0</div>
-        <div class="stat-label">Questionários</div>
+        <div class="stat-label" data-i18n="profile.statQuizzes">Questionários</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">❓</div>
         <div class="stat-value" id="statQuestions">0</div>
-        <div class="stat-label">Perguntas Respondidas</div>
+        <div class="stat-label" data-i18n="profile.statQuestions">Perguntas Respondidas</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">🏆</div>
         <div class="stat-value" id="statBadges">0</div>
-        <div class="stat-label">Badges</div>
+        <div class="stat-label" data-i18n="profile.statBadges">Badges</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">💕</div>
         <div class="stat-value" id="statMatches">0</div>
-        <div class="stat-label">Compatibilidades</div>
+        <div class="stat-label" data-i18n="profile.statMatches">Compatibilidades</div>
       </div>
     </div>    <!-- Results Section -->
     <section class="results-section">
-      <h2 class="section-title">📊 Os Meus Resultados</h2>
+      <h2 class="section-title" data-i18n="profile.resultsTitle">📊 Os Meus Resultados</h2>
       <div class="results-grid" id="resultsGrid">
         <!-- Results loaded dynamically -->
         <div class="empty-state" id="emptyResults">
           <div class="empty-icon">🎯</div>
-          <p>Ainda não completaste nenhum questionário.</p>
-          <a href="../index.html#quizzes" class="btn btn-primary">Começar Agora</a>
+          <p data-i18n="profile.noResults">Ainda não completaste nenhum questionário.</p>
+          <a href="../index.html#quizzes" class="btn btn-primary" data-i18n="profile.startQuizzes">Começar Agora</a>
         </div>
       </div>
       
@@ -382,19 +380,17 @@
         <div class="full-report-card">
           <div class="full-report-icon">📋</div>
           <div class="full-report-info">
-            <h3>Relatório Pessoal Completo</h3>
-            <p>Visualiza todos os teus resultados num único relatório detalhado</p>
+            <h3 data-i18n="profile.fullReportTitle">Relatório Pessoal Completo</h3>
+            <p data-i18n="profile.fullReportDesc">Visualiza todos os teus resultados num único relatório detalhado</p>
           </div>
-          <button class="btn btn-primary btn-full-report" onclick="viewFullReport()">
-            📊 Ver Relatório Completo
-          </button>
+          <button class="btn btn-primary btn-full-report" onclick="viewFullReport()" data-i18n="profile.viewFullReport">📊 Ver Relatório Completo</button>
         </div>
       </div>
     </section>
 
     <!-- Badges Section -->
     <section class="badges-section">
-      <h2 class="section-title">🏅 Badges</h2>
+      <h2 class="section-title" data-i18n="profile.badgesTitle">🏅 Badges</h2>
       <div class="badges-grid" id="badgesGrid">
         <!-- Badges loaded dynamically -->
       </div>
@@ -403,13 +399,13 @@
     <!-- Friends Section - NEW -->
     <section class="friends-section" id="friendsSection">
       <h2 class="section-title">
-        👥 Amigos
+        <span data-i18n="profile.friendsTitle">👥 Amigos</span>
         <span class="friends-count-badge" id="friendsCountBadge">0</span>
       </h2>
       
       <!-- Pending Friend Requests -->
       <div class="friend-requests-card" id="friendRequestsCard" style="display: none;">
-        <h3 class="subsection-title">📩 Pedidos de Amizade</h3>
+        <h3 class="subsection-title" data-i18n="profile.friendRequests">📩 Pedidos de Amizade</h3>
         <div class="friend-requests-list" id="friendRequestsList">
           <!-- Friend requests loaded dynamically -->
         </div>
@@ -419,19 +415,17 @@
       <div class="friends-card">
         <div class="friends-header">
           <div class="friends-search">
-            <input type="text" id="friendSearchInput" class="form-input" placeholder="🔍 Procurar amigo..." oninput="filterFriends()">
+            <input type="text" id="friendSearchInput" class="form-input" data-i18n-placeholder="profile.searchFriend" placeholder="🔍 Procurar amigo..." oninput="filterFriends()">
           </div>
-          <button class="btn btn-secondary btn-sm" onclick="openAddFriendModal()">
-            ➕ Adicionar Amigo
-          </button>
+          <button class="btn btn-secondary btn-sm" onclick="openAddFriendModal()" data-i18n="profile.addFriend">➕ Adicionar Amigo</button>
         </div>
         
         <div class="friends-grid" id="friendsGrid">
           <!-- Friends loaded dynamically -->
           <div class="empty-state" id="emptyFriends">
             <div class="empty-icon">👥</div>
-            <p>Ainda não tens amigos adicionados.</p>
-            <button class="btn btn-primary" onclick="openAddFriendModal()">Adicionar Primeiro Amigo</button>
+            <p data-i18n="profile.noFriends">Ainda não tens amigos adicionados.</p>
+            <button class="btn btn-primary" onclick="openAddFriendModal()" data-i18n="profile.addFirstFriend">Adicionar Primeiro Amigo</button>
           </div>
         </div>
       </div>
@@ -439,12 +433,12 @@
 
     <!-- Settings Section -->
     <section class="settings-section">
-      <h2 class="section-title">⚙️ Definições</h2>
+      <h2 class="section-title" data-i18n="profile.settingsTitle">⚙️ Definições</h2>
       <div class="settings-card">
         <div class="setting-item">
           <div class="setting-info">
-            <span class="setting-label">🔔 Notificações</span>
-            <span class="setting-desc">Receber emails sobre novidades</span>
+            <span class="setting-label" data-i18n="profile.settingNotif">🔔 Notificações</span>
+            <span class="setting-desc" data-i18n="profile.settingNotifDesc">Receber emails sobre novidades</span>
           </div>
           <label class="toggle">
             <input type="checkbox" id="settingNotifications">
@@ -453,8 +447,8 @@
         </div>
         <div class="setting-item">
           <div class="setting-info">
-            <span class="setting-label">👥 Perfil Público</span>
-            <span class="setting-desc">Permitir que outros te encontrem no Smart Match</span>
+            <span class="setting-label" data-i18n="profile.settingPublic">👥 Perfil Público</span>
+            <span class="setting-desc" data-i18n="profile.settingPublicDesc">Permitir que outros te encontrem no Smart Match</span>
           </div>
           <label class="toggle">
             <input type="checkbox" id="settingPublicProfile">
@@ -463,8 +457,8 @@
         </div>
         <div class="setting-item">
           <div class="setting-info">
-            <span class="setting-label">❤️ Smart Match</span>
-            <span class="setting-desc">Participar na funcionalidade de compatibilidade</span>
+            <span class="setting-label" data-i18n="profile.settingSmartMatch">❤️ Smart Match</span>
+            <span class="setting-desc" data-i18n="profile.settingSmartMatchDesc">Participar na funcionalidade de compatibilidade</span>
           </div>
           <label class="toggle">
             <input type="checkbox" id="settingSmartMatch">
@@ -474,49 +468,49 @@
       </div>
     </section>    <!-- Feedback Section -->
     <section class="feedback-section">
-      <h2 class="section-title">💬 Feedback & Sugestões</h2>
+      <h2 class="section-title" data-i18n="profile.feedbackTitle">💬 Feedback & Sugestões</h2>
       <div class="feedback-card">
         <div class="feedback-info">
           <div class="feedback-icon">🚧</div>
           <div class="feedback-text">
-            <h3>Projeto em Desenvolvimento</h3>
-            <p>O Quest4You está em constante evolução! A tua opinião é muito importante para nos ajudar a criar a melhor experiência possível. Partilha as tuas sugestões, reporta bugs ou diz-nos o que gostarias de ver no futuro.</p>
+            <h3 data-i18n="profile.feedbackSubtitle">Projeto em Desenvolvimento</h3>
+            <p data-i18n="profile.feedbackDesc">O Quest4You está em constante evolução! A tua opinião é muito importante para nos ajudar a criar a melhor experiência possível. Partilha as tuas sugestões, reporta bugs ou diz-nos o que gostarias de ver no futuro.</p>
           </div>
         </div>
         <div class="feedback-form">
-          <textarea id="feedbackText" class="feedback-textarea" placeholder="Escreve aqui o teu feedback, sugestões ou ideias..." rows="4"></textarea>
+          <textarea id="feedbackText" class="feedback-textarea" data-i18n-placeholder="profile.feedbackPlaceholder" placeholder="Escreve aqui o teu feedback, sugestões ou ideias..." rows="4"></textarea>
           <div class="feedback-type-selector">
             <label class="feedback-type">
               <input type="radio" name="feedbackType" value="suggestion" checked>
-              <span>💡 Sugestão</span>
+              <span data-i18n="profile.feedbackSuggestion">💡 Sugestão</span>
             </label>
             <label class="feedback-type">
               <input type="radio" name="feedbackType" value="bug">
-              <span>🐛 Bug</span>
+              <span data-i18n="profile.feedbackBug">🐛 Bug</span>
             </label>
             <label class="feedback-type">
               <input type="radio" name="feedbackType" value="feature">
-              <span>✨ Nova Funcionalidade</span>
+              <span data-i18n="profile.feedbackFeature">✨ Nova Funcionalidade</span>
             </label>
             <label class="feedback-type">
               <input type="radio" name="feedbackType" value="other">
-              <span>💭 Outro</span>
+              <span data-i18n="profile.feedbackOther">💭 Outro</span>
             </label>
           </div>
-          <button class="btn btn-primary" onclick="submitFeedback()">📤 Enviar Feedback</button>
+          <button class="btn btn-primary" onclick="submitFeedback()" data-i18n="profile.sendFeedback">📤 Enviar Feedback</button>
         </div>
       </div>
     </section>
 
     <!-- Support Section - Buy Me a Coffee -->
     <section class="support-section">
-      <h2 class="section-title">☕ Apoiar o Projeto</h2>
+      <h2 class="section-title" data-i18n="profile.supportTitle">☕ Apoiar o Projeto</h2>
       <div class="support-card">
         <div class="support-info">
           <div class="support-icon">❤️</div>
           <div class="support-text">
-            <h3>Gostaste do Quest4You?</h3>
-            <p>Este projeto é desenvolvido com paixão e dedicação. Se gostavas de apoiar o desenvolvimento contínuo e ajudar-nos a criar novas funcionalidades, considera oferecer-nos um café!</p>
+            <h3 data-i18n="profile.supportSubtitle">Gostaste do Quest4You?</h3>
+            <p data-i18n="profile.supportDesc">Este projeto é desenvolvido com paixão e dedicação. Se gostavas de apoiar o desenvolvimento contínuo e ajudar-nos a criar novas funcionalidades, considera oferecer-nos um café!</p>
           </div>
         </div>
         <a href="https://buymeacoffee.com/quest4couple" target="_blank" rel="noopener noreferrer" class="btn btn-support">
@@ -527,25 +521,21 @@
 
     <!-- Danger Zone -->
     <section class="danger-section">
-      <h2 class="section-title">⚠️ Zona de Perigo</h2>
+      <h2 class="section-title" data-i18n="profile.dangerTitle">⚠️ Zona de Perigo</h2>
       <div class="danger-card">
         <div class="danger-item">
           <div class="danger-info">
-            <span class="danger-label">Apagar Todos os Dados</span>
-            <span class="danger-desc">Remove todos os teus resultados e progresso</span>
+            <span class="danger-label" data-i18n="profile.deleteData">Apagar Todos os Dados</span>
+            <span class="danger-desc" data-i18n="profile.deleteDataDesc">Remove todos os teus resultados e progresso</span>
           </div>
-          <button class="btn btn-danger" onclick="deleteAllData()">
-            🗑️ Apagar Dados
-          </button>
+          <button class="btn btn-danger" onclick="deleteAllData()" data-i18n="profile.deleteDataBtn">🗑️ Apagar Dados</button>
         </div>
         <div class="danger-item">
           <div class="danger-info">
-            <span class="danger-label">Eliminar Conta</span>
-            <span class="danger-desc">Remove permanentemente a tua conta</span>
+            <span class="danger-label" data-i18n="profile.deleteAccount">Eliminar Conta</span>
+            <span class="danger-desc" data-i18n="profile.deleteAccountDesc">Remove permanentemente a tua conta</span>
           </div>
-          <button class="btn btn-danger" onclick="deleteAccount()">
-            ❌ Eliminar Conta
-          </button>
+          <button class="btn btn-danger" onclick="deleteAccount()" data-i18n="profile.deleteAccountBtn">❌ Eliminar Conta</button>
         </div>
       </div>
     </section>
@@ -555,19 +545,19 @@
   <div class="modal" id="editModal" style="display: none;">
     <div class="modal-content">
       <button class="modal-close" onclick="closeEditModal()">×</button>
-      <h2>✏️ Editar Perfil</h2>
+      <h2 data-i18n="profile.editProfileTitle">✏️ Editar Perfil</h2>
       <form onsubmit="saveProfile(event)">
         <div class="form-group">
-          <label for="editName">👤 Nome</label>
+          <label for="editName" data-i18n="profile.editName">👤 Nome</label>
           <input type="text" id="editName" required minlength="2">
         </div>
         <div class="form-group">
-          <label for="editPhoto">🖼️ URL da Foto (opcional)</label>
+          <label for="editPhoto" data-i18n="profile.editPhoto">🖼️ URL da Foto (opcional)</label>
           <input type="url" id="editPhoto" placeholder="https://...">
         </div>
         <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-secondary" onclick="closeEditModal()" data-i18n="common.cancel">Cancelar</button>
+          <button type="submit" class="btn btn-primary" data-i18n="common.save">Guardar</button>
         </div>
       </form>
     </div>
@@ -577,13 +567,13 @@
   <div class="modal" id="addFriendModal" style="display: none;">
     <div class="modal-content">
       <button class="modal-close" onclick="closeAddFriendModal()">×</button>
-      <h2>➕ Adicionar Amigo</h2>
-      <p class="modal-desc">Procura utilizadores pelo nickname ou email para enviar um pedido de amizade.</p>
+      <h2 data-i18n="profile.addFriendTitle">➕ Adicionar Amigo</h2>
+      <p class="modal-desc" data-i18n="profile.addFriendDesc">Procura utilizadores pelo nickname ou email para enviar um pedido de amizade.</p>
       
       <div class="form-group">
-        <label for="friendSearchQuery">🔍 Procurar</label>
+        <label for="friendSearchQuery" data-i18n="common.search">🔍 Procurar</label>
         <div class="search-input-wrapper">
-          <input type="text" id="friendSearchQuery" class="form-input" placeholder="Nickname ou email..." oninput="searchUsersDebounced()">
+          <input type="text" id="friendSearchQuery" class="form-input" data-i18n-placeholder="profile.searchPlaceholder" placeholder="Nickname ou email..." oninput="searchUsersDebounced()">
           <span class="search-loading" id="searchLoading" style="display: none;">⏳</span>
         </div>
       </div>
@@ -591,7 +581,7 @@
       <div class="search-results" id="friendSearchResults">
         <div class="search-hint">
           <span class="hint-icon">💡</span>
-          <span>Escreve pelo menos 3 caracteres para procurar</span>
+          <span data-i18n="profile.searchHint">Escreve pelo menos 3 caracteres para procurar</span>
         </div>
       </div>
     </div>
@@ -608,13 +598,9 @@
         <!-- Content loaded dynamically -->
       </div>
       <div class="modal-actions">
-        <button class="btn btn-outline" onclick="closeViewFriendModal()">Fechar</button>
-        <button class="btn btn-primary" onclick="sendMessageToFriend()" id="btnSendMessage" style="display: none;">
-          💬 Enviar Mensagem
-        </button>
-        <button class="btn btn-danger" onclick="removeFriendFromModal()" id="btnRemoveFriend">
-          🗑️ Remover Amigo
-        </button>
+        <button class="btn btn-outline" onclick="closeViewFriendModal()" data-i18n="common.close">Fechar</button>
+        <button class="btn btn-primary" onclick="sendMessageToFriend()" id="btnSendMessage" style="display: none;" data-i18n="profile.sendMessage">💬 Enviar Mensagem</button>
+        <button class="btn btn-danger" onclick="removeFriendFromModal()" id="btnRemoveFriend" data-i18n="profile.removeFriend">🗑️ Remover Amigo</button>
       </div>
     </div>
   </div>
@@ -625,13 +611,13 @@
       <button class="result-close" onclick="closeResultModal()">✕</button>
       <div class="result-header" id="resultHeader">
         <div class="result-emoji" id="resultEmoji">🎯</div>
-        <h1 class="result-title">O Teu Resultado</h1>
+        <h1 class="result-title" data-i18n="modal.yourResult">O Teu Resultado</h1>
       </div>
       <div class="result-body">
         <div class="result-score-container">
           <div class="result-score-circle">
             <span class="result-score-value" id="resultScore">0</span>
-            <span class="result-score-label">pontos</span>
+            <span class="result-score-label" data-i18n="modal.points">pontos</span>
           </div>
         </div>
         <div class="result-category">
@@ -643,9 +629,9 @@
           <!-- Breakdown bars will be inserted here -->
         </div>
         <div class="result-actions">
-          <button class="btn btn-primary" onclick="shareResult()">📤 Partilhar</button>
-          <button class="btn btn-secondary" onclick="retakeQuiz()">🔄 Refazer</button>
-          <button class="btn btn-outline" onclick="closeResultModal()">🏠 Fechar</button>
+          <button class="btn btn-primary" onclick="shareResult()" data-i18n="modal.share">📤 Partilhar</button>
+          <button class="btn btn-secondary" onclick="retakeQuiz()" data-i18n="modal.retake">🔄 Refazer</button>
+          <button class="btn btn-outline" onclick="closeResultModal()" data-i18n="modal.close">🏠 Fechar</button>
         </div>
       </div>
     </div>
@@ -657,16 +643,16 @@
       <button class="result-close" onclick="closeFullReport()">✕</button>
       <div class="full-report-header">
         <div class="full-report-header-icon">📋</div>
-        <h1>Relatório Pessoal Completo</h1>
-        <p class="full-report-subtitle">Análise detalhada de todos os teus questionários</p>
+        <h1 data-i18n="profile.fullReportTitle">Relatório Pessoal Completo</h1>
+        <p class="full-report-subtitle" data-i18n="profile.fullReportSubtitle">Análise detalhada de todos os teus questionários</p>
       </div>
       <div class="full-report-body" id="fullReportBody">
         <!-- Content will be generated dynamically -->
       </div>
       <div class="full-report-actions">
-        <button class="btn btn-primary" onclick="shareFullReport()">📤 Partilhar</button>
-        <button class="btn btn-secondary" onclick="downloadFullReport()">📥 Guardar PDF</button>
-        <button class="btn btn-outline" onclick="closeFullReport()">🏠 Fechar</button>
+        <button class="btn btn-primary" onclick="shareFullReport()" data-i18n="modal.share">📤 Partilhar</button>
+        <button class="btn btn-secondary" onclick="downloadFullReport()" data-i18n="profile.downloadPdf">📥 Guardar PDF</button>
+        <button class="btn btn-outline" onclick="closeFullReport()" data-i18n="modal.close">🏠 Fechar</button>
       </div>
     </div>
   </div>
@@ -674,7 +660,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
-      <p>&copy; 2025 Quest4You - Todos os direitos reservados</p>
+      <p data-i18n="footer.rights">&copy; 2025 Quest4You - Todos os direitos reservados</p>
     </div>
   </footer>
   <!-- Firebase -->
@@ -687,6 +673,7 @@
   <script src="../js/notifications.js?v=202602060002"></script>
   <script src="../js/blocks.js?v=202602080001"></script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
+  <script src="../js/i18n.js?v=202602080100"></script>
   <script src="../js/verification.js?v=202602080001"></script>
   <script src="../js/match-history.js?v=202602080001"></script>
   <script src="../js/profile.js?v=202602080001"></script>

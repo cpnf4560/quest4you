@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Match - Quest4You</title>
+  <title data-i18n="smartMatch.pageTitle">Smart Match - Quest4You</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,10 +28,10 @@
         <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
         <span class="logo-text">Quest4You</span>
       </a>      <nav class="nav">
-        <a href="../index.html" class="nav-link">🏠 Início</a>
-        <a href="./chat.html" class="nav-link">💬 Chat</a>
-        <a href="./explorar.html" class="nav-link">👥 Comunidade</a>
-        <a href="./profile.html" class="nav-link" id="profileLink">👤 Perfil</a>
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
+        <a href="./chat.html" class="nav-link" data-i18n="nav.chat">💬 Chat</a>
+        <a href="./explorar.html" class="nav-link" data-i18n="nav.community">👥 Comunidade</a>
+        <a href="./profile.html" class="nav-link" id="profileLink" data-i18n="nav.profile">👤 Perfil</a>
       </nav>
     </div>
   </header>
@@ -45,7 +45,7 @@
           <span class="match-icon">💕</span>
           Smart Match
         </h1>
-        <p class="match-hero-subtitle">
+        <p class="match-hero-subtitle" data-i18n="smartMatch.heroSubtitle">
           Encontra pessoas compatíveis com base nos teus questionários
         </p>
       </div>
@@ -55,9 +55,9 @@
     <section class="login-required" id="loginRequired">
       <div class="login-required-card">
         <div class="login-required-icon">🔐</div>
-        <h2>Autenticação Necessária</h2>
-        <p>Para usar o Smart Match, precisas de ter uma conta e fazer login.</p>
-        <a href="./auth.html?redirect=smart-match" class="btn btn-primary">
+        <h2 data-i18n="smartMatch.authRequired">Autenticação Necessária</h2>
+        <p data-i18n="smartMatch.authDesc">Para usar o Smart Match, precisas de ter uma conta e fazer login.</p>
+        <a href="./auth.html?redirect=smart-match" class="btn btn-primary" data-i18n="smartMatch.createAccount">
           🚀 Criar Conta / Entrar
         </a>
       </div>
@@ -67,11 +67,9 @@
     <section class="no-quizzes" id="noQuizzes" style="display: none;">
       <div class="no-quizzes-card">
         <div class="no-quizzes-icon">📋</div>
-        <h2>Completa Questionários Primeiro</h2>
-        <p>Para encontrar matches compatíveis, precisas de completar pelo menos um questionário.</p>
-        <a href="../index.html" class="btn btn-primary">
-          📝 Ver Questionários
-        </a>
+        <h2 data-i18n="smartMatch.completeFirst">Completa Questionários Primeiro</h2>
+        <p data-i18n="smartMatch.completeFirstDesc">Para encontrar matches compatíveis, precisas de completar pelo menos um questionário.</p>
+        <a href="../index.html" class="btn btn-primary" data-i18n="smartMatch.viewQuizzes">📝 Ver Questionários</a>
       </div>
     </section>
 
@@ -79,48 +77,48 @@
     <section class="profile-setup" id="profileSetup" style="display: none;">
       <div class="profile-setup-card">
         <div class="profile-setup-icon">👤</div>
-        <h2>Configura o Teu Perfil</h2>
-        <p>Para aparecer no Smart Match, configura o teu perfil público.</p>
+        <h2 data-i18n="smartMatch.setupProfile">Configura o Teu Perfil</h2>
+        <p data-i18n="smartMatch.setupProfileDesc">Para aparecer no Smart Match, configura o teu perfil público.</p>
         
         <form id="profileSetupForm" class="profile-setup-form">
           <div class="form-group">
-            <label for="displayName">Nome de Exibição</label>
-            <input type="text" id="displayName" required placeholder="Como queres ser chamado/a?">
+            <label for="displayName" data-i18n="smartMatch.displayName">Nome de Exibição</label>
+            <input type="text" id="displayName" required data-i18n-placeholder="smartMatch.displayNamePlaceholder" placeholder="Como queres ser chamado/a?">
           </div>
           
           <div class="form-row">
             <div class="form-group">
-              <label for="age">Idade</label>
-              <input type="number" id="age" min="18" max="99" placeholder="Idade">
+              <label for="age" data-i18n="smartMatch.age">Idade</label>
+              <input type="number" id="age" min="18" max="99" data-i18n-placeholder="smartMatch.age" placeholder="Idade">
             </div>
             
             <div class="form-group">
-              <label for="gender">Género</label>
+              <label for="gender" data-i18n="profile.gender">Género</label>
               <select id="gender">
-                <option value="">Selecionar...</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-                <option value="nao-binario">Não-binário</option>
-                <option value="outro">Outro</option>
-                <option value="prefiro-nao-dizer">Prefiro não dizer</option>
+                <option value="" data-i18n="smartMatch.select">Selecionar...</option>
+                <option value="masculino" data-i18n="smartMatch.genderMale">Masculino</option>
+                <option value="feminino" data-i18n="smartMatch.genderFemale">Feminino</option>
+                <option value="nao-binario" data-i18n="profile.genderNonBinary">Não-binário</option>
+                <option value="outro" data-i18n="profile.genderOther">Outro</option>
+                <option value="prefiro-nao-dizer" data-i18n="profile.genderPreferNot">Prefiro não dizer</option>
               </select>
             </div>
           </div>
           
           <div class="form-group">
-            <label for="location">Localização</label>
-            <input type="text" id="location" placeholder="Cidade, País">
+            <label for="location" data-i18n="smartMatch.location">Localização</label>
+            <input type="text" id="location" data-i18n-placeholder="smartMatch.locationPlaceholder" placeholder="Cidade, País">
           </div>
           
           <div class="form-group checkbox-group">
             <label class="checkbox-label">
               <input type="checkbox" id="publishProfile" checked>
               <span class="checkbox-custom"></span>
-              Quero aparecer no Smart Match
+              <span data-i18n="smartMatch.wantAppear">Quero aparecer no Smart Match</span>
             </label>
           </div>
           
-          <button type="submit" class="btn btn-primary btn-full">
+          <button type="submit" class="btn btn-primary btn-full" data-i18n="smartMatch.saveAndContinue">
             💾 Guardar e Continuar
           </button>
         </form>
@@ -131,33 +129,33 @@
     <section class="match-main" id="matchMain" style="display: none;">
       <!-- Filters -->
       <div class="match-filters">
-        <h3 class="filters-title">🔍 Filtros</h3>
+        <h3 class="filters-title" data-i18n="smartMatch.filters">🔍 Filtros</h3>
         
         <div class="filter-group">
-          <label for="filterGender">Género</label>
+          <label for="filterGender" data-i18n="profile.gender">Género</label>
           <select id="filterGender" onchange="applyFilters()">
-            <option value="">Todos</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-            <option value="nao-binario">Não-binário</option>
-            <option value="outro">Outro</option>
+            <option value="" data-i18n="smartMatch.all">Todos</option>
+            <option value="masculino" data-i18n="smartMatch.genderMale">Masculino</option>
+            <option value="feminino" data-i18n="smartMatch.genderFemale">Feminino</option>
+            <option value="nao-binario" data-i18n="profile.genderNonBinary">Não-binário</option>
+            <option value="outro" data-i18n="profile.genderOther">Outro</option>
           </select>
         </div>
         
         <div class="filter-group">
-          <label for="filterMinCompat">Compatibilidade Mínima</label>
+          <label for="filterMinCompat" data-i18n="smartMatch.minCompat">Compatibilidade Mínima</label>
           <input type="range" id="filterMinCompat" min="0" max="100" value="0" oninput="updateCompatLabel()">
           <span id="compatLabel">0%</span>
         </div>
         
-        <button class="btn btn-secondary btn-small" onclick="refreshMatches()">
+        <button class="btn btn-secondary btn-small" onclick="refreshMatches()" data-i18n="smartMatch.refresh">
           🔄 Atualizar
         </button>
       </div>
 
       <!-- Your Profile Card -->      <div class="your-profile-card" id="yourProfileCard">
         <div class="your-profile-header">
-          <span class="your-profile-label">O Teu Perfil</span>
+          <span class="your-profile-label" data-i18n="smartMatch.yourProfile">O Teu Perfil</span>
           <button class="btn btn-outline btn-small" onclick="toggleProfileVisibility()">
             <span id="visibilityIcon">👁️</span>
           </button>
@@ -185,7 +183,7 @@
       <!-- Matches Grid -->
       <div class="matches-section">
         <h2 class="matches-title">
-          <span>💕</span> Matches Compatíveis
+          <span>💕</span> <span data-i18n="smartMatch.compatibleMatches">Matches Compatíveis</span>
           <span class="match-count" id="matchCount">(0)</span>
         </h2>
         
@@ -195,12 +193,12 @@
         
         <div class="no-matches" id="noMatches" style="display: none;">
           <div class="no-matches-icon">😔</div>
-          <p>Nenhum match encontrado com os filtros selecionados.</p>
+          <p data-i18n="smartMatch.noMatchesFiltered">Nenhum match encontrado com os filtros selecionados.</p>
         </div>
         
         <div class="loading-matches" id="loadingMatches">
           <div class="loading-spinner"></div>
-          <p>A procurar matches...</p>
+          <p data-i18n="smartMatch.searching">A procurar matches...</p>
         </div>
       </div>
     </section>
@@ -222,7 +220,7 @@
           <span class="compat-value" id="modalCompatValue">0</span>
           <span class="compat-label">%</span>
         </div>
-        <p class="compat-text">Compatibilidade</p>
+        <p class="compat-text" data-i18n="smartMatch.compatibility">Compatibilidade</p>
       </div>
       
       <div class="match-modal-breakdown" id="modalBreakdown">
@@ -230,10 +228,10 @@
       </div>
       
       <div class="match-modal-actions">
-        <button class="btn btn-primary" onclick="initiateContact()">
+        <button class="btn btn-primary" onclick="initiateContact()" data-i18n="smartMatch.startConversation">
           💬 Iniciar Conversa
         </button>
-        <button class="btn btn-secondary" onclick="closeMatchModal()">
+        <button class="btn btn-secondary" onclick="closeMatchModal()" data-i18n="common.close">
           Fechar
         </button>
       </div>
@@ -243,7 +241,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
-      <p>© 2025 Quest4You. Descobre-te a ti mesmo.</p>
+      <p data-i18n="footer.rights">© 2025 Quest4You. Descobre-te a ti mesmo.</p>
     </div>
   </footer>
   <!-- Firebase SDKs -->
@@ -255,6 +253,7 @@
   <script src="../js/cloud-sync.js?v=202601202240"></script>
   <script src="../js/notifications.js?v=202602060002"></script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
+  <script src="../js/i18n.js?v=202602080100"></script>
   <script src="../js/smart-match.js?v=202601202240"></script>
 </body>
 </html>

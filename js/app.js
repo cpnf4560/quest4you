@@ -10,131 +10,139 @@
 const QUIZZES_CONFIG = [
   {
     id: "vanilla",
-    name: "Vanilla ou Kink",
+    nameKey: "quizNames.vanilla",
     icon: "🔥",
     color: "#e91e63",
-    description: "Sexo suave e romântico vs. intenso e selvagem - descobre onde te posicionas",
+    descKey: "quizDescriptions.vanilla",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "orientation",
-    name: "Orientação Sexual",
+    nameKey: "quizNames.orientation",
     icon: "🌈",
     color: "#9c27b0",
-    description: "Descobre a tua orientação e atração",
+    descKey: "quizDescriptions.orientation",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "cuckold",
-    name: "Voyeurismo & Partilha",
+    nameKey: "quizNames.cuckold",
     icon: "👁️",
     color: "#673ab7",
-    description: "Cuckold, stag, hotwife e dinâmicas de partilha",
+    descKey: "quizDescriptions.cuckold",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "swing",
-    name: "Swing & Não-Monogamia",
+    nameKey: "quizNames.swing",
     icon: "💑",
     color: "#00bcd4",
-    description: "Modelos relacionais e não-monogamia",
+    descKey: "quizDescriptions.swing",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "kinks",
-    name: "Fetiches e Parafilias",
+    nameKey: "quizNames.kinks",
     icon: "🎭",
     color: "#9c27b0",
-    description: "Mapeamento completo de fetiches - gera ~150 tags",
+    descKey: "quizDescriptions.kinks",
     questions: 50,
     resultType: "tags"
   },
   {
     id: "bdsm",
-    name: "BDSM & Poder",
+    nameKey: "quizNames.bdsm",
     icon: "⛓️",
     color: "#4a148c",
-    description: "Dinâmicas de poder, dominação e submissão",
+    descKey: "quizDescriptions.bdsm",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "adventure",
-    name: "Aventura Sexual",
+    nameKey: "quizNames.adventure",
     icon: "🚀",
     color: "#ff5722",
-    description: "Nível de aventura e experimentação",
+    descKey: "quizDescriptions.adventure",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "fantasies",
-    name: "Fantasias Secretas",
+    nameKey: "quizNames.fantasies",
     icon: "🌙",
     color: "#7b1fa2",
-    description: "O mundo das tuas fantasias",
+    descKey: "quizDescriptions.fantasies",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "exhibitionism",
-    name: "Exibicionismo & Voyeurismo",
+    nameKey: "quizNames.exhibitionism",
     icon: "👁️",
     color: "#ff9800",
-    description: "Mostrar, ver ou ambos?",
+    descKey: "quizDescriptions.exhibitionism",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "communication",
-    name: "Comunicação Sexual",
+    nameKey: "quizNames.communication",
     icon: "🗣️",
     color: "#2196f3",
-    description: "Capacidade de comunicar desejos e limites",
+    descKey: "quizDescriptions.communication",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "intimacy",
-    name: "Intimidade & Conexão",
+    nameKey: "quizNames.intimacy",
     icon: "💖",
     color: "#e91e63",
-    description: "Importância da conexão emocional",
+    descKey: "quizDescriptions.intimacy",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "rhythm",
-    name: "Ritmo & Frequência",
+    nameKey: "quizNames.rhythm",
     icon: "⏱️",
     color: "#009688",
-    description: "Frequência, duração, horários e libido",
+    descKey: "quizDescriptions.rhythm",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "lifestyle",
-    name: "Valores & Estilo de Vida",
+    nameKey: "quizNames.lifestyle",
     icon: "🌍",
     color: "#4caf50",
-    description: "Como vives a tua sexualidade no dia-a-dia, o que valorizas, e como evoluis",
+    descKey: "quizDescriptions.lifestyle",
     questions: 15,
     resultType: "spectrum"
   },
   {
     id: "digital",
-    name: "Comunicação & Tecnologia",
+    nameKey: "quizNames.digital",
     icon: "📱",
     color: "#607d8b",
-    description: "Como te conectas com outros sexualmente no mundo moderno",
+    descKey: "quizDescriptions.digital",
     questions: 15,
     resultType: "spectrum"
   }
 ];
+
+// Helper: get translated quiz name/description
+function getQuizName(quiz) {
+  return (typeof t === 'function' && quiz.nameKey) ? t(quiz.nameKey) : (quiz.name || quiz.id);
+}
+function getQuizDesc(quiz) {
+  return (typeof t === 'function' && quiz.descKey) ? t(quiz.descKey) : (quiz.description || '');
+}
 
 // ================================
 // STATE
@@ -167,6 +175,18 @@ document.addEventListener("DOMContentLoaded", function() {
       document.querySelector(".nav").classList.toggle("active");
     });
   }
+
+  // Re-render when language changes
+  window.addEventListener('languageChanged', function() {
+    renderQuizzes();
+    renderProgress();
+    // Re-apply dynamic text for auth state
+    if (currentUser) {
+      updateUIForUser(currentUser);
+    } else {
+      updateUIForGuest();
+    }
+  });
 });
 
 // ================================
@@ -189,7 +209,7 @@ function updateUIForUser(user) {
   // Update auth link
   const authLink = document.getElementById("authLink");
   if (authLink) {
-    authLink.textContent = "👤 " + (user.displayName || "Perfil");
+    authLink.textContent = "👤 " + (user.displayName || t('nav.profile'));
     authLink.href = "./pages/profile.html";
     authLink.classList.remove("btn-nav-login");
   }
@@ -222,7 +242,7 @@ function updateUIForUser(user) {
     heroWelcome.style.display = "block";
     const userName = document.getElementById("heroUserName");
     if (userName) {
-      userName.textContent = user.displayName || user.email?.split("@")[0] || "Utilizador";
+      userName.textContent = user.displayName || user.email?.split("@")[0] || t('hero.welcomeUser');
     }
   }
 
@@ -237,7 +257,7 @@ function updateUIForGuest() {
   // Update auth link
   const authLink = document.getElementById("authLink");
   if (authLink) {
-    authLink.textContent = "🔐 Entrar";
+    authLink.textContent = t('nav.login');
     authLink.href = "./pages/auth.html";
   }
 
@@ -326,10 +346,10 @@ function renderQuizzes() {
       html += '    <div class="quiz-completed-badge">✓</div>';
     }
     html += '    <div class="quiz-card-icon">' + quiz.icon + '</div>';
-    html += '    <h3 class="quiz-card-title">' + quiz.name + '</h3>';
+    html += '    <h3 class="quiz-card-title">' + getQuizName(quiz) + '</h3>';
     html += '  </div>';
     html += '  <div class="quiz-card-body">';
-    html += '    <p class="quiz-card-description">' + quiz.description + '</p>';
+    html += '    <p class="quiz-card-description">' + getQuizDesc(quiz) + '</p>';
       // Show progress bar and score if completed
     if (isCompleted) {
       html += '    <div class="quiz-card-progress">';
@@ -339,18 +359,17 @@ function renderQuizzes() {
       html += '      <span class="quiz-progress-score">' + score + '/100</span>';
       html += '    </div>';
       html += '    <div class="quiz-card-actions">';
-      html += '      <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); viewResults(\'' + quiz.id + '\')">👁️ Ver Resultados</button>';
+      html += '      <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); viewResults(\'' + quiz.id + '\')">' + t('quizzes.viewResults') + '</button>';
       html += '    </div>';
       html += '    <div class="quiz-card-actions">';
-      html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); editQuizAnswers(\'' + quiz.id + '\')">✏️ Editar</button>';
-      html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); openQuiz(\'' + quiz.id + '\')">🔄 Refazer</button>';
-      html += '    </div>';
+      html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); editQuizAnswers(\'' + quiz.id + '\')">' + t('quizzes.edit') + '</button>';
+      html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); openQuiz(\'' + quiz.id + '\')">' + t('quizzes.redo') + '</button>';
     } else {
       html += '    <div class="quiz-card-footer">';
-      html += '      <span class="quiz-meta">📝 ' + quiz.questions + ' perguntas</span>';
-      html += '      <span class="quiz-badge free">✓ Grátis</span>';
+      html += '      <span class="quiz-meta">📝 ' + quiz.questions + ' ' + t('quizzes.questions') + '</span>';
+      html += '      <span class="quiz-badge free">' + t('quizzes.free') + '</span>';
       html += '    </div>';
-      html += '    <button class="btn btn-primary btn-full quiz-start-btn" onclick="event.stopPropagation(); openQuiz(\'' + quiz.id + '\')">Começar</button>';
+      html += '    <button class="btn btn-primary btn-full quiz-start-btn" onclick="event.stopPropagation(); openQuiz(\'' + quiz.id + '\')">' + t('quizzes.start') + '</button>';
     }
     
     html += '  </div>';
@@ -384,9 +403,9 @@ async function renderProgress() {
   const statsProgressFill = document.getElementById("statsProgressFill");
   
   if (statQuizzesCompleted) statQuizzesCompleted.textContent = completedQuizzes;
-  if (statQuizzesDetail) statQuizzesDetail.textContent = "de " + totalQuizzes + " disponíveis";
+  if (statQuizzesDetail) statQuizzesDetail.textContent = t('stats.ofAvailable', { count: totalQuizzes });
   if (statQuestionsAnswered) statQuestionsAnswered.textContent = questionsAnswered;
-  if (statQuestionsDetail) statQuestionsDetail.textContent = "de " + totalQuestions + " totais";
+  if (statQuestionsDetail) statQuestionsDetail.textContent = t('stats.ofTotal', { count: totalQuestions });
   if (statsProgressPercent) statsProgressPercent.textContent = progressPercent + "%";
   if (statsProgressFill) statsProgressFill.style.width = progressPercent + "%";
   
@@ -459,7 +478,7 @@ function saveProgress() {
     return;
   }
   
-  alert("✅ Progresso guardado com sucesso!");
+  alert(t('app.progressSaved'));
 }
 
 function goToSmartMatch() {
@@ -490,7 +509,7 @@ async function viewResults(quizId) {
   }
   
   if (!result) {
-    alert("Não foram encontrados resultados para este questionário.");
+    alert(t('app.noResultsFound'));
     return;
   }
   
@@ -529,15 +548,15 @@ async function viewResults(quizId) {
 
 function generateResultDescription(quizName, score) {
   if (score >= 80) {
-    return "Tens um nível muito elevado nesta área! Os teus resultados mostram um grande interesse e abertura.";
+    return t('resultDesc.veryHigh') !== 'resultDesc.veryHigh' ? t('resultDesc.veryHigh') : "Tens um nível muito elevado nesta área! Os teus resultados mostram um grande interesse e abertura.";
   } else if (score >= 60) {
-    return "Tens uma curiosidade saudável e estás aberto/a a explorar esta área com moderação.";
+    return t('resultDesc.high') !== 'resultDesc.high' ? t('resultDesc.high') : "Tens uma curiosidade saudável e estás aberto/a a explorar esta área com moderação.";
   } else if (score >= 40) {
-    return "Tens um interesse moderado nesta área. Podes explorar mais ao teu ritmo.";
+    return t('resultDesc.medium') !== 'resultDesc.medium' ? t('resultDesc.medium') : "Tens um interesse moderado nesta área. Podes explorar mais ao teu ritmo.";
   } else if (score >= 20) {
-    return "Esta área não é particularmente do teu interesse, mas manténs a mente aberta.";
+    return t('resultDesc.low') !== 'resultDesc.low' ? t('resultDesc.low') : "Esta área não é particularmente do teu interesse, mas manténs a mente aberta.";
   } else {
-    return "Esta área não parece ser do teu interesse no momento. E está tudo bem assim!";
+    return t('resultDesc.veryLow') !== 'resultDesc.veryLow' ? t('resultDesc.veryLow') : "Esta área não parece ser do teu interesse no momento. E está tudo bem assim!";
   }
 }
 
@@ -572,7 +591,7 @@ function buildRoleBreakdown(result) {
   const rolePercentages = result.rolePercentages || {};
   const sortedRoles = Object.entries(rolePercentages).sort((a, b) => b[1] - a[1]);
   
-  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Os teus perfis:</p>';
+  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('profile.resultsTitle') + ':</p>';
   
   sortedRoles.forEach(([roleId, percentage]) => {
     const label = formatCategoryLabel(roleId);
@@ -627,17 +646,20 @@ function shareResultFromHome() {
   
   if (!quiz || !result) return;
   
-  const text = 'Fiz o questionário "' + quiz.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '/100') + '\n\nDescobre o teu também em quest4you.com';
+  const quizName = getQuizName(quiz);
+  const text = t('quiz.shareText') !== 'quiz.shareText'
+    ? t('quiz.shareText', { name: quizName, result: (result.category || result.score + '/100') })
+    : 'Fiz o questionário "' + quizName + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '/100') + '\n\nDescobre o teu também em quest4you.com';
   
   if (navigator.share) {
     navigator.share({
-      title: 'Quest4You - ' + quiz.name,
+      title: 'Quest4You - ' + quizName,
       text: text,
       url: window.location.origin
     });
   } else {
     navigator.clipboard.writeText(text).then(() => {
-      alert("Resultado copiado para a área de transferência!");
+      alert(t('common.success') + '!');
     });
   }
 }
@@ -645,7 +667,7 @@ function shareResultFromHome() {
 async function retakeQuizFromHome() {
   if (!currentViewingQuizId) return;
   
-  if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
+  if (confirm(t('quiz.retakeConfirm') !== 'quiz.retakeConfirm' ? t('quiz.retakeConfirm') : "Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
     // Delete from cloud
     if (currentUser && window.CloudSync) {
       try {

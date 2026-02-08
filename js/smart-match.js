@@ -38,9 +38,15 @@ document.addEventListener("DOMContentLoaded", async function() {
   } else {
     showSection('loginRequired');
   }
-
   // Setup form handlers
   setupFormHandlers();
+
+  // Re-render when language changes
+  window.addEventListener('languageChanged', function() {
+    if (filteredMatches.length > 0) {
+      renderMatches();
+    }
+  });
 });
 
 // ================================
@@ -143,7 +149,7 @@ async function handleProfileSubmit(e) {
   const publishProfile = document.getElementById('publishProfile').checked;
 
   if (!displayName) {
-    alert('Por favor, insere um nome de exibição.');
+    alert(t('smartMatch.enterDisplayName'));
     return;
   }
 
@@ -191,7 +197,7 @@ async function handleProfileSubmit(e) {
 
   } catch (error) {
     console.error("❌ Erro ao guardar perfil:", error);
-    alert('Erro ao guardar perfil. Por favor, tenta novamente.');
+    alert(t('smartMatch.saveProfileError'));
   }
 }
 
@@ -201,7 +207,7 @@ async function handleProfileSubmit(e) {
 function updateYourProfileCard() {
   if (!userProfile) return;
 
-  document.getElementById('yourName').textContent = userProfile.displayName || 'Utilizador';
+  document.getElementById('yourName').textContent = userProfile.displayName || t('profile.defaultUserName');
   
   const details = [];
   if (userProfile.age) details.push(userProfile.age + ' anos');
@@ -278,14 +284,12 @@ async function toggleProfileVisibility() {
       userProfile.isPublic = newVisibility;
       await window.CloudSync.saveUserProfile(currentUser.uid, { isPublic: newVisibility });
 
-      updateVisibilityIcon();
-
-      const msg = newVisibility ? 'Perfil visível no Smart Match!' : 'Perfil oculto do Smart Match.';
+      updateVisibilityIcon();      const msg = newVisibility ? t('smartMatch.profileVisible') : t('smartMatch.profileHidden');
       showToast(msg, newVisibility ? 'success' : 'info');
     }
   } catch (error) {
     console.error("❌ Erro ao alterar visibilidade:", error);
-    showToast('Erro ao alterar visibilidade.', 'error');
+    showToast(t('smartMatch.visibilityError'), 'error');
   }
 }
 
@@ -423,14 +427,14 @@ function renderMatches() {
     // Special badges for location and rare fetishes
     let specialBadges = '';
     if (match.sameLocation) {
-      specialBadges += '<span class="special-badge location-badge" title="Mesma zona geográfica">📍 Perto de ti</span>';
+      specialBadges += '<span class="special-badge location-badge" title="' + t('smartMatch.sameZone') + '">' + t('smartMatch.nearYou') + '</span>';
     }
     if (match.hasRareFetishMatch && match.rareFetishesInCommon?.length > 0) {
       const fetishNames = match.rareFetishesInCommon.map(f => {
         const quiz = quizIndex[f.quizId];
         return quiz ? quiz.icon : '🔥';
       }).join(' ');
-      specialBadges += `<span class="special-badge rare-badge" title="Interesses raros em comum!">🔥 Match Raro ${fetishNames}</span>`;
+      specialBadges += `<span class="special-badge rare-badge" title="${t('smartMatch.rareInterests')}">${t('smartMatch.rareMatch')} ${fetishNames}</span>`;
     }
 
     html += `
@@ -450,7 +454,7 @@ function renderMatches() {
           </div>
         </div>
         <div class="match-card-footer">
-          <button class="btn btn-primary btn-small">Ver Detalhes 👀</button>
+          <button class="btn btn-primary btn-small">${t('smartMatch.viewDetails')}</button>
         </div>
       </div>
     `;
@@ -520,7 +524,7 @@ function closeMatchModal() {
 
 function initiateContact() {
   // For now, just show a coming soon message
-  showToast('💬 Funcionalidade de chat em breve!', 'info');
+  showToast(t('smartMatch.chatComingSoon'), 'info');
 }
 
 // ================================
@@ -622,7 +626,7 @@ async function updateGenderValidationStatus(user) {
       statusContainer.innerHTML = `
         <div class="validation-badge validated">
           <span class="badge-icon">✅</span>
-          <span class="badge-text">Género Validado</span>
+          <span class="badge-text">${t('smartMatch.genderValidated')}</span>
         </div>
       `;
       requestBtn.style.display = 'none';
@@ -632,34 +636,34 @@ async function updateGenderValidationStatus(user) {
       statusContainer.innerHTML = `
         <div class="validation-badge pending">
           <span class="badge-icon">⏳</span>
-          <span class="badge-text">Validação Pendente</span>
+          <span class="badge-text">${t('smartMatch.validationPendingBadge')}</span>
         </div>
       `;
       requestBtn.style.display = 'none';
       
     } else if (userData.genderValidationRejected) {
       // Rejeitado ❌
-      const reason = userData.genderValidationRejectionReason || 'Não especificado';
+      const reason = userData.genderValidationRejectionReason || t('profile.unspecified');
       statusContainer.innerHTML = `
         <div class="validation-badge rejected">
           <span class="badge-icon">❌</span>
-          <span class="badge-text">Validação Rejeitada</span>
+          <span class="badge-text">${t('smartMatch.validationRejected')}</span>
         </div>
-        <div class="validation-reason">Motivo: ${reason}</div>
+        <div class="validation-reason">${t('smartMatch.rejectionReason')}: ${reason}</div>
       `;
       requestBtn.style.display = 'inline-block';
-      requestBtn.textContent = '🔄 Solicitar Novamente';
+      requestBtn.textContent = '🔄 ' + t('smartMatch.requestAgain');
       
     } else {
       // Não validado - mostrar botão
       statusContainer.innerHTML = `
         <div class="validation-badge not-validated">
           <span class="badge-icon">⚠️</span>
-          <span class="badge-text">Género Não Validado</span>
+          <span class="badge-text">${t('smartMatch.genderNotValidated')}</span>
         </div>
       `;
       requestBtn.style.display = 'inline-block';
-      requestBtn.textContent = '✅ Solicitar Validação de Género';
+      requestBtn.textContent = '✅ ' + t('smartMatch.requestValidation');
     }
     
   } catch (error) {
@@ -669,7 +673,7 @@ async function updateGenderValidationStatus(user) {
 
 async function requestGenderValidation() {
   if (!currentUser) {
-    alert('❌ Precisas de estar autenticado para solicitar validação de género.');
+    alert(t('smartMatch.genderAuthRequired'));
     return;
   }
   
@@ -678,7 +682,7 @@ async function requestGenderValidation() {
     const userDoc = await window.db.collection('quest4you_users').doc(currentUser.uid).get();
     
     if (!userDoc.exists) {
-      alert('❌ Dados do utilizador não encontrados.');
+      alert(t('smartMatch.userNotFound'));
       return;
     }
     
@@ -689,7 +693,7 @@ async function requestGenderValidation() {
                       userData.photos?.public || userData.photos?.private || userData.photos?.secret;
     
     if (!hasPhotos) {
-      if (!confirm('⚠️ Não tens fotos no perfil. É altamente recomendado adicionar fotos para facilitar a validação.\n\nDesejas continuar mesmo assim?')) {
+      if (!confirm(t('smartMatch.noPhotosConfirm'))) {
         return;
       }
     }
@@ -701,7 +705,7 @@ async function requestGenderValidation() {
       .get();
     
     if (!existingRequest.empty) {
-      alert('⏳ Já tens um pedido de validação pendente. Aguarda pela análise dos administradores.');
+      alert(t('smartMatch.validationPending'));
       return;
     }
     
@@ -709,7 +713,7 @@ async function requestGenderValidation() {
     const validationData = {
       userId: currentUser.uid,
       email: userData.email,
-      displayName: userData.displayName || 'Utilizador',
+      displayName: userData.displayName || t('profile.defaultUserName'),
       declaredGender: userData.smartMatchPreferences?.gender || 'not_specified',
       orientation: userData.smartMatchPreferences?.orientation || 'not_specified',
       lookingFor: userData.smartMatchPreferences?.lookingFor || 'not_specified',
@@ -730,14 +734,14 @@ async function requestGenderValidation() {
       genderValidationRejected: false // Reset rejection flag
     });
     
-    alert('✅ Pedido de validação de género submetido com sucesso!\n\nOs administradores irão analisar o teu pedido em breve. Receberás uma notificação quando for processado.');
+    alert(t('smartMatch.validationSuccess'));
     
     // Atualizar status na interface
     await updateGenderValidationStatus(currentUser);
     
   } catch (error) {
     console.error('Error requesting gender validation:', error);
-    alert('❌ Erro ao submeter pedido de validação. Por favor, tenta novamente.');
+    alert(t('smartMatch.validationError'));
   }
 }
 

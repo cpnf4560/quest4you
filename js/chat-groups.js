@@ -23,7 +23,7 @@ async function createGroupChat(name, memberIds, description = '') {
   }
   
   if (!name || !memberIds || memberIds.length < 1) {
-    showToast('Selecione pelo menos 1 membro para o grupo', 'error');
+    showToast(t('chatGroups.selectAtLeastOneMember'), 'error');
     return null;
   }
   
@@ -39,7 +39,7 @@ async function createGroupChat(name, memberIds, description = '') {
       createdBy: currentUser.uid,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       lastMessageAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastMessage: `${currentUser.displayName || 'Alguém'} criou o grupo`,
+      lastMessage: t('chatGroups.createdGroup', {name: currentUser.displayName || t('chatGroups.someone')}),
       photo: null,
       isGroup: true,
       unreadCount: participants.reduce((acc, id) => {
@@ -53,7 +53,7 @@ async function createGroupChat(name, memberIds, description = '') {
       conversationId: groupRef.id,
       isGroupMessage: true,
       senderId: 'system',
-      text: `🎉 ${currentUser.displayName || 'Utilizador'} criou o grupo "${name}"`,
+      text: '🎉 ' + t('chatGroups.userCreatedGroup', {user: currentUser.displayName || t('profile.defaultUserName'), group: name}),
       messageType: 'system',
       isSystem: true,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -66,13 +66,13 @@ async function createGroupChat(name, memberIds, description = '') {
       }
     }
     
-    showToast(`Grupo "${name}" criado com sucesso!`, 'success');
+    showToast(t('chatGroups.groupCreated', {name: name}), 'success');
     closeCreateGroupModal();
     
     return groupRef.id;
   } catch (error) {
     console.error('Error creating group:', error);
-    showToast('Erro ao criar grupo', 'error');
+    showToast(t('chatGroups.createError'), 'error');
     return null;
   }
 }
@@ -103,7 +103,7 @@ async function loadUserGroups() {
             if (pid !== currentUser.uid) {
               const userDoc = await db.collection("quest4you_users").doc(pid).get();
               if (userDoc.exists) {
-                participantNames.push(userDoc.data().displayName || userDoc.data().nickname || 'Utilizador');
+                participantNames.push(userDoc.data().displayName || userDoc.data().nickname || t('profile.defaultUserName'));
               }
             }
           }
@@ -140,8 +140,8 @@ function renderGroups(groups) {
   if (groups.length === 0) {
     groupsList.innerHTML = `
       <div class="empty-groups">
-        <p>👥 Ainda não tens grupos</p>
-        <button class="btn btn-sm btn-primary" onclick="showCreateGroupModal()">Criar Grupo</button>
+        <p>👥 ${t('chatGroups.noGroups')}</p>
+        <button class="btn btn-sm btn-primary" onclick="showCreateGroupModal()">${t('chatGroups.createGroup')}</button>
       </div>
     `;
     return;
@@ -163,7 +163,7 @@ function renderGroups(groups) {
           <span class="conversation-time">${formatMessageTime(group.lastMessageAt)}</span>
         </div>
         <div class="conversation-preview">
-          ${group.participantCount} membros • ${group.lastMessage || 'Grupo criado'}
+          ${group.participantCount} ${t('chatGroups.members')} • ${group.lastMessage || t('chatGroups.groupCreatedLabel')}
         </div>
       </div>
       ${group.unreadCount > 0 ? `<span class="conversation-unread-count">${group.unreadCount}</span>` : ''}
@@ -178,7 +178,7 @@ async function openGroupChat(groupId) {
   try {
     const groupDoc = await db.collection("quest4you_groups").doc(groupId).get();
     if (!groupDoc.exists) {
-      showToast('Grupo não encontrado', 'error');
+      showToast(t('chatGroups.groupNotFound'), 'error');
       return;
     }
     
@@ -212,7 +212,7 @@ async function openGroupChat(groupId) {
     
   } catch (error) {
     console.error('Error opening group:', error);
-    showToast('Erro ao abrir grupo', 'error');
+    showToast(t('chatGroups.openError'), 'error');
   }
 }
 
@@ -236,7 +236,7 @@ function updateGroupChatHeader(group) {
   }
   
   if (status) {
-    status.textContent = `${group.participants?.length || 0} membros`;
+    status.textContent = `${group.participants?.length || 0} ${t('chatGroups.members')}`;
   }
   
   // Adicionar botão de info do grupo
@@ -288,8 +288,8 @@ function loadGroupMessages(groupId) {
           if (!senderCache[data.senderId]) {
             const senderDoc = await db.collection("quest4you_users").doc(data.senderId).get();
             senderCache[data.senderId] = senderDoc.exists 
-              ? (senderDoc.data().displayName || senderDoc.data().nickname || 'Utilizador')
-              : 'Utilizador';
+              ? (senderDoc.data().displayName || senderDoc.data().nickname || t('profile.defaultUserName'))
+              : t('profile.defaultUserName');
           }
           senderName = senderCache[data.senderId];
         }
@@ -400,7 +400,7 @@ async function sendGroupMessage(text, imageUrl = null) {
     
   } catch (error) {
     console.error('Error sending group message:', error);
-    showToast('Erro ao enviar mensagem', 'error');
+    showToast(t('chatGroups.sendError'), 'error');
   }
 }
 
@@ -424,29 +424,29 @@ function showCreateGroupModal() {
     <div class="modal-overlay" onclick="closeCreateGroupModal()"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <h3>👥 Criar Grupo</h3>
+        <h3>👥 ${t('chatGroups.createGroup')}</h3>
         <button class="modal-close" onclick="closeCreateGroupModal()">×</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>Nome do Grupo *</label>
-          <input type="text" id="groupNameInput" placeholder="Ex: Amigos da Quest4You" maxlength="50">
+          <label>${t('chatGroups.groupName')} *</label>
+          <input type="text" id="groupNameInput" placeholder="${t('chatGroups.groupNamePlaceholder')}" maxlength="50">
         </div>
         <div class="form-group">
-          <label>Descrição (opcional)</label>
-          <textarea id="groupDescInput" placeholder="Sobre o que é este grupo?" maxlength="200" rows="2"></textarea>
+          <label>${t('chatGroups.descriptionOptional')}</label>
+          <textarea id="groupDescInput" placeholder="${t('chatGroups.descriptionPlaceholder')}" maxlength="200" rows="2"></textarea>
         </div>
         <div class="form-group">
-          <label>Adicionar Membros *</label>
+          <label>${t('chatGroups.addMembers')} *</label>
           <div class="friends-selector" id="friendsSelector">
-            <p class="loading-text">A carregar amigos...</p>
+            <p class="loading-text">${t('chatGroups.loadingFriends')}</p>
           </div>
         </div>
         <div class="selected-members" id="selectedMembers"></div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="closeCreateGroupModal()">Cancelar</button>
-        <button class="btn btn-primary" onclick="confirmCreateGroup()">Criar Grupo</button>
+        <button class="btn btn-secondary" onclick="closeCreateGroupModal()">${t('chatGroups.cancel')}</button>
+        <button class="btn btn-primary" onclick="confirmCreateGroup()">${t('chatGroups.createGroup')}</button>
       </div>
     </div>
   `;
@@ -482,14 +482,14 @@ async function loadFriendsForGroup() {
         const friendData = friendDoc.data();
         friends.push({
           id: friendId,
-          name: friendData.displayName || friendData.nickname || 'Utilizador',
+          name: friendData.displayName || friendData.nickname || t('profile.defaultUserName'),
           photo: friendData.photos?.public || null
         });
       }
     }
     
     if (friends.length === 0) {
-      selector.innerHTML = '<p class="empty-text">Não tens amigos para adicionar. Adiciona amigos primeiro!</p>';
+      selector.innerHTML = `<p class="empty-text">${t('chatGroups.noFriendsToAdd')}</p>`;
       return;
     }
     
@@ -505,7 +505,7 @@ async function loadFriendsForGroup() {
     
   } catch (error) {
     console.error('Error loading friends:', error);
-    selector.innerHTML = '<p class="error-text">Erro ao carregar amigos</p>';
+    selector.innerHTML = '<p class="error-text">' + t('chatGroups.loadFriendsError') + '</p>';
   }
 }
 
@@ -523,7 +523,7 @@ function updateSelectedMembers() {
     return;
   }
   
-  container.innerHTML = `<span class="selected-count">${checkboxes.length} membro(s) selecionado(s)</span>`;
+  container.innerHTML = `<span class="selected-count">${t('chatGroups.membersSelected', {count: checkboxes.length})}</span>`;
 }
 
 /**
@@ -535,12 +535,12 @@ function confirmCreateGroup() {
   const checkboxes = document.querySelectorAll('#friendsSelector input[type="checkbox"]:checked');
   
   if (!name) {
-    showToast('Insere um nome para o grupo', 'warning');
+    showToast(t('chatGroups.enterGroupName'), 'warning');
     return;
   }
   
   if (checkboxes.length === 0) {
-    showToast('Seleciona pelo menos 1 membro', 'warning');
+    showToast(t('chatGroups.selectAtLeast1'), 'warning');
     return;
   }
   
@@ -576,7 +576,7 @@ async function showGroupInfo(groupId) {
       const userData = userDoc.data();
       members.push({
         id: pid,
-        name: userData.displayName || userData.nickname || 'Utilizador',
+        name: userData.displayName || userData.nickname || t('profile.defaultUserName'),
         photo: userData.photos?.public,
         isAdmin: group.admins?.includes(pid)
       });
@@ -608,8 +608,8 @@ async function showGroupInfo(groupId) {
                   ${m.photo ? `<img src="${m.photo}" alt="">` : m.name.charAt(0)}
                 </div>
                 <span class="member-name">${escapeHtml(m.name)}</span>
-                ${m.isAdmin ? '<span class="admin-badge">Admin</span>' : ''}
-                ${m.id === currentUser.uid ? '<span class="you-badge">Tu</span>' : ''}
+                ${m.isAdmin ? `<span class="admin-badge">Admin</span>` : ''}
+                ${m.id === currentUser.uid ? `<span class="you-badge">${t('chatGroups.you')}</span>` : ''}
               </div>
             `).join('')}
           </div>
@@ -617,12 +617,12 @@ async function showGroupInfo(groupId) {
         
         ${group.admins?.includes(currentUser.uid) ? `
           <div class="group-admin-actions">
-            <button class="btn btn-secondary btn-sm" onclick="showAddMemberModal('${groupId}')">➕ Adicionar Membro</button>
-            <button class="btn btn-danger btn-sm" onclick="confirmDeleteGroup('${groupId}')">🗑️ Eliminar Grupo</button>
+            <button class="btn btn-secondary btn-sm" onclick="showAddMemberModal('${groupId}')">➕ ${t('chatGroups.addMember')}</button>
+            <button class="btn btn-danger btn-sm" onclick="confirmDeleteGroup('${groupId}')">🗑️ ${t('chatGroups.deleteGroup')}</button>
           </div>
         ` : `
           <div class="group-actions">
-            <button class="btn btn-danger btn-sm" onclick="confirmLeaveGroup('${groupId}')">🚪 Sair do Grupo</button>
+            <button class="btn btn-danger btn-sm" onclick="confirmLeaveGroup('${groupId}')">🚪 ${t('chatGroups.leaveGroup')}</button>
           </div>
         `}
       </div>
@@ -645,7 +645,7 @@ function closeGroupInfoModal() {
  * Sai do grupo
  */
 async function confirmLeaveGroup(groupId) {
-  if (!confirm('Tens a certeza que queres sair deste grupo?')) return;
+  if (!confirm(t('chatGroups.leaveConfirm'))) return;
   
   try {
     await db.collection("quest4you_groups").doc(groupId).update({
@@ -657,13 +657,13 @@ async function confirmLeaveGroup(groupId) {
       conversationId: groupId,
       isGroupMessage: true,
       senderId: 'system',
-      text: `${currentUser.displayName || 'Utilizador'} saiu do grupo`,
+      text: t('chatGroups.userLeftGroup', {name: currentUser.displayName || t('profile.defaultUserName')}),
       messageType: 'system',
       isSystem: true,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    showToast('Saíste do grupo', 'info');
+    showToast(t('chatGroups.leftGroup'), 'info');
     closeGroupInfoModal();
     currentGroup = null;
     document.getElementById('activeChat').style.display = 'none';
@@ -671,7 +671,7 @@ async function confirmLeaveGroup(groupId) {
     
   } catch (error) {
     console.error('Error leaving group:', error);
-    showToast('Erro ao sair do grupo', 'error');
+    showToast(t('chatGroups.leaveError'), 'error');
   }
 }
 
@@ -705,13 +705,13 @@ async function handleImageSelect(event) {
   
   // Validar tipo
   if (!file.type.startsWith('image/')) {
-    showToast('Por favor seleciona uma imagem', 'warning');
+    showToast(t('chatGroups.selectImage'), 'warning');
     return;
   }
   
   // Validar tamanho (max 5MB)
   if (file.size > 5 * 1024 * 1024) {
-    showToast('Imagem muito grande. Máximo 5MB', 'warning');
+    showToast(t('chatGroups.imageTooLarge'), 'warning');
     return;
   }
   
@@ -735,7 +735,7 @@ function showImagePreview(file) {
       <div class="modal-overlay" onclick="closeImagePreview()"></div>
       <div class="modal-content image-preview-content">
         <div class="modal-header">
-          <h3>📷 Enviar Imagem</h3>
+          <h3>📷 ${t('chatGroups.sendImage')}</h3>
           <button class="modal-close" onclick="closeImagePreview()">×</button>
         </div>
         <div class="modal-body">
@@ -743,12 +743,12 @@ function showImagePreview(file) {
             <img src="${e.target.result}" alt="Preview" id="previewImage">
           </div>
           <div class="form-group">
-            <input type="text" id="imageCaption" placeholder="Adicionar legenda... (opcional)">
+            <input type="text" id="imageCaption" placeholder="${t('chatGroups.captionPlaceholder')}">
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" onclick="closeImagePreview()">Cancelar</button>
-          <button class="btn btn-primary" onclick="sendImageMessage()">📤 Enviar</button>
+          <button class="btn btn-secondary" onclick="closeImagePreview()">${t('chatGroups.cancel')}</button>
+          <button class="btn btn-primary" onclick="sendImageMessage()">📤 ${t('chatGroups.send')}</button>
         </div>
       </div>
     `;
@@ -780,7 +780,7 @@ function closeImagePreview() {
  */
 async function sendImageMessage() {
   if (!window.pendingImageFile) {
-    showToast('Nenhuma imagem selecionada', 'error');
+    showToast(t('chatGroups.noImageSelected'), 'error');
     return;
   }
   
@@ -791,7 +791,7 @@ async function sendImageMessage() {
   const sendBtn = document.querySelector('#imagePreviewModal .btn-primary');
   if (sendBtn) {
     sendBtn.disabled = true;
-    sendBtn.innerHTML = '⏳ A enviar...';
+    sendBtn.innerHTML = '⏳ ' + t('chatGroups.sending');
   }
   
   try {
@@ -812,15 +812,15 @@ async function sendImageMessage() {
     }
     
     closeImagePreview();
-    showToast('Imagem enviada!', 'success');
+    showToast(t('chatGroups.imageSent'), 'success');
     
   } catch (error) {
     console.error('Error uploading image:', error);
-    showToast('Erro ao enviar imagem', 'error');
+    showToast(t('chatGroups.imageError'), 'error');
     
     if (sendBtn) {
       sendBtn.disabled = false;
-      sendBtn.innerHTML = '📤 Enviar';
+      sendBtn.innerHTML = '📤 ' + t('chatGroups.send');
     }
   }
 }
@@ -890,8 +890,8 @@ async function notifyGroupInvite(userId, groupName) {
     await db.collection("quest4you_notifications").add({
       userId: userId,
       type: 'group_invite',
-      title: 'Novo Grupo!',
-      message: `Foste adicionado ao grupo "${groupName}"`,
+      title: t('chatGroups.newGroup'),
+      message: t('chatGroups.addedToGroup', {group: groupName}),
       icon: '👥',
       read: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -907,7 +907,7 @@ async function notifyGroupMessage(userId, groupName, senderName) {
       userId: userId,
       type: 'group_message',
       title: groupName,
-      message: `${senderName} enviou uma mensagem`,
+      message: t('chatGroups.sentMessage', {name: senderName}),
       icon: '👥',
       read: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()

@@ -24,9 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const urlParams = new URLSearchParams(window.location.search);
   quizId = urlParams.get("id");
   isEditMode = urlParams.get("mode") === "edit";
-
   if (!quizId) {
-    alert("Quiz não especificado!");
+    alert(t('quiz.notSpecified'));
     window.location.href = "../";
     return;
   }
@@ -41,10 +40,18 @@ document.addEventListener("DOMContentLoaded", function() {
         updateUserUI(user);
       }
       loadQuiz(quizId);
-    });
-  } else {
+    });  } else {
     loadQuiz(quizId);
   }
+
+  // Re-render when language changes
+  window.addEventListener('languageChanged', function() {
+    if (quizData && filteredQuestions.length > 0) {
+      renderQuestion();
+      renderQuickNav();
+      updateNavButtons();
+    }
+  });
 });
 
 // ================================
@@ -120,7 +127,7 @@ async function loadQuiz(id) {
   } catch (error) {
     console.error("Error loading quiz:", error);
     quizLoaded = false;
-    alert("Erro ao carregar o questionário. Por favor, tenta novamente.");
+    alert(t('quiz.loadError'));
     window.location.href = "../";
   }
 }
@@ -267,7 +274,7 @@ function renderQuestion() {
   const totalQuestions = filteredQuestions.length;
   const answeredCount = Object.keys(answers).length;
   const percent = Math.round((answeredCount / totalQuestions) * 100);
-  document.getElementById("progressText").textContent = 'Pergunta ' + (currentQuestion + 1) + ' de ' + totalQuestions;
+  document.getElementById("progressText").textContent = t('quiz.questionOf', { current: currentQuestion + 1, total: totalQuestions });
   document.getElementById("progressPercent").textContent = percent + '%';
   document.getElementById("progressBar").style.width = percent + '%';
 
@@ -391,7 +398,7 @@ function renderQuickNav() {
   const container = document.getElementById("quickNavDots");
   let html = "";
   for (let i = 0; i < filteredQuestions.length; i++) {
-    html += '<button class="quick-nav-dot" data-index="' + i + '" onclick="goToQuestion(' + i + ')" title="Pergunta ' + (i + 1) + '"></button>';
+    html += '<button class="quick-nav-dot" data-index="' + i + '" onclick="goToQuestion(' + i + ')" title="' + t('quiz.questionTitle', {number: i + 1}) + '"></button>';
   }
   container.innerHTML = html;
   updateQuickNav();
@@ -479,7 +486,7 @@ function finishQuiz() {
   const allAnswered = Object.keys(answers).length === filteredQuestions.length;
   if (!allAnswered) {
     const unanswered = filteredQuestions.length - Object.keys(answers).length;
-    if (!confirm('Ainda tens ' + unanswered + ' pergunta(s) por responder. Queres ver o resultado assim mesmo?')) {
+    if (!confirm(t('quiz.unansweredWarning', { count: unanswered }))) {
       return;
     }
   }
@@ -522,7 +529,7 @@ function buildTagBreakdown(results) {
 
   // Show top tags as badges
   if (results.topTags && results.topTags.length > 0) {
-    html += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">🏷️ As tuas tags principais:</p>';
+    html += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('quiz.topTags') + '</p>';
     html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;">';
     results.topTags.forEach(function(tag) {
       const count = results.tagCounts[tag] || 1;
@@ -537,9 +544,9 @@ function buildTagBreakdown(results) {
   }
 
   // Show score bar
-  html += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">📊 Pontuação:</p>';
+  html += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('quiz.score') + '</p>';
   html += '<div class="result-breakdown-item">';
-  html += '<span class="result-breakdown-label">Score geral</span>';
+  html += '<span class="result-breakdown-label">' + t('quiz.overallScore') + '</span>';
   html += '<div class="result-breakdown-bar"><div class="result-breakdown-fill" style="width: ' + results.score + '%"></div></div>';
   html += '<span class="result-breakdown-value">' + results.score + '</span>';
   html += '</div>';
@@ -613,7 +620,7 @@ function showCloudSyncIndicator(success) {
   const indicator = document.createElement('div');
   indicator.id = 'cloudSyncIndicator';
   indicator.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: ' + (success ? '#4caf50' : '#f44336') + '; color: white; padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; animation: slideInRight 0.3s ease;';
-  indicator.innerHTML = success ? '☁️ Guardado na cloud!' : '⚠️ Não guardado';
+  indicator.innerHTML = success ? t('quiz.savedCloud') : t('quiz.notSaved');
   document.body.appendChild(indicator);
 
   setTimeout(function() {
@@ -636,27 +643,30 @@ async function shareResult() {
   }
 
   if (!result) {
-    alert("Resultado não encontrado");
+    alert(t('common.error'));
     return;
   }
 
-  const text = 'Fiz o questionário "' + quizData.name + '" no Quest4You!\n\nO meu resultado: ' + result.score + '/100 - ' + (result.category || '') + '\n\nDescobre o teu também em quest4you.com';
+  const quizName = quizData.name;
+  const text = t('quiz.shareText') !== 'quiz.shareText'
+    ? t('quiz.shareText', { name: quizName, result: result.score + '/100 - ' + (result.category || '') })
+    : 'Fiz o questionário "' + quizName + '" no Quest4You!\n\nO meu resultado: ' + result.score + '/100 - ' + (result.category || '') + '\n\nDescobre o teu também em quest4you.com';
 
   if (navigator.share) {
     navigator.share({
-      title: 'Quest4You - ' + quizData.name,
+      title: 'Quest4You - ' + quizName,
       text: text,
       url: window.location.href
     });
   } else {
     navigator.clipboard.writeText(text).then(function() {
-      alert("Resultado copiado para a área de transferência!");
+      alert(t('common.success') + '!');
     });
   }
 }
 
 async function retakeQuiz() {
-  if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
+  if (confirm(t('quiz.retakeConfirm') !== 'quiz.retakeConfirm' ? t('quiz.retakeConfirm') : "Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
     answers = {};
     currentQuestion = 0;
 
@@ -687,9 +697,11 @@ function editAnswers() {
 }
 
 function showEditModeMessage() {
+  const editTitle = t('quiz.editModeTitle') !== 'quiz.editModeTitle' ? t('quiz.editModeTitle') : '✏️ Modo de edição ativo';
+  const editDesc = t('quiz.editModeDesc') !== 'quiz.editModeDesc' ? t('quiz.editModeDesc') : 'Navega pelas perguntas e altera as que quiseres. Clica em "Ver Resultado" quando terminares.';
   const toast = document.createElement('div');
   toast.className = 'edit-mode-toast';
-  toast.innerHTML = '<span>✏️ Modo de edição ativo</span><p>Navega pelas perguntas e altera as que quiseres. Clica em "Ver Resultado" quando terminares.</p>';
+  toast.innerHTML = '<span>' + editTitle + '</span><p>' + editDesc + '</p>';
   toast.style.cssText = 'position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4); z-index: 10000; text-align: center; animation: slideUp 0.3s ease-out; max-width: 90%; width: 400px;';
   toast.querySelector('span').style.cssText = 'font-weight: 600; font-size: 1.1rem; display: block; margin-bottom: 8px;';
   toast.querySelector('p').style.cssText = 'margin: 0; font-size: 0.9rem; opacity: 0.9;';

@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
           createUserProfile(result.user);
         }
         
-        showMessage("Login efetuado! A redirecionar...", "success");
+        showMessage(t('auth.msgLoginSuccess'), "success");
         setTimeout(() => {
           window.location.href = getRedirectUrl();
         }, 1500);
@@ -140,7 +140,7 @@ async function loginWithGoogle() {
           popupError.code === 'auth/popup-closed-by-user' ||
           popupError.code === 'auth/cancelled-popup-request') {
         console.log("📱 Popup blocked/closed, using redirect...");
-        showMessage("A redirecionar para o Google...", "info");
+        showMessage(t('auth.msgRedirectGoogle'), "info");
         // Store redirect info before navigating away
         sessionStorage.setItem('pendingRedirect', 'true');
         await auth.signInWithRedirect(googleProvider);
@@ -155,9 +155,9 @@ async function loginWithGoogle() {
     // Check if new user, create profile
     if (result.additionalUserInfo?.isNewUser) {
       await createUserProfile(user);
-      showMessage("Conta criada com sucesso! A redirecionar...", "success");
+      showMessage(t('auth.msgAccountCreated'), "success");
     } else {
-      showMessage("Login efetuado! A redirecionar...", "success");
+      showMessage(t('auth.msgLoginSuccess'), "success");
     }
 
     // Clear auth action flag before redirect
@@ -186,7 +186,7 @@ async function loginWithEmail(event) {
   const password = document.getElementById("loginPassword").value;
 
   if (!email || !password) {
-    showMessage("Por favor, preenche todos os campos.", "error");
+    showMessage(t('auth.msgFillFields'), "error");
     return;
   }
 
@@ -197,7 +197,7 @@ async function loginWithEmail(event) {
     const result = await auth.signInWithEmailAndPassword(email, password);
     console.log("Email login successful:", result.user.email);
 
-    showMessage("Login efetuado! A redirecionar...", "success");
+    showMessage(t('auth.msgLoginSuccess'), "success");
 
     setTimeout(() => {
       window.location.href = getRedirectUrl();
@@ -223,22 +223,22 @@ async function registerWithEmail(event) {
 
   // Validation
   if (!name || !email || !gender || !password || !passwordConfirm) {
-    showMessage("Por favor, preenche todos os campos.", "error");
+    showMessage(t('auth.msgFillFields'), "error");
     return;
   }
 
   if (password !== passwordConfirm) {
-    showMessage("As palavras-passe nÃ£o coincidem.", "error");
+    showMessage(t('auth.msgPasswordMismatch'), "error");
     return;
   }
 
   if (password.length < 6) {
-    showMessage("A palavra-passe deve ter pelo menos 6 caracteres.", "error");
+    showMessage(t('auth.msgPasswordMin'), "error");
     return;
   }
 
   if (!acceptTerms) {
-    showMessage("Tens de aceitar os Termos de Uso.", "error");
+    showMessage(t('auth.msgAcceptTerms'), "error");
     return;
   }
 
@@ -257,7 +257,7 @@ async function registerWithEmail(event) {
     await createUserProfile(user, { displayName: name, gender: gender });
 
     console.log("Registration successful:", user.email);
-    showMessage("Conta criada com sucesso! A redirecionar...", "success");
+    showMessage(t('auth.msgAccountCreated'), "success");
 
     setTimeout(() => {
       window.location.href = getRedirectUrl();
@@ -280,7 +280,7 @@ async function resetPassword(event) {
   const email = document.getElementById("resetEmail").value.trim();
 
   if (!email) {
-    showMessage("Por favor, introduz o teu email.", "error");
+    showMessage(t('auth.msgEnterEmail'), "error");
     return;
   }
 
@@ -290,7 +290,7 @@ async function resetPassword(event) {
 
     await auth.sendPasswordResetEmail(email);
 
-    showMessage("Email enviado! Verifica a tua caixa de entrada.", "success");
+    showMessage(t('auth.msgEmailSent'), "success");
 
   } catch (error) {
     console.error("Password reset error:", error);
@@ -317,7 +317,7 @@ async function createUserProfile(user, additionalData = {}) {
       await userRef.set({
         uid: user.uid,
         email: user.email,
-        displayName: additionalData.displayName || user.displayName || "Utilizador",
+        displayName: additionalData.displayName || user.displayName || t('hero.welcomeUser'),
         photoURL: user.photoURL || null,
         gender: additionalData.gender || null,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -361,32 +361,32 @@ async function createUserProfile(user, additionalData = {}) {
 // ERROR HANDLING
 // ================================
 function handleAuthError(error) {
-  let message = "Ocorreu um erro. Por favor, tenta novamente.";
+  let message = t('auth.errGeneric');
 
   switch (error.code) {
     case "auth/user-not-found":
-      message = "NÃ£o existe nenhuma conta com este email.";
+      message = t('auth.errUserNotFound');
       break;
     case "auth/wrong-password":
-      message = "Palavra-passe incorreta.";
+      message = t('auth.errWrongPassword');
       break;
     case "auth/email-already-in-use":
-      message = "JÃ¡ existe uma conta com este email.";
+      message = t('auth.errEmailInUse');
       break;
     case "auth/weak-password":
-      message = "A palavra-passe Ã© demasiado fraca.";
+      message = t('auth.errWeakPassword');
       break;
     case "auth/invalid-email":
-      message = "O email introduzido nÃ£o Ã© vÃ¡lido.";
+      message = t('auth.errInvalidEmail');
       break;
     case "auth/too-many-requests":
-      message = "Demasiadas tentativas. Tenta novamente mais tarde.";
+      message = t('auth.errTooManyRequests');
       break;
     case "auth/popup-closed-by-user":
-      message = "O popup foi fechado antes de completar o login.";
+      message = t('auth.errPopupClosed');
       break;
     case "auth/network-request-failed":
-      message = "Erro de ligaÃ§Ã£o. Verifica a tua internet.";
+      message = t('auth.errNetwork') !== 'auth.errNetwork' ? t('auth.errNetwork') : "Network error. Check your internet connection.";
       break;
     default:
       console.error("Unhandled auth error:", error.code, error.message);

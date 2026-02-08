@@ -25,7 +25,7 @@ async function initAdminDashboard() {
   // Verificar se é admin
   const isAdmin = await checkIsAdmin();
   if (!isAdmin) {
-    showToast('Acesso negado. Apenas administradores podem aceder.', 'error');
+    showToast(t('admin.accessDenied'), 'error');
     window.location.href = './profile.html';
     return;
   }
@@ -383,11 +383,11 @@ async function warnUser(userId, reportId) {
       resolvedBy: currentUser.uid
     });
     
-    showToast('Aviso enviado com sucesso', 'success');
+    showToast(t('admin.warningSent'), 'success');
     
   } catch (error) {
     console.error('Error warning user:', error);
-    showToast('Erro ao enviar aviso', 'error');
+    showToast(t('admin.warningError'), 'error');
   }
 }
 
@@ -397,7 +397,7 @@ async function warnUser(userId, reportId) {
 async function banUser(userId, reportId) {
   if (!userId) return;
   
-  if (!confirm('Tens a certeza que queres banir este utilizador? Esta ação é grave.')) return;
+  if (!confirm(t('admin.banConfirm'))) return;
   
   const reason = prompt('Motivo do ban:');
   if (!reason) return;
@@ -419,11 +419,11 @@ async function banUser(userId, reportId) {
       resolvedBy: currentUser.uid
     });
     
-    showToast('Utilizador banido', 'success');
+    showToast(t('admin.userBanned'), 'success');
     
   } catch (error) {
     console.error('Error banning user:', error);
-    showToast('Erro ao banir utilizador', 'error');
+    showToast(t('admin.banError'), 'error');
   }
 }
 
@@ -431,7 +431,7 @@ async function banUser(userId, reportId) {
  * Ignora denúncia
  */
 async function dismissReport(reportId) {
-  if (!confirm('Ignorar esta denúncia?')) return;
+  if (!confirm(t('admin.dismissConfirm'))) return;
   
   try {
     await db.collection("quest4you_reports").doc(reportId).update({
@@ -441,11 +441,11 @@ async function dismissReport(reportId) {
       resolvedBy: currentUser.uid
     });
     
-    showToast('Denúncia ignorada', 'info');
+    showToast(t('admin.reportDismissed'), 'info');
     
   } catch (error) {
     console.error('Error dismissing report:', error);
-    showToast('Erro ao ignorar denúncia', 'error');
+    showToast(t('admin.dismissError'), 'error');
   }
 }
 
@@ -578,7 +578,7 @@ async function sendBroadcast() {
   const sendPush = document.getElementById('broadcastPush')?.checked || false;
   
   if (!title || !message) {
-    showToast('Preenche o título e a mensagem', 'warning');
+    showToast(t('admin.fillTitleAndMessage'), 'warning');
     return;
   }
   
@@ -603,7 +603,7 @@ async function sendBroadcast() {
     const usersSnapshot = await usersQuery.get();
     
     if (usersSnapshot.empty) {
-      showToast('Nenhum utilizador encontrado para enviar', 'warning');
+      showToast(t('admin.noUsersFound'), 'warning');
       return;
     }
     
@@ -647,7 +647,7 @@ async function sendBroadcast() {
     
   } catch (error) {
     console.error('Error sending broadcast:', error);
-    showToast('Erro ao enviar broadcast', 'error');
+    showToast(t('admin.broadcastError'), 'error');
   }
 }
 
@@ -836,12 +836,12 @@ async function approveVerificationRequest(requestId, userId) {
       processedBy: currentUser.uid
     });
     
-    showToast('Verificação aprovada!', 'success');
+    showToast(t('admin.verificationApproved'), 'success');
     loadVerificationRequests();
     
   } catch (error) {
     console.error('Error approving verification:', error);
-    showToast('Erro ao aprovar verificação', 'error');
+    showToast(t('admin.approveError'), 'error');
   }
 }
 
@@ -872,12 +872,12 @@ async function rejectVerificationRequest(requestId, userId) {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    showToast('Verificação rejeitada', 'info');
+    showToast(t('admin.verificationRejected'), 'info');
     loadVerificationRequests();
     
   } catch (error) {
     console.error('Error rejecting verification:', error);
-    showToast('Erro ao rejeitar verificação', 'error');
+    showToast(t('admin.rejectError'), 'error');
   }
 }
 

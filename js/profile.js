@@ -23,11 +23,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Logout button
   document.getElementById("logoutBtn").addEventListener("click", logout);
-
   // Settings toggles
   document.getElementById("settingNotifications").addEventListener("change", saveSettings);
   document.getElementById("settingPublicProfile").addEventListener("change", saveSettings);
   document.getElementById("settingSmartMatch").addEventListener("change", saveSettings);
+
+  // Re-render when language changes
+  window.addEventListener('languageChanged', function() {
+    if (currentUser) {
+      updateProfileHeader();
+      if (userData) {
+        updateProfileFromFirestore();
+        loadResults();
+        loadBadges();
+        updateStats();
+      }
+    }
+  });
 });
 
 // ================================
@@ -50,7 +62,7 @@ async function logout() {
     window.location.href = "../index.html";
   } catch (error) {
     console.error("Logout error:", error);
-    alert("Erro ao terminar sessão. Tenta novamente.");
+    alert(t('profile.logoutError'));
   }
 }
 
@@ -94,7 +106,7 @@ async function loadUserProfile() {
 
 function updateProfileHeader() {
   // Name
-  document.getElementById("profileName").textContent = currentUser.displayName || "Utilizador";
+  document.getElementById("profileName").textContent = currentUser.displayName || t('profile.defaultUserName');
   
   // Email
   document.getElementById("profileEmail").textContent = currentUser.email;
@@ -113,7 +125,7 @@ function updateProfileHeader() {
   const createdAt = currentUser.metadata?.creationTime;
   if (createdAt) {
     const date = new Date(createdAt);
-    document.getElementById("profileJoined").textContent = `Membro desde ${formatDate(date)}`;
+    document.getElementById("profileJoined").textContent = t('profile.memberSince', {date: formatDate(date)});
   }
 }
 
@@ -134,7 +146,7 @@ function updateProfileFromFirestore() {
   } else {
     const nicknameDisplay = document.getElementById("profileNickname");
     if (nicknameDisplay) {
-      nicknameDisplay.textContent = "Ainda não definiste um nickname";
+      nicknameDisplay.textContent = t('profile.noNickname');
       nicknameDisplay.style.color = '#999';
     }
   }
@@ -330,9 +342,8 @@ function loadDistricts() {
   const districtSelect = document.getElementById('district');
   const citySelect = document.getElementById('city');
 
-  // Reset
-  districtSelect.innerHTML = '<option value="">Seleciona o distrito/estado</option>';
-  citySelect.innerHTML = '<option value="">Seleciona primeiro o distrito</option>';
+  // Reset  districtSelect.innerHTML = '<option value="">' + t('profile.selectDistrict') + '</option>';
+  citySelect.innerHTML = '<option value="">' + t('profile.selectDistrictFirst') + '</option>';
   districtSelect.classList.remove('filled');
   citySelect.classList.remove('filled');
 
@@ -353,7 +364,7 @@ function loadDistricts() {
       { value: 'other-es', label: 'Outro' }
     ];
   } else if (country) {
-    districts = [{ value: 'other', label: 'Não especificado' }];
+    districts = [{ value: 'other', label: t('profile.unspecified') }];
   }
 
   districts.forEach(d => {
@@ -369,8 +380,7 @@ function loadCities() {
   const district = document.getElementById('district').value;
   const citySelect = document.getElementById('city');
 
-  // Reset
-  citySelect.innerHTML = '<option value="">Seleciona a cidade</option>';
+  // Reset  citySelect.innerHTML = '<option value="">' + t('profile.selectCity') + '</option>';
   citySelect.classList.remove('filled');
 
   let cities = [];
@@ -380,7 +390,7 @@ function loadCities() {
   } else if (country === 'BR' && brazilLocations.cities[district]) {
     cities = brazilLocations.cities[district];
   } else if (district) {
-    cities = ['Não especificado'];
+    cities = [t('profile.unspecified')];
   }
 
   cities.forEach(c => {
@@ -391,9 +401,8 @@ function loadCities() {
   });
 }
 
-async function savePersonalInfo() {
-  if (!currentUser || !db) {
-    alert("Erro: Não estás autenticado.");
+async function savePersonalInfo() {  if (!currentUser || !db) {
+    alert(t('profile.nickAuthError'));
     return;
   }
 
@@ -407,11 +416,11 @@ async function savePersonalInfo() {
 
   // Validate required fields
   const requiredFields = [
-    { field: 'ageRange', value: ageRange, label: 'Faixa Etária' },
-    { field: 'gender', value: gender, label: 'Género' },
-    { field: 'sexualOrientation', value: sexualOrientation, label: 'Orientação Sexual' },
-    { field: 'lookingFor', value: lookingFor, label: 'À Procura De' },
-    { field: 'country', value: country, label: 'País' }
+    { field: 'ageRange', value: ageRange, label: t('profile.fieldAgeRange') },
+    { field: 'gender', value: gender, label: t('profile.fieldGender') },
+    { field: 'sexualOrientation', value: sexualOrientation, label: t('profile.fieldOrientation') },
+    { field: 'lookingFor', value: lookingFor, label: t('profile.fieldLookingFor') },
+    { field: 'country', value: country, label: t('profile.fieldCountry') }
   ];
 
   let missingFields = [];
@@ -425,14 +434,14 @@ async function savePersonalInfo() {
   });
 
   if (missingFields.length > 0) {
-    alert(`⚠️ Por favor preenche os campos obrigatórios:\n\n• ${missingFields.join('\n• ')}`);
+    alert(t('profile.requiredFieldsAlert', {fields: missingFields.join('\n• ')}));
     return;
   }
 
   // Disable button during save
   const saveBtn = document.getElementById('savePersonalInfoBtn');
   saveBtn.disabled = true;
-  saveBtn.textContent = '⏳ A guardar...';
+  saveBtn.textContent = t('profile.saving');
 
   try {
     const personalInfo = {
@@ -464,17 +473,15 @@ async function savePersonalInfo() {
 
     // Hide alert if shown
     const completionAlert = document.getElementById('profileCompletionAlert');
-    if (completionAlert) completionAlert.style.display = 'none';
-
-    alert('✅ Informações pessoais guardadas com sucesso!');
+    if (completionAlert) completionAlert.style.display = 'none';    alert(t('profile.infoSaved'));
     console.log("Personal info saved:", personalInfo);
 
   } catch (error) {
     console.error("Error saving personal info:", error);
-    alert("❌ Erro ao guardar informações. Tenta novamente.");
+    alert(t('profile.infoSaveError'));
   } finally {
     saveBtn.disabled = false;
-    saveBtn.textContent = '💾 Guardar Informações';
+    saveBtn.textContent = t('profile.saveInfoBtn');
   }
 }
 
@@ -540,7 +547,7 @@ async function createUserProfile() {
     await db.collection("quest4you_users").doc(currentUser.uid).set({
       uid: currentUser.uid,
       email: currentUser.email,
-      displayName: currentUser.displayName || "Utilizador",
+      displayName: currentUser.displayName || t('profile.defaultUserName'),
       photoURL: currentUser.photoURL || null,
       nickname: null,
       nicknameEmoji: '👤',
@@ -564,7 +571,7 @@ async function createUserProfile() {
 // ================================
 async function saveNickname() {
   if (!currentUser || !db) {
-    alert("Erro: Não estás autenticado.");
+    alert(t('profile.nickAuthError'));
     return;
   }
   
@@ -573,25 +580,24 @@ async function saveNickname() {
   
   const nickname = nicknameInput.value.trim();
   const emoji = emojiSelect.value || '👤';
-  
-  if (!nickname) {
-    alert("Por favor, insere um nickname.");
+    if (!nickname) {
+    alert(t('profile.nickEmpty'));
     return;
   }
   
   if (nickname.length < 3) {
-    alert("O nickname deve ter pelo menos 3 caracteres.");
+    alert(t('profile.nickTooShort'));
     return;
   }
   
   if (nickname.length > 20) {
-    alert("O nickname não pode ter mais de 20 caracteres.");
+    alert(t('profile.nickTooLong'));
     return;
   }
   
   // Check for inappropriate characters
   if (!/^[a-zA-Z0-9_\-\u00C0-\u017F ]+$/.test(nickname)) {
-    alert("O nickname só pode conter letras, números, espaços, _ e -");
+    alert(t('profile.nickInvalidChars'));
     return;
   }
   
@@ -614,12 +620,11 @@ async function saveNickname() {
       nicknameDisplay.textContent = `${emoji} ${nickname}`;
       nicknameDisplay.style.color = '#e53935';
     }
-    
-    alert("✅ Nickname guardado com sucesso!");
+      alert(t('profile.nickSaved'));
     console.log("Nickname saved:", emoji, nickname);
   } catch (error) {
     console.error("Error saving nickname:", error);
-    alert("Erro ao guardar nickname. Tenta novamente.");
+    alert(t('profile.nickSaveError'));
   }
 }
 
@@ -665,24 +670,8 @@ async function loadResults() {
   }
   
   emptyState.style.display = "none";
-  
-  // Quiz metadata
-  const quizMeta = {
-    vanilla: { name: "Vanilla ou Kink", icon: "🔥", color: "#e91e63" },
-    orientation: { name: "Orientação Sexual", icon: "🌈", color: "#9c27b0" },
-    cuckold: { name: "Voyeurismo & Partilha", icon: "👀", color: "#673ab7" },
-    swing: { name: "Swing/Poliamor", icon: "💑", color: "#00bcd4" },
-    kinks: { name: "Fetiches e Kinks", icon: "⛓️", color: "#f44336" },
-    bdsm: { name: "BDSM & Dinâmicas de Poder", icon: "🎭", color: "#7B1FA2" },
-    adventure: { name: "Aventura Sexual", icon: "🚀", color: "#FF5722" },
-    fantasies: { name: "Fantasias Secretas", icon: "🌙", color: "#7b1fa2" },
-    exhibitionism: { name: "Exibicionismo & Admiração", icon: "👁️", color: "#ff9800" },
-    communication: { name: "Comunicação Sexual", icon: "🗣️", color: "#2196f3" },
-    intimacy: { name: "Intimidade & Conexão", icon: "💖", color: "#e91e63" },
-    rhythm: { name: "Ritmo & Frequência", icon: "⏱️", color: "#009688" },
-    lifestyle: { name: "Valores & Estilo de Vida", icon: "🌍", color: "#4caf50" },
-    digital: { name: "Comunicação & Tecnologia", icon: "📱", color: "#607d8b" }
-  };
+    // Quiz metadata
+  const quizMeta = getQuizMeta();
   
   let html = "";
   
@@ -757,12 +746,12 @@ function loadBadges() {
   
   // Define available badges
   const badges = [
-    { id: "first_quiz", icon: "🎯", name: "Primeiro Quiz", condition: () => getQuizCount() >= 1 },
-    { id: "explorer", icon: "🧭", name: "Explorador", condition: () => getQuizCount() >= 3 },
-    { id: "completist", icon: "🏆", name: "Completista", condition: () => getQuizCount() >= 5 },
-    { id: "quick", icon: "⚡", name: "Rápido", condition: () => false }, // TODO: time-based
-    { id: "sharer", icon: "📤", name: "Partilhador", condition: () => false }, // TODO: share tracking
-    { id: "matcher", icon: "💕", name: "Matcher", condition: () => false } // TODO: smart match
+    { id: "first_quiz", icon: "🎯", name: t('profile.badgeFirstQuiz'), condition: () => getQuizCount() >= 1 },
+    { id: "explorer", icon: "🧭", name: t('profile.badgeExplorer'), condition: () => getQuizCount() >= 3 },
+    { id: "completist", icon: "🏆", name: t('profile.badgeCompletist'), condition: () => getQuizCount() >= 5 },
+    { id: "quick", icon: "⚡", name: t('profile.badgeQuick'), condition: () => false }, // TODO: time-based
+    { id: "sharer", icon: "📤", name: t('profile.badgeSharer'), condition: () => false }, // TODO: share tracking
+    { id: "matcher", icon: "💕", name: t('profile.badgeMatcher'), condition: () => false } // TODO: smart match
   ];
   
   let html = "";
@@ -866,12 +855,11 @@ async function saveProfile(event) {
     // Update UI
     updateProfileHeader();
     closeEditModal();
-    
-    alert("Perfil atualizado com sucesso!");
+      alert(t('profile.profileUpdated'));
     
   } catch (error) {
     console.error("Error saving profile:", error);
-    alert("Erro ao guardar. Tenta novamente.");
+    alert(t('profile.profileUpdateError'));
   }
 }
 
@@ -879,7 +867,7 @@ async function saveProfile(event) {
 // DANGER ZONE
 // ================================
 async function deleteAllData() {
-  if (!confirm("Tens a certeza que queres apagar todos os teus dados? Esta ação não pode ser revertida.")) {
+  if (!confirm(t('profile.deleteDataConfirm'))) {
     return;
   }
   
@@ -904,22 +892,20 @@ async function deleteAllData() {
         localStorage.removeItem(key);
       }
     }
-    
-    alert("Todos os dados foram apagados.");
+      alert(t('profile.dataDeleted'));
     window.location.reload();
     
   } catch (error) {
     console.error("Error deleting data:", error);
-    alert("Erro ao apagar dados. Tenta novamente.");
+    alert(t('profile.dataDeleteError'));
   }
 }
 
-async function deleteAccount() {
-  if (!confirm("Tens a certeza que queres eliminar a tua conta? Esta ação é PERMANENTE e não pode ser revertida.")) {
+async function deleteAccount() {  if (!confirm(t('profile.deleteAccountConfirm'))) {
     return;
   }
   
-  if (!confirm("ÚLTIMA CONFIRMAÇÃO: Ao eliminar a conta, perdes todos os dados. Continuar?")) {
+  if (!confirm(t('profile.deleteAccountFinal'))) {
     return;
   }
   
@@ -938,19 +924,18 @@ async function deleteAccount() {
     
     // Delete Firebase Auth account
     await currentUser.delete();
-    
-    alert("Conta eliminada com sucesso.");
+      alert(t('profile.accountDeleted'));
     window.location.href = "../index.html";
     
   } catch (error) {
     console.error("Error deleting account:", error);
     
     if (error.code === "auth/requires-recent-login") {
-      alert("Por razões de segurança, precisas de fazer login novamente antes de eliminar a conta.");
+      alert(t('profile.accountDeleteReauth'));
       await auth.signOut();
       window.location.href = "auth.html";
     } else {
-      alert("Erro ao eliminar conta. Tenta novamente.");
+      alert(t('profile.accountDeleteError'));
     }
   }
 }
@@ -960,7 +945,7 @@ async function deleteAccount() {
 // ================================
 function formatDate(date) {
   const options = { day: "numeric", month: "short", year: "numeric" };
-  return date.toLocaleDateString("pt-PT", options);
+  return date.toLocaleDateString(typeof I18n !== 'undefined' ? I18n.getCurrentLang() : "pt-PT", options);
 }
 
 // ================================
@@ -968,24 +953,38 @@ function formatDate(date) {
 // ================================
 let currentViewingQuizId = null;
 
-// Quiz metadata for modal
-const QUIZ_META = {
-  vanilla: { name: "Vanilla ou Kink", icon: "🔥", color: "#e91e63" },
-  orientation: { name: "Orientação Sexual", icon: "🌈", color: "#9c27b0" },
-  cuckold: { name: "Voyeurismo & Partilha", icon: "👀", color: "#673ab7" },
-  swing: { name: "Swing/Poliamor", icon: "💑", color: "#00bcd4" },
-  kinks: { name: "Fetiches e Kinks", icon: "⛓️", color: "#f44336" },
-  bdsm: { name: "BDSM & Dinâmicas de Poder", icon: "🎭", color: "#7B1FA2" },
-  adventure: { name: "Aventura Sexual", icon: "🎲", color: "#FF5722" },
-  fantasies: { name: "Fantasias Secretas", icon: "🔮", color: "#E91E63" },
-  exhibitionism: { name: "Exibicionismo & Admiração", icon: "📸", color: "#FFC107" },
-  communication: { name: "Comunicação Sexual", icon: "💬", color: "#4CAF50" },
-  intimacy: { name: "Intimidade Emocional", icon: "💝", color: "#E91E63" },
-  rhythm: { name: "Ritmo & Frequência", icon: "⏱️", color: "#FF9800" }
-};
+// Quiz metadata helper - uses i18n for names
+function getQuizMeta() {
+  const icons = {
+    vanilla: { icon: "🔥", color: "#e91e63" },
+    orientation: { icon: "🌈", color: "#9c27b0" },
+    cuckold: { icon: "👀", color: "#673ab7" },
+    swing: { icon: "💑", color: "#00bcd4" },
+    kinks: { icon: "⛓️", color: "#f44336" },
+    bdsm: { icon: "🎭", color: "#7B1FA2" },
+    adventure: { icon: "🚀", color: "#FF5722" },
+    fantasies: { icon: "🌙", color: "#7b1fa2" },
+    exhibitionism: { icon: "👁️", color: "#ff9800" },
+    communication: { icon: "🗣️", color: "#2196f3" },
+    intimacy: { icon: "💖", color: "#e91e63" },
+    rhythm: { icon: "⏱️", color: "#009688" },
+    lifestyle: { icon: "🌍", color: "#4caf50" },
+    digital: { icon: "📱", color: "#607d8b" }
+  };
+  const meta = {};
+  for (const [id, data] of Object.entries(icons)) {
+    meta[id] = { name: t('quizNames.' + id), ...data };
+  }
+  return meta;
+}
+
+// Quiz metadata for modal (dynamic)
+let QUIZ_META = {};
+function refreshQuizMeta() { QUIZ_META = getQuizMeta(); }
 
 async function viewResult(quizId) {
   currentViewingQuizId = quizId;
+  refreshQuizMeta();
   
   // Get quiz config
   const quiz = QUIZ_META[quizId] || { name: quizId, icon: "📝", color: "#666" };
@@ -1000,7 +999,7 @@ async function viewResult(quizId) {
   }
   
   if (!result) {
-    alert("Não foram encontrados resultados para este questionário.");
+    alert(t('profile.noResultsForQuiz'));
     return;
   }
   
@@ -1024,7 +1023,7 @@ async function viewResult(quizId) {
     document.getElementById("resultCategoryLabel").textContent = "Role: " + result.dominantRole;
   } else {
     document.getElementById("resultCategoryEmoji").textContent = "🎯";
-    document.getElementById("resultCategoryLabel").textContent = result.score + "% de Intensidade";
+    document.getElementById("resultCategoryLabel").textContent = result.score + t('profile.intensityLabel');
   }
   
   // Description (use saved or generate based on score)
@@ -1035,7 +1034,7 @@ async function viewResult(quizId) {
   
   // Show tags if available (v2.1 format)
   if (result.topTags && result.topTags.length > 0) {
-    breakdownHtml += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">🏷️ Tags principais:</p>';
+    breakdownHtml += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('profile.topTags') + '</p>';
     breakdownHtml += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;">';
     result.topTags.forEach(function(tag) {
       const label = tag.split('-').map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
@@ -1062,27 +1061,27 @@ async function viewResult(quizId) {
 
 function generateResultDescription(quizName, score) {
   if (score >= 80) {
-    return "Tens um nível muito elevado nesta área! Os teus resultados mostram um grande interesse e abertura.";
+    return t('resultDesc.veryHigh');
   } else if (score >= 60) {
-    return "Tens uma curiosidade saudável e estás aberto/a a explorar esta área com moderação.";
+    return t('resultDesc.high');
   } else if (score >= 40) {
-    return "Tens um interesse moderado nesta área. Podes explorar mais ao teu ritmo.";
+    return t('resultDesc.medium');
   } else if (score >= 20) {
-    return "Esta área não é particularmente do teu interesse, mas manténs a mente aberta.";
+    return t('resultDesc.low');
   } else {
-    return "Esta área não parece ser do teu interesse no momento. E está tudo bem assim!";
+    return t('resultDesc.veryLow');
   }
 }
 
 function buildResultBreakdown(categoryScores) {
   const entries = Object.entries(categoryScores);
-  if (entries.length === 0) return "<p style='text-align: center; color: #888;'>Sem dados de categorias disponíveis.</p>";
+  if (entries.length === 0) return "<p style='text-align: center; color: #888;'>" + t('profile.noCategories') + "</p>";
   
   // Sort by score descending
   entries.sort((a, b) => b[1] - a[1]);
   const top5 = entries.slice(0, 5);
   
-  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Top Categorias:</p>';
+  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('profile.topCategories') + '</p>';
   
   top5.forEach(([category, score]) => {
     const label = formatCategoryLabel(category);
@@ -1121,23 +1120,24 @@ function closeResultModal() {
 function shareResult() {
   if (!currentViewingQuizId) return;
   
+  refreshQuizMeta();
   const quiz = QUIZ_META[currentViewingQuizId] || { name: currentViewingQuizId };
   const allResults = window.profileResults || userData?.quizResults || {};
   const result = allResults[currentViewingQuizId];
   
   if (!quiz || !result) return;
   
-  const text = 'Fiz o questionário "' + quiz.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '%') + '\n\nDescobre o teu também em quest4you.com';
+  const text = t('profile.shareResultText', {quizName: quiz.name, result: result.category || result.score + '%'});
   
   if (navigator.share) {
     navigator.share({
-      title: 'Quest4You - ' + quiz.name,
+      title: t('profile.shareResultTitle', {quizName: quiz.name}),
       text: text,
       url: window.location.origin
     });
   } else {
     navigator.clipboard.writeText(text).then(() => {
-      alert("Resultado copiado para a área de transferência!");
+      alert(t('profile.resultCopied'));
     });
   }
 }
@@ -1145,7 +1145,7 @@ function shareResult() {
 async function retakeQuiz() {
   if (!currentViewingQuizId) return;
   
-  if (confirm("Tens a certeza que queres refazer o questionário? As tuas respostas serão apagadas.")) {
+  if (confirm(t('profile.retakeConfirmProfile'))) {
     // Delete from cloud
     if (currentUser && window.CloudSync) {
       try {
@@ -1190,11 +1190,12 @@ function viewFullReport() {
   // Filter valid quiz IDs
   const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   const resultIds = Object.keys(allResults).filter(key => validQuizIds.includes(key));
-  
-  if (resultIds.length < 2) {
-    alert("Precisas de completar pelo menos 2 questionários para ver o relatório completo.");
+    if (resultIds.length < 2) {
+    alert(t('profile.reportMinQuizzes'));
     return;
   }
+  
+  refreshQuizMeta();
   
   // Generate report content
   const reportBody = document.getElementById("fullReportBody");
@@ -1202,7 +1203,7 @@ function viewFullReport() {
   
   // Overview Section
   html += '<div class="report-section">';
-  html += '<h2 class="report-section-title">📈 Visão Geral</h2>';
+  html += '<h2 class="report-section-title">' + t('profile.reportOverview') + '</h2>';
   html += '<div class="report-overview-grid">';
   
   // Calculate average score
@@ -1214,27 +1215,26 @@ function viewFullReport() {
   
   html += '<div class="report-stat-card">';
   html += '  <div class="report-stat-icon">📝</div>';
-  html += '  <div class="report-stat-value">' + resultIds.length + '</div>';
-  html += '  <div class="report-stat-label">Questionários</div>';
+  html += '  <div class="report-stat-value">' + resultIds.length + '</div>';  html += '  <div class="report-stat-label">' + t('profile.reportQuizzes') + '</div>';
   html += '</div>';
   
   html += '<div class="report-stat-card">';
   html += '  <div class="report-stat-icon">📊</div>';
   html += '  <div class="report-stat-value">' + avgScore + '%</div>';
-  html += '  <div class="report-stat-label">Média Global</div>';
+  html += '  <div class="report-stat-label">' + t('profile.reportAvgScore') + '</div>';
   html += '</div>';
   
   html += '<div class="report-stat-card">';
   html += '  <div class="report-stat-icon">❓</div>';
   html += '  <div class="report-stat-value">' + (resultIds.length * 50) + '</div>';
-  html += '  <div class="report-stat-label">Perguntas Respondidas</div>';
+  html += '  <div class="report-stat-label">' + t('profile.reportQuestionsAnswered') + '</div>';
   html += '</div>';
   
   html += '</div></div>';
   
   // Scores Comparison Section
   html += '<div class="report-section">';
-  html += '<h2 class="report-section-title">🎯 Comparação de Resultados</h2>';
+  html += '<h2 class="report-section-title">' + t('profile.reportComparison') + '</h2>';
   html += '<div class="report-scores-chart">';
   
   // Sort by score descending
@@ -1260,7 +1260,7 @@ function viewFullReport() {
   
   // Detailed Results Section
   html += '<div class="report-section">';
-  html += '<h2 class="report-section-title">📋 Resultados Detalhados</h2>';
+  html += '<h2 class="report-section-title">' + t('profile.reportDetailed') + '</h2>';
   html += '<div class="report-details-grid">';
   
   sortedResults.forEach(result => {
@@ -1300,7 +1300,7 @@ function viewFullReport() {
     }
     
     if (result.date) {
-      html += '    <div class="report-detail-date">Completado em ' + formatDate(new Date(result.date)) + '</div>';
+      html += '    <div class="report-detail-date">' + t('profile.reportCompletedOn', {date: formatDate(new Date(result.date))}) + '</div>';
     }
     
     html += '  </div>';
@@ -1311,7 +1311,7 @@ function viewFullReport() {
   
   // Profile Summary Section
   html += '<div class="report-section">';
-  html += '<h2 class="report-section-title">✨ O Teu Perfil</h2>';
+  html += '<h2 class="report-section-title">' + t('profile.reportYourProfile') + '</h2>';
   html += '<div class="report-profile-summary">';
   
   // Generate profile insights based on results
@@ -1322,7 +1322,7 @@ function viewFullReport() {
   if (sortedResults.length >= 3) {
     const top3 = sortedResults.slice(0, 3);
     html += '<div class="report-highlights">';
-    html += '  <h4>🏆 Top 3 Áreas de Interesse:</h4>';
+    html += '  <h4>' + t('profile.reportTop3') + '</h4>';
     html += '  <div class="report-highlight-tags">';
     top3.forEach(r => {
       html += '    <span class="report-tag" style="background: ' + r.meta.color + '">' + r.meta.icon + ' ' + r.meta.name + '</span>';
@@ -1342,7 +1342,7 @@ function viewFullReport() {
 }
 
 function generateProfileInsights(sortedResults) {
-  if (sortedResults.length === 0) return "Completa mais questionários para descobrir o teu perfil!";
+  if (sortedResults.length === 0) return t('profile.insightEmpty');
   
   const avgScore = sortedResults.reduce((sum, r) => sum + (r.score || 0), 0) / sortedResults.length;
   const topQuiz = sortedResults[0];
@@ -1350,27 +1350,27 @@ function generateProfileInsights(sortedResults) {
   let text = "";
   
   if (avgScore >= 70) {
-    text = "Os teus resultados mostram que és uma pessoa muito aberta à exploração e novas experiências. ";
+    text = t('profile.insightOpen');
   } else if (avgScore >= 50) {
-    text = "Tens uma mente curiosa e equilibrada, aberta a explorar mas com limites bem definidos. ";
+    text = t('profile.insightCurious');
   } else if (avgScore >= 30) {
-    text = "Preferes uma abordagem mais tradicional, mas manténs curiosidade sobre diferentes temas. ";
+    text = t('profile.insightTraditional');
   } else {
-    text = "Valorizas experiências mais convencionais e confortáveis. E está tudo bem assim! ";
+    text = t('profile.insightConventional');
   }
   
-  text += "A tua área de maior interesse é <strong>" + topQuiz.meta.name + "</strong> com " + topQuiz.score + "% de afinidade";
+  text += t('profile.insightTopArea', {quizName: topQuiz.meta.name, score: topQuiz.score});
   
   if (topQuiz.category) {
-    text += ", classificando-te como <strong>" + topQuiz.category + "</strong>";
+    text += t('profile.insightCategory', {category: topQuiz.category});
   }
   
   text += ". ";
   
   if (sortedResults.length >= 5) {
-    text += "Com " + sortedResults.length + " questionários completos, tens um perfil bem definido e detalhado!";
+    text += t('profile.insightComplete', {count: sortedResults.length});
   } else {
-    text += "Completa mais questionários para ter um perfil ainda mais detalhado.";
+    text += t('profile.insightMoreQuizzes');
   }
   
   return text;
@@ -1388,25 +1388,24 @@ function shareFullReport() {
   const allResults = window.profileResults || {};
   const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
   const count = Object.keys(allResults).filter(k => validQuizIds.includes(k)).length;
-  
-  const text = '🎯 O meu perfil Quest4You!\n\nCompletei ' + count + ' questionários de autoconhecimento.\n\nDescobre o teu perfil também em quest4you.com';
+    const text = t('profile.shareProfileText', {count: count});
   
   if (navigator.share) {
     navigator.share({
-      title: 'Quest4You - Meu Perfil',
+      title: t('profile.shareProfileTitle'),
       text: text,
       url: window.location.origin
     });
   } else {
     navigator.clipboard.writeText(text).then(() => {
-      alert("Texto copiado para a área de transferência!");
+      alert(t('profile.textCopied'));
     });
   }
 }
 
 function downloadFullReport() {
   // For now, show message - PDF generation would require a library
-  alert("📥 Funcionalidade de download PDF em breve!\n\nPor agora, podes usar Ctrl+P (ou Cmd+P no Mac) para imprimir/guardar como PDF enquanto o relatório está aberto.");
+  alert(t('profile.downloadPdfSoon'));
 }
 
 // ================================
@@ -1414,9 +1413,8 @@ function downloadFullReport() {
 // ================================
 const MAX_PHOTO_SIZE = 5 * 1024 * 1024; // 5MB
 
-async function uploadPhoto(type, inputElement) {
-  if (!currentUser) {
-    alert("Precisas de estar autenticado para fazer upload de fotos.");
+async function uploadPhoto(type, inputElement) {  if (!currentUser) {
+    alert(t('profile.photoAuthRequired'));
     return;
   }
 
@@ -1425,13 +1423,13 @@ async function uploadPhoto(type, inputElement) {
 
   // Validate file type
   if (!file.type.startsWith('image/')) {
-    alert("Por favor, seleciona uma imagem válida.");
+    alert(t('profile.photoInvalidType'));
     return;
   }
 
   // Validate file size
   if (file.size > MAX_PHOTO_SIZE) {
-    alert("A imagem é demasiado grande. Máximo: 5MB");
+    alert(t('profile.photoTooLarge'));
     return;
   }
 
@@ -1439,7 +1437,7 @@ async function uploadPhoto(type, inputElement) {
   if (type === 'secret') {
     const validationStatus = userData?.genderValidation?.status;
     if (validationStatus !== 'approved') {
-      alert("Precisas de ter a validação de género aprovada para usar fotos secretas.");
+      alert(t('profile.photoSecretValidation'));
       inputElement.value = '';
       return;
     }
@@ -1448,7 +1446,7 @@ async function uploadPhoto(type, inputElement) {
   try {
     // Show loading state
     const previewEl = document.getElementById(type + 'PhotoPreview');
-    previewEl.innerHTML = '<div class="photo-loading">📤 A carregar...</div>';
+    previewEl.innerHTML = '<div class="photo-loading">' + t('profile.photoUploading') + '</div>';
 
     // Convert to base64 (for now - later use Firebase Storage)
     const base64 = await fileToBase64(file);
@@ -1469,12 +1467,11 @@ async function uploadPhoto(type, inputElement) {
     }    // Update UI
     updatePhotoPreview(type, resizedBase64);
     
-    console.log("✅ Photo uploaded:", type);
-    alert("Foto atualizada com sucesso!");
+    console.log("✅ Photo uploaded:", type);    alert(t('profile.photoUploaded'));
 
   } catch (error) {
     console.error("Error uploading photo:", error);
-    alert("Erro ao carregar foto. Por favor, tenta novamente.");
+    alert(t('profile.photoUploadError'));
   }
 
   inputElement.value = '';
@@ -1483,7 +1480,7 @@ async function uploadPhoto(type, inputElement) {
 async function removePhoto(type) {
   if (!currentUser) return;
 
-  if (!confirm("Tens a certeza que queres remover esta foto?")) {
+  if (!confirm(t('profile.photoRemoveConfirm'))) {
     return;
   }
 
@@ -1506,7 +1503,7 @@ async function removePhoto(type) {
 
   } catch (error) {
     console.error("Error removing photo:", error);
-    alert("Erro ao remover foto.");
+    alert(t('profile.photoRemoveError'));
   }
 }
 
@@ -1581,21 +1578,20 @@ function updateProfileAvatar(photoUrl) {
 // ================================
 async function submitGenderValidation(inputElement) {
   if (!currentUser) {
-    alert("Precisas de estar autenticado.");
+    alert(t('profile.validationAuthRequired'));
     return;
   }
 
   const file = inputElement.files[0];
   if (!file) return;
-
   // Validate file
   if (!file.type.startsWith('image/')) {
-    alert("Por favor, seleciona uma imagem válida.");
+    alert(t('profile.photoInvalidType'));
     return;
   }
 
   if (file.size > MAX_PHOTO_SIZE) {
-    alert("A imagem é demasiado grande. Máximo: 5MB");
+    alert(t('profile.photoTooLarge'));
     return;
   }
 
@@ -1663,12 +1659,11 @@ async function submitGenderValidation(inputElement) {
     // Update UI
     updateValidationStatusUI();
     
-    console.log("✅ Gender validation submitted");
-    alert("Foto de validação enviada! Será analisada em 24-48 horas.");
+    console.log("✅ Gender validation submitted");    alert(t('profile.validationSent'));
 
   } catch (error) {
     console.error("Error submitting validation:", error);
-    alert("Erro ao enviar. Por favor, tenta novamente.");
+    alert(t('profile.validationError'));
     updateValidationStatusUI(); // Restore state
   }
 
@@ -1767,9 +1762,8 @@ function capitalizeFirst(str) {
 // ================================
 // FEEDBACK SYSTEM
 // ================================
-async function submitFeedback() {
-  if (!currentUser) {
-    alert("❌ Precisas de estar autenticado para enviar feedback.");
+async function submitFeedback() {  if (!currentUser) {
+    alert(t('profile.feedbackAuthRequired'));
     return;
   }
 
@@ -1777,12 +1771,12 @@ async function submitFeedback() {
   const feedbackType = document.querySelector('input[name="feedbackType"]:checked')?.value || 'other';
 
   if (!feedbackText) {
-    alert("⚠️ Por favor, escreve o teu feedback antes de enviar.");
+    alert(t('profile.feedbackEmpty'));
     return;
   }
 
   if (feedbackText.length < 10) {
-    alert("⚠️ O feedback precisa de ter pelo menos 10 caracteres.");
+    alert(t('profile.feedbackTooShort'));
     return;
   }
 
@@ -1803,13 +1797,13 @@ async function submitFeedback() {
     document.getElementById('feedbackText').value = '';
     
     // Show success
-    alert("✅ Obrigado pelo teu feedback!\n\nA tua opinião é muito importante para nós e ajuda-nos a melhorar o Quest4You. 💕");
+    alert(t('profile.feedbackSuccess'));
     
     console.log("✅ Feedback submitted:", feedbackType);
 
   } catch (error) {
     console.error("Error submitting feedback:", error);
-    alert("❌ Erro ao enviar feedback. Por favor, tenta novamente.");
+    alert(t('profile.feedbackError'));
   }
 }
 
@@ -2251,7 +2245,7 @@ async function sendFriendRequest(receiverId, receiverName) {
       .get();
     
     if (!existing.empty) {
-      alert("⚠️ Já enviaste um pedido de amizade a este utilizador.");
+      alert(t('profile.friendAlreadySent'));
       return;
     }
     
@@ -2271,14 +2265,14 @@ async function sendFriendRequest(receiverId, receiverName) {
       await notifyFriendRequest(receiverId, senderName);
     }
     
-    alert(`✅ Pedido de amizade enviado para ${receiverName}!`);
+    alert(t('profile.friendRequestSent', {name: receiverName}));
     
     // Refresh search results
     searchUsers();
     
   } catch (error) {
     console.error("Error sending friend request:", error);
-    alert("❌ Erro ao enviar pedido de amizade.");
+    alert(t('profile.friendRequestError'));
   }
 }
 
@@ -2299,7 +2293,7 @@ async function acceptFriendRequest(requestId, senderId) {
       await notifyFriendAccepted(senderId, accepterName);
     }
     
-    alert("✅ Pedido de amizade aceite! Agora são amigos.");
+    alert(t('profile.friendAccepted'));
     
     // Refresh lists
     await loadPendingRequests();
@@ -2307,7 +2301,7 @@ async function acceptFriendRequest(requestId, senderId) {
     
   } catch (error) {
     console.error("Error accepting friend request:", error);
-    alert("❌ Erro ao aceitar pedido de amizade.");
+    alert(t('profile.friendAcceptError'));
   }
 }
 
@@ -2324,7 +2318,7 @@ async function acceptFriendRequestByUserId(senderId) {
 async function rejectFriendRequest(requestId) {
   if (!currentUser || !db) return;
   
-  if (!confirm("Tens a certeza que queres rejeitar este pedido de amizade?")) return;
+  if (!confirm(t('profile.friendRejectConfirm'))) return;
   
   try {
     await db.collection("quest4you_friendships").doc(requestId).delete();
@@ -2342,7 +2336,7 @@ async function rejectFriendRequest(requestId) {
     
   } catch (error) {
     console.error("Error rejecting friend request:", error);
-    alert("❌ Erro ao rejeitar pedido de amizade.");
+    alert(t('profile.friendRejectError'));
   }
 }
 
@@ -2350,7 +2344,7 @@ async function rejectFriendRequest(requestId) {
 async function removeFriend(friendId, friendshipId) {
   if (!currentUser || !db) return;
   
-  if (!confirm("Tens a certeza que queres remover este amigo?")) return;
+  if (!confirm(t('profile.friendRemoveConfirm'))) return;
   
   try {
     await db.collection("quest4you_friendships").doc(friendshipId).delete();
@@ -2358,11 +2352,11 @@ async function removeFriend(friendId, friendshipId) {
     // Refresh friends list
     await loadFriends();
     
-    alert("✅ Amigo removido.");
+    alert(t('profile.friendRemoved'));
     
   } catch (error) {
     console.error("Error removing friend:", error);
-    alert("❌ Erro ao remover amigo.");
+    alert(t('profile.friendRemoveError'));
   }
 }
 

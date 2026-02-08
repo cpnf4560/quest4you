@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto - Quest4You</title>
+  <title data-i18n="contact.pageTitle">Contacto - Quest4You</title>
   <link rel="icon" type="image/png" href="../assets/quest4you_transp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,8 +29,8 @@
         <span class="logo-text">Quest4You</span>
       </a>
       <nav class="nav">
-        <a href="../index.html" class="nav-link">🏠 Início</a>
-        <a href="./auth.html" class="nav-link btn-nav-login">🔐 Entrar</a>
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
+        <a href="./auth.html" class="nav-link btn-nav-login" data-i18n="nav.login">🔐 Entrar</a>
       </nav>
     </div>
   </header>
@@ -38,53 +38,53 @@
   <!-- Content -->
   <main class="legal-container contact-page">
     <div class="legal-content">
-      <h1>📬 Contacto</h1>
-      <p class="contact-intro">Tens alguma dúvida, sugestão ou precisas de ajuda? Entra em contacto connosco!</p>
+      <h1 data-i18n="contact.title">📬 Contacto</h1>
+      <p class="contact-intro" data-i18n="contact.intro">Tens alguma dúvida, sugestão ou precisas de ajuda? Entra em contacto connosco!</p>
 
       <div class="contact-grid">
         <!-- Email Card -->
         <div class="contact-card">
           <div class="contact-icon">📧</div>
-          <h3>Email</h3>
-          <p>Para questões gerais, suporte ou parcerias:</p>
+          <h3 data-i18n="contact.emailTitle">Email</h3>
+          <p data-i18n="contact.emailDesc">Para questões gerais, suporte ou parcerias:</p>
           <a href="mailto:info@quest4couple.pt" class="contact-link">info@quest4couple.pt</a>
         </div>
 
         <!-- Response Time Card -->
         <div class="contact-card">
           <div class="contact-icon">⏱️</div>
-          <h3>Tempo de Resposta</h3>
-          <p>Respondemos normalmente em:</p>
-          <span class="contact-highlight">24-48 horas úteis</span>
+          <h3 data-i18n="contact.responseTitle">Tempo de Resposta</h3>
+          <p data-i18n="contact.responseDesc">Respondemos normalmente em:</p>
+          <span class="contact-highlight" data-i18n="contact.responseTime">24-48 horas úteis</span>
         </div>
 
         <!-- FAQ Card -->
         <div class="contact-card">
           <div class="contact-icon">❓</div>
-          <h3>Perguntas Frequentes</h3>
-          <p>Antes de contactar, verifica se a tua dúvida já foi respondida.</p>
-          <a href="#faq" class="btn btn-outline btn-small">Ver FAQ</a>
+          <h3 data-i18n="contact.faqCardTitle">Perguntas Frequentes</h3>
+          <p data-i18n="contact.faqCardDesc">Antes de contactar, verifica se a tua dúvida já foi respondida.</p>
+          <a href="#faq" class="btn btn-outline btn-small" data-i18n="contact.viewFaq">Ver FAQ</a>
         </div>
       </div>
 
       <!-- FAQ Section -->
       <section class="faq-section" id="faq">
-        <h2>❓ Perguntas Frequentes</h2>
+        <h2 data-i18n="contact.faqTitle">❓ Perguntas Frequentes</h2>
         
         <div class="faq-list">
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-              <span>O Quest4You é gratuito?</span>
+              <span data-i18n="contact.faq1q">O Quest4You é gratuito?</span>
               <span class="faq-toggle">+</span>
             </div>
             <div class="faq-answer">
-              <p>Sim! Todos os questionários e funcionalidades do Smart Match são 100% gratuitos. Não existem planos pagos ou funcionalidades premium.</p>
+              <p data-i18n="contact.faq1a">Sim! Todos os questionários e funcionalidades do Smart Match são 100% gratuitos. Não existem planos pagos ou funcionalidades premium.</p>
             </div>
           </div>
 
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Os meus dados estão seguros?</span>
+              <span data-i18n="contact.faq2q">Os meus dados estão seguros?</span>
               <span class="faq-toggle">+</span>
             </div>
             <div class="faq-answer">
@@ -94,7 +94,7 @@
 
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Posso usar um pseudónimo?</span>
+              <span data-i18n="contact.faq3q">Posso usar um pseudónimo?</span>
               <span class="faq-toggle">+</span>
             </div>
             <div class="faq-answer">
@@ -104,7 +104,7 @@
 
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Como funciona o Smart Match?</span>
+              <span data-i18n="contact.faq4q">Como funciona o Smart Match?</span>
               <span class="faq-toggle">+</span>
             </div>
             <div class="faq-answer">
@@ -114,7 +114,7 @@
 
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Posso apagar a minha conta?</span>
+              <span data-i18n="contact.faq5q">Posso apagar a minha conta?</span>
               <span class="faq-toggle">+</span>
             </div>
             <div class="faq-answer">
@@ -124,7 +124,7 @@
 
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Preciso de ter 18 anos?</span>
+              <span data-i18n="contact.faq6q">Preciso de ter 18 anos?</span>
               <span class="faq-toggle">+</span>
             </div>
             <div class="faq-answer">
@@ -136,48 +136,48 @@
 
       <!-- Contact Form -->
       <section class="contact-form-section">
-        <h2>✉️ Enviar Mensagem</h2>
-        <p>Preenche o formulário abaixo e entraremos em contacto brevemente.</p>
+        <h2 data-i18n="contact.formTitle">✉️ Enviar Mensagem</h2>
+        <p data-i18n="contact.formDesc">Preenche o formulário abaixo e entraremos em contacto brevemente.</p>
         
         <form class="contact-form" id="contactForm" onsubmit="submitContactForm(event)">
           <div class="form-row">
             <div class="form-group">
-              <label for="contactName">Nome</label>
-              <input type="text" id="contactName" required placeholder="O teu nome">
+              <label for="contactName" data-i18n="contact.name">Nome</label>
+              <input type="text" id="contactName" required data-i18n-placeholder="contact.namePlaceholder" placeholder="O teu nome">
             </div>
             <div class="form-group">
-              <label for="contactEmail">Email</label>
-              <input type="email" id="contactEmail" required placeholder="O teu email">
+              <label for="contactEmail" data-i18n="contact.email">Email</label>
+              <input type="email" id="contactEmail" required data-i18n-placeholder="contact.emailPlaceholder" placeholder="O teu email">
             </div>
           </div>
           
           <div class="form-group">
-            <label for="contactSubject">Assunto</label>
+            <label for="contactSubject" data-i18n="contact.subject">Assunto</label>
             <select id="contactSubject" required>
-              <option value="">Seleciona um assunto...</option>
-              <option value="suporte">Suporte Técnico</option>
-              <option value="conta">Problema com Conta</option>
-              <option value="privacidade">Privacidade / RGPD</option>
-              <option value="sugestao">Sugestão</option>
-              <option value="parceria">Parceria / Colaboração</option>
-              <option value="outro">Outro</option>
+              <option value="" data-i18n="contact.selectSubject">Seleciona um assunto...</option>
+              <option value="suporte" data-i18n="contact.subjectSupport">Suporte Técnico</option>
+              <option value="conta" data-i18n="contact.subjectAccount">Problema com Conta</option>
+              <option value="privacidade" data-i18n="contact.subjectPrivacy">Privacidade / RGPD</option>
+              <option value="sugestao" data-i18n="contact.subjectSuggestion">Sugestão</option>
+              <option value="parceria" data-i18n="contact.subjectPartnership">Parceria / Colaboração</option>
+              <option value="outro" data-i18n="contact.subjectOther">Outro</option>
             </select>
           </div>
           
           <div class="form-group">
-            <label for="contactMessage">Mensagem</label>
-            <textarea id="contactMessage" rows="5" required placeholder="Descreve a tua questão..."></textarea>
+            <label for="contactMessage" data-i18n="contact.message">Mensagem</label>
+            <textarea id="contactMessage" rows="5" required data-i18n-placeholder="contact.messagePlaceholder" placeholder="Descreve a tua questão..."></textarea>
           </div>
           
-          <button type="submit" class="btn btn-primary btn-full">
+          <button type="submit" class="btn btn-primary btn-full" data-i18n="contact.send">
             📤 Enviar Mensagem
           </button>
         </form>
         
         <div class="form-success" id="formSuccess" style="display: none;">
           <div class="success-icon">✅</div>
-          <h3>Mensagem Enviada!</h3>
-          <p>Obrigado pelo teu contacto. Responderemos o mais breve possível.</p>
+          <h3 data-i18n="contact.sentTitle">Mensagem Enviada!</h3>
+          <p data-i18n="contact.sentDesc">Obrigado pelo teu contacto. Responderemos o mais breve possível.</p>
         </div>
       </section>
     </div>
@@ -187,7 +187,7 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-bottom">
-        <p>&copy; 2025 Quest4You - Todos os direitos reservados</p>
+        <p data-i18n="footer.rights">&copy; 2025 Quest4You - Todos os direitos reservados</p>
       </div>
     </div>
   </footer>
@@ -227,5 +227,6 @@
     }
   </script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
+  <script src="../js/i18n.js?v=202602080100"></script>
 </body>
 </html>

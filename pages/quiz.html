@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Questionário - Quest4You</title>
+  <title data-i18n="quiz.pageTitle">Questionário - Quest4You</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,15 +28,15 @@
         <span class="logo-text">Quest4You</span>
       </a>
       <nav class="nav">
-        <a href="../index.html" class="nav-link">🏠 Início</a>
-        <a href="./explorar.html" class="nav-link">👥 Comunidade</a>
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
+        <a href="./explorar.html" class="nav-link" data-i18n="nav.community">👥 Comunidade</a>
       </nav>
     </div>
   </header>
   <main class="quiz-container">
     <div class="quiz-header" id="quizHeader">
       <div class="quiz-icon" id="quizIcon"></div>
-      <h1 class="quiz-title" id="quizTitle">Carregando...</h1>
+      <h1 class="quiz-title" id="quizTitle" data-i18n="quiz.loading">Carregando...</h1>
       <p class="quiz-description" id="quizDescription"></p>
     </div>
     <div class="progress-container">
@@ -50,18 +50,18 @@
     </div>
     <div class="question-card" id="questionCard">
       <div class="question-number" id="questionNumber">1</div>
-      <p class="question-text" id="questionText">Carregando pergunta...</p>
+      <p class="question-text" id="questionText" data-i18n="quiz.loadingQuestion">Carregando pergunta...</p>
       <div class="options-container" id="optionsContainer">
         <!-- Dynamic options rendered by quiz.js from JSON -->
       </div>
     </div>
     <div class="quiz-navigation">
-      <button class="btn btn-secondary" id="btnPrev" onclick="previousQuestion()" disabled>&#8592; Anterior</button>
-      <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()" disabled>Próxima &#8594;</button>
-      <button class="btn btn-success" id="btnFinish" onclick="finishQuiz()" style="display: none;">Ver Resultado &#127881;</button>
+      <button class="btn btn-secondary" id="btnPrev" onclick="previousQuestion()" disabled data-i18n="quiz.previous">&#8592; Anterior</button>
+      <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()" disabled data-i18n="quiz.next">Próxima &#8594;</button>
+      <button class="btn btn-success" id="btnFinish" onclick="finishQuiz()" style="display: none;" data-i18n="quiz.seeResult">Ver Resultado &#127881;</button>
     </div>
     <div class="quick-nav">
-      <p class="quick-nav-title">Navegação Rápida</p>
+      <p class="quick-nav-title" data-i18n="quiz.quickNav">Navegação Rápida</p>
       <div class="quick-nav-dots" id="quickNavDots"></div>
     </div>
   </main>
@@ -70,13 +70,13 @@
       <button class="result-close" onclick="closeResult()">&#215;</button>
       <div class="result-header" id="resultHeader">
         <div class="result-emoji" id="resultEmoji">&#127881;</div>
-        <h2 class="result-title" id="resultTitle">O Teu Resultado</h2>
+        <h2 class="result-title" id="resultTitle" data-i18n="quiz.yourResult">O Teu Resultado</h2>
       </div>
       <div class="result-body">
         <div class="result-score-container">
           <div class="result-score-circle" id="resultScoreCircle">
             <span class="result-score-value" id="resultScore">75</span>
-            <span class="result-score-label">pontos</span>
+            <span class="result-score-label" data-i18n="quiz.points">pontos</span>
           </div>
         </div>
         <div class="result-category" id="resultCategory">
@@ -86,10 +86,10 @@
         <p class="result-description" id="resultDescription">Descrição do resultado...</p>
         <div class="result-breakdown" id="resultBreakdown"></div>
       </div>      <div class="result-actions">
-        <button class="btn btn-primary" onclick="shareResult()">&#128228; Partilhar</button>
-        <button class="btn btn-secondary" onclick="editAnswers()">&#9998; Editar Respostas</button>
-        <button class="btn btn-outline" onclick="retakeQuiz()">&#128260; Refazer Tudo</button>
-        <a href="../index.html" class="btn btn-outline">&#127968; Início</a>
+        <button class="btn btn-primary" onclick="shareResult()" data-i18n="quiz.shareResult">&#128228; Partilhar</button>
+        <button class="btn btn-secondary" onclick="editAnswers()" data-i18n="quiz.editAnswers">&#9998; Editar Respostas</button>
+        <button class="btn btn-outline" onclick="retakeQuiz()" data-i18n="quiz.redoAll">&#128260; Refazer Tudo</button>
+        <a href="../index.html" class="btn btn-outline" data-i18n="quiz.goHome">&#127968; Início</a>
       </div>
     </div>  </div>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -98,6 +98,7 @@
   <script src="../js/firebase-config.js?v=202601202240"></script>
   <script src="../js/cloud-sync.js?v=202601202240"></script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
+  <script src="../js/i18n.js?v=202602080100"></script>
   <script src="../js/quiz.js?v=202602090001"></script>
 </body>
 </html>

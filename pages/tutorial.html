@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tutorial - Quest4You</title>
+  <title data-i18n="tutorial.pageTitle">Tutorial - Quest4You</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,11 +28,11 @@
         <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
         <span class="logo-text">Quest4You</span>
       </a>      <nav class="nav">
-        <a href="../index.html" class="nav-link">🏠 Início</a>
-        <a href="./chat.html" class="nav-link">💬 Chat</a>
-        <a href="./smart-match.html" class="nav-link">💕 Smart Match</a>
-        <a href="./explorar.html" class="nav-link">👥 Comunidade</a>
-        <a href="./profile.html" class="nav-link">👤 Perfil</a>
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
+        <a href="./chat.html" class="nav-link" data-i18n="nav.chat">💬 Chat</a>
+        <a href="./smart-match.html" class="nav-link" data-i18n="nav.smartMatch">💕 Smart Match</a>
+        <a href="./explorar.html" class="nav-link" data-i18n="nav.community">👥 Comunidade</a>
+        <a href="./profile.html" class="nav-link" data-i18n="nav.profile">👤 Perfil</a>
       </nav>
     </div>
   </header>
@@ -42,8 +42,8 @@
     <!-- Hero Section -->
     <section class="tutorial-hero">
       <div class="hero-content">
-        <h1>📚 Tutorial Quest4You</h1>
-        <p>Aprende a tirar o máximo partido da plataforma</p>
+        <h1 data-i18n="tutorial.heroTitle">📚 Tutorial Quest4You</h1>
+        <p data-i18n="tutorial.heroSubtitle">Aprende a tirar o máximo partido da plataforma</p>
       </div>
     </section>
 
@@ -375,10 +375,11 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
-      <p>&copy; 2025 Quest4You - Todos os direitos reservados</p>
+      <p data-i18n="footer.rights">&copy; 2025 Quest4You - Todos os direitos reservados</p>
     </div>
   </footer>
 
+  <script src="../js/i18n.js?v=202602080100"></script>
   <script>
     // Tutorial Navigation
     let currentStep = 1;

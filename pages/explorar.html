@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comunidade - Quest4You</title>
+  <title data-i18n="community.pageTitle">Comunidade - Quest4You</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">  <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/explorar.css">
   <link rel="stylesheet" href="../css/notifications.css?v=202602060002">
@@ -31,11 +31,11 @@
         <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
         <span class="logo-text">Quest4You</span>
       </a>      <nav class="nav">
-        <a href="../index.html" class="nav-link">🏠 Início</a>
-        <a href="chat.html" class="nav-link nav-link-auth" style="display: none;">💬 Chat</a>
-        <a href="smart-match.html" class="nav-link">💕 Smart Match</a>
-        <a href="explorar.html" class="nav-link active">👥 Comunidade</a>
-        <a href="auth.html" id="authLink" class="nav-link btn-nav-login">🔐 Entrar</a>
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
+        <a href="chat.html" class="nav-link nav-link-auth" style="display: none;" data-i18n="nav.chat">💬 Chat</a>
+        <a href="smart-match.html" class="nav-link" data-i18n="nav.smartMatch">💕 Smart Match</a>
+        <a href="explorar.html" class="nav-link active" data-i18n="nav.community">👥 Comunidade</a>
+        <a href="auth.html" id="authLink" class="nav-link btn-nav-login" data-i18n="nav.login">🔐 Entrar</a>
       </nav>
       <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
     </div>
@@ -45,14 +45,14 @@
   <main class="main-content">
     <!-- HERO -->
     <section class="explorar-hero">
-      <div class="container">        <h1>👥 Comunidade</h1>
-        <p>Fórum de discussões, chat ao vivo e mensagens privadas</p>
+      <div class="container">        <h1 data-i18n="community.title">👥 Comunidade</h1>
+        <p data-i18n="community.subtitle">Fórum de discussões, chat ao vivo e mensagens privadas</p>
         
         <!-- TAB NAVIGATION -->
         <div class="explorar-tabs">
-          <button class="tab-btn active" data-tab="forum">💬 Fórum</button>
-          <button class="tab-btn" data-tab="chat">🗨️ Chat</button>
-          <button class="tab-btn" data-tab="mensagens">💕 Mensagens</button>
+          <button class="tab-btn active" data-tab="forum" data-i18n="community.tabForum">💬 Fórum</button>
+          <button class="tab-btn" data-tab="chat" data-i18n="community.tabChat">🗨️ Chat</button>
+          <button class="tab-btn" data-tab="mensagens" data-i18n="community.tabMessages">💕 Mensagens</button>
         </div>
       </div>
     </section>
@@ -61,26 +61,26 @@
     <section id="forumTab" class="tab-content active">
       <div class="container">
         <div class="forum-header">
-          <h2>💬 Fórum da Comunidade</h2>
-          <button class="btn btn-primary" id="newTopicBtn" onclick="showNewTopicModal()">
+          <h2 data-i18n="community.forumTitle">💬 Fórum da Comunidade</h2>
+          <button class="btn btn-primary" id="newTopicBtn" onclick="showNewTopicModal()" data-i18n="community.newTopic">
             ✏️ Novo Tópico
           </button>
         </div>
 
         <!-- Forum Categories -->
         <div class="forum-categories">
-          <button class="forum-cat-btn active" data-forum="geral">🌐 Geral</button>
-          <button class="forum-cat-btn" data-forum="experiencias">💭 Experiências</button>
-          <button class="forum-cat-btn" data-forum="duvidas">❓ Dúvidas</button>
-          <button class="forum-cat-btn" data-forum="sugestoes">💡 Sugestões</button>
-          <button class="forum-cat-btn" data-forum="off-topic">🎲 Off-Topic</button>
+          <button class="forum-cat-btn active" data-forum="geral" data-i18n="community.catGeneral">🌐 Geral</button>
+          <button class="forum-cat-btn" data-forum="experiencias" data-i18n="community.catExperiences">💭 Experiências</button>
+          <button class="forum-cat-btn" data-forum="duvidas" data-i18n="community.catQuestions">❓ Dúvidas</button>
+          <button class="forum-cat-btn" data-forum="sugestoes" data-i18n="community.catSuggestions">💡 Sugestões</button>
+          <button class="forum-cat-btn" data-forum="off-topic" data-i18n="community.catOffTopic">🎲 Off-Topic</button>
         </div>
 
         <!-- Topics List -->
         <div class="forum-topics" id="forumTopics">
           <div class="loading-spinner">
             <div class="spinner"></div>
-            <p>A carregar tópicos...</p>
+            <p data-i18n="community.loadingTopics">A carregar tópicos...</p>
           </div>
         </div>
       </div>
@@ -91,26 +91,26 @@
       <div class="container">
         <div class="chat-container">
           <div class="chat-sidebar">
-            <h3>🗨️ Salas de Chat</h3>
+            <h3 data-i18n="community.chatRooms">🗨️ Salas de Chat</h3>
             <div class="chat-rooms">
               <button class="room-btn active" data-room="geral">
                 <span class="room-icon">🌐</span>
-                <span class="room-name">Sala Geral</span>
+                <span class="room-name" data-i18n="community.roomGeneral">Sala Geral</span>
                 <span class="room-users" id="geralUsers">0</span>
               </button>
               <button class="room-btn" data-room="apresentacoes">
                 <span class="room-icon">👋</span>
-                <span class="room-name">Apresentações</span>
+                <span class="room-name" data-i18n="community.roomIntro">Apresentações</span>
                 <span class="room-users" id="apresentacoesUsers">0</span>
               </button>
               <button class="room-btn" data-room="dicas">
                 <span class="room-icon">💡</span>
-                <span class="room-name">Dicas & Truques</span>
+                <span class="room-name" data-i18n="community.roomTips">Dicas & Truques</span>
                 <span class="room-users" id="dicasUsers">0</span>
               </button>
               <button class="room-btn" data-room="encontros">
                 <span class="room-icon">💕</span>
-                <span class="room-name">Encontros</span>
+                <span class="room-name" data-i18n="community.roomDates">Encontros</span>
                 <span class="room-users" id="encontrosUsers">0</span>
               </button>
             </div>
@@ -118,23 +118,23 @@
 
           <div class="chat-main">
             <div class="chat-header">
-              <h3 id="currentRoomName">🌐 Sala Geral</h3>
+              <h3 id="currentRoomName" data-i18n="community.roomGeneral">🌐 Sala Geral</h3>
               <span class="chat-online" id="chatOnlineCount">0 online</span>
             </div>
 
             <div class="chat-messages" id="chatMessages">
               <div class="chat-welcome">
-                <p>👋 Bem-vindo ao chat! Sê respeitoso e diverte-te.</p>
+                <p data-i18n="community.chatWelcome">👋 Bem-vindo ao chat! Sê respeitoso e diverte-te.</p>
               </div>
             </div>
 
             <div class="chat-input-container" id="chatInputContainer">
               <div class="chat-login-required" id="chatLoginRequired">
-                <p>🔐 <a href="auth.html">Faz login</a> para participar no chat</p>
+                <p data-i18n-html="community.chatLoginRequired">🔐 <a href="auth.html">Faz login</a> para participar no chat</p>
               </div>
               <div class="chat-input-wrapper" id="chatInputWrapper" style="display: none;">
-                <input type="text" id="chatInput" placeholder="Escreve uma mensagem..." maxlength="500">
-                <button class="btn btn-primary" id="sendMessageBtn" onclick="sendChatMessage()">
+                <input type="text" id="chatInput" data-i18n-placeholder="community.chatPlaceholder" placeholder="Escreve uma mensagem..." maxlength="500">
+                <button class="btn btn-primary" id="sendMessageBtn" onclick="sendChatMessage()" data-i18n="chat.send">
                   Enviar
                 </button>
               </div>
@@ -149,11 +149,11 @@
       <div class="container">
         <div class="messages-container">
           <div class="messages-sidebar">
-            <h3>💕 Conversas</h3>
+            <h3 data-i18n="community.privateConversations">💕 Conversas</h3>
             <div class="conversations-list" id="conversationsList">
               <div class="no-conversations" id="noConversations">
-                <p>Ainda não tens conversas.</p>
-                <p>Usa o <a href="smart-match.html">Smart Match</a> para encontrar pessoas compatíveis!</p>
+                <p data-i18n="community.noConversations">Ainda não tens conversas.</p>
+                <p data-i18n-html="community.useSmartMatch">Usa o <a href="smart-match.html">Smart Match</a> para encontrar pessoas compatíveis!</p>
               </div>
             </div>
           </div>
@@ -161,8 +161,8 @@
           <div class="messages-main" id="messagesMain">
             <div class="messages-empty">
               <div class="empty-icon">💬</div>
-              <h3>Seleciona uma conversa</h3>
-              <p>Escolhe uma conversa na barra lateral para começar a enviar mensagens.</p>
+              <h3 data-i18n="community.selectConversation">Seleciona uma conversa</h3>
+              <p data-i18n="community.selectConversationDesc">Escolhe uma conversa na barra lateral para começar a enviar mensagens.</p>
             </div>
           </div>
         </div>
@@ -171,9 +171,9 @@
         <div class="messages-login-required" id="messagesLoginRequired" style="display: none;">
           <div class="login-prompt">
             <span class="login-icon">🔐</span>
-            <h3>Faz login para ver as tuas mensagens</h3>
-            <p>As mensagens privadas estão disponíveis apenas para utilizadores registados.</p>
-            <a href="auth.html" class="btn btn-primary">Entrar</a>
+            <h3 data-i18n="community.loginToMessages">Faz login para ver as tuas mensagens</h3>
+            <p data-i18n="community.loginToMessagesDesc">As mensagens privadas estão disponíveis apenas para utilizadores registados.</p>
+            <a href="auth.html" class="btn btn-primary" data-i18n="nav.login">Entrar</a>
           </div>
         </div>
       </div>
@@ -184,12 +184,12 @@
   <div class="modal" id="newTopicModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>✏️ Novo Tópico</h2>
+        <h2 data-i18n="community.newTopicTitle">✏️ Novo Tópico</h2>
         <button class="modal-close" onclick="closeNewTopicModal()">&times;</button>
       </div>
       <form id="newTopicForm" onsubmit="createTopic(event)">
         <div class="form-group">
-          <label for="topicCategory">Categoria</label>
+          <label for="topicCategory" data-i18n="community.category">Categoria</label>
           <select id="topicCategory" required>
             <option value="geral">🌐 Geral</option>
             <option value="experiencias">💭 Experiências</option>
@@ -199,16 +199,16 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="topicTitle">Título</label>
-          <input type="text" id="topicTitle" placeholder="Escreve um título descritivo..." maxlength="100" required>
+          <label for="topicTitle" data-i18n="community.topicTitleLabel">Título</label>
+          <input type="text" id="topicTitle" data-i18n-placeholder="community.topicTitlePlaceholder" placeholder="Escreve um título descritivo..." maxlength="100" required>
         </div>
         <div class="form-group">
-          <label for="topicContent">Conteúdo</label>
-          <textarea id="topicContent" rows="6" placeholder="Escreve o teu tópico..." maxlength="5000" required></textarea>
+          <label for="topicContent" data-i18n="community.contentLabel">Conteúdo</label>
+          <textarea id="topicContent" rows="6" data-i18n-placeholder="community.contentPlaceholder" placeholder="Escreve o teu tópico..." maxlength="5000" required></textarea>
         </div>
         <div class="form-actions">
-          <button type="button" class="btn btn-secondary" onclick="closeNewTopicModal()">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Publicar</button>
+          <button type="button" class="btn btn-secondary" onclick="closeNewTopicModal()" data-i18n="common.cancel">Cancelar</button>
+          <button type="submit" class="btn btn-primary" data-i18n="community.publish">Publicar</button>
         </div>
       </form>
     </div>
@@ -224,11 +224,11 @@
         <!-- Topic content loaded dynamically -->
       </div>
       <div class="topic-replies" id="topicReplies">
-        <h3>💬 Respostas</h3>
+        <h3 data-i18n="community.replies">💬 Respostas</h3>
         <div class="replies-list" id="repliesList"></div>
         <div class="reply-form" id="replyForm">
-          <textarea id="replyText" placeholder="Escreve uma resposta..." maxlength="2000"></textarea>
-          <button class="btn btn-primary" onclick="submitReply()">Responder</button>
+          <textarea id="replyText" data-i18n-placeholder="community.replyPlaceholder" placeholder="Escreve uma resposta..." maxlength="2000"></textarea>
+          <button class="btn btn-primary" onclick="submitReply()" data-i18n="community.reply">Responder</button>
         </div>
       </div>
     </div>
@@ -242,17 +242,18 @@
         <span>Quest4You</span>
       </div>
       <div class="footer-links">
-        <a href="privacidade.html">Privacidade</a>
-        <a href="termos.html">Termos</a>
-        <a href="contacto.html">Contacto</a>
+        <a href="privacidade.html" data-i18n="footer.privacy">Privacidade</a>
+        <a href="termos.html" data-i18n="footer.terms">Termos</a>
+        <a href="contacto.html" data-i18n="footer.contact">Contacto</a>
       </div>
       <div class="footer-copy">
-        <p>&copy; 2025 Quest4You. Todos os direitos reservados.</p>
+        <p data-i18n="footer.rights">&copy; 2025 Quest4You. Todos os direitos reservados.</p>
       </div>
     </div>
   </footer>
   <script src="../js/notifications.js?v=202602060002"></script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
+  <script src="../js/i18n.js?v=202602080100"></script>
   <script src="../js/explorar.js?v=202602060003"></script>
 </body>
 </html>

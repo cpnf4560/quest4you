@@ -53,20 +53,20 @@ function isBlockedByUser(userId) {
 // ================================
 async function blockUser(userId, reason = '') {
   if (!db || !auth.currentUser) {
-    alert("Erro: Não estás autenticado.");
+    alert(t('blocks.authError'));
     return false;
   }
 
   const currentUserId = auth.currentUser.uid;
   
   if (userId === currentUserId) {
-    alert("Não podes bloquear-te a ti mesmo.");
+    alert(t('blocks.cantBlockSelf'));
     return false;
   }
 
   // Check if admin - can't block admin
   if (typeof ADMIN_CONFIG !== 'undefined' && userId === ADMIN_CONFIG.uid) {
-    alert("Não podes bloquear a equipa Quest4You.");
+    alert(t('blocks.cantBlockAdmin'));
     return false;
   }
 
@@ -78,7 +78,7 @@ async function blockUser(userId, reason = '') {
       .get();
 
     if (!existingBlock.empty) {
-      alert("Este utilizador já está bloqueado.");
+      alert(t('blocks.alreadyBlocked'));
       return false;
     }
 
@@ -97,7 +97,7 @@ async function blockUser(userId, reason = '') {
     return true;
   } catch (error) {
     console.error("Error blocking user:", error);
-    alert("Erro ao bloquear utilizador.");
+    alert(t('blocks.blockError'));
     return false;
   }
 }
@@ -107,7 +107,7 @@ async function blockUser(userId, reason = '') {
 // ================================
 async function unblockUser(userId) {
   if (!db || !auth.currentUser) {
-    alert("Erro: Não estás autenticado.");
+    alert(t('blocks.authError'));
     return false;
   }
 
@@ -135,7 +135,7 @@ async function unblockUser(userId) {
     return true;
   } catch (error) {
     console.error("Error unblocking user:", error);
-    alert("Erro ao desbloquear utilizador.");
+    alert(t('blocks.unblockError'));
     return false;
   }
 }
@@ -175,14 +175,14 @@ async function removeFriendshipAfterBlock(userId1, userId2) {
 // ================================
 async function reportUser(userId, reason, details = '') {
   if (!db || !auth.currentUser) {
-    alert("Erro: Não estás autenticado.");
+    alert(t('blocks.authError'));
     return false;
   }
 
   const currentUserId = auth.currentUser.uid;
 
   if (userId === currentUserId) {
-    alert("Não podes denunciar-te a ti mesmo.");
+    alert(t('blocks.cantReportSelf'));
     return false;
   }
 
@@ -197,10 +197,10 @@ async function reportUser(userId, reason, details = '') {
 
     await db.collection("quest4you_reports").add({
       reporterId: currentUserId,
-      reporterName: reporterData.displayName || reporterData.nickname || 'Anónimo',
+      reporterName: reporterData.displayName || reporterData.nickname || t('blocks.anonymous'),
       reporterEmail: auth.currentUser.email,
       reportedId: userId,
-      reportedName: reportedUserData.displayName || reportedUserData.nickname || 'Desconhecido',
+      reportedName: reportedUserData.displayName || reportedUserData.nickname || t('blocks.unknown'),
       reportedEmail: reportedUserData.email || '',
       reason: reason,
       details: details,
@@ -212,7 +212,7 @@ async function reportUser(userId, reason, details = '') {
     return true;
   } catch (error) {
     console.error("Error reporting user:", error);
-    alert("Erro ao submeter denúncia.");
+    alert(t('blocks.reportError'));
     return false;
   }
 }
@@ -241,7 +241,7 @@ async function getBlockedUsersList() {
       blockedList.push({
         blockId: doc.id,
         blockedId: data.blockedId,
-        blockedName: userData.displayName || userData.nickname || 'Utilizador',
+        blockedName: userData.displayName || userData.nickname || t('profile.defaultUserName'),
         blockedPhoto: userData.photos?.public || null,
         reason: data.reason,
         createdAt: data.createdAt
@@ -270,59 +270,59 @@ function showBlockReportModal(userId, userName) {
   modal.innerHTML = `
     <div class="modal-content">
       <button class="modal-close" onclick="closeBlockReportModal()">×</button>
-      <h2>⚠️ Bloquear ou Denunciar</h2>
-      <p class="modal-desc">O que pretendes fazer com <strong>${userName}</strong>?</p>
+      <h2>⚠️ ${t('blocks.blockOrReport')}</h2>
+      <p class="modal-desc">${t('blocks.whatToDo', {name: userName})}</p>
       
       <div class="block-report-options">
         <div class="option-card" onclick="selectBlockOption('block')">
           <div class="option-icon">🚫</div>
           <div class="option-info">
-            <h4>Bloquear</h4>
-            <p>Este utilizador não poderá contactar-te nem ver o teu perfil.</p>
+            <h4>${t('blocks.block')}</h4>
+            <p>${t('blocks.blockDesc')}</p>
           </div>
         </div>
         
         <div class="option-card" onclick="selectBlockOption('report')">
           <div class="option-icon">⚠️</div>
           <div class="option-info">
-            <h4>Denunciar</h4>
-            <p>Reportar comportamento inadequado à equipa Quest4You.</p>
+            <h4>${t('blocks.report')}</h4>
+            <p>${t('blocks.reportDesc')}</p>
           </div>
         </div>
         
         <div class="option-card" onclick="selectBlockOption('both')">
           <div class="option-icon">🛡️</div>
           <div class="option-info">
-            <h4>Bloquear e Denunciar</h4>
-            <p>Bloquear o utilizador e enviar denúncia.</p>
+            <h4>${t('blocks.blockAndReport')}</h4>
+            <p>${t('blocks.blockAndReportDesc')}</p>
           </div>
         </div>
       </div>
       
       <div class="block-report-form" id="blockReportForm" style="display: none;">
         <div class="form-group">
-          <label class="form-label">Motivo</label>
+          <label class="form-label">${t('blocks.reason')}</label>
           <select id="reportReason" class="form-select">
-            <option value="">Seleciona um motivo</option>
-            <option value="harassment">Assédio ou bullying</option>
-            <option value="spam">Spam ou publicidade</option>
-            <option value="fake">Perfil falso</option>
-            <option value="inappropriate">Conteúdo inapropriado</option>
-            <option value="threat">Ameaças ou violência</option>
-            <option value="underage">Suspeita de menor de idade</option>
-            <option value="other">Outro</option>
+            <option value="">${t('blocks.selectReason')}</option>
+            <option value="harassment">${t('blocks.reasonHarassment')}</option>
+            <option value="spam">${t('blocks.reasonSpam')}</option>
+            <option value="fake">${t('blocks.reasonFake')}</option>
+            <option value="inappropriate">${t('blocks.reasonInappropriate')}</option>
+            <option value="threat">${t('blocks.reasonThreat')}</option>
+            <option value="underage">${t('blocks.reasonUnderage')}</option>
+            <option value="other">${t('blocks.reasonOther')}</option>
           </select>
         </div>
         
         <div class="form-group">
-          <label class="form-label">Detalhes (opcional)</label>
-          <textarea id="reportDetails" class="form-textarea" rows="3" placeholder="Descreve a situação..."></textarea>
+          <label class="form-label">${t('blocks.detailsLabel')}</label>
+          <textarea id="reportDetails" class="form-textarea" rows="3" placeholder="${t('blocks.detailsPlaceholder')}"></textarea>
         </div>
         
         <div class="modal-actions">
-          <button class="btn btn-outline" onclick="closeBlockReportModal()">Cancelar</button>
+          <button class="btn btn-outline" onclick="closeBlockReportModal()">${t('blocks.cancel')}</button>
           <button class="btn btn-danger" id="confirmBlockReport" onclick="confirmBlockReport('${userId}')">
-            Confirmar
+            ${t('blocks.confirm')}
           </button>
         </div>
       </div>
@@ -369,12 +369,12 @@ async function confirmBlockReport(userId) {
   const details = document.getElementById('reportDetails')?.value || '';
   
   if (!option) {
-    alert("Por favor seleciona uma opção.");
+    alert(t('blocks.selectOption'));
     return;
   }
   
   if ((option === 'report' || option === 'both') && !reason) {
-    alert("Por favor seleciona um motivo.");
+    alert(t('blocks.selectReasonAlert'));
     return;
   }
   
@@ -382,7 +382,7 @@ async function confirmBlockReport(userId) {
   const btn = document.getElementById('confirmBlockReport');
   if (btn) {
     btn.disabled = true;
-    btn.textContent = 'A processar...';
+    btn.textContent = t('blocks.processing');
   }
   
   let success = true;
@@ -402,14 +402,14 @@ async function confirmBlockReport(userId) {
     if (typeof showNotificationToast === 'function') {
       showNotificationToast({
         type: 'system',
-        message: option === 'block' ? 'Utilizador bloqueado.' : 
-                 option === 'report' ? 'Denúncia enviada. Obrigado!' :
-                 'Utilizador bloqueado e denúncia enviada.'
+        message: option === 'block' ? t('blocks.userBlocked') : 
+                 option === 'report' ? t('blocks.reportSent') :
+                 t('blocks.blockedAndReported')
       });
     } else {
-      alert(option === 'block' ? 'Utilizador bloqueado.' : 
-            option === 'report' ? 'Denúncia enviada. Obrigado!' :
-            'Utilizador bloqueado e denúncia enviada.');
+      alert(option === 'block' ? t('blocks.userBlocked') : 
+            option === 'report' ? t('blocks.reportSent') :
+            t('blocks.blockedAndReported'));
     }
     
     // Refresh friends list if on profile page

@@ -32,11 +32,21 @@ let isAdmin = false;
 // ================================
 // INITIALIZATION
 // ================================
-document.addEventListener('DOMContentLoaded', () => {
-  initAuth();
+document.addEventListener('DOMContentLoaded', () => {  initAuth();
   initTabs();
   initFilters();
   loadTopics(); // Forum é a tab inicial agora
+
+  // Re-render when language changes
+  window.addEventListener('languageChanged', function() {
+    if (currentTab === 'forum') {
+      loadTopics();
+    } else if (currentTab === 'chat') {
+      // Chat messages are real-time, just re-subscribe
+    } else if (currentTab === 'mensagens') {
+      loadConversations();
+    }
+  });
 });
 
 function initAuth() {
@@ -322,8 +332,7 @@ function filterTopics(category) {
 }
 
 function showNewTopicModal() {
-  if (!currentUser) {
-    alert('Faz login para criar um tópico.');
+  if (!currentUser) {    alert(t('community.loginToCreateTopic'));
     return;
   }
   document.getElementById('newTopicModal').classList.add('active');
@@ -338,7 +347,7 @@ async function createTopic(event) {
   event.preventDefault();
   
   if (!currentUser) {
-    alert('Faz login para criar um tópico.');
+    alert(t('community.loginToCreateTopic'));
     return;
   }
   
@@ -365,7 +374,7 @@ async function createTopic(event) {
     loadTopics();
   } catch (e) {
     console.error('Error creating topic:', e);
-    alert('Erro ao criar tópico.');
+    alert(t('community.errorCreateTopic'));
   }
 }
 
@@ -376,7 +385,7 @@ async function openTopic(topicId) {
     const doc = await db.collection(COLLECTION_TOPICS).doc(topicId).get();
     
     if (!doc.exists) {
-      alert('Tópico não encontrado.');
+      alert(t('community.topicNotFound'));
       return;
     }
     
@@ -398,7 +407,7 @@ async function openTopic(topicId) {
     loadReplies(topicId);
   } catch (e) {
     console.error('Error opening topic:', e);
-    alert('Erro ao abrir tópico.');
+    alert(t('community.errorOpenTopic'));
   }
 }
 
@@ -420,7 +429,7 @@ async function loadReplies(topicId) {
       .get();
     
     if (snapshot.empty) {
-      list.innerHTML = '<p class="no-replies">Ainda não há respostas. Sê o primeiro!</p>';
+      list.innerHTML = '<p class="no-replies">' + t('community.noReplies') + '</p>';
       return;
     }
     
@@ -439,7 +448,7 @@ async function loadReplies(topicId) {
           <div class="reply-avatar">${data.userEmoji || '👤'}</div>
           <div class="reply-content">
             <div class="reply-header">
-              <span class="reply-author">${data.userName || 'Anónimo'}</span>
+              <span class="reply-author">${data.userName || t('community.anonymous')}</span>
               <span class="reply-time">${formatTime(date)}</span>
             </div>
             <p class="reply-text">${escapeHtml(data.text).replace(/\n/g, '<br>')}</p>
@@ -449,13 +458,13 @@ async function loadReplies(topicId) {
     }).join('');
   } catch (e) {
     console.error('Error loading replies:', e);
-    list.innerHTML = '<p class="error">Erro ao carregar respostas.</p>';
+    list.innerHTML = '<p class="error">' + t('community.errorLoadReplies') + '</p>';
   }
 }
 
 async function submitReply() {
   if (!currentUser || !currentTopicId) {
-    alert('Faz login para responder.');
+    alert(t('community.loginToReply'));
     return;
   }
   
@@ -464,7 +473,7 @@ async function submitReply() {
   
   if (!text) return;
   if (text.length > 2000) {
-    alert('Resposta demasiado longa (máx. 2000 caracteres)');
+    alert(t('community.replyTooLong'));
     return;
   }
   
@@ -489,7 +498,7 @@ async function submitReply() {
     loadReplies(currentTopicId);
   } catch (e) {
     console.error('Error submitting reply:', e);
-    alert('Erro ao enviar resposta.');
+    alert(t('community.errorSendReply'));
   }
 }
 
@@ -580,10 +589,9 @@ function renderChatMessages(messages) {
   const container = document.getElementById('chatMessages');
   if (!container) return;
   
-  if (messages.length === 0) {
-    container.innerHTML = `
+  if (messages.length === 0) {    container.innerHTML = `
       <div class="chat-welcome">
-        <p>👋 Bem-vindo à sala! Sê o primeiro a enviar uma mensagem.</p>
+        <p>${t('community.chatWelcomeMsg')}</p>
       </div>
     `;
     return;
@@ -598,7 +606,7 @@ function renderChatMessages(messages) {
         <div class="chat-message-avatar">${msg.userEmoji || '👤'}</div>
         <div class="chat-message-content">
           <div class="chat-message-header">
-            <span class="chat-message-name">${msg.userName || 'Anónimo'}</span>
+            <span class="chat-message-name">${msg.userName || t('community.anonymous')}</span>
             <span class="chat-message-time">${formatTime(time)}</span>
           </div>
           <p class="chat-message-text">${escapeHtml(msg.text)}</p>
@@ -613,7 +621,7 @@ function renderChatMessages(messages) {
 
 async function sendChatMessage() {
   if (!currentUser) {
-    alert('Faz login para enviar mensagens.');
+    alert(t('community.loginToChat'));
     return;
   }
   
@@ -622,7 +630,7 @@ async function sendChatMessage() {
   
   if (!text) return;
   if (text.length > 500) {
-    alert('Mensagem demasiado longa (máx. 500 caracteres)');
+    alert(t('community.msgTooLong'));
     return;
   }
   
@@ -637,9 +645,8 @@ async function sendChatMessage() {
     });
     
     input.value = '';
-  } catch (e) {
-    console.error('Error sending message:', e);
-    alert('Erro ao enviar mensagem.');
+  } catch (e) {    console.error('Error sending message:', e);
+    alert(t('community.errorSendMsg'));
   }
 }
 
@@ -746,16 +753,15 @@ async function openConversation(conversationId) {
         <div class="messages-user">
           <div class="messages-user-avatar">${otherUser.emoji || '👤'}</div>
           <div class="messages-user-info">
-            <span class="messages-user-name">${otherUser.name || 'Utilizador'}</span>
+            <span class="messages-user-name">${otherUser.name || t('community.defaultUser')}</span>
           </div>
         </div>
       </div>
       <div class="private-messages-list" id="privateMessagesList">
         <div class="loading-spinner"><div class="spinner"></div></div>
       </div>
-      <div class="private-message-input">
-        <input type="text" id="privateMessageInput" placeholder="Escreve uma mensagem...">
-        <button class="btn btn-primary" onclick="sendPrivateMessage()">Enviar</button>
+      <div class="private-message-input">        <input type="text" id="privateMessageInput" placeholder="${t('community.writeMessage')}">
+        <button class="btn btn-primary" onclick="sendPrivateMessage()">${t('community.sendBtn')}</button>
       </div>
     `;
     
@@ -809,7 +815,7 @@ function subscribeToPrivateMessages(conversationId) {
       renderPrivateMessages(messages);
     }, error => {
       console.error('Messages subscription error:', error);
-      list.innerHTML = '<p class="error">Erro ao carregar mensagens.</p>';
+      list.innerHTML = '<p class="error">' + t('community.errorLoadMessages') + '</p>';
     });
 }
 
@@ -818,7 +824,7 @@ function renderPrivateMessages(messages) {
   if (!list) return;
   
   if (messages.length === 0) {
-    list.innerHTML = '<p class="no-messages">Começa a conversa!</p>';
+    list.innerHTML = '<p class="no-messages">' + t('community.startConvo') + '</p>';
     return;
   }
   
@@ -874,9 +880,8 @@ async function sendPrivateMessage() {
     });
     
     input.value = '';
-  } catch (e) {
-    console.error('Error sending private message:', e);
-    alert('Erro ao enviar mensagem.');
+  } catch (e) {    console.error('Error sending private message:', e);
+    alert(t('community.errorSendMsg'));
   }
 }
 
@@ -905,7 +910,7 @@ async function startConversation(otherUserId, otherUserName, otherUserEmoji) {
           emoji: currentUserEmoji
         },
         [otherUserId]: {
-          name: otherUserName || 'Utilizador',
+          name: otherUserName || t('community.defaultUser'),
           emoji: otherUserEmoji || '👤'
         }
       },
@@ -934,7 +939,7 @@ function formatTime(date) {
   const diff = now - date;
   
   // Less than 1 minute
-  if (diff < 60000) return 'agora';
+  if (diff < 60000) return t('community.timeNow');
   
   // Less than 1 hour
   if (diff < 3600000) {
@@ -955,7 +960,7 @@ function formatTime(date) {
   }
   
   // Format as date
-  return date.toLocaleDateString('pt-PT', { 
+  return date.toLocaleDateString(typeof I18n !== 'undefined' ? I18n.getCurrentLang() : 'pt-PT', { 
     day: 'numeric', 
     month: 'short' 
   });

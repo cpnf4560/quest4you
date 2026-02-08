@@ -127,8 +127,8 @@ function showThemeToast(theme) {
   // Usar sistema de notificações se disponível
   if (typeof showToast === 'function') {
     const message = theme === 'dark' 
-      ? '🌙 Tema escuro ativado' 
-      : '☀️ Tema claro ativado';
+      ? (typeof t === 'function' ? t('darkMode.darkEnabled') : '🌙 Dark mode enabled')
+      : (typeof t === 'function' ? t('darkMode.lightEnabled') : '☀️ Light mode enabled');
     showToast(message, 'info', 2000);
   }
 }

@@ -103,12 +103,12 @@ function showPushNotificationPrompt() {
     <div class="push-prompt-content">
       <span class="push-prompt-icon">🔔</span>
       <div class="push-prompt-text">
-        <strong>Ativar notificações?</strong>
-        <p>Recebe alertas mesmo quando o Quest4You não está aberto.</p>
+        <strong>${t('notifications.enableTitle')}</strong>
+        <p>${t('notifications.enableDesc')}</p>
       </div>
       <div class="push-prompt-actions">
-        <button class="btn btn-primary btn-sm" onclick="requestPushPermission()">Ativar</button>
-        <button class="btn btn-outline btn-sm" onclick="dismissPushPrompt()">Agora não</button>
+        <button class="btn btn-primary btn-sm" onclick="requestPushPermission()">${t('notifications.enable')}</button>
+        <button class="btn btn-outline btn-sm" onclick="dismissPushPrompt()">${t('notifications.notNow')}</button>
       </div>
     </div>
   `;
@@ -130,7 +130,7 @@ async function requestPushPermission() {
       console.log('✅ Push notifications enabled');
       showNotificationToast({
         type: 'system',
-        message: 'Notificações ativadas com sucesso!'
+        message: t('notifications.enabled')
       });
     }
     
@@ -195,19 +195,19 @@ function createNotificationElements() {
   const notifContainer = document.createElement("div");
   notifContainer.className = "notification-container";
   notifContainer.innerHTML = `
-    <button class="notification-bell" id="notificationBell" onclick="toggleNotificationsPanel()" title="Notificações">
+    <button class="notification-bell" id="notificationBell" onclick="toggleNotificationsPanel()" title="${t('notifications.title')}">
       🔔
       <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
     </button>
     <div class="notifications-panel" id="notificationsPanel" style="display: none;">
       <div class="notifications-header">
-        <h3>🔔 Notificações</h3>
-        <button class="btn-mark-all-read" onclick="markAllAsRead()" title="Marcar todas como lidas">✓</button>
+        <h3>🔔 ${t('notifications.title')}</h3>
+        <button class="btn-mark-all-read" onclick="markAllAsRead()" title="${t('notifications.markAllRead')}">✓</button>
       </div>
       <div class="notifications-list" id="notificationsList">
         <div class="notification-empty">
           <span>🔕</span>
-          <p>Sem notificações</p>
+          <p>${t('notifications.empty')}</p>
         </div>
       </div>
     </div>
@@ -254,7 +254,7 @@ function renderNotificationsList() {
     container.innerHTML = `
       <div class="notification-empty">
         <span>🔕</span>
-        <p>Sem notificações</p>
+        <p>${t('notifications.empty')}</p>
       </div>
     `;
     return;
@@ -296,11 +296,11 @@ function formatNotificationTime(timestamp) {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return 'Agora';
+  if (diffMins < 1) return t('notifications.now');
   if (diffMins < 60) return `${diffMins}m`;
   if (diffHours < 24) return `${diffHours}h`;
   if (diffDays < 7) return `${diffDays}d`;
-  return date.toLocaleDateString('pt-PT');
+  return date.toLocaleDateString(I18n.getCurrentLang());
 }
 
 // ================================
@@ -398,7 +398,7 @@ async function notifyFriendRequest(receiverId, senderName) {
   await createNotification(
     receiverId,
     'friend_request',
-    `${senderName} enviou-te um pedido de amizade`,
+    t('notifications.friendRequestMsg', {name: senderName}),
     'profile.html#friendsSection',
     { type: 'friend_request' }
   );
@@ -408,7 +408,7 @@ async function notifyFriendAccepted(senderId, accepterName) {
   await createNotification(
     senderId,
     'friend_accepted',
-    `${accepterName} aceitou o teu pedido de amizade`,
+    t('notifications.friendAcceptedMsg', {name: accepterName}),
     'profile.html#friendsSection',
     { type: 'friend_accepted' }
   );
@@ -418,7 +418,7 @@ async function notifyNewMessage(receiverId, senderName, conversationId) {
   await createNotification(
     receiverId,
     'new_message',
-    `${senderName} enviou-te uma mensagem`,
+    t('notifications.newMessageMsg', {name: senderName}),
     `chat.html?conversation=${conversationId}`,
     { type: 'new_message', conversationId: conversationId }
   );
@@ -428,7 +428,7 @@ async function notifySmartMatch(userId, matchName, matchId) {
   await createNotification(
     userId,
     'smart_match',
-    `Tens um novo match com ${matchName}!`,
+    t('notifications.smartMatchMsg', {name: matchName}),
     'smart-match.html',
     { type: 'smart_match', matchId: matchId }
   );
@@ -438,7 +438,7 @@ async function notifyBadgeEarned(userId, badgeName) {
   await createNotification(
     userId,
     'badge_earned',
-    `Conquistaste o badge "${badgeName}"! 🏆`,
+    t('notifications.badgeEarnedMsg', {name: badgeName}),
     'profile.html#badges',
     { type: 'badge_earned', badgeName: badgeName }
   );
@@ -493,14 +493,14 @@ function showNotificationToast(notification) {
 
 function getNotificationTitle(type) {
   const titles = {
-    'friend_request': 'Pedido de Amizade',
-    'friend_accepted': 'Amizade Aceite',
-    'new_message': 'Nova Mensagem',
-    'smart_match': 'Novo Match!',
-    'badge_earned': 'Badge Conquistado',
-    'system': 'Aviso do Sistema'
+    'friend_request': t('notifications.titleFriendRequest'),
+    'friend_accepted': t('notifications.titleFriendAccepted'),
+    'new_message': t('notifications.titleNewMessage'),
+    'smart_match': t('notifications.titleSmartMatch'),
+    'badge_earned': t('notifications.titleBadgeEarned'),
+    'system': t('notifications.titleSystem')
   };
-  return titles[type] || 'Notificação';
+  return titles[type] || t('notifications.title');
 }
 
 function animateNotificationBell() {
