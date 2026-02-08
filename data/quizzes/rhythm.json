@@ -1,281 +1,112 @@
 {
   "id": "rhythm",
   "name": "Ritmo & Frequência",
-  "icon": "⏰",
-  "color": "#ff9800",
-  "description": "Descobre o teu ritmo sexual ideal: frequência, duração, espontaneidade e energia",
+  "icon": "⏱️",
+  "color": "#009688",
+  "description": "Descobre o teu ritmo sexual ideal - frequência, duração, horários e libido",
   "resultType": "spectrum",
-  "spectrum": {
-    "low": {
-      "label": "Slow Burn",
-      "emoji": "🐢",
-      "description": "Preferes qualidade a quantidade. Valorizas sessões longas e significativas, mesmo que menos frequentes."
-    },
-    "high": {
-      "label": "Alta Energia",
-      "emoji": "⚡",
-      "description": "Tens alta libido e gostas de frequência elevada. Energia sexual abundante que procura expressão regular."
-    }
-  },
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    { "min": 0, "max": 20, "label": "Ritmo Calmo", "emoji": "🐢", "description": "Libido baixa ou ritmo sexual relaxado e tranquilo" },
+    { "min": 21, "max": 40, "label": "Ritmo Moderado", "emoji": "🏃", "description": "Ritmo sexual equilibrado e consistente" },
+    { "min": 41, "max": 60, "label": "Ritmo Ativo", "emoji": "⚡", "description": "Desejo sexual regular e frequente" },
+    { "min": 61, "max": 80, "label": "Ritmo Intenso", "emoji": "🔥", "description": "Libido alta com necessidade frequente de intimidade" },
+    { "min": 81, "max": 100, "label": "Ritmo Extremo", "emoji": "🌋", "description": "Desejo sexual muito elevado e constante" }
+  ],
   "questions": [
-    {
-      "id": "rhythm_1",
-      "text": "Se pudesse, teria sexo todos os dias ou quase.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_2",
-      "text": "Uma 'quickie' de 10 minutos pode ser tão satisfatória como uma sessão de uma hora.",
-      "category": "duracao"
-    },
-    {
-      "id": "rhythm_3",
-      "text": "Prefiro sexo espontâneo a sexo planeado — a surpresa excita-me.",
-      "category": "espontaneidade"
-    },
-    {
-      "id": "rhythm_4",
-      "text": "Acordo frequentemente com vontade de ter sexo logo de manhã.",
-      "category": "horario"
-    },
-    {
-      "id": "rhythm_5",
-      "text": "Consigo estar no mood em menos de 5 minutos se o contexto for certo.",
-      "category": "excitacao"
-    },
-    {
-      "id": "rhythm_6",
-      "text": "Uma semana sem sexo deixa-me frustrado/a ou irritadiço/a.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_7",
-      "text": "Gosto de preliminares longos que constroem a tensão gradualmente.",
-      "category": "duracao",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_8",
-      "text": "Sexo a meio da noite (acordar para isso) é algo que me atrai.",
-      "category": "horario"
-    },
-    {
-      "id": "rhythm_9",
-      "text": "Prefiro várias sessões curtas por semana do que uma longa ao fim de semana.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_10",
-      "text": "Marcar sexo no calendário tiraria a magia e a excitação.",
-      "category": "espontaneidade"
-    },
-    {
-      "id": "rhythm_11",
-      "text": "Quando tenho desejo, sinto urgência em satisfazê-lo — não gosto de esperar.",
-      "category": "excitacao"
-    },
-    {
-      "id": "rhythm_12",
-      "text": "Sou mais sexual à noite do que de manhã.",
-      "category": "horario"
-    },
-    {
-      "id": "rhythm_13",
-      "text": "Consigo ter múltiplas rondas numa mesma noite sem problema.",
-      "category": "energia"
-    },
-    {
-      "id": "rhythm_14",
-      "text": "Prefiro construir antecipação durante dias antes do sexo.",
-      "category": "espontaneidade",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_15",
-      "text": "Stress e cansaço raramente afetam a minha libido.",
-      "category": "energia"
-    },
-    {
-      "id": "rhythm_16",
-      "text": "Uma sessão de sexo ideal dura pelo menos uma hora.",
-      "category": "duracao",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_17",
-      "text": "Mesmo quando não tenho tempo, arranjo forma de ter algum tipo de intimidade.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_18",
-      "text": "Gosto quando o sexo começa do nada — um toque, um olhar, e acontece.",
-      "category": "espontaneidade"
-    },
-    {
-      "id": "rhythm_19",
-      "text": "Penso em sexo várias vezes ao dia.",
-      "category": "desejo"
-    },
-    {
-      "id": "rhythm_20",
-      "text": "Prefiro sexo relaxado ao fim de semana do que sexo apressado durante a semana.",
-      "category": "duracao",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_21",
-      "text": "A minha libido é bastante consistente — não varia muito com humor ou circunstâncias.",
-      "category": "energia"
-    },
-    {
-      "id": "rhythm_22",
-      "text": "Excitação mental (sexting, flirting) durante o dia aumenta o meu desejo à noite.",
-      "category": "excitacao"
-    },
-    {
-      "id": "rhythm_23",
-      "text": "Sexo após acordar (manhã preguiçosa) é uma das minhas preferências.",
-      "category": "horario"
-    },
-    {
-      "id": "rhythm_24",
-      "text": "Quando viajo com parceiro, esperaria ter sexo todas as noites.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_25",
-      "text": "Um jantar romântico demorado é um prelúdio essencial, não uma perda de tempo.",
-      "category": "espontaneidade",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_26",
-      "text": "Recupero rapidamente após o orgasmo — ficaria pronto/a para mais em pouco tempo.",
-      "category": "energia"
-    },
-    {
-      "id": "rhythm_27",
-      "text": "Prefiro qualidade a quantidade — sexo menos frequente mas mais memorável.",
-      "category": "frequencia",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_28",
-      "text": "Sexo no duche ou em locais improváveis excita-me pela espontaneidade.",
-      "category": "espontaneidade"
-    },
-    {
-      "id": "rhythm_29",
-      "text": "Sou do tipo que inicia o sexo mais frequentemente do que espera que iniciem.",
-      "category": "iniciativa"
-    },
-    {
-      "id": "rhythm_30",
-      "text": "Posso estar cansado/a mas ainda assim ter vontade de sexo.",
-      "category": "energia"
-    },
-    {
-      "id": "rhythm_31",
-      "text": "Masturbação é parte regular da minha semana, mesmo com parceiro disponível.",
-      "category": "desejo"
-    },
-    {
-      "id": "rhythm_32",
-      "text": "Dois ou três dias sem qualquer intimidade e começo a sentir falta.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_33",
-      "text": "Gosto de sessões onde exploramos várias coisas diferentes sem pressa.",
-      "category": "duracao",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_34",
-      "text": "Se o momento surgir durante o dia (em casa, pausa de trabalho), aproveito.",
-      "category": "espontaneidade"
-    },
-    {
-      "id": "rhythm_35",
-      "text": "Sinto que a minha libido é mais alta que a média das pessoas.",
-      "category": "desejo"
-    },
-    {
-      "id": "rhythm_36",
-      "text": "Não me importo de ser acordado/a para sexo durante a noite.",
-      "category": "horario"
-    },
-    {
-      "id": "rhythm_37",
-      "text": "Prefiro um encontro por semana intenso e longo do que vários encontros curtos.",
-      "category": "duracao",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_38",
-      "text": "Quando conheço alguém novo, fico excitado/a só de pensar nas possibilidades.",
-      "category": "desejo"
-    },
-    {
-      "id": "rhythm_39",
-      "text": "Consigo separar 'não tenho energia' de 'não tenho vontade' — são coisas diferentes.",
-      "category": "energia"
-    },
-    {
-      "id": "rhythm_40",
-      "text": "Planear uma noite especial com antecedência aumenta a minha excitação.",
-      "category": "espontaneidade",
-      "reverse": true
-    },
-    {
-      "id": "rhythm_41",
-      "text": "Se passam duas semanas sem sexo, começo a questionar se há um problema.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_42",
-      "text": "Sexo rápido antes de sair de casa pode alegrar-me o dia todo.",
-      "category": "duracao"
-    },
-    {
-      "id": "rhythm_43",
-      "text": "Não preciso de muito foreplay — gosto de ir direto ao assunto por vezes.",
-      "category": "excitacao"
-    },
-    {
-      "id": "rhythm_44",
-      "text": "O meu pico de desejo é definitivamente ao final do dia/noite.",
-      "category": "horario"
-    },
-    {
-      "id": "rhythm_45",
-      "text": "Numa relação, esperaria intimidade sexual pelo menos 3-4 vezes por semana.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_46",
-      "text": "Gosto de sexo 'selvagem' e intenso mais do que suave e demorado.",
-      "category": "energia"
-    },
-    {
-      "id": "rhythm_47",
-      "text": "A antecipação de sexo planeado reduz a minha excitação em vez de aumentar.",
-      "category": "espontaneidade"
-    },
-    {
-      "id": "rhythm_48",
-      "text": "Sinto-me mais conectado/a ao parceiro quando temos intimidade frequente.",
-      "category": "frequencia"
-    },
-    {
-      "id": "rhythm_49",
-      "text": "Prefiro várias formas de intimidade (oral, manual, etc.) do que apenas penetração.",
-      "category": "duracao"
-    },
-    {
-      "id": "rhythm_50",
-      "text": "A minha energia sexual é algo de que me orgulho e não quero reprimir.",
-      "category": "desejo"
-    }
+    { "id": 1, "text": "Frequência sexual ideal por semana:", "options": [
+      { "text": "0-1 vez", "score": 0, "tags": ["low-frequency", "low-libido"] },
+      { "text": "2-3 vezes", "score": 25, "tags": ["moderate-frequency"] },
+      { "text": "4-5 vezes", "score": 50, "tags": ["active-frequency"] },
+      { "text": "6-7 vezes", "score": 75, "tags": ["high-frequency", "high-libido"] },
+      { "text": "7+ vezes", "score": 100, "tags": ["very-high-frequency", "insatiable"] }
+    ]},
+    { "id": 2, "text": "Duração ideal do sexo (penetração + preliminares):", "options": [
+      { "text": "⏱️ Até 15 minutos", "score": 0, "tags": ["quickies", "short-sessions"] },
+      { "text": "🕐 15-30 minutos", "score": 33, "tags": ["moderate-duration"] },
+      { "text": "⏳ 30-60 minutos", "score": 75, "tags": ["long-sessions"] },
+      { "text": "🕰️ 60+ minutos", "score": 100, "tags": ["marathon-sex", "extended-sessions"] }
+    ]},
+    { "id": 3, "text": "Prefiro sexo:", "options": [
+      { "text": "📅 Planeado com antecedência", "score": 25, "tags": ["planned-sex", "organized"] },
+      { "text": "🎯 Espontâneo", "score": 75, "tags": ["spontaneous-sex"] },
+      { "text": "🔄 Ambos", "score": 50, "tags": ["flexible"] },
+      { "text": "🌪️ Só espontâneo", "score": 100, "tags": ["purely-spontaneous", "impulsive"] }
+    ]},
+    { "id": 4, "text": "Melhor horário para sexo:", "options": [
+      { "text": "🌅 Manhã", "score": 50, "tags": ["morning-sex"] },
+      { "text": "🌆 Tarde", "score": 50, "tags": ["afternoon-sex"] },
+      { "text": "🌃 Noite", "score": 50, "tags": ["night-sex"] },
+      { "text": "🌙 Madrugada", "score": 75, "tags": ["late-night-sex", "night-owl"] },
+      { "text": "🕰️ Qualquer hora", "score": 100, "tags": ["anytime-sex", "always-ready"] }
+    ]},
+    { "id": 5, "text": "O meu nível de desejo sexual (libido) é:", "options": [
+      { "text": "📉 Baixo", "score": 0, "tags": ["low-libido"] },
+      { "text": "➡️ Médio", "score": 33, "tags": ["moderate-libido"] },
+      { "text": "📈 Alto", "score": 75, "tags": ["high-libido"] },
+      { "text": "🚀 Muito alto", "score": 100, "tags": ["very-high-libido", "hypersexual"] }
+    ]},
+    { "id": 6, "text": "Várias sessões numa noite:", "options": [
+      { "text": "😴 Não, cansa", "score": 0, "tags": ["one-session", "low-stamina"] },
+      { "text": "🎯 2 vezes é ideal", "score": 50, "tags": ["two-rounds"] },
+      { "text": "🔥 3-4 vezes", "score": 75, "tags": ["multi-round", "high-stamina"] },
+      { "text": "⚡ 5+ vezes", "score": 100, "tags": ["marathon-sessions", "insatiable"] }
+    ]},
+    { "id": 7, "text": "Stress afeta o meu desejo sexual:", "options": [
+      { "text": "📉 Muito (mata a libido)", "score": 0, "tags": ["stress-kills-libido", "stress-sensitive"] },
+      { "text": "➡️ Um pouco", "score": 33, "tags": ["stress-affects-some"] },
+      { "text": "🚫 Não afeta", "score": 75, "tags": ["stress-resistant"] },
+      { "text": "🔥 Aumenta", "score": 100, "tags": ["stress-increases-libido", "stress-relief-sex"] }
+    ]},
+    { "id": 8, "text": "Recuperação após orgasmo:", "options": [
+      { "text": "😴 Lenta (horas/dias)", "score": 0, "tags": ["slow-recovery", "refractory-long"] },
+      { "text": "⏱️ Média (minutos)", "score": 50, "tags": ["average-recovery"] },
+      { "text": "⚡ Rápida (minutos)", "score": 75, "tags": ["quick-recovery"] },
+      { "text": "🔥 Imediata", "score": 100, "tags": ["immediate-recovery", "multi-orgasmic"] }
+    ]},
+    { "id": 9, "text": "Masturbação na rotina semanal (mesmo com parceiro):", "options": [
+      { "text": "🚫 Raramente/nunca", "score": 0, "tags": ["rare-masturbation"] },
+      { "text": "🤔 1-2 vezes", "score": 33, "tags": ["occasional-masturbation"] },
+      { "text": "👍 3-4 vezes", "score": 75, "tags": ["regular-masturbation"] },
+      { "text": "🔥 5+ vezes", "score": 100, "tags": ["frequent-masturbation", "high-self-pleasure"] }
+    ]},
+    { "id": 10, "text": "Tempo ideal entre sessões sexuais:", "options": [
+      { "text": "🗓️ 1+ semanas", "score": 0, "tags": ["long-intervals", "low-frequency"] },
+      { "text": "📅 3-7 dias", "score": 25, "tags": ["weekly"] },
+      { "text": "📆 1-2 dias", "score": 75, "tags": ["every-other-day"] },
+      { "text": "⏰ Horas", "score": 100, "tags": ["constant-desire", "insatiable"] }
+    ]},
+    { "id": 11, "text": "Sexo matinal vs noturno:", "options": [
+      { "text": "🌅 Prefiro matinal", "score": 50, "tags": ["morning-person", "morning-sex"] },
+      { "text": "🌃 Prefiro noturno", "score": 50, "tags": ["night-person", "night-sex"] },
+      { "text": "🔄 Gosto de ambos", "score": 75, "tags": ["flexible-timing"] },
+      { "text": "🕰️ Depende do dia", "score": 50, "tags": ["variable-timing"] }
+    ]},
+    { "id": 12, "text": "Variações na libido:", "options": [
+      { "text": "🪨 Poucas (constante)", "score": 50, "tags": ["stable-libido", "consistent"] },
+      { "text": "🔄 Médias", "score": 50, "tags": ["moderate-variation"] },
+      { "text": "🌪️ Muitas (cíclica)", "score": 50, "tags": ["cyclical-libido"] },
+      { "text": "🎢 Extremas (imprevisível)", "score": 75, "tags": ["unpredictable-libido", "mood-dependent"] }
+    ]},
+    { "id": 13, "text": "Fatores que mais aumentam o desejo:", "options": [
+      { "text": "😴 Descanso", "score": 25, "tags": ["rest-driven", "need-rest"] },
+      { "text": "🏋️ Exercício", "score": 50, "tags": ["exercise-driven", "endorphin-lover"] },
+      { "text": "💖 Conexão emocional", "score": 50, "tags": ["emotion-driven", "responsive-desire"] },
+      { "text": "🔥 Novidade/aventura", "score": 75, "tags": ["novelty-driven", "spontaneous-desire"] }
+    ]},
+    { "id": 14, "text": "Tempo para ficar excitado/a:", "options": [
+      { "text": "⏱️ Minutos", "score": 75, "tags": ["quick-arousal", "easily-aroused"] },
+      { "text": "🕐 10-20 minutos", "score": 50, "tags": ["moderate-arousal-time"] },
+      { "text": "⏳ 20+ minutos", "score": 25, "tags": ["slow-arousal", "needs-foreplay"] },
+      { "text": "🌀 Depende muito", "score": 50, "tags": ["variable-arousal", "context-dependent"] }
+    ]},
+    { "id": 15, "text": "O teu ritmo sexual geral é:", "options": [
+      { "text": "🐢 Calmo/preguiçoso", "score": 0, "tags": ["calm-rhythm", "lazy-sex"] },
+      { "text": "🏃 Moderado", "score": 33, "tags": ["moderate-rhythm"] },
+      { "text": "⚡ Intenso", "score": 75, "tags": ["intense-rhythm", "energetic"] },
+      { "text": "🌪️ Imprevisível", "score": 100, "tags": ["unpredictable-rhythm", "spontaneous"] }
+    ]}
   ]
 }

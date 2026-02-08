@@ -1,6 +1,6 @@
 /**
  * Quest4You - Quiz Styles
- * Estilos para páginas de questionário com escala Likert
+ * Estilos para páginas de questionário v2.1 (opções dinâmicas)
  * Cores: Vermelho, Rosa, Amarelo, Verde (baseado no logo)
  */
 
@@ -154,105 +154,85 @@ body {
 }
 
 /* ================================
-   LIKERT SCALE
+   OPTIONS CONTAINER (v2.1 dynamic)
    ================================ */
-.likert-scale {
+.options-container {
   margin-top: 1.5rem;
-}
-
-.likert-labels {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  color: #888;
-}
-
-.likert-label-left {
-  text-align: left;
-}
-
-.likert-label-right {
-  text-align: right;
-}
-
-.likert-options {
-  display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 0.75rem;
 }
 
-.likert-btn {
-  flex: 1;
+.option-btn {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.25rem 0.5rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
   background: #f5f5f5;
   border: 3px solid transparent;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 90px;
+  text-align: left;
+  font-size: 1.05rem;
+  font-family: inherit;
+  color: #333;
+  line-height: 1.4;
 }
 
-.likert-btn:hover {
+.option-btn:hover {
   background: #fff;
   border-color: #8B4A5E;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(139, 74, 94, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 74, 94, 0.15);
 }
 
-.likert-btn.selected {
+.option-btn.selected {
   background: linear-gradient(135deg, #8B4A5E, #5C4B6B);
   border-color: #8B4A5E;
   color: white;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(139, 74, 94, 0.3);
 }
 
-.likert-btn.selected .likert-number {
+.option-btn .option-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: rgba(139, 74, 94, 0.1);
+  color: #8B4A5E;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-right: 1rem;
+  transition: all 0.2s ease;
+}
+
+.option-btn.selected .option-letter {
+  background: rgba(255, 255, 255, 0.25);
   color: white;
 }
 
-.likert-btn.selected .likert-emoji {
-  filter: brightness(1.2);
+.option-btn .option-text {
+  flex: 1;
 }
 
-.likert-number {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 0.25rem;
-}
-
-.likert-emoji {
-  font-size: 1.5rem;
-  transition: transform 0.2s ease;
-}
-
-.likert-btn:hover .likert-emoji {
-  transform: scale(1.2);
-}
-
-/* Mobile - Likert horizontal scroll */
+/* Mobile adjustments */
 @media (max-width: 480px) {
-  .likert-options {
-    gap: 0.5rem;
+  .option-btn {
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
   }
-  
-  .likert-btn {
-    padding: 1rem 0.25rem;
-    min-height: 80px;
-  }
-  
-  .likert-number {
-    font-size: 1.2rem;
-  }
-  
-  .likert-emoji {
-    font-size: 1.2rem;
+
+  .option-btn .option-letter {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 0.8rem;
+    margin-right: 0.75rem;
   }
 }
 
@@ -597,17 +577,18 @@ body {
   .question-text {
     color: #fff;
   }
-  
-  .likert-btn {
+    .option-btn {
     background: #2d2d2d;
+    color: #fff;
   }
   
-  .likert-btn:hover {
+  .option-btn:hover {
     background: #3d3d3d;
   }
-  
-  .likert-number {
-    color: #fff;
+
+  .option-btn .option-letter {
+    background: rgba(139, 74, 94, 0.3);
+    color: #d4a0b0;
   }
   
   .quick-nav {

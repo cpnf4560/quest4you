@@ -147,12 +147,19 @@ async function handleProfileSubmit(e) {
     return;
   }
 
-  try {
-    // Build quiz scores for public profile
+  try {    // Build quiz scores and tags for public profile
     const quizScores = {};
+    const allUserTags = [];
     for (const [quizId, result] of Object.entries(userResults)) {
       quizScores[quizId] = result.score;
+      // Collect tags from v2.1 results
+      if (result.tags && Array.isArray(result.tags)) {
+        allUserTags.push(...result.tags);
+      } else if (result.topTags && Array.isArray(result.topTags)) {
+        allUserTags.push(...result.topTags);
+      }
     }
+    const uniqueUserTags = [...new Set(allUserTags)];
 
     // Save user profile
     const profileData = {
@@ -161,6 +168,7 @@ async function handleProfileSubmit(e) {
       gender: gender || null,
       location: location || null,
       quizScores,
+      tags: uniqueUserTags,
       isPublic: publishProfile,
       createdAt: new Date().toISOString()
     };
@@ -200,7 +208,6 @@ function updateYourProfileCard() {
   if (userProfile.gender) details.push(capitalizeFirst(userProfile.gender));
   if (userProfile.location) details.push(userProfile.location);
   document.getElementById('yourDetails').textContent = details.join('  ') || '';
-
   // Update quizzes badges
   const quizzesContainer = document.getElementById('yourQuizzes');
   let badgesHtml = '';
@@ -209,12 +216,23 @@ function updateYourProfileCard() {
     badgesHtml += `
       <span class="quiz-badge">
         ${quiz.icon} ${quiz.name}
-        <span class="quiz-badge-score">${result.score}%</span>
+        <span class="quiz-badge-score">${result.score}/100</span>
       </span>
     `;
   }
 
   quizzesContainer.innerHTML = badgesHtml;
+
+  // Show top tags if available
+  const tagsContainer = document.getElementById('yourTags');
+  if (tagsContainer && userProfile.tags && userProfile.tags.length > 0) {
+    let tagsHtml = '';
+    userProfile.tags.slice(0, 12).forEach(function(tag) {
+      const label = tag.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      tagsHtml += '<span class="tag-badge">' + label + '</span>';
+    });
+    tagsContainer.innerHTML = tagsHtml;
+  }
 
   // Update visibility icon
   updateVisibilityIcon();
@@ -237,17 +255,20 @@ async function toggleProfileVisibility() {
   try {
     const newVisibility = !userProfile.isPublic;
 
-    if (window.CloudSync) {
-      if (newVisibility) {
-        // Build quiz scores
+    if (window.CloudSync) {      if (newVisibility) {
+        // Build quiz scores and tags
         const quizScores = {};
+        const allTags = [];
         for (const [quizId, result] of Object.entries(userResults)) {
           quizScores[quizId] = result.score;
+          if (result.tags) allTags.push(...result.tags);
+          else if (result.topTags) allTags.push(...result.topTags);
         }
 
         await window.CloudSync.publishPublicProfile(currentUser.uid, {
           ...userProfile,
-          quizScores
+          quizScores,
+          tags: [...new Set(allTags)]
         });
       } else {
         await window.CloudSync.unpublishPublicProfile(currentUser.uid);

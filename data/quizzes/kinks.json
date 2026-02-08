@@ -1,324 +1,293 @@
 {
   "id": "kinks",
-  "name": "Fetiches & Parafilias",
-  "icon": "👠",
-  "color": "#9C27B0",
-  "description": "Descobre os teus fetiches específicos e encontra pessoas com interesses semelhantes",
+  "name": "Fetiches e Parafilias",
+  "icon": "🎭",
+  "color": "#9c27b0",
+  "description": "Mapeamento completo dos teus fetiches e parafilias - gera tags para matching preciso",
   "resultType": "tags",
+  "quizVersion": "2.1",
   "minScore": 0,
   "maxScore": 100,
-  "fetishCategories": [
-    { "id": "feet", "name": "Pés & Calçado", "emoji": "🦶", "description": "Atração por pés, sapatos, saltos altos, meias ou adoração de pés." },
-    { "id": "materials", "name": "Materiais & Texturas", "emoji": "🖤", "description": "Excitação com latex, couro, vinil, seda, nylon ou outros materiais." },
-    { "id": "clothing", "name": "Roupa & Uniformes", "emoji": "👗", "description": "Atração por roupas específicas: lingerie, uniformes, crossdressing." },
-    { "id": "body", "name": "Partes do Corpo", "emoji": "💋", "description": "Fetiches por partes específicas: nádegas, seios, mãos, cabelo." },
-    { "id": "fluids", "name": "Fluidos Corporais", "emoji": "💦", "description": "Interesse em ejaculação, squirting, saliva ou outros fluidos." },
-    { "id": "taboo", "name": "Tabu & Proibido", "emoji": "🚫", "description": "Excitação pelo que é considerado proibido ou transgressor." },
-    { "id": "age", "name": "Age Play", "emoji": "🍼", "description": "Fantasias que envolvem dinâmicas de idade (adult baby, daddy/mommy)." },
-    { "id": "medical", "name": "Médico & Clínico", "emoji": "🩺", "description": "Interesse em cenários médicos, exames, instrumentos clínicos." },
-    { "id": "worship", "name": "Adoração & Servidão", "emoji": "🙇", "description": "Prazer em adorar ou ser adorado/a - corpo, pés, ou pessoa." },
-    { "id": "cnc", "name": "CNC (Consensual Non-Consent)", "emoji": "⚠️", "description": "Fantasias de resistência encenada, sempre com consentimento prévio total." }
+  "doubleWeight": true,
+  "scoringSystem": "tag-based",
+  "scoringNote": "SIM = tag forte (100), TALVEZ = tag leve (50), NÃO = sem tag (0). Score final = média de todas as respostas.",
+  "sections": [
+    { "id": "A", "name": "Partes do Corpo", "questions": [1, 2, 3, 4, 5] },
+    { "id": "B", "name": "Materiais e Texturas", "questions": [6, 7, 8, 9] },
+    { "id": "C", "name": "Roupa e Uniformes", "questions": [10, 11, 12, 13] },
+    { "id": "D", "name": "Dinâmicas Específicas", "questions": [14, 15, 16, 17] },
+    { "id": "E", "name": "Cenários e Roleplay", "questions": [18, 19, 20, 21] },
+    { "id": "F", "name": "Fluídos Corporais", "questions": [22, 23, 24, 25] },
+    { "id": "G", "name": "Sensation Play", "questions": [26, 27, 28, 29] },
+    { "id": "H", "name": "Restrição e Controlo", "questions": [30, 31, 32, 33] },
+    { "id": "I", "name": "Humilhação Consensual", "questions": [34, 35, 36] },
+    { "id": "J", "name": "Fetiches Menos Comuns", "questions": [37, 38, 39, 40] },
+    { "id": "K", "name": "Outros", "questions": [41, 42, 43, 44, 45, 46, 47, 48, 49, 50] }
+  ],
+  "categories": [
+    { "min": 0, "max": 10, "label": "Vanilla Total", "emoji": "🍦", "description": "Sem interesse em fetiches ou parafilias" },
+    { "min": 11, "max": 25, "label": "Curiosidade Leve", "emoji": "🔍", "description": "Alguns fetiches despertam curiosidade" },
+    { "min": 26, "max": 45, "label": "Explorador/a de Fetiches", "emoji": "🧭", "description": "Vários fetiches te interessam e exploras ativamente" },
+    { "min": 46, "max": 65, "label": "Fetichista Ativo/a", "emoji": "🎭", "description": "Os fetiches são parte importante da tua sexualidade" },
+    { "min": 66, "max": 85, "label": "Fetichista Avançado/a", "emoji": "⛓️", "description": "Ampla variedade de fetiches praticados regularmente" },
+    { "min": 86, "max": 100, "label": "Fetichista Extremo/a", "emoji": "🌋", "description": "Fetiches são centrais na tua identidade sexual" }
   ],
   "questions": [
-    {
-      "id": 1,
-      "text": "Pés bonitos e bem cuidados atraem-me sexualmente",
-      "fetish": "feet",
-      "subtype": "attraction"
-    },
-    {
-      "id": 2,
-      "text": "Cheirar, beijar ou lamber os pés de alguém excita-me",
-      "fetish": "feet",
-      "subtype": "worship"
-    },
-    {
-      "id": 3,
-      "text": "Saltos altos ou sapatos elegantes aumentam muito a atração",
-      "fetish": "feet",
-      "subtype": "shoes"
-    },
-    {
-      "id": 4,
-      "text": "Meias (especialmente nylon ou renda) são muito eróticas para mim",
-      "fetish": "feet",
-      "subtype": "stockings"
-    },
-    {
-      "id": 5,
-      "text": "Gostaria que alguém pisasse em mim (leve ou moderadamente)",
-      "fetish": "feet",
-      "subtype": "trampling"
-    },
-    {
-      "id": 6,
-      "text": "O cheiro e textura de couro excitam-me muito",
-      "fetish": "materials",
-      "subtype": "leather"
-    },
-    {
-      "id": 7,
-      "text": "Latex ou borracha brilhante no corpo é extremamente erótico",
-      "fetish": "materials",
-      "subtype": "latex"
-    },
-    {
-      "id": 8,
-      "text": "Vinil ou PVC apertado ao corpo atrai-me sexualmente",
-      "fetish": "materials",
-      "subtype": "pvc"
-    },
-    {
-      "id": 9,
-      "text": "Seda ou cetim a tocar na pele é sensual e excitante",
-      "fetish": "materials",
-      "subtype": "silk"
-    },
-    {
-      "id": 10,
-      "text": "Collants ou meias de nylon são um fetiche para mim",
-      "fetish": "materials",
-      "subtype": "nylon"
-    },
-    {
-      "id": 11,
-      "text": "Lingerie elaborada (rendas, straps, ligas) excita-me muito",
-      "fetish": "clothing",
-      "subtype": "lingerie"
-    },
-    {
-      "id": 12,
-      "text": "Uniformes (enfermeira, polícia, militar, escolar) são um turn-on",
-      "fetish": "clothing",
-      "subtype": "uniforms"
-    },
-    {
-      "id": 13,
-      "text": "Vestir roupa do género oposto (crossdressing) excita-me",
-      "fetish": "clothing",
-      "subtype": "crossdress"
-    },
-    {
-      "id": 14,
-      "text": "Ver alguém em crossdressing é atraente para mim",
-      "fetish": "clothing",
-      "subtype": "crossdress"
-    },
-    {
-      "id": 15,
-      "text": "Roupa molhada ou transparente no corpo é muito erótica",
-      "fetish": "clothing",
-      "subtype": "wet"
-    },
-    {
-      "id": 16,
-      "text": "Nádegas grandes e redondas são a minha maior atração física",
-      "fetish": "body",
-      "subtype": "butt"
-    },
-    {
-      "id": 17,
-      "text": "Seios (grandes ou pequenos) são o foco da minha atração",
-      "fetish": "body",
-      "subtype": "breasts"
-    },
-    {
-      "id": 18,
-      "text": "Mãos bonitas e elegantes atraem-me sexualmente",
-      "fetish": "body",
-      "subtype": "hands"
-    },
-    {
-      "id": 19,
-      "text": "Cabelo longo ou um tipo específico de cabelo excita-me",
-      "fetish": "body",
-      "subtype": "hair"
-    },
-    {
-      "id": 20,
-      "text": "Barriga, umbigo ou abdómen são zonas muito eróticas para mim",
-      "fetish": "body",
-      "subtype": "belly"
-    },
-    {
-      "id": 21,
-      "text": "Ver ou receber ejaculação (facial ou corporal) excita-me muito",
-      "fetish": "fluids",
-      "subtype": "cum"
-    },
-    {
-      "id": 22,
-      "text": "Squirting (ejaculação feminina) é algo que me atrai muito",
-      "fetish": "fluids",
-      "subtype": "squirt"
-    },
-    {
-      "id": 23,
-      "text": "Trocar saliva (beijos babados, cuspir) é excitante",
-      "fetish": "fluids",
-      "subtype": "spit"
-    },
-    {
-      "id": 24,
-      "text": "Suor durante o sexo aumenta a minha excitação",
-      "fetish": "fluids",
-      "subtype": "sweat"
-    },
-    {
-      "id": 25,
-      "text": "A ideia de watersports (urina) desperta-me curiosidade ou excitação",
-      "fetish": "fluids",
-      "subtype": "watersports"
-    },
-    {
-      "id": 26,
-      "text": "Fantasias com familiares fictícios (step-fantasy) atraem-me",
-      "fetish": "taboo",
-      "subtype": "step"
-    },
-    {
-      "id": 27,
-      "text": "A ideia de trair ou ser traído/a (em fantasia) excita-me",
-      "fetish": "taboo",
-      "subtype": "cheating"
-    },
-    {
-      "id": 28,
-      "text": "Quanto mais proibido ou transgressor, mais excitante é",
-      "fetish": "taboo",
-      "subtype": "forbidden"
-    },
-    {
-      "id": 29,
-      "text": "Diferença de idade significativa (mais velho/a ou mais novo/a) atrai-me",
-      "fetish": "taboo",
-      "subtype": "agediff"
-    },
-    {
-      "id": 30,
-      "text": "Ser chamado/a de daddy/mommy ou chamar assim excita-me",
-      "fetish": "age",
-      "subtype": "daddymommy"
-    },
-    {
-      "id": 31,
-      "text": "Dinâmicas onde um/a é tratado/a como 'bebé' ou criança atraem-me",
-      "fetish": "age",
-      "subtype": "abdl"
-    },
-    {
-      "id": 32,
-      "text": "Usar ou ver fraldas em contexto erótico interessa-me",
-      "fetish": "age",
-      "subtype": "diaper"
-    },
-    {
-      "id": 33,
-      "text": "Role-play de cuidador/a e dependente excita-me",
-      "fetish": "age",
-      "subtype": "caregiver"
-    },
-    {
-      "id": 34,
-      "text": "Cenários médicos (exame, hospital) são um turn-on",
-      "fetish": "medical",
-      "subtype": "exam"
-    },
-    {
-      "id": 35,
-      "text": "Instrumentos médicos (espéculo, luvas, estetoscópio) excitam-me",
-      "fetish": "medical",
-      "subtype": "instruments"
-    },
-    {
-      "id": 36,
-      "text": "Enemas ou jogos com limpeza íntima atraem-me",
-      "fetish": "medical",
-      "subtype": "enema"
-    },
-    {
-      "id": 37,
-      "text": "A vulnerabilidade de um 'exame médico' erótico excita-me",
-      "fetish": "medical",
-      "subtype": "vulnerability"
-    },
-    {
-      "id": 38,
-      "text": "Adorar o corpo de alguém (pés, mãos, corpo todo) é prazeroso",
-      "fetish": "worship",
-      "subtype": "bodyWorship"
-    },
-    {
-      "id": 39,
-      "text": "Ser adorado/a e tratado/a como uma divindade excita-me",
-      "fetish": "worship",
-      "subtype": "beingWorshipped"
-    },
-    {
-      "id": 40,
-      "text": "Servir alguém em tudo (doméstico e sexual) é uma fantasia",
-      "fetish": "worship",
-      "subtype": "service"
-    },
-    {
-      "id": 41,
-      "text": "Lamber sapatos ou botas (com consentimento) é algo que me atrai",
-      "fetish": "worship",
-      "subtype": "bootWorship"
-    },
-    {
-      "id": 42,
-      "text": "Fantasio com ser 'forçado/a' (encenação 100% consensual combinada)",
-      "fetish": "cnc",
-      "subtype": "ravishment"
-    },
-    {
-      "id": 43,
-      "text": "A ideia de 'resistir' enquanto sou dominado/a excita-me",
-      "fetish": "cnc",
-      "subtype": "struggle"
-    },
-    {
-      "id": 44,
-      "text": "Role-play de intruso/invasor (consensual e combinado) atrai-me",
-      "fetish": "cnc",
-      "subtype": "intruder"
-    },
-    {
-      "id": 45,
-      "text": "Cenários de 'captura' ou 'sequestro' encenado são uma fantasia",
-      "fetish": "cnc",
-      "subtype": "capture"
-    },
-    {
-      "id": 46,
-      "text": "Máscaras ou capuzes durante o sexo excitam-me",
-      "fetish": "clothing",
-      "subtype": "masks"
-    },
-    {
-      "id": 47,
-      "text": "Piercings íntimos ou tatuagens aumentam a atração",
-      "fetish": "body",
-      "subtype": "bodymod"
-    },
-    {
-      "id": 48,
-      "text": "Pessoas musculadas ou com um físico específico atraem-me intensamente",
-      "fetish": "body",
-      "subtype": "physique"
-    },
-    {
-      "id": 49,
-      "text": "Pessoas curvy/plus-size atraem-me sexualmente",
-      "fetish": "body",
-      "subtype": "bbw"
-    },
-    {
-      "id": 50,
-      "text": "Tenho um fetiche específico não mencionado aqui que é importante para mim",
-      "fetish": "other",
-      "subtype": "unlisted"
-    }
+    { "id": 1, "text": "Pés - Interesse em pés?", "section": "A", "options": [
+      { "text": "👣 SIM (adoro pés)", "score": 100, "tags": ["feet-lover", "foot-fetish"] },
+      { "text": "🤔 TALVEZ (curiosidade)", "score": 50, "tags": ["feet-curious"] },
+      { "text": "🚫 NÃO (não me atrai)", "score": 0, "tags": [] }
+    ]},
+    { "id": 2, "text": "Mãos - Mãos bonitas te excitam?", "section": "A", "options": [
+      { "text": "✋ SIM", "score": 100, "tags": ["hands-lover", "hand-fetish"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["hands-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 3, "text": "Seios/Peito - Foco nesta área?", "section": "A", "options": [
+      { "text": "🍒 SIM (muito)", "score": 100, "tags": ["breasts-lover", "breast-fetish"] },
+      { "text": "👍 TALVEZ", "score": 50, "tags": ["breasts-curious"] },
+      { "text": "🚫 NÃO (não especial)", "score": 0, "tags": [] }
+    ]},
+    { "id": 4, "text": "Nádegas - Atração por nádegas?", "section": "A", "options": [
+      { "text": "🍑 SIM", "score": 100, "tags": ["butt-lover", "butt-fetish"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["butt-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 5, "text": "Cabelo - Cabelo comprido/estilo específico?", "section": "A", "options": [
+      { "text": "💇 SIM", "score": 100, "tags": ["hair-lover", "hair-fetish"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["hair-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 6, "text": "Couro - Roupa/acessórios de couro?", "section": "B", "options": [
+      { "text": "🖤 SIM", "score": 100, "tags": ["leather", "leather-fetish"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["leather-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 7, "text": "Latex/Borracha - Material brilhante/ajustado?", "section": "B", "options": [
+      { "text": "👗 SIM", "score": 100, "tags": ["latex", "latex-fetish", "rubber"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["latex-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 8, "text": "Seda/Cetim - Texturas suaves?", "section": "B", "options": [
+      { "text": "👚 SIM", "score": 100, "tags": ["silk", "satin", "texture-lover"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["silk-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 9, "text": "Lã/Rendas - Texturas diferentes?", "section": "B", "options": [
+      { "text": "🧶 SIM", "score": 100, "tags": ["wool", "lace", "texture-sensitive"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["texture-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 10, "text": "Lingerie - Renda, ligas, corseletes?", "section": "C", "options": [
+      { "text": "👙 SIM", "score": 100, "tags": ["lingerie-lover", "lingerie-fetish"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["lingerie-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 11, "text": "Uniformes (enfermeira, polícia, etc.)", "section": "C", "options": [
+      { "text": "👮 SIM", "score": 100, "tags": ["uniform-fetish", "costumes"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["uniform-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 12, "text": "Crossdressing - Vestir roupa outro género?", "section": "C", "options": [
+      { "text": "👗 SIM (eu)", "score": 100, "tags": ["crossdressing", "crossdresser"] },
+      { "text": "👁️ SIM (ver em outros)", "score": 100, "tags": ["crossdressing-voyeur", "crossdressing"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["crossdressing-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 13, "text": "Roupa molhada/transparente", "section": "C", "options": [
+      { "text": "💧 SIM", "score": 100, "tags": ["wet-clothing", "wet-look"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["wet-clothing-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 14, "text": "Age Play (fantasia de idade)", "section": "D", "options": [
+      { "text": "👶 SIM", "score": 100, "tags": ["ageplay"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["ageplay-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 15, "text": "DD/lg ou MD/lb (Dinâmicas Daddy/Mommy)", "section": "D", "options": [
+      { "text": "👨‍👧 SIM", "score": 100, "tags": ["ddlg", "mdlb", "caregiver-dynamic"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["ddlg-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 16, "text": "Servidão/Adoração", "section": "D", "options": [
+      { "text": "🙇 SIM (servir)", "score": 100, "tags": ["service-sub", "worship", "servant"] },
+      { "text": "👑 SIM (ser servido)", "score": 100, "tags": ["service-dom", "worship-receiver"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["service-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 17, "text": "CNC (Consensual Non-Consent - fantasia)", "section": "D", "options": [
+      { "text": "⚠️ SIM", "score": 100, "tags": ["cnc", "consensual-non-consent"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["cnc-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 18, "text": "Médico/Paciente", "section": "E", "options": [
+      { "text": "🩺 SIM", "score": 100, "tags": ["doctor-roleplay", "medical-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["medical-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 19, "text": "Professor/Aluno", "section": "E", "options": [
+      { "text": "👨‍🏫 SIM", "score": 100, "tags": ["teacher-roleplay", "authority-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["teacher-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 20, "text": "Chefe/Secretária", "section": "E", "options": [
+      { "text": "👔 SIM", "score": 100, "tags": ["boss-roleplay", "office-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["boss-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 21, "text": "Policial/Suspeito", "section": "E", "options": [
+      { "text": "👮 SIM", "score": 100, "tags": ["police-roleplay", "arrest-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["police-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 22, "text": "Ejaculação facial/corporal", "section": "F", "options": [
+      { "text": "💦 SIM (dar)", "score": 100, "tags": ["cum-play", "facial-giver"] },
+      { "text": "😊 SIM (receber)", "score": 100, "tags": ["cum-play", "facial-receiver"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["cum-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 23, "text": "Squirting (ejaculação feminina)", "section": "F", "options": [
+      { "text": "🌊 SIM", "score": 100, "tags": ["squirting", "squirt-lover"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["squirting-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 24, "text": "Saliva/Cuspir", "section": "F", "options": [
+      { "text": "👅 SIM", "score": 100, "tags": ["spit-play", "saliva-fetish"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["spit-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 25, "text": "Watersports (urina)", "section": "F", "options": [
+      { "text": "🚿 SIM", "score": 100, "tags": ["watersports", "golden-shower"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["watersports-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 26, "text": "Cera quente", "section": "G", "options": [
+      { "text": "🕯️ SIM", "score": 100, "tags": ["wax-play", "temperature-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["wax-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 27, "text": "Gelo", "section": "G", "options": [
+      { "text": "🧊 SIM", "score": 100, "tags": ["ice-play", "temperature-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["ice-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 28, "text": "Espancamento/Impacto", "section": "G", "options": [
+      { "text": "✋ SIM (leve)", "score": 75, "tags": ["impact-play", "light-impact"] },
+      { "text": "👊 SIM (moderado)", "score": 100, "tags": ["impact-play", "heavy-impact"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["impact-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 29, "text": "Eletroestimulação", "section": "G", "options": [
+      { "text": "⚡ SIM", "score": 100, "tags": ["electro-play", "e-stim"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["electro-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 30, "text": "Algemas/Ataduras", "section": "H", "options": [
+      { "text": "🔗 SIM", "score": 100, "tags": ["bondage", "restraints", "handcuffs"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["bondage-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 31, "text": "Cinto de castidade", "section": "H", "options": [
+      { "text": "🔒 SIM", "score": 100, "tags": ["chastity", "chastity-belt", "denial"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["chastity-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 32, "text": "Vendas", "section": "H", "options": [
+      { "text": "👁️ SIM", "score": 100, "tags": ["blindfolds", "sensory-deprivation"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["blindfold-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 33, "text": "Gags (mordaças)", "section": "H", "options": [
+      { "text": "🤐 SIM", "score": 100, "tags": ["gags", "ball-gag", "mouth-restraint"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["gag-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 34, "text": "Humilhação verbal", "section": "I", "options": [
+      { "text": "🎤 SIM (dar)", "score": 100, "tags": ["verbal-humiliation", "humiliation-giver"] },
+      { "text": "👂 SIM (receber)", "score": 100, "tags": ["verbal-humiliation", "humiliation-receiver"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["humiliation-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 35, "text": "SPH (Small Penis Humiliation)", "section": "I", "options": [
+      { "text": "🍆 SIM", "score": 100, "tags": ["sph", "genital-humiliation"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["sph-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 36, "text": "Body Worship vs. Humilhação", "section": "I", "options": [
+      { "text": "🙏 SIM (adoração)", "score": 100, "tags": ["body-worship", "worship"] },
+      { "text": "😏 SIM (humilhação)", "score": 100, "tags": ["body-humiliation", "degradation"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["worship-humiliation-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 37, "text": "Inflável (Belly Inflation)", "section": "J", "options": [
+      { "text": "🎈 SIM", "score": 100, "tags": ["inflation", "belly-inflation"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["inflation-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 38, "text": "Macro/Micro (tamanho)", "section": "J", "options": [
+      { "text": "👣 SIM", "score": 100, "tags": ["size-play", "macro-micro"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["size-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 39, "text": "Vómito (emetofilia)", "section": "J", "options": [
+      { "text": "🤢 SIM", "score": 100, "tags": ["emetophilia", "vomit-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["emetophilia-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 40, "text": "Asfixia (breath play)", "section": "J", "options": [
+      { "text": "😶 SIM", "score": 100, "tags": ["breath-play", "choking", "asphyxiation"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["breath-play-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 41, "text": "Pregnancy/Breeding (gravidez)", "section": "K", "options": [
+      { "text": "🤰 SIM", "score": 100, "tags": ["breeding", "pregnancy-fetish", "impregnation"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["breeding-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 42, "text": "Pet Play (animal roleplay)", "section": "K", "options": [
+      { "text": "🐾 SIM", "score": 100, "tags": ["petplay", "puppy-play", "kitten-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["petplay-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 43, "text": "Vampirismo (mordidas/sangue)", "section": "K", "options": [
+      { "text": "🧛 SIM", "score": 100, "tags": ["vampire", "blood-play", "biting"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["vampire-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 44, "text": "Cosplay (personagens)", "section": "K", "options": [
+      { "text": "🎭 SIM", "score": 100, "tags": ["cosplay", "character-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["cosplay-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 45, "text": "Food Play (comida)", "section": "K", "options": [
+      { "text": "🍓 SIM", "score": 100, "tags": ["food-play", "sploshing"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["food-play-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 46, "text": "Smoking (fumo)", "section": "K", "options": [
+      { "text": "🚬 SIM", "score": 100, "tags": ["smoking-fetish", "smoke-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["smoking-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 47, "text": "Body Modification (piercings, tatuagens)", "section": "K", "options": [
+      { "text": "💉 SIM", "score": 100, "tags": ["bodymod", "piercings", "tattoos"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["bodymod-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 48, "text": "Hair Pulling (puxar cabelo)", "section": "K", "options": [
+      { "text": "💇 SIM", "score": 100, "tags": ["hair-pulling", "rough-play"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["hair-pulling-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 49, "text": "Face Sitting (sentar no rosto)", "section": "K", "options": [
+      { "text": "🪑 SIM", "score": 100, "tags": ["face-sitting", "queening"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["face-sitting-curious"] },
+      { "text": "🚫 NÃO", "score": 0, "tags": [] }
+    ]},
+    { "id": 50, "text": "Outro fetiche não listado?", "section": "K", "options": [
+      { "text": "✅ SIM, tenho outros", "score": 100, "tags": ["other-fetishes", "diverse-kinks"] },
+      { "text": "🤔 TALVEZ", "score": 50, "tags": ["exploring"] },
+      { "text": "🚫 NÃO, está tudo listado", "score": 0, "tags": [] }
+    ]}
   ]
 }

@@ -1,69 +1,95 @@
 {
   "id": "vanilla",
   "name": "Vanilla ou Kink",
-  "icon": "💕",
+  "icon": "🔥",
   "color": "#e91e63",
-  "description": "Descobre onde te posicionas no espectro entre romance suave e práticas mais intensas",
+  "description": "Sexo suave e romântico vs. intenso e selvagem - descobre onde te posicionas",
   "resultType": "spectrum",
+  "quizVersion": "2.1",
   "minScore": 0,
   "maxScore": 100,
   "categories": [
-    { "min": 0, "max": 20, "label": "Vanilla Puro", "emoji": "🍦", "description": "Preferes intimidade suave, romântica e tradicional. Valorizas a conexão emocional profunda e o conforto na familiaridade." },
-    { "min": 21, "max": 40, "label": "Vanilla com Pitada", "emoji": "🌸", "description": "Gostas principalmente de intimidade tradicional, mas ocasionalmente abres-te a pequenas aventuras e novidades." },
-    { "min": 41, "max": 60, "label": "Explorador Equilibrado", "emoji": "⚖️", "description": "Tens um equilíbrio saudável entre o tradicional e o aventureiro. Adaptas-te bem a diferentes situações e parceiros." },
-    { "min": 61, "max": 80, "label": "Kink-Curious", "emoji": "🌶️", "description": "Tens uma mente aberta e curiosidade natural por explorar além do convencional. Procuras experiências mais intensas." },
-    { "min": 81, "max": 100, "label": "Kinky Assumido", "emoji": "🔥", "description": "Abraças plenamente práticas alternativas e intensas. A exploração e a experimentação são fundamentais para ti." }
+    { "min": 0, "max": 20, "label": "Vanilla Puro", "emoji": "🍦", "description": "Preferes intimidade suave, romântica e tradicional" },
+    { "min": 21, "max": 40, "label": "Vanilla com Pitada", "emoji": "🌸", "description": "Principalmente tradicional, mas ocasionalmente aventureiro" },
+    { "min": 41, "max": 60, "label": "Explorador Equilibrado", "emoji": "⚖️", "description": "Equilíbrio entre tradicional e aventureiro" },
+    { "min": 61, "max": 80, "label": "Kink-Curious", "emoji": "🌶️", "description": "Mente aberta e curiosidade por experiências intensas" },
+    { "min": 81, "max": 100, "label": "Kinky Assumido", "emoji": "🔥", "description": "Abraças práticas alternativas e intensas plenamente" }
   ],
   "questions": [
-    {"id": 1, "text": "Um beijo longo e apaixonado satisfaz-me mais do que posições acrobáticas ou brinquedos", "invert": true, "category": "intensity"},
-    {"id": 2, "text": "Prefiro fazer amor com as luzes apagadas e debaixo dos lençóis", "invert": true, "category": "comfort"},
-    {"id": 3, "text": "A posição missionário, com contacto visual, é das minhas favoritas", "invert": true, "category": "traditional"},
-    {"id": 4, "text": "Acho que brinquedos e acessórios só complicam as coisas", "invert": true, "category": "toys"},
-    {"id": 5, "text": "O sexo mais simples e carinhoso é o melhor para mim", "invert": true, "category": "intensity"},
-    {"id": 6, "text": "Gosto de experimentar posições novas e desafiantes", "invert": false, "category": "adventure"},
-    {"id": 7, "text": "Uma noite de sexo selvagem atrai-me mais do que uma noite romântica", "invert": false, "category": "intensity"},
-    {"id": 8, "text": "Tenho uma caixa de brinquedos ou acessórios eróticos em casa", "invert": false, "category": "toys"},
-    {"id": 9, "text": "Já pesquisei online sobre práticas sexuais alternativas", "invert": false, "category": "curiosity"},
-    {"id": 10, "text": "Acho que 'sexo normal' é suficiente - não preciso de mais nada", "invert": true, "category": "traditional"},
-    {"id": 11, "text": "Fazer amor à luz de velas, com música suave, é o meu cenário ideal", "invert": true, "category": "romantic"},
-    {"id": 12, "text": "A ideia de sexo rápido e intenso contra uma parede excita-me", "invert": false, "category": "intensity"},
-    {"id": 13, "text": "Prefiro que a intimidade seja sempre no quarto", "invert": true, "category": "location"},
-    {"id": 14, "text": "Sexo na cozinha, sala ou casa de banho soa divertido", "invert": false, "category": "location"},
-    {"id": 15, "text": "Um fim de semana num hotel só para nós seria perfeito - só romance, sem brinquedos ou fantasias", "invert": true, "category": "romantic"},
-    {"id": 16, "text": "Num hotel, gostaria de experimentar coisas que não faço em casa", "invert": false, "category": "adventure"},
-    {"id": 17, "text": "A ideia de um encontro às escuras com alguém excita-me", "invert": false, "category": "adventure"},
-    {"id": 18, "text": "Prefiro conhecer bem a pessoa antes de qualquer intimidade", "invert": true, "category": "connection"},
-    {"id": 19, "text": "Uma sessão de massagem sensual com óleos interessa-me muito", "invert": false, "category": "sensual"},
-    {"id": 20, "text": "O sexo matinal, suave e preguiçoso, é dos meus favoritos", "invert": true, "category": "romantic"},
-    {"id": 21, "text": "Gosto que a intimidade seja gentil e delicada do início ao fim", "invert": true, "category": "intensity"},
-    {"id": 22, "text": "Por vezes apetece-me algo mais intenso e até um pouco agressivo", "invert": false, "category": "intensity"},
-    {"id": 23, "text": "Puxar cabelo ou morder levemente não faz o meu estilo", "invert": true, "category": "roughness"},
-    {"id": 24, "text": "Uma palmada no rabo (dada ou recebida) pode ser excitante", "invert": false, "category": "roughness"},
-    {"id": 25, "text": "Marcas de chupões ou arranhadelas leves fazem parte da diversão", "invert": false, "category": "roughness"},
-    {"id": 26, "text": "Prefiro que não fique nenhuma marca física depois", "invert": true, "category": "roughness"},
-    {"id": 27, "text": "Sussurrar coisas obscenas ao ouvido excita-me muito", "invert": false, "category": "verbal"},
-    {"id": 28, "text": "Prefiro que a comunicação seja mais através de gestos e toques", "invert": true, "category": "verbal"},
-    {"id": 29, "text": "Dirty talk (falar sujo) é algo que me atrai", "invert": false, "category": "verbal"},
-    {"id": 30, "text": "Gemidos e sons naturais são suficientes - não preciso de palavras", "invert": true, "category": "verbal"},
-    {"id": 31, "text": "Gosto que a intimidade seja equilibrada, sem ninguém a mandar", "invert": true, "category": "power"},
-    {"id": 32, "text": "Por vezes apetece-me assumir completamente o controlo", "invert": false, "category": "power"},
-    {"id": 33, "text": "A ideia de receber ordens durante o sexo não me atrai", "invert": true, "category": "power"},
-    {"id": 34, "text": "Ser completamente dominado/a por alguém de confiança excita-me", "invert": false, "category": "power"},
-    {"id": 35, "text": "Algemas, cordas ou vendas são coisas que nunca experimentaria", "invert": true, "category": "bondage"},
-    {"id": 36, "text": "Já experimentei ou tenho curiosidade em ser amarrado/a", "invert": false, "category": "bondage"},
-    {"id": 37, "text": "A ideia de 'usar' ou 'ser usado/a' (consensualmente) atrai-me", "invert": false, "category": "power"},
-    {"id": 38, "text": "Prefiro que ambos tenham sempre igual participação", "invert": true, "category": "power"},
-    {"id": 39, "text": "Role-play onde um manda e outro obedece soa interessante", "invert": false, "category": "roleplay"},
-    {"id": 40, "text": "Jogos de poder não combinam com intimidade, na minha opinião", "invert": true, "category": "power"},
-    {"id": 41, "text": "Se funciona, não preciso de mudar - estou satisfeito/a assim", "invert": true, "category": "openness"},
-    {"id": 42, "text": "Tenho uma bucket list de coisas que quero experimentar", "invert": false, "category": "adventure"},
-    {"id": 43, "text": "Já vi pornografia de categorias mais 'alternativas' por curiosidade", "invert": false, "category": "curiosity"},
-    {"id": 44, "text": "Acho que a maioria dos fetiches são estranhos demais para mim", "invert": true, "category": "openness"},
-    {"id": 45, "text": "Tenho pelo menos um fetiche ou kink que gostaria de explorar", "invert": false, "category": "kinks"},
-    {"id": 46, "text": "O sexo convencional é tudo o que preciso para ser feliz", "invert": true, "category": "traditional"},
-    {"id": 47, "text": "Gostaria de experimentar algo que nunca fiz antes", "invert": false, "category": "adventure"},
-    {"id": 48, "text": "Já li erotica ou vi filmes sobre BDSM com curiosidade", "invert": false, "category": "curiosity"},
-    {"id": 49, "text": "Considero a minha vida sexual bastante tradicional", "invert": true, "category": "traditional"},
-    {"id": 50, "text": "Há um lado mais selvagem em mim que gostaria de explorar", "invert": false, "category": "intensity"}
+    { "id": 1, "text": "Sexo suave e romântico vs. intenso e selvagem - prefiro:", "options": [
+      { "text": "😊 Principalmente suave", "score": 0, "tags": ["vanilla", "romantic", "gentle"] },
+      { "text": "⚖️ Ambos equilibrados", "score": 50, "tags": ["balanced", "versatile"] },
+      { "text": "🔥 Principalmente intenso", "score": 100, "tags": ["kink", "intense", "wild"] }
+    ]},
+    { "id": 2, "text": "Luzes durante o sexo:", "options": [
+      { "text": "🔌 Apagadas", "score": 0, "tags": ["lights-off", "shy"] },
+      { "text": "💡 Meia-luz", "score": 50, "tags": ["dim-light"] },
+      { "text": "☀️ Totalmente acesas", "score": 100, "tags": ["lights-on", "confident"] }
+    ]},
+    { "id": 3, "text": "Posições sexuais preferidas:", "options": [
+      { "text": "🛌 As básicas (missionário, papai-e-mamãe)", "score": 0, "tags": ["traditional-positions", "vanilla"] },
+      { "text": "📚 Mistas (algumas básicas, algumas criativas)", "score": 50, "tags": ["mixed-positions", "open-minded"] },
+      { "text": "🎭 Sempre novas e criativas", "score": 100, "tags": ["creative-positions", "adventurous"] }
+    ]},
+    { "id": 4, "text": "Brinquedos sexuais na relação:", "options": [
+      { "text": "🚫 Nunca usei, não tenho interesse", "score": 0, "tags": ["no-toys", "vanilla"] },
+      { "text": "🤔 Usei alguns básicos (vibrador simples)", "score": 50, "tags": ["basic-toys", "curious"] },
+      { "text": "🎉 Tenho coleção, uso regularmente", "score": 100, "tags": ["toy-collector", "kink"] }
+    ]},
+    { "id": 5, "text": "Experimentar coisas novas é:", "options": [
+      { "text": "😰 Ansioso/a, prefiro rotina", "score": 0, "tags": ["routine-lover", "vanilla"] },
+      { "text": "😊 Interessante às vezes", "score": 50, "tags": ["open-minded"] },
+      { "text": "🎯 Necessário para mim", "score": 100, "tags": ["novelty-seeker", "kink"] }
+    ]},
+    { "id": 6, "text": "Sexo rápido vs. demorado:", "options": [
+      { "text": "⏱️ Prefiro rápido e intenso", "score": 75, "tags": ["quickies", "intense"] },
+      { "text": "⏳ Prefiro demorado e construído", "score": 25, "tags": ["slow-sex", "romantic"] },
+      { "text": "🔄 Gosto de ambos", "score": 50, "tags": ["versatile"] }
+    ]},
+    { "id": 7, "text": "Falar durante o sexo:", "options": [
+      { "text": "🤫 Prefiro silêncio ou gemidos naturais", "score": 0, "tags": ["silent", "vanilla"] },
+      { "text": "💬 Palavras de carinho/encorajamento", "score": 50, "tags": ["loving-words", "romantic"] },
+      { "text": "🎤 Conversa \"suja\"/dominadora", "score": 100, "tags": ["dirty-talk", "kink", "verbal"] }
+    ]},
+    { "id": 8, "text": "Marcas no corpo (chupões, mordidas):", "options": [
+      { "text": "🚫 Não gosto, evito", "score": 0, "tags": ["no-marks", "vanilla"] },
+      { "text": "👍 Leves, ocultas", "score": 50, "tags": ["light-marks", "discreet"] },
+      { "text": "🔥 Marcas visíveis, gosto", "score": 100, "tags": ["visible-marks", "kink", "marking"] }
+    ]},
+    { "id": 9, "text": "Papéis durante o sexo:", "options": [
+      { "text": "🤝 Sempre igualitários", "score": 0, "tags": ["equal-power", "vanilla"] },
+      { "text": "👑 Gosto de mandar às vezes", "score": 75, "tags": ["dominant-curious", "switch"] },
+      { "text": "🙏 Gosto de obedecer às vezes", "score": 75, "tags": ["submissive-curious", "switch"] }
+    ]},
+    { "id": 10, "text": "Locais para sexo:", "options": [
+      { "text": "🛌 Apenas na cama/quarto", "score": 0, "tags": ["bedroom-only", "vanilla"] },
+      { "text": "🏠 Casa toda (sofá, cozinha, etc.)", "score": 50, "tags": ["home-adventurer", "spontaneous"] },
+      { "text": "🌍 Lugares públicos/ar livre", "score": 100, "tags": ["public-sex", "kink", "risk-taker"] }
+    ]},
+    { "id": 11, "text": "Risco de serem apanhados:", "options": [
+      { "text": "😨 Assusta-me", "score": 0, "tags": ["risk-averse", "vanilla"] },
+      { "text": "🔥 Excita-me", "score": 75, "tags": ["risk-excites", "kink"] },
+      { "text": "🎯 É essencial para mim", "score": 100, "tags": ["risk-essential", "thrill-seeker"] }
+    ]},
+    { "id": 12, "text": "Gravar ou fotografar:", "options": [
+      { "text": "🚫 Jamais", "score": 0, "tags": ["no-recording", "vanilla"] },
+      { "text": "🤔 Talvez em privado", "score": 50, "tags": ["private-recording", "curious"] },
+      { "text": "✅ Sim, gosto", "score": 100, "tags": ["recording-yes", "kink"] }
+    ]},
+    { "id": 13, "text": "Fantasias partilhadas:", "options": [
+      { "text": "🤐 Nunca partilho", "score": 0, "tags": ["private-fantasies", "vanilla"] },
+      { "text": "💖 Partilho com parceiro", "score": 50, "tags": ["shares-with-partner", "communicator"] },
+      { "text": "👥 Partilho com amigos também", "score": 100, "tags": ["shares-openly", "open-minded"] }
+    ]},
+    { "id": 14, "text": "Frequência ideal por semana:", "options": [
+      { "text": "1-2 vezes", "score": 25, "tags": ["low-frequency"] },
+      { "text": "3-4 vezes", "score": 50, "tags": ["moderate-frequency"] },
+      { "text": "5+ vezes", "score": 100, "tags": ["high-frequency", "high-libido"] }
+    ]},
+    { "id": 15, "text": "Me considero:", "options": [
+      { "text": "🍦 Vanilla (tradicional)", "score": 0, "tags": ["self-vanilla"] },
+      { "text": "🌶️ Kinky (aventureiro)", "score": 100, "tags": ["self-kinky"] },
+      { "text": "🍰 Híbrido", "score": 50, "tags": ["self-hybrid"] }
+    ]}
   ]
 }

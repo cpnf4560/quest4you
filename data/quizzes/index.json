@@ -1,151 +1,170 @@
-﻿{
-  "version": "1.1.0",
-  "lastUpdated": "2026-02-07",
-  "scale": {
-    "min": 1,
-    "max": 5,
-    "labels": [
-      "Discordo Totalmente",
-      "Discordo",
-      "Neutro",
-      "Concordo",
-      "Concordo Totalmente"
-    ]
-  },
+{
+  "version": "2.1",
+  "scoringSystem": "0-100",
+  "tagMatching": true,
+  "totalQuizzes": 14,
+  "totalQuestions": 245,
   "quizzes": [
     {
       "id": "vanilla",
+      "file": "vanilla.json",
       "name": "Vanilla ou Kink",
       "icon": "🔥",
       "color": "#e91e63",
-      "file": "vanilla.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Descobre onde te posicionas no espectro entre romance suave e práticas mais intensas"
+      "questionCount": 15,
+      "order": 1,
+      "weight": 1,
+      "description": "Sexo suave e romântico vs. intenso e selvagem"
     },
     {
       "id": "orientation",
+      "file": "orientation.json",
       "name": "Orientação Sexual",
       "icon": "🌈",
       "color": "#9c27b0",
-      "file": "orientation.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Explora as tuas atrações e curiosidades sobre diferentes géneros e identidades"
+      "questionCount": 15,
+      "order": 2,
+      "weight": 1,
+      "description": "Descobre a tua orientação e atração"
     },
     {
       "id": "cuckold",
-      "name": "Voyeurismo & Partilha",
-      "icon": "👀",
-      "color": "#673ab7",
       "file": "cuckold.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Avalia o teu interesse em dinâmicas de observação e partilha consensual"
+      "name": "Voyeurismo & Partilha",
+      "icon": "👁️",
+      "color": "#673ab7",
+      "questionCount": 15,
+      "order": 3,
+      "weight": 1,
+      "description": "Cuckold, stag, hotwife e dinâmicas de partilha"
     },
     {
       "id": "swing",
-      "name": "Swing/Poliamor",
+      "file": "swing.json",
+      "name": "Swing & Não-Monogamia",
       "icon": "💑",
       "color": "#00bcd4",
-      "file": "swing.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "category",
-      "description": "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplas pessoas"
+      "questionCount": 15,
+      "order": 4,
+      "weight": 1,
+      "description": "Modelos relacionais e não-monogamia"
     },
     {
       "id": "kinks",
-      "name": "Fetiches e Kinks",
-      "icon": "⛓️",
-      "color": "#f44336",
       "file": "kinks.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "tags",
-      "description": "Descobre os teus interesses em práticas alternativas e fetiches específicos"
+      "name": "Fetiches e Parafilias",
+      "icon": "🎭",
+      "color": "#9c27b0",
+      "questionCount": 50,
+      "order": 5,
+      "weight": 2,
+      "doubleWeight": true,
+      "scoringSystem": "tag-based",
+      "description": "Mapeamento completo de fetiches - gera ~150 tags"
     },
     {
       "id": "bdsm",
-      "name": "BDSM & Dinâmicas de Poder",
-      "icon": "🎭",
-      "color": "#7B1FA2",
       "file": "bdsm.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Descobre o teu papel no espectro Dominante/Submisso e o teu interesse em dinâmicas de poder"
+      "name": "BDSM & Poder",
+      "icon": "⛓️",
+      "color": "#4a148c",
+      "questionCount": 15,
+      "order": 6,
+      "weight": 1,
+      "description": "Dinâmicas de poder, dominação e submissão"
     },
     {
       "id": "adventure",
-      "name": "Aventura Sexual",
-      "icon": "🎲",
-      "color": "#FF5722",
       "file": "adventure.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Descobre quão aberto/a estás a experimentar coisas novas e sair da zona de conforto"
+      "name": "Aventura Sexual",
+      "icon": "🚀",
+      "color": "#ff5722",
+      "questionCount": 15,
+      "order": 7,
+      "weight": 1,
+      "description": "Nível de aventura e experimentação"
     },
     {
       "id": "fantasies",
-      "name": "Fantasias Secretas",
-      "icon": "🔮",
-      "color": "#E91E63",
       "file": "fantasies.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Explora as tuas fantasias mais íntimas e descobre quão alinhadas estão com outras pessoas"
+      "name": "Fantasias Secretas",
+      "icon": "🌙",
+      "color": "#7b1fa2",
+      "questionCount": 15,
+      "order": 8,
+      "weight": 1,
+      "description": "O mundo das tuas fantasias"
     },
     {
       "id": "exhibitionism",
-      "name": "Exibicionismo & Admiração",
-      "icon": "📸",
-      "color": "#FFC107",
       "file": "exhibitionism.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "O prazer de mostrar, ser admirado/a e apreciar a beleza de outras pessoas"
+      "name": "Exibicionismo & Voyeurismo",
+      "icon": "👁️",
+      "color": "#ff9800",
+      "questionCount": 15,
+      "order": 9,
+      "weight": 1,
+      "description": "Mostrar, ver ou ambos?"
     },
     {
       "id": "communication",
-      "name": "Comunicação Sexual",
-      "icon": "💬",
-      "color": "#4caf50",
       "file": "communication.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Descobre como comunicas os teus desejos, limites e fantasias na intimidade"
+      "name": "Comunicação Sexual",
+      "icon": "🗣️",
+      "color": "#2196f3",
+      "questionCount": 15,
+      "order": 10,
+      "weight": 1,
+      "description": "Capacidade de comunicar desejos e limites"
     },
     {
       "id": "intimacy",
-      "name": "Intimidade & Conexão",
-      "icon": "💕",
-      "color": "#e91e63",
       "file": "intimacy.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Explora a importância da conexão emocional na tua vida sexual e íntima"
+      "name": "Intimidade & Conexão",
+      "icon": "💖",
+      "color": "#e91e63",
+      "questionCount": 15,
+      "order": 11,
+      "weight": 1,
+      "description": "Importância da conexão emocional"
     },
     {
       "id": "rhythm",
-      "name": "Ritmo & Frequência",
-      "icon": "⏰",
-      "color": "#ff9800",
       "file": "rhythm.json",
-      "questions": 50,
-      "estimatedTime": 10,
-      "resultType": "spectrum",
-      "description": "Descobre o teu ritmo sexual ideal: frequência, duração, espontaneidade e energia"
+      "name": "Ritmo & Frequência",
+      "icon": "⏱️",
+      "color": "#009688",
+      "questionCount": 15,
+      "order": 12,
+      "weight": 1,
+      "description": "Frequência, duração, horários e libido"
+    },
+    {
+      "id": "lifestyle",
+      "file": "lifestyle.json",
+      "name": "Valores & Estilo de Vida Sexual",
+      "icon": "🌍",
+      "color": "#4caf50",
+      "questionCount": 15,
+      "order": 13,
+      "weight": 1,
+      "description": "Como vives a tua sexualidade no dia-a-dia, o que valorizas, e como evoluis"
+    },
+    {
+      "id": "digital",
+      "file": "digital.json",
+      "name": "Comunicação & Tecnologia Íntima",
+      "icon": "📱",
+      "color": "#607d8b",
+      "questionCount": 15,
+      "order": 14,
+      "weight": 1,
+      "description": "Como te conectas com outros sexualmente no mundo moderno"
     }
   ],
-  "totalQuestions": 600,
-  "smartMatchMinQuizzes": 2
+  "matchingAlgorithm": {
+    "level1_scoreCompatibility": { "weight": 0.4, "description": "Compara pontuação 0-100 por quiz" },
+    "level2_tagMatching": { "weight": 0.5, "description": "Must-have, nice-to-have, dealbreaker tags" },
+    "level3_personalPriorities": { "weight": 0.1, "description": "3 prioridades selecionadas pelo user" }
+  }
 }

@@ -1,74 +1,108 @@
 {
   "id": "bdsm",
-  "name": "BDSM & Dinâmicas de Poder",
-  "icon": "🎭",
-  "color": "#7B1FA2",
-  "version": "1.0.0",
-  "description": "Descobre o teu papel no espectro Dominante/Submisso e o teu interesse em dinâmicas de poder",
+  "name": "BDSM & Poder",
+  "icon": "⛓️",
+  "color": "#4a148c",
+  "description": "Explora a tua relação com dinâmicas de poder, dominação, submissão e práticas BDSM",
   "resultType": "spectrum",
-  "inverseMatching": true,
-  "spectrumLabels": {
-    "low": "Submisso/a",
-    "mid": "Switch",
-    "high": "Dominante"
-  },
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
   "categories": [
-    { "min": 0, "max": 20, "label": "Submisso/a Natural", "emoji": "🔒", "description": "Sentes prazer profundo em entregar o controlo a alguém de confiança. A submissão é uma forma de liberdade para ti." },
-    { "min": 21, "max": 40, "label": "Submisso/a Leve", "emoji": "🌙", "description": "Gostas de ceder o controlo em certos momentos, mas manténs limites claros. Aprecias ser guiado/a." },
-    { "min": 41, "max": 60, "label": "Switch", "emoji": "🔄", "description": "Adaptas-te naturalmente a ambos os papéis. Tanto podes dominar como submeter, dependendo da pessoa e momento." },
-    { "min": 61, "max": 80, "label": "Dominante Leve", "emoji": "⭐", "description": "Gostas de assumir o controlo em certos momentos. Liderar e guiar dá-te satisfação." },
-    { "min": 81, "max": 100, "label": "Dominante Natural", "emoji": "👑", "description": "O poder e o controlo são naturais para ti. Liderar e proteger são formas de expressar cuidado e desejo." }
+    { "min": 0, "max": 20, "label": "Vanilla em Poder", "emoji": "🤝", "description": "Preferes relações igualitárias sem dinâmicas de poder" },
+    { "min": 21, "max": 40, "label": "BDSM-Curioso", "emoji": "🔍", "description": "Alguma curiosidade por dinâmicas de poder, mas pouca experiência" },
+    { "min": 41, "max": 60, "label": "BDSM Recreativo", "emoji": "🎭", "description": "Incorporas elementos BDSM como jogo sexual ocasional" },
+    { "min": 61, "max": 80, "label": "BDSM Praticante", "emoji": "⛓️", "description": "BDSM é uma parte significativa da tua sexualidade" },
+    { "min": 81, "max": 100, "label": "BDSM Lifestyle", "emoji": "👑", "description": "BDSM é um estilo de vida e parte central da tua identidade" }
   ],
   "questions": [
-    {"id": 1, "text": "Quando estou na cama, gosto de ser eu a decidir o que acontece a seguir", "invert": false, "category": "control"},
-    {"id": 2, "text": "Dizer 'ajoelha-te' e ver alguém obedecer excita-me profundamente", "invert": false, "category": "dominance"},
-    {"id": 3, "text": "Prefiro que me digam exatamente o que fazer e como fazer", "invert": true, "category": "submission"},
-    {"id": 4, "text": "Dar ordens diretas durante o sexo ('vira-te', 'mais devagar') é natural para mim", "invert": false, "category": "control"},
-    {"id": 5, "text": "Ouvir 'és meu/minha' de alguém dominante faz-me arrepiar", "invert": true, "category": "submission"},
-    {"id": 6, "text": "Gosto de conduzir a cabeça de alguém durante o sexo oral", "invert": false, "category": "control"},
-    {"id": 7, "text": "A ideia de pedir permissão para ter um orgasmo excita-me", "invert": true, "category": "submission"},
-    {"id": 8, "text": "Controlar quando e como o/a meu/minha parceiro/a pode gozar atrai-me", "invert": false, "category": "dominance"},
-    {"id": 9, "text": "Seguir um conjunto de regras sexuais definidas por outra pessoa seria excitante", "invert": true, "category": "submission"},
-    {"id": 10, "text": "Estabelecer regras que o/a outro/a tem de seguir faz parte do meu prazer", "invert": false, "category": "dominance"},
-    {"id": 11, "text": "Ser empurrado/a contra a parede e beijado/a intensamente é um sonho", "invert": true, "category": "submission"},
-    {"id": 12, "text": "A ideia de ser 'usado/a' para o prazer de alguém (consensualmente) excita-me", "invert": true, "category": "submission"},
-    {"id": 13, "text": "Gostaria de me ajoelhar aos pés de alguém que admiro sexualmente", "invert": true, "category": "submission"},
-    {"id": 14, "text": "Ser tratado/a como 'propriedade' de alguém durante o sexo atrai-me", "invert": true, "category": "submission"},
-    {"id": 15, "text": "A ideia de servir sexualmente alguém (banho, massagem, oral) excita-me", "invert": true, "category": "service"},
-    {"id": 16, "text": "Gostaria de ter alguém a servir-me e a antecipar os meus desejos", "invert": false, "category": "dominance"},
-    {"id": 17, "text": "Chamar alguém de 'senhor/a', 'mestre/a' ou 'dono/a' seria excitante", "invert": true, "category": "submission"},
-    {"id": 18, "text": "Ouvir alguém chamar-me assim dava-me uma sensação de poder", "invert": false, "category": "dominance"},
-    {"id": 19, "text": "Aguardar nu/a por instruções seria uma forma deliciosa de antecipação", "invert": true, "category": "submission"},
-    {"id": 20, "text": "Ter alguém a aguardar nu/a pelas minhas instruções excita-me", "invert": false, "category": "dominance"},
-    {"id": 21, "text": "Ter as mãos atadas acima da cabeça enquanto sou beijado/a intensamente", "invert": true, "category": "bondage"},
-    {"id": 22, "text": "Atar as mãos de alguém e tê-lo/a à minha mercê é uma fantasia", "invert": false, "category": "bondage"},
-    {"id": 23, "text": "A ideia de estar completamente imobilizado/a, vendado/a e à espera excita-me", "invert": true, "category": "bondage"},
-    {"id": 24, "text": "Ter alguém amarrado/a e completamente sob o meu controlo é excitante", "invert": false, "category": "bondage"},
-    {"id": 25, "text": "Uma coleira (mesmo que discreta) seria algo que usaria com prazer", "invert": true, "category": "submission"},
-    {"id": 26, "text": "Colocar uma coleira em alguém de quem cuido seria um ato poderoso", "invert": false, "category": "dominance"},
-    {"id": 27, "text": "Cordas japonesas (shibari) à volta do meu corpo seriam uma forma de arte", "invert": true, "category": "bondage"},
-    {"id": 28, "text": "Aprender a atar alguém de forma estética e erótica interessa-me", "invert": false, "category": "bondage"},
-    {"id": 29, "text": "A vulnerabilidade de estar restringido/a é algo que me atrai", "invert": true, "category": "submission"},
-    {"id": 30, "text": "Ter alguém vulnerável e a confiar em mim é uma responsabilidade excitante", "invert": false, "category": "dominance"},
-    {"id": 31, "text": "Levar uma palmada no rabo durante o sexo deixa-me mais excitado/a", "invert": true, "category": "impact"},
-    {"id": 32, "text": "Dar palmadas e ver a marca da minha mão é algo que aprecio", "invert": false, "category": "impact"},
-    {"id": 33, "text": "A ideia de ser chicoteado/a (levemente) faz parte das minhas fantasias", "invert": true, "category": "impact"},
-    {"id": 34, "text": "Usar um chicote, flogger ou paddle em alguém interessa-me", "invert": false, "category": "impact"},
-    {"id": 35, "text": "Mordidas e chupões que deixam marca excitam-me (receber)", "invert": true, "category": "impact"},
-    {"id": 36, "text": "Gosto de marcar o corpo de alguém com a minha boca", "invert": false, "category": "impact"},
-    {"id": 37, "text": "Gelo ou cera quente a percorrer o meu corpo seriam sensações intensas", "invert": true, "category": "sensation"},
-    {"id": 38, "text": "Provocar sensações intensas com temperatura no corpo de alguém atrai-me", "invert": false, "category": "sensation"},
-    {"id": 39, "text": "A dor controlada amplifica o meu prazer (receber)", "invert": true, "category": "impact"},
-    {"id": 40, "text": "Saber exatamente quanta dor/prazer dar a alguém excita-me", "invert": false, "category": "control"},
-    {"id": 41, "text": "Após sessões intensas, preciso de muito carinho e cuidado (receber)", "invert": true, "category": "aftercare"},
-    {"id": 42, "text": "Cuidar de alguém após uma sessão intensa é tão importante quanto a sessão", "invert": false, "category": "aftercare"},
-    {"id": 43, "text": "Gosto de alternar entre dominar e submeter-me (sou switch)", "invert": false, "category": "switch"},
-    {"id": 44, "text": "Tenho clareza sobre qual é o meu papel preferido (Dom ou Sub)", "invert": false, "category": "identity"},
-    {"id": 45, "text": "A negociação prévia de limites faz-me sentir seguro/a para me entregar", "invert": true, "category": "safety"},
-    {"id": 46, "text": "Defino regras e limites claros antes de qualquer sessão como Dominante", "invert": false, "category": "safety"},
-    {"id": 47, "text": "Safe words dão-me liberdade para explorar sem medo", "invert": true, "category": "safety"},
-    {"id": 48, "text": "Respeitar safe words é a minha prioridade absoluta como Dominante", "invert": false, "category": "safety"},
-    {"id": 49, "text": "O poder que entrego a alguém é um presente que dou voluntariamente", "invert": true, "category": "philosophy"},
-    {"id": 50, "text": "O poder que recebo de alguém é um presente que valorizo profundamente", "invert": false, "category": "philosophy"}
+    { "id": 1, "text": "Durante o sexo, prefiro:", "options": [
+      { "text": "🤝 Igualdade total", "score": 0, "tags": ["equal-power", "vanilla"] },
+      { "text": "🔄 Alternar papéis", "score": 50, "tags": ["switch", "versatile"] },
+      { "text": "👑 Mandar/controlar", "score": 75, "tags": ["dominant", "power-top"] },
+      { "text": "🙏 Obedecer/ser controlado", "score": 75, "tags": ["submissive", "power-bottom"] }
+    ]},
+    { "id": 2, "text": "Ser amarrado/algemado:", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-bondage"] },
+      { "text": "🤔 Talvez experimentar", "score": 33, "tags": ["bondage-curious"] },
+      { "text": "🔥 Sim, adoro", "score": 75, "tags": ["bondage-lover"] },
+      { "text": "✅ Regular na minha vida", "score": 100, "tags": ["bondage-regular", "bondage-lifestyle"] }
+    ]},
+    { "id": 3, "text": "Dar/receber palmadas:", "options": [
+      { "text": "❌ Não", "score": 0, "tags": ["no-impact"] },
+      { "text": "👍 Leves, ocasionalmente", "score": 33, "tags": ["light-impact", "spanking-light"] },
+      { "text": "🔥 Fortes, regularmente", "score": 75, "tags": ["impact-play", "spanking-hard"] },
+      { "text": "🎯 Parte essencial", "score": 100, "tags": ["impact-essential", "pain-play"] }
+    ]},
+    { "id": 4, "text": "Coleira (simbólica ou real):", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-collar"] },
+      { "text": "🤔 Talvez simbólica", "score": 33, "tags": ["collar-curious", "symbolic-bdsm"] },
+      { "text": "🔥 Sim, real", "score": 75, "tags": ["collar-yes", "collar-play"] },
+      { "text": "✅ Uso/uso em alguém", "score": 100, "tags": ["collar-active", "owned", "owner"] }
+    ]},
+    { "id": 5, "text": "Chamar/receber títulos (Sir, Mistress, etc.):", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-titles"] },
+      { "text": "🔥 Sim, excita-me", "score": 75, "tags": ["titles-yes", "protocol"] },
+      { "text": "✅ Parte da dinâmica", "score": 100, "tags": ["titles-essential", "protocol-lifestyle"] }
+    ]},
+    { "id": 6, "text": "Humilhação consensual:", "options": [
+      { "text": "❌ Não gosto", "score": 0, "tags": ["no-humiliation"] },
+      { "text": "🤔 Leve, verbal", "score": 33, "tags": ["light-humiliation", "verbal-play"] },
+      { "text": "🔥 Moderada", "score": 75, "tags": ["humiliation", "degradation"] },
+      { "text": "🌋 Intensa", "score": 100, "tags": ["intense-humiliation", "heavy-degradation"] }
+    ]},
+    { "id": 7, "text": "Servidão (servir/ser servido):", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-service"] },
+      { "text": "🤔 Em fantasia", "score": 33, "tags": ["service-fantasy"] },
+      { "text": "🔥 Sim, na prática", "score": 75, "tags": ["service-sub", "service-dom"] },
+      { "text": "🙇 Estilo de vida", "score": 100, "tags": ["service-lifestyle", "total-power-exchange"] }
+    ]},
+    { "id": 8, "text": "Negociação de limites antes de cenas:", "options": [
+      { "text": "⏭️ Desnecessária", "score": 25, "tags": ["skip-negotiation"] },
+      { "text": "🤝 Importante", "score": 50, "tags": ["negotiation-important"] },
+      { "text": "✅ Essencial", "score": 75, "tags": ["negotiation-essential", "safe-bdsm"] },
+      { "text": "📋 Muito detalhada", "score": 100, "tags": ["detailed-negotiation", "protocol-heavy"] }
+    ]},
+    { "id": 9, "text": "Aftercare (cuidados após cena intensa):", "options": [
+      { "text": "🚶 Desnecessário", "score": 25, "tags": ["no-aftercare"] },
+      { "text": "🤗 Importante", "score": 50, "tags": ["aftercare-important"] },
+      { "text": "🛌 Essencial", "score": 75, "tags": ["aftercare-essential"] },
+      { "text": "💖 Parte do ritual", "score": 100, "tags": ["aftercare-ritual", "nurturing"] }
+    ]},
+    { "id": 10, "text": "Segurança e consentimento são:", "options": [
+      { "text": "⭐ Importantes", "score": 50, "tags": ["safety-aware"] },
+      { "text": "✅ Prioritários", "score": 75, "tags": ["safety-priority", "consent-focused"] },
+      { "text": "🛡️ Não negociáveis", "score": 100, "tags": ["safety-absolute", "rack", "ssc"] }
+    ]},
+    { "id": 11, "text": "Dores/sensações intensas:", "options": [
+      { "text": "😨 Evito", "score": 0, "tags": ["pain-averse"] },
+      { "text": "👍 Suporto por prazer", "score": 50, "tags": ["pain-tolerant", "masochist-light"] },
+      { "text": "🔥 Busco ativamente", "score": 75, "tags": ["masochist", "pain-seeker"] },
+      { "text": "🎯 Necessito", "score": 100, "tags": ["heavy-masochist", "pain-essential"] }
+    ]},
+    { "id": 12, "text": "Identificas-te mais como:", "options": [
+      { "text": "❌ Nenhum", "score": 0, "tags": ["no-role", "vanilla"] },
+      { "text": "👀 Curioso", "score": 25, "tags": ["bdsm-curious"] },
+      { "text": "🔄 Switch", "score": 50, "tags": ["switch"] },
+      { "text": "👑 Dominante", "score": 75, "tags": ["dominant", "dom", "top"] },
+      { "text": "🙏 Submisso", "score": 75, "tags": ["submissive", "sub", "bottom"] }
+    ]},
+    { "id": 13, "text": "Cenas BDSM para ti são:", "options": [
+      { "text": "🎭 Jogo sexual ocasional", "score": 33, "tags": ["recreational-bdsm"] },
+      { "text": "🔥 Necessidade sexual", "score": 50, "tags": ["bdsm-need"] },
+      { "text": "🌌 Expressão espiritual", "score": 75, "tags": ["spiritual-bdsm", "tantric-bdsm"] },
+      { "text": "🏠 Estilo de vida", "score": 100, "tags": ["lifestyle-bdsm", "24-7"] }
+    ]},
+    { "id": 14, "text": "Publicar o teu lado BDSM:", "options": [
+      { "text": "🤐 Secreto total", "score": 25, "tags": ["bdsm-secret"] },
+      { "text": "👥 Apenas comunidade BDSM", "score": 50, "tags": ["bdsm-community"] },
+      { "text": "🌍 Aberto publicamente", "score": 100, "tags": ["bdsm-open", "bdsm-proud"] }
+    ]},
+    { "id": 15, "text": "O BDSM na tua vida ocupa:", "options": [
+      { "text": "🚫 Nenhum espaço", "score": 0, "tags": ["no-bdsm"] },
+      { "text": "🎯 Algum espaço sexual", "score": 33, "tags": ["bdsm-some"] },
+      { "text": "🌟 Espaço sexual significativo", "score": 75, "tags": ["bdsm-significant"] },
+      { "text": "💫 Espaço vital importante", "score": 100, "tags": ["bdsm-vital", "lifestyle-bdsm"] }
+    ]}
   ]
 }

@@ -531,33 +531,41 @@
   color: #c9d1d9 !important;
 }
 
-/* Likert Scale Buttons */
-[data-theme="dark"] .likert-btn {
+/* Option Buttons (v2.1 quiz format) */
+[data-theme="dark"] .option-btn {
   background: #21262d !important;
   border-color: #30363d !important;
+  color: #c9d1d9 !important;
 }
 
-[data-theme="dark"] .likert-btn:hover {
+[data-theme="dark"] .option-btn:hover {
   background: #2d333b !important;
-  border-color: #ff6b8a !important;
+  border-color: #8B4A5E !important;
+  box-shadow: 0 6px 20px rgba(139, 74, 94, 0.2) !important;
 }
 
-[data-theme="dark"] .likert-number {
-  color: #f0f6fc !important;
+[data-theme="dark"] .option-btn .option-letter {
+  background: rgba(139, 74, 94, 0.2) !important;
+  color: #d4849a !important;
 }
 
-[data-theme="dark"] .likert-btn.selected {
-  background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%) !important;
+[data-theme="dark"] .option-btn.selected {
+  background: linear-gradient(135deg, #8B4A5E 0%, #5C4B6B 100%) !important;
   border-color: transparent !important;
-}
-
-[data-theme="dark"] .likert-btn.selected .likert-number {
   color: white !important;
 }
 
-[data-theme="dark"] .likert-label-left,
-[data-theme="dark"] .likert-label-right {
-  color: #8b949e !important;
+[data-theme="dark"] .option-btn.selected .option-letter {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .option-btn .option-text {
+  color: inherit !important;
+}
+
+[data-theme="dark"] .options-container {
+  /* Container itself needs no special dark mode styling */
 }
 
 [data-theme="dark"] .question-card {

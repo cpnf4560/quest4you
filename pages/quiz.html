@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/main.css?v=202601202240">
-  <link rel="stylesheet" href="../css/quiz.css?v=202601202240">
+  <link rel="stylesheet" href="../css/quiz.css?v=202602090001">
   <link rel="stylesheet" href="../css/dark-mode.css?v=202602080003">
 </head>
 <body>
@@ -51,33 +51,8 @@
     <div class="question-card" id="questionCard">
       <div class="question-number" id="questionNumber">1</div>
       <p class="question-text" id="questionText">Carregando pergunta...</p>
-      <div class="likert-scale">
-        <div class="likert-labels">
-          <span class="likert-label-left">Discordo Totalmente</span>
-          <span class="likert-label-right">Concordo Totalmente</span>
-        </div>
-        <div class="likert-options" id="likertOptions">
-          <button class="likert-btn" data-value="1" onclick="selectAnswer(1)">
-            <span class="likert-number">1</span>
-            <span class="likert-emoji">&#128544;</span>
-          </button>
-          <button class="likert-btn" data-value="2" onclick="selectAnswer(2)">
-            <span class="likert-number">2</span>
-            <span class="likert-emoji">&#128533;</span>
-          </button>
-          <button class="likert-btn" data-value="3" onclick="selectAnswer(3)">
-            <span class="likert-number">3</span>
-            <span class="likert-emoji">&#128528;</span>
-          </button>
-          <button class="likert-btn" data-value="4" onclick="selectAnswer(4)">
-            <span class="likert-number">4</span>
-            <span class="likert-emoji">&#128578;</span>
-          </button>
-          <button class="likert-btn" data-value="5" onclick="selectAnswer(5)">
-            <span class="likert-number">5</span>
-            <span class="likert-emoji">&#128525;</span>
-          </button>
-        </div>
+      <div class="options-container" id="optionsContainer">
+        <!-- Dynamic options rendered by quiz.js from JSON -->
       </div>
     </div>
     <div class="quiz-navigation">
@@ -123,6 +98,6 @@
   <script src="../js/firebase-config.js?v=202601202240"></script>
   <script src="../js/cloud-sync.js?v=202601202240"></script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
-  <script src="../js/quiz.js?v=202601202240"></script>
+  <script src="../js/quiz.js?v=202602090001"></script>
 </body>
 </html>

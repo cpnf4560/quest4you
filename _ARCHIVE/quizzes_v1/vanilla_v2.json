@@ -1,0 +1,153 @@
+{
+  "id": "vanilla",
+  "name": "Vanilla ou Kink",
+  "icon": "💕",
+  "color": "#e91e63",
+  "description": "Sexo suave e romântico vs. intenso e selvagem - descobre onde te posicionas",
+  "resultType": "spectrum",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    { "min": 0, "max": 20, "label": "Vanilla Puro", "emoji": "🍦", "description": "Preferes intimidade suave, romântica e tradicional" },
+    { "min": 21, "max": 40, "label": "Vanilla com Pitada", "emoji": "🌸", "description": "Principalmente tradicional, mas ocasionalmente aventureiro" },
+    { "min": 41, "max": 60, "label": "Explorador Equilibrado", "emoji": "⚖️", "description": "Equilíbrio entre tradicional e aventureiro" },
+    { "min": 61, "max": 80, "label": "Kink-Curious", "emoji": "🌶️", "description": "Mente aberta e curiosidade por experiências intensas" },
+    { "min": 81, "max": 100, "label": "Kinky Assumido", "emoji": "🔥", "description": "Abraças práticas alternativas e intensas plenamente" }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "text": "Sexo suave e romântico vs. intenso e selvagem - prefiro:",
+      "options": [
+        { "text": "😊 Principalmente suave", "score": 0, "tags": ["vanilla", "romantic", "gentle"] },
+        { "text": "⚖️ Ambos equilibrados", "score": 50, "tags": ["balanced", "versatile"] },
+        { "text": "🔥 Principalmente intenso", "score": 100, "tags": ["kink", "intense", "wild"] }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Luzes durante o sexo:",
+      "options": [
+        { "text": "🔌 Apagadas", "score": 0, "tags": ["lights-off", "private", "shy"] },
+        { "text": "💡 Meia-luz", "score": 50, "tags": ["dim-light", "moderate"] },
+        { "text": "☀️ Totalmente acesas", "score": 100, "tags": ["lights-on", "confident", "exhibitionist-light"] }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Posições sexuais preferidas:",
+      "options": [
+        { "text": "🛌 As básicas (missionário, papai-e-mamãe)", "score": 0, "tags": ["traditional-positions", "vanilla", "simple"] },
+        { "text": "📚 Mistas (algumas básicas, algumas criativas)", "score": 50, "tags": ["mixed-positions", "open-minded"] },
+        { "text": "🎭 Sempre novas e criativas", "score": 100, "tags": ["creative-positions", "adventurous", "kink"] }
+      ]
+    },
+    {
+      "id": 4,
+      "text": "Brinquedos sexuais na relação:",
+      "options": [
+        { "text": "🚫 Nunca usei, não tenho interesse", "score": 0, "tags": ["no-toys", "vanilla", "natural"] },
+        { "text": "🤔 Usei alguns básicos (vibrador simples)", "score": 50, "tags": ["basic-toys", "curious"] },
+        { "text": "🎉 Tenho coleção, uso regularmente", "score": 100, "tags": ["toy-collector", "kink", "adventurous"] }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Experimentar coisas novas é:",
+      "options": [
+        { "text": "😰 Ansioso/a, prefiro rotina", "score": 0, "tags": ["routine-lover", "vanilla", "comfort-zone"] },
+        { "text": "😊 Interessante às vezes", "score": 50, "tags": ["open-minded", "occasional-explorer"] },
+        { "text": "🎯 Necessário para mim", "score": 100, "tags": ["novelty-seeker", "kink", "adventurous"] }
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Sexo rápido vs. demorado:",
+      "options": [
+        { "text": "⏱️ Prefiro rápido e intenso", "score": 75, "tags": ["quickies", "intense", "spontaneous"] },
+        { "text": "⏳ Prefiro demorado e construído", "score": 25, "tags": ["slow-sex", "romantic", "sensual"] },
+        { "text": "🔄 Gosto de ambos", "score": 50, "tags": ["versatile", "balanced"] }
+      ]
+    },
+    {
+      "id": 7,
+      "text": "Falar durante o sexo:",
+      "options": [
+        { "text": "🤫 Prefiro silêncio ou gemidos naturais", "score": 0, "tags": ["silent", "vanilla", "natural-sounds"] },
+        { "text": "💬 Palavras de carinho/encorajamento", "score": 50, "tags": ["loving-words", "romantic", "communicator"] },
+        { "text": "🎤 Conversa 'suja'/dominadora", "score": 100, "tags": ["dirty-talk", "kink", "verbal", "dominant-verbal"] }
+      ]
+    },
+    {
+      "id": 8,
+      "text": "Marcas no corpo (chupões, mordidas):",
+      "options": [
+        { "text": "🚫 Não gosto, evito", "score": 0, "tags": ["no-marks", "vanilla", "gentle"] },
+        { "text": "👍 Leves, ocultas", "score": 50, "tags": ["light-marks", "moderate", "discreet"] },
+        { "text": "🔥 Marcas visíveis, gosto", "score": 100, "tags": ["visible-marks", "kink", "marking", "possessive"] }
+      ]
+    },
+    {
+      "id": 9,
+      "text": "Papéis durante o sexo:",
+      "options": [
+        { "text": "🤝 Sempre igualitários", "score": 0, "tags": ["equal-power", "vanilla", "balanced"] },
+        { "text": "👑 Gosto de mandar às vezes", "score": 75, "tags": ["dominant-curious", "power-play-light", "switch"] },
+        { "text": "🙏 Gosto de obedecer às vezes", "score": 75, "tags": ["submissive-curious", "power-play-light", "switch"] }
+      ]
+    },
+    {
+      "id": 10,
+      "text": "Locais para sexo:",
+      "options": [
+        { "text": "🛌 Apenas na cama/quarto", "score": 0, "tags": ["bedroom-only", "vanilla", "private"] },
+        { "text": "🏠 Casa toda (sofá, cozinha, etc.)", "score": 50, "tags": ["home-adventurer", "spontaneous"] },
+        { "text": "🌍 Lugares públicos/ar livre", "score": 100, "tags": ["public-sex", "kink", "risk-taker", "exhibitionist"] }
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Risco de serem apanhados:",
+      "options": [
+        { "text": "😨 Me assusta", "score": 0, "tags": ["risk-averse", "vanilla", "private"] },
+        { "text": "🔥 Me excita", "score": 100, "tags": ["risk-excites", "kink", "thrill-seeker"] }
+      ]
+    },
+    {
+      "id": 12,
+      "text": "Gravar ou fotografar:",
+      "options": [
+        { "text": "🚫 Jamais", "score": 0, "tags": ["no-recording", "privacy-focused", "vanilla"] },
+        { "text": "🤔 Talvez em privado", "score": 50, "tags": ["private-recording", "curious"] },
+        { "text": "✅ Sim, gosto", "score": 100, "tags": ["recording-yes", "exhibitionist", "kink"] }
+      ]
+    },
+    {
+      "id": 13,
+      "text": "Fantasias partilhadas:",
+      "options": [
+        { "text": "🤐 Nunca partilho", "score": 0, "tags": ["private-fantasies", "reserved", "vanilla"] },
+        { "text": "💖 Partilho com parceiro", "score": 50, "tags": ["shares-with-partner", "open", "communicator"] },
+        { "text": "👥 Partilho com amigos também", "score": 100, "tags": ["shares-openly", "exhibitionist", "open-minded"] }
+      ]
+    },
+    {
+      "id": 14,
+      "text": "Frequência ideal por semana:",
+      "options": [
+        { "text": "1-2 vezes", "score": 25, "tags": ["low-frequency", "quality-over-quantity"] },
+        { "text": "3-4 vezes", "score": 50, "tags": ["moderate-frequency", "balanced"] },
+        { "text": "5+ vezes", "score": 100, "tags": ["high-frequency", "high-libido"] }
+      ]
+    },
+    {
+      "id": 15,
+      "text": "Me considero:",
+      "options": [
+        { "text": "🍦 Vanilla (tradicional)", "score": 0, "tags": ["self-vanilla", "traditional"] },
+        { "text": "🌶️ Kinky (aventureiro)", "score": 100, "tags": ["self-kinky", "adventurous"] },
+        { "text": "🍰 Híbrido", "score": 50, "tags": ["self-hybrid", "versatile"] }
+      ]
+    }
+  ]
+}

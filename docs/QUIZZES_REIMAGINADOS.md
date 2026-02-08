@@ -1,507 +1,2191 @@
 # 🎭 Quizzes Reimaginados - Quest4You
 
-> **Objetivo:** Transformar os 12 quizzes existentes em experiências imersivas, visuais e emocionalmente cativantes.
+🎯 QUEST4YOU v2.1 - VERSÃO OTIMIZADA PARA MATCHING
+Perfeito! Agora entendi completamente o objetivo. Vamos fazer isto robusto para matching, com mais perguntas especialmente na parte de fetiches, e sistema de pontuação pensado para compatibilidade.
 
----
+📊 ESTRUTURA GERAL REVISADA:
+Cada quiz terá:
 
-## 📋 Índice
+Quiz 1-4, 6-12: 15 perguntas cada (aumentei de 8 para 15)
 
-1. [Quiz 1: Espectro Íntimo (Vanilla)](#quiz-1-espectro-íntimo-vanilla)
-2. [Quiz 2: Orientação](#quiz-2-orientação)
-3. [Quiz 3: Cuckold](#quiz-3-cuckold)
-4. [Quiz 4: Swing](#quiz-4-swing)
-5. [Quiz 5: Kinks](#quiz-5-kinks)
-6. [Quiz 6: BDSM](#quiz-6-bdsm)
-7. [Quiz 7: Aventura](#quiz-7-aventura)
-8. [Quiz 8: Fantasias](#quiz-8-fantasias)
-9. [Quiz 9: Exibicionismo](#quiz-9-exibicionismo)
-10. [Quiz 10: Comunicação](#quiz-10-comunicação)
-11. [Quiz 11: Intimidade](#quiz-11-intimidade)
-12. [Quiz 12: Ritmo](#quiz-12-ritmo)
+Quiz 5 (Fetiches): 40-50 perguntas específicas
 
----
+Sistema de scoring uniformizado (0-100 pontos por quiz)
 
-## 🎯 Princípios de Design
+Tags extraídas de cada resposta para matching
 
-### Experiência Imersiva
-- **Menos texto, mais experiência visual**
-- **Imagens divididas** que representam escolhas
-- **Mini-jogos interativos** (arrastar cursores, escolher sons, etc.)
-- **Metáforas poéticas** que tocam na emoção
+🔧 SISTEMA DE MATCHING (VISÃO GERAL):
+Quiz Score Matching: Compara pontuação geral em cada quiz
 
-### Sistema de Pontuação
-- **Múltiplos eixos** em vez de uma única escala
-- **Perguntas adaptativas** que mudam com base nas respostas
-- **Gráfico de radar** para visualizar o perfil
+Tag Matching: Extrai tags específicas de cada resposta (ex: "BDSM-sub", "locais-ao-ar-livre")
 
-### Resultados Memoráveis
-- **Títulos poéticos** (ex: "Arquiteto das Tempestades Consentidas")
-- **Ícones visuais** personalizados
-- **Descrições que tocam a alma**
-- **Sugestões de próximos quizzes** para continuar a exploração
+Weighted Compatibility: Alguns quizzes têm mais peso que outros
 
----
+Must-Have Tags: Fetiches específicos que são dealbreakers/matchmakers
 
-# Quiz 1: Espectro Íntimo (Vanilla)
+📝 VERSÃO REVISADA DOS QUIZZES
+🎯 QUIZ 1: VANILLA OU KINK? (15 perguntas)
+1. "Sexo suave e romântico vs. intenso e selvagem - prefiro:"
 
-## 🌌 Nome Reimaginado
-**"O Teu Espectro Íntimo: Entre Luz e Sombra"**
+😊 Principalmente suave
 
-## 📝 Introdução
-> *"Nem toda a chama queima da mesma forma. Algumas são suaves como o brilho de uma vela, outras são fogos que desenham sombras na parede. Este quiz não te colocará numa caixa — vai mapear o teu território íntimo entre o conforto e a aventura, entre o conhecido e o selvagem. Estás pronto para descobrir que tipo de fogo arde em ti?"*
+⚖️ Ambos equilibrados
 
----
+🔥 Principalmente intenso
 
-## 🎯 Perguntas
+2. "Luzes durante o sexo:"
 
-### Pergunta 1/10
-**Elemento Visual:** Imagem dividida - à esquerda, cama com lençóis brancos e luz suave; à direita, lençóis vermelhos, cordas decorativas e máscara de seda.
+🔌 Apagadas
 
-**"Ao entrar neste quarto, o teu primeiro impulso seria..."**
+💡 Meia-luz
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 🛌 | Deitar-me e sussurrar segredos | Vanilla +2 |
-| 🔥 | Perguntar 'o que vamos experimentar hoje?' | Kink +2 |
-| 🌙 | Observar cada detalhe antes de decidir | Neutro +1 |
-| ✨ | Mudar algo — trazer velas ou tirar as cordas | Adaptável +1 |
+☀️ Totalmente acesas
 
----
+3. "Posições sexuais preferidas:"
 
-### Pergunta 2/10
-**Elemento Visual:** Dois botões animados - mão a acariciar suavemente vs. mão a marcar levemente a pele.
+🛌 As básicas (missionário, papai-e-mamãe)
 
-**"O toque que mais te faz arrepiar é..."**
+📚 Mistas (algumas básicas, algumas criativas)
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 🤲 | Carícias que demoram a chegar onde importa | Vanilla +3 |
-| ✋ | A marca de uma mão que sabe o que quer | Kink +3 |
-| 🔀 | Ambos — depende do dia e do desejo | Switch +2 |
+🎭 Sempre novas e criativas
 
----
+4. "Brinquedos sexuais na relação:"
 
-### Pergunta 3/10
-**Elemento Visual:** Linha do tempo visual de "Ritual Conhecido" a "Aventura Improvisada"
+🚫 Nunca usei, não tenho interesse
 
-**"A tua intimidade ideal tem..."**
+🤔 Usei alguns básicos (vibrador simples)
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 📅 | Horário, velas e passos previsíveis | Vanilla +2 |
-| 🎲 | Regras quebradas, surpresas e improviso | Kink +2 |
-| 🧭 | Um plano que pode ser desviado a qualquer momento | Equilibrado +1 |
+🎉 Tenho coleção, uso regularmente
 
----
+5. "Experimentar coisas novas é:"
 
-### Pergunta 4/10
-**Elemento Visual:** Três frases como cartas de tarot com fundos diferentes
+😰 Ansioso/a, prefiro rotina
 
-**"Escolhe a frase que mais te faz suspirar:"**
+😊 Interessante às vezes
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 🌸 | *"Fizeste-me sentir em casa no teu corpo"* | Vanilla +3 |
-| 🌶️ | *"Fizeste-me esquecer o meu nome"* | Kink +3 |
-| 💫 | *"Fizeste-me sentir seguro o suficiente para me perder"* | Profundo +2 |
+🎯 Necessário para mim
 
----
+6. "Sexo rápido vs. demorado:"
 
-### Pergunta 5/10
-**Elemento Visual:** Mini-jogo - arrastar cursor entre "Segurança" e "Surpresa" numa balança
+⏱️ Prefiro rápido e intenso
 
-**"O que mais te excita é sentir..."**
+⏳ Prefiro demorado e construído
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 🛡️ | Proteção total — posso fechar os olhos e confiar | Vanilla +2 |
-| 🎭 | Vulnerabilidade — não sei o que vem a seguir | Kink +2 |
-| ⚖️ | Um equilíbrio delicado entre os dois | Híbrido +1 |
+🔄 Gosto de ambos
 
----
+7. "Falar durante o sexo:"
 
-### Pergunta 6/10
-**Elemento Visual:** Baú fechado com dois cadeados - um simples, outro intrincado
+🤫 Prefiro silêncio ou gemidos naturais
 
-**"O teu lado secreto está guardado com..."**
+💬 Palavras de carinho/encorajamento
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 🔓 | Um cadeado fraco — quase nada escondido | Vanilla Aberto +1 |
-| 🗝️ | Uma chave que partilhas apenas com alguém especial | Vanilla Profundo +2 |
-| 🔐 | Várias fechaduras — e só algumas pessoas sabem combiná-las | Kink Seletivo +3 |
-| 🌪️ | Nem cadeado — o segredo é que não há segredo | Kink Explícito +3 |
+🎤 Conversa "suja"/dominadora
 
----
+8. "Marcas no corpo (chupões, mordidas):"
 
-### Pergunta 7/10
-**Elemento Visual:** Áudio com dois sons sobrepostos - risos suaves vs. gemidos intensos
+🚫 Não gosto, evito
 
-**"O som da tua intimidade preferida é mais..."**
+👍 Leves, ocultas
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 😊 | Risos partilhados e suspiros contidos | Vanilla +2 |
-| 🌊 | Gemidos que não tentam ser silenciados | Kink +2 |
-| 🎵 | Uma sinfonia que inclui ambos | Completo +1 |
+🔥 Marcas visíveis, gosto
 
----
+9. "Papéis durante o sexo:"
 
-### Pergunta 8/10
-**Elemento Visual:** Pergunta adaptativa - opções mudam com base nas respostas anteriores
+🤝 Sempre igualitários
 
-**"Se pudesses adicionar um elemento novo à tua intimidade atual, seria..."**
+👑 Gosto de mandar às vezes
 
-| Opção | Texto | Pontuação | Condição |
-|-------|-------|-----------|----------|
-| 🕯️ | Apenas mais tempo — nada falta | Vanilla Puro +3 | Se mais Vanilla |
-| 🔗 | Algo que metaforicamente ou literalmente prenda | Kink +3 | Se mais Kink |
-| 🌈 | Um jogo de poderes que trocam de mãos | Switch +2 | Se equilibrado |
-| ❓ | Não sei — preciso de explorar mais opções | Curioso +1 | Sempre visível |
+🙏 Gosto de obedecer às vezes
 
----
+10. "Locais para sexo:"
 
-### Pergunta 9/10
-**Elemento Visual:** Gráfico de radar com 5 vértices: Conforto, Inovação, Comunicação, Risco, Conexão
+🛌 Apenas na cama/quartro
 
-**"O teu superpoder íntimo é a capacidade de..."**
+🏠 Casa toda (sofá, cozinha, etc.)
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 🏠 | Criar segurança mesmo no desconhecido | Vanilla +2 |
-| 🚀 | Transformar o familiar em extraordinário | Kink +2 |
-| 🧠 | Saber exatamente quando mudar de direção | Intuitivo +1 |
+🌍 Lugares públicos/ar livre
 
----
+11. "Risco de serem apanhados:"
 
-### Pergunta 10/10
-**Elemento Visual:** Duas portas - uma normal, outra com padrões intrincados e fresta de luz
+😨 Me assusta
 
-**"Ao sair deste quiz, esperas encontrar..."**
+🔥 Me excita
 
-| Opção | Texto | Pontuação |
-|-------|-------|-----------|
-| 🚪 | Confirmação — sim, sou mesmo como pensava | Auto-validação |
-| 🌌 | Surpresa — há mais em mim do que imaginava | Descoberta |
-| 🗺️ | Um mapa — agora sei por onde explorar | Orientação |
-| 🔥 | Um fósforo — só precisava de uma faísca | Ativação |
+🎯 É essencial para mim
 
----
+12. "Gravar ou fotografar:"
 
-## 🏆 Perfis de Resultado
+🚫 Jamais
 
-### Perfil 1: Guardião do Lar Íntimo
-**Espectro:** 0-20% Kink (Vanilla Puro)
-**Ícone:** 🏠✨
+🤔 Talvez em privado
 
-> *"A tua intimidade é um santuário. Não precisas de artifícios para criar magia — a tua presença, a tua atenção e o teu toque são o suficiente para transformar qualquer momento em algo especial. Valorizas a conexão profunda, a previsibilidade reconfortante e a segurança emocional. O teu parceiro sabe que contigo, está sempre em casa."*
+✅ Sim, gosto
 
-**Sugestão:** "O Quiz 11 (Intimidade Emocional) pode revelar ainda mais sobre a profundidade das tuas conexões."
+13. "Fantasias partilhadas:"
 
----
+🤐 Nunca partilho
 
-### Perfil 2: Explorador das Fronteiras Suaves
-**Espectro:** 21-40% Kink (Vanilla com Pitada)
-**Ícone:** 🌅🔍
+💖 Partilho com parceiro
 
-> *"Tens os pés bem assentes no conforto, mas os olhos curiosos espreita além do horizonte. Não tens pressa de explorar — preferes dar passos pequenos e seguros. Quando algo novo te intriga, aproximas-te com cuidado, testando as águas antes de mergulhar. A tua força está em saber combinar segurança com pequenas doses de novidade."*
+👥 Partilho com amigos também
 
-**Sugestão:** "O Quiz 7 (Aventura) pode ser o próximo passo natural na tua jornada de descoberta."
+14. "Frequência ideal por semana:"
 
----
+1-2 vezes
 
-### Perfil 3: Cartógrafo dos Desejos Equilibrados
-**Espectro:** 41-60% Kink (Switch Natural)
-**Ícone:** ⚖️🗺️
+3-4 vezes
 
-> *"Tu és o ponto de equilíbrio perfeito. Moves-te com fluidez entre o suave e o intenso, entre o dar e o receber, entre o conhecido e o novo. Não te defines por extremos — a tua riqueza está na versatilidade. Adaptas-te ao momento, ao parceiro, ao desejo do dia. És água que toma a forma do recipiente, sem nunca perder a sua essência."*
+5+ vezes
 
-**Sugestão:** "O Quiz 6 (BDSM & Dinâmicas de Poder) pode ajudar-te a explorar o teu lado Switch com mais profundidade."
+15. "Me considero:"
 
----
+🍦 Vanilla (tradicional)
 
-### Perfil 4: Pioneiro dos Territórios Ígneos
-**Espectro:** 61-80% Kink (Kink-Curious)
-**Ícone:** 🔥🧭
+🌶️ Kinky (aventureiro)
 
-> *"Há um fogo em ti que pede mais combustível. Não te contentas com o óbvio — procuras experiências que deixem marca, que te façam sentir vivo de formas que o quotidiano não permite. Ainda estás a mapear os teus limites, a descobrir onde termina a curiosidade e começa o desejo real. E essa jornada de descoberta é, em si mesma, excitante."*
+🍰 Híbrido
 
-**Sugestão:** "O Quiz 5 (Kinks & Fetiches) pode abrir portas que nem sabias que existiam."
+Tags extraídas: vanilla, kink, brinquedos-sim, brinquedos-nao, falar-sujo, silencio, marcas-sim, marcas-nao, risco-excitante, risco-assustador, etc.
 
----
+🌈 QUIZ 2: ORIENTAÇÃO SEXUAL (15 perguntas)
+1. "Atração principal por:"
 
-### Perfil 5: Arquiteto das Tempestades Consentidas
-**Espectro:** 81-100% Kink (Kinky Assumido)
-**Ícone:** 🌪️⚡
+👨 Homens
 
-> *"Tu não temes o fogo — desenhas-lhe os contornos. A tua intimidade é um laboratório de sensações, onde cada regra existe para ser testada, cada limite para ser acariciado. Precisas de confiança absoluta para te soltares completamente, e quando a tens, és capaz de construir experiências que deixam marcas na alma. O teu desejo não é caótico — é uma tempestade com roteiro, um furacão que pede permissão antes de tocar terra."*
+👩 Mulheres
 
-**Sugestão:** "O Quiz 6 (BDSM & Dinâmicas de Poder) pode revelar territórios ainda inexplorados."
+🟣 Ambos
 
----
+💫 Pessoas (género irrelevante)
 
-## 📊 Sistema de Pontuação Detalhado
+2. "Já sentiu atração pelo mesmo género?"
 
-### Eixos de Avaliação
-| Eixo | Descrição | Pontos Possíveis |
-|------|-----------|------------------|
-| **Vanilla** | Preferência por intimidade tradicional/suave | 0-25 |
-| **Kink** | Abertura a experiências mais intensas | 0-25 |
-| **Switch** | Flexibilidade entre dar/receber controlo | 0-10 |
-| **Profundo** | Valorização da conexão emocional | 0-10 |
-| **Curioso** | Vontade de explorar o desconhecido | 0-10 |
+✅ Sim, várias vezes
 
-### Cálculo do Espectro Final
-```
-Espectro Kink (%) = (Pontos Kink / (Pontos Vanilla + Pontos Kink)) × 100
-```
+🤔 Sim, raramente
 
-### Modificadores
-- **Switch alto (>6):** Adiciona badge "Camaleão Íntimo"
-- **Profundo alto (>6):** Adiciona badge "Alma Conectada"
-- **Curioso alto (>6):** Adiciona badge "Explorador Nato"
+❌ Nunca
 
----
+3. "Já teve experiência com mesmo género?"
 
-# Quiz 2: Orientação
+✅ Sim
 
-## 🌌 Nome Reimaginado
-**"O Caleidoscópio do Desejo: Quem Te Faz Vibrar"**
+❌ Não
 
-## 📝 Introdução
-> *"A atração humana não é uma linha reta — é um caleidoscópio de cores que mudam com a luz. Este quiz não te vai rotular. Vai mostrar-te os padrões únicos do teu desejo, as cores que te fazem brilhar, as formas que te atraem. Deixa o caleidoscópio girar e descobre que imagens surgem."*
+🤫 Prefiro não dizer
 
----
+4. "Considera-se:"
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+⚤ Heterossexual
 
-*Aguardando sugestões do DeepSeek...*
+💜 Bissexual
 
----
+🌈 Pansexual
 
-# Quiz 3: Cuckold
+⚢⚣ Homossexual
 
-## 🌌 Nome Reimaginado
-**"O Teatro dos Desejos Partilhados"**
+🔄 Questionando
 
-## 📝 Introdução
-> *"Há quem encontre prazer em observar, outros em ser observados. Alguns excitam-se com a partilha, outros com a exclusividade imaginada. Este quiz explora os palcos secretos onde o desejo se multiplica quando é testemunhado. Qual é o teu papel neste teatro?"*
+5. "Atração por pessoas trans/não-binárias?"
 
----
+✅ Sim
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+🤔 Talvez
 
-*Aguardando sugestões do DeepSeek...*
+❌ Não
 
----
+6. "Num mundo sem julgamento, experimentaria com mesmo género?"
 
-# Quiz 4: Swing
+👍 Com certeza
 
-## 🌌 Nome Reimaginado
-**"A Geometria do Prazer: Além do Par"**
+🤔 Talvez
 
-## 📝 Introdução
-> *"O amor a dois é um círculo perfeito. Mas e quando o círculo se expande? Quando as linhas se cruzam, quando novos vértices aparecem? Este quiz mapeia a tua geometria do prazer — descobre se preferes o círculo fechado, o triângulo equilibrado ou as constelações infinitas."*
+❌ Não
 
----
+7. "Suas fantasias envolvem:"
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+👫 Apenas oposto género
 
-*Aguardando sugestões do DeepSeek...*
+👥 Às vezes mesmo género
 
----
+🌈 Frequentemente ambos
 
-# Quiz 5: Kinks
+8. "Aparência física vs. personalidade:"
 
-## 🌌 Nome Reimaginado
-**"O Museu das Sensações Proibidas"**
+💪 Física é mais importante
 
-## 📝 Introdução
-> *"Cada pessoa carrega um museu secreto — salas com obras que nunca mostrou a ninguém, corredores que nem ela própria explorou completamente. Este quiz é uma visita guiada ao teu museu interior. Quais obras te fazem parar? Quais salas preferes manter fechadas? E quais estão prontas para receber visitantes?"*
+🧠 Personalidade é mais importante
 
----
+⚖️ Igualmente importantes
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+9. "A sua orientação já mudou?"
 
-*Aguardando sugestões do DeepSeek...*
+🔄 Sim, evoluiu
 
----
+⚡ Sim, surpreendeu-me
 
-# Quiz 6: BDSM
+🪨 Não, sempre igual
 
-## 🌌 Nome Reimaginado
-**"A Dança do Poder: Quem Conduz, Quem Segue"**
+10. "Compartilha sua orientação com:"
 
-## 📝 Introdução
-> *"Toda a intimidade é uma dança de poder — mesmo quando não percebemos. Este quiz explora os passos que preferes: liderar ou seguir, prender ou ser preso, controlar ou entregar-te. Não há passos errados nesta dança — apenas o ritmo que é teu."*
+👪 Todos
 
----
+👫 Apenas parceiros
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+🤐 Poucas pessoas
 
-*Aguardando sugestões do DeepSeek...*
+🚫 Ninguém
 
----
+11. "Apps de encontros que usa:"
 
-# Quiz 7: Aventura
+👫 Heterossexuais
+🌈 LGBT+
+💫 Todos
+    Não Uso
 
-## 🌌 Nome Reimaginado
-**"O Mapa do Tesouro Escondido"**
+12. "Conforto com afeto público com mesmo género:"
 
-## 📝 Introdução
-> *"O prazer não vive só entre quatro paredes. Às vezes esconde-se numa praia deserta, num elevador parado, numa varanda às escuras. Este quiz é o teu mapa — descobre onde estão enterrados os tesouros que ainda não desenterraste."*
+👍 Totalmente
 
----
+🤔 Em privado
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+😰 Inconfortável
 
-*Aguardando sugestões do DeepSeek...*
+13. "Atração por características andróginas?"
 
----
+✅ Sim, muito
 
-# Quiz 8: Fantasias
+🤔 Às vezes
 
-## 🌌 Nome Reimaginado
-**"O Cinema Privado: Os Filmes Que Só Tu Vês"**
+❌ Não
 
-## 📝 Introdução
-> *"Todos temos um cinema privado na mente — filmes que passam quando fechamos os olhos, cenas que nunca contámos a ninguém. Este quiz não vai julgar os teus filmes. Vai ajudar-te a perceber quais estão prontos para sair do ecrã e entrar na vida real."*
+14. "Para si, amor e sexo:"
 
----
+💖 Sempre juntos
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+🔥 Podem ser separados
 
-*Aguardando sugestões do DeepSeek...*
+🌟 Depende da pessoa
 
----
+15. "Está satisfeito com sua orientação?"
 
-# Quiz 9: Exibicionismo
+😊 Sim, completamente
 
-## 🌌 Nome Reimaginado
-**"O Palco e a Plateia: Ser Visto, Ver, Ser Desejado"**
+🤔 Mais ou menos
 
-## 📝 Introdução
-> *"Há quem brilhe sob holofotes, há quem prefira a penumbra da plateia. Há quem sonhe com aplausos, há quem prefira o anonimato. Este quiz explora a tua relação com o olhar — o teu e o dos outros."*
+😕 Não
 
----
+Tags: hetero, bi, pan, gay, lesbica, questioning, trans-attracted, androgino, etc.
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+🔥 QUIZ 5: FETICHES E PARAFILIAS (50 PERGUNTAS - SISTEMA DE "TAGS" PARA MATCHING)
+*(Sistema: Cada pergunta gera 1-3 tags. Pessoa seleciona "SIM", "TALVEZ", "NÃO". "SIM" = tag forte. "TALVEZ" = tag leve. "NÃO" = sem tag.)*
 
-*Aguardando sugestões do DeepSeek...*
+SEÇÃO A: PARTES DO CORPO
+1. Pés - Interesse em pés?
 
----
+👣 SIM (adoro pés)
 
-# Quiz 10: Comunicação
+🤔 TALVEZ (curiosidade)
 
-## 🌌 Nome Reimaginado
-**"A Linguagem Secreta: Como Falas Sem Palavras"**
+🚫 NÃO (não me atrai)
 
-## 📝 Introdução
-> *"O prazer tem uma linguagem própria — feita de suspiros, olhares, toques e silêncios. Mas como traduzes os teus desejos? Como ouves os do outro? Este quiz explora a tua fluência na língua mais íntima que existe."*
+2. Mãos - Mãos bonitas te excitam?
 
----
+✋ SIM
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+🤔 TALVEZ
 
-*Aguardando sugestões do DeepSeek...*
+🚫 NÃO
 
----
+3. Seios/Peito - Foco nesta área?
 
-# Quiz 11: Intimidade
+🍒 SIM (muito)
 
-## 🌌 Nome Reimaginado
-**"A Profundidade do Mergulho: Onde Termina o Corpo, Começa a Alma"**
+👍 TALVEZ
 
-## 📝 Introdução
-> *"Há quem nade à superfície — e está tudo bem. Há quem mergulhe até onde a luz não chega — e descubra tesouros. Este quiz mede a profundidade do teu mergulho íntimo. Até onde vais quando te entregas?"*
+🚫 NÃO (não especial)
 
----
+4. Nádegas - Atração por nádegas?
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+🍑 SIM
 
-*Aguardando sugestões do DeepSeek...*
+🤔 TALVEZ
 
----
+🚫 NÃO
 
-# Quiz 12: Ritmo
+5. Cabelo - Cabelo comprido/estilo específico?
 
-## 🌌 Nome Reimaginado
-**"O Metrónomo do Desejo: A Cadência do Teu Prazer"**
+💇 SIM
 
-## 📝 Introdução
-> *"Cada corpo tem o seu tempo. Alguns são allegro — rápidos, intensos, frequentes. Outros são adagio — lentos, profundos, espaçados. Este quiz descobre o andamento natural do teu desejo. Qual é a música que o teu corpo toca?"*
+🤔 TALVEZ
 
----
+🚫 NÃO
 
-### ⏳ PERGUNTAS E PERFIS A DESENVOLVER
+Tags geradas: feet-lover, hands-lover, breasts-lover, butt-lover, hair-lover
 
-*Aguardando sugestões do DeepSeek...*
+SEÇÃO B: MATERIAIS E TEXTURAS
+6. Couro - Roupa/acedsórios de couro?
 
----
+🖤 SIM
 
-## 🔧 Notas Técnicas para Implementação
+🤔 TALVEZ
 
-### Estrutura JSON Expandida
-```json
-{
-  "id": "vanilla",
-  "title": "O Teu Espectro Íntimo",
-  "subtitle": "Entre Luz e Sombra",
-  "introduction": "Nem toda a chama queima...",
-  "icon": "🎭",
-  "questions": [
-    {
-      "id": 1,
-      "text": "Ao entrar neste quarto...",
-      "visual": {
-        "type": "split-image",
-        "left": "bedroom-vanilla.jpg",
-        "right": "bedroom-kink.jpg"
-      },
-      "options": [
-        {
-          "emoji": "🛌",
-          "text": "Deitar-me e sussurrar segredos",
-          "scores": { "vanilla": 2 }
-        }
-      ],
-      "adaptive": false
-    }
-  ],
-  "results": [
-    {
-      "id": "guardian",
-      "title": "Guardião do Lar Íntimo",
-      "icon": "🏠✨",
-      "range": { "min": 0, "max": 20 },
-      "description": "A tua intimidade é um santuário...",
-      "nextQuiz": "intimacy"
-    }
-  ]
-}
-```
+🚫 NÃO
 
-### Elementos Visuais Necessários
-- [ ] Imagens divididas para perguntas
-- [ ] Ícones animados para opções
-- [ ] Gráfico de radar para resultados
-- [ ] Cards estilo tarot
-- [ ] Sliders/balanças interativas
-- [ ] Player de áudio para sons ambiente
+7. Latex/Borracha - Material brilhante/ajustado?
 
-### Lógica Adaptativa
-- Guardar pontuação parcial após cada resposta
-- Filtrar opções da pergunta 8 com base no perfil emergente
-- Calcular badges adicionais no final
+👗 SIM
 
----
+🤔 TALVEZ
 
-## 📅 Changelog
+🚫 NÃO
 
-| Data | Alteração |
-|------|-----------|
-| 2026-02-08 | Documento criado com estrutura base e Quiz 1 completo |
+8. Seda/Cetim - Texturas suaves?
 
----
+👚 SIM
 
-*Documento em construção. Adicionar sugestões do DeepSeek à medida que forem recebidas.*
+🤔 TALVEZ
+
+🚫 NÃO
+
+9. Lã/Laices - Texturas diferentes?
+
+🧶 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: leather, latex, silk, wool, texture-sensitive
+
+SEÇÃO C: ROUPA E UNIFORMES
+10. Lingerie - Renda, ligas, corseletes?
+
+👙 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+11. Uniformes (enfermeira, polícia, etc.)
+
+👮 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+12. Crossdressing - Vestir roupa outro género?
+
+👗 SIM (eu)
+
+👁️ SIM (ver em outros)
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+13. Roupa molhada/transparente
+
+💧 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: lingerie-lover, uniform-fetish, crossdressing, wet-clothing
+
+SEÇÃO D: DINÂMICAS ESPECÍFICAS
+14. Age Play (fantasia de idade)
+
+👶 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+15. DD/lg ou MD/lb (Dinâmicas Daddy/Mommy)
+
+👨‍👧 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+16. Servidão/Adoração
+
+🙇 SIM (servir)
+
+👑 SIM (ser servido)
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+17. CNC (Consensual Non-Consent - fantasia)
+
+⚠️ SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: ageplay, ddlg, service, worship, cnc
+
+SEÇÃO E: CENÁRIOS E ROLEPLAY
+18. Médico/Paciente
+
+🩺 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+19. Professor/Aluno
+
+👨‍🏫 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+20. Chefe/Secretária
+
+👔 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+21. Policial/Suspeito
+
+👮 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: doctor-roleplay, teacher-roleplay, boss-roleplay, police-roleplay
+
+SEÇÃO F: FLUÍDOS CORPORAIS
+22. Ejaculação facial/corporal
+
+💦 SIM (dar)
+
+😊 SIM (receber)
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+23. Squirting (ejaculação feminina)
+
+🌊 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+24. Saliva/Cuspir
+
+👅 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+25. Watersports (urina)
+
+🚿 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: cum-play, squirting, spit-play, watersports
+
+SEÇÃO G: SENSATION PLAY
+26. Cera quente
+
+🕯️ SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+27. Gelo
+
+🧊 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+28. Espancamento/Impacto
+
+✋ SIM (leve)
+
+👊 SIM (moderado)
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+29. Eletroestimulação
+
+⚡ SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: wax-play, ice-play, impact-play, electro-play
+
+SEÇÃO H: RESTRIÇÃO E CONTROLO
+30. Algemas/Ataduras
+
+🔗 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+31. Cinto de castidade
+
+🔒 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+32. Vendas
+
+👁️ SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+33. Gags (mordaças)
+
+🤐 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: bondage, chastity, blindfolds, gags
+
+SEÇÃO I: HUMILHAÇÃO CONSENSUAL
+34. Humilhação verbal
+
+🎤 SIM (dar)
+
+👂 SIM (receber)
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+35. SPH (Small Penis Humiliation)
+
+🍆 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+36. Body Worship vs. Humilhação
+
+🙏 SIM (adoração)
+
+😏 SIM (humilhação)
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: verbal-humiliation, sph, body-worship
+
+SEÇÃO J: FETICHES MENOS COMUNS
+37. Inflável (Belly Inflation)
+
+🎈 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+38. Macro/Micro (tamanho)
+
+👣 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+39. Vómito (emetofilia)
+
+🤢 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+40. Asfixia (breath play)
+
+😶 SIM
+
+🤔 TALVEZ
+
+🚫 NÃO
+
+Tags: inflation, size-play, emetophilia, breath-play
+
+SEÇÃO K: OUTROS
+41-50. Lista de fetiches adicionais (seleção múltipla):
+
+Pregnancy/Breeding (gravidez)
+
+Pet Play (animal roleplay)
+
+Vampirismo (mordidas/sangue)
+
+Cosplay (personagens)
+
+Food Play (comida)
+
+Smoking (fumo)
+
+Body Modification (piercings, tatuagens)
+
+Hair Pulling (puxar cabelo)
+
+Face Sitting (sentar no rosto)
+
+Outro: _______________
+
+Tags extras: breeding, petplay, vampire, cosplay, food-play, smoking, bodymod, hair-pulling, face-sitting
+
+🧠 SISTEMA DE MATCHING INTELIGENTE:
+NÍVEL 1: Compatibilidade por Quiz (Peso: 40%)
+Comparação de scores em cada quiz
+
+Quiz 5 (Fetiches) tem peso duplo
+
+Diferença menor que 20 pontos = compatibilidade alta
+
+NÍVEL 2: Tag Matching (Peso: 50%)
+Must-Have Tags: Match obrigatório (ex: "latex" + "latex")
+
+Nice-to-Have Tags: Tags complementares (ex: "dominant" + "submissive")
+
+Dealbreaker Tags: Tags que não combinam (ex: "monogamous" + "polyamorous")
+
+NÍVEL 3: Prioridades Pessoais (Peso: 10%)
+Usuário seleciona 3 prioridades (ex: "Mesmos fetiches", "Mesmo ritmo sexual", "Mesmo nível de aventura")
+
+Ajuste final no score de compatibilidade
+
+🎯 EXEMPLO DE MATCHING:
+Usuário A:
+
+Quiz 1: 80/100 (Kinky)
+
+Quiz 5 Tags: latex, dominant, bondage, impact-play
+
+Prioridades: Mesmos fetiches, Mesmo nível BDSM
+
+Usuário B:
+
+Quiz 1: 75/100 (Kinky)
+
+Quiz 5 Tags: latex, submissive, bondage, impact-play
+
+Prioridades: Compatibilidade BDSM, Mesmos interesses
+
+Compatibilidade: 92%
+
+Nível 1: 85% (scores similares)
+
+Nível 2: 95% (tags complementares)
+
+Nível 3: 100% (prioridades alinhadas)
+
+📱 PARA O DATING APP:
+Perfil inclui:
+Foto principal (opcional pixelada/seguinte)
+
+Score principal (ex: "Kinky Explorer 85/100")
+
+Top 5 Tags (ex: BDSM-Dom, Latex, Bondage, Adventurer, Communicator)
+
+Must-Have Matches (3 fetiches/valores obrigatórios)
+
+Short Bio (texto livre)
+
+Funcionalidades:
+Smart Swipe: Mostra % de compatibilidade antes do swipe
+
+Filter by Tags: Filtra por tags específicas
+
+Fetiche Match: Destaque especial para matches com mesmo fetiche raro
+
+Quiz Progress: Incentivo para completar todos quizzes
+
+✅ PRÓXIMOS PASSOS:
+Preciso desenvolver:
+
+Sistemas de pontuação detalhados para todos os 12 quizzes
+
+Algoritmo de matching completo
+
+Estrutura de database para tags e scores
+
+Interface de usuário para o app
+
+Qual parte queres que desenvolva primeiro?
+
+O quiz de fetiches já está robusto (50 perguntas, ~150 tags possíveis). Posso:
+A) Criar os sistemas de scoring para todos os quizzes
+B) Desenvolver o algoritmo de matching
+C) Estruturar o database para o app
+D) Outro?
+
+Estou pronto para avançar! 🔥
+
+📝 QUIZ 3: VOYEURISMO & PARTILHA (15 perguntas)
+1. "Ver o teu parceiro ser desejado por outros é:"
+
+😡 Inaceitável
+
+😏 Neutro
+
+🔥 Excitante
+
+2. "Ver o teu parceiro com outra pessoa (consensual) seria:"
+
+💔 Traição
+
+🤔 Curioso em fantasia
+
+🎯 Muito excitante
+
+✅ Já experimentei, gostei
+
+3. "Ser observado durante o sexo:"
+
+🚫 Não obrigado
+
+👀 Por alguém específico, sim
+
+🔥 Por estranhos, sim
+
+🌟 Adoro ser centro das atenções
+
+4. "Escolher alguém para o teu parceiro:"
+
+❌ Jamais
+
+🤔 Interessante em teoria
+
+🎯 Excitante na prática
+
+✅ Já fiz, gostei
+
+5. "O teu parceiro ter um amante regular:"
+
+💔 Terminaria a relação
+
+😟 Toleraria com desconforto
+
+🔥 Excitaria-me
+
+🎪 Faria parte do nosso estilo de vida
+
+6. "Ser a 'terceira pessoa' com um casal:"
+
+🚫 Não
+
+🤔 Talvez experimentar
+
+🔥 Sim, fantasia frequente
+
+✅ Já fui, adoro
+
+7. "O papel que mais te atrai é:"
+
+👑 Stag/Hotwife (orgulhoso da partilha)
+
+🔒 Cuckold/Cuckquean (humilhação excitante)
+
+🐂 Bull/Vixen (o terceiro)
+
+👁️ Voyeur (apenas observar)
+
+❌ Nenhum, não gosto disto
+
+8. "Ver mensagens/flirts do teu parceiro com outros:"
+
+😡 Invasivo, não quero ver
+
+🔍 Curioso, mas neutro
+
+🔥 Muito excitante
+
+🎯 Parte da nossa dinâmica
+
+9. "Sexo enquanto outros observam (com consentimento):"
+
+🚫 Não
+
+🤔 Talvez em privado
+
+🔥 Sim, excitante
+
+🎪 Sim, regularmente
+
+10. "Partilhar detalhes íntimos com amigos sobre a vossa vida sexual:"
+
+🤐 Nunca
+
+👥 Às vezes, com melhores amigos
+
+🗣️ Frequentemente
+
+🎉 Adoro partilhar
+
+11. "O teu parceiro contar-te sobre encontros com outros:"
+
+🙉 Não quero saber
+
+👂 Posso ouvir mas não detalhes
+
+🎧 Quero todos os detalhes
+
+🔥 Detalhes excitam-me
+
+12. "Após o teu parceiro estar com outro, preferes:"
+
+🛀 Higiene primeiro
+
+🔥 Sexo imediato para "reclamar"
+
+💬 Conversa sobre a experiência
+
+😴 Tempo sozinho
+
+13. "Regras numa situação de partilha seriam:"
+
+🚫 Não teria nenhuma situação destas
+
+📋 Muitas e específicas
+
+🤝 Algumas básicas
+
+🎭 Combinamos na hora
+
+14. "Para ti, partilhar o parceiro fortalece ou enfraquece a relação?"
+
+📉 Enfraquece muito
+
+➡️ Neutro
+
+📈 Fortalece
+
+🎯 É parte fundamental da relação
+
+15. "Identificas-te com alguma destas dinâmicas?"
+
+💑 Tradicional monogâmico
+
+👁️ Voyeur curioso
+
+🦌 Stag/Hotwife
+
+🔒 Cuckold/Cuckquean
+
+🐂 Bull/Vixen
+
+⛓️ Lifestyle avançado
+
+Tags: voyeur, cuckold, stag, hotwife, bull, vixen, sharing, watching, compersion, jealousy-play
+
+📝 QUIZ 4: SWING & NÃO-MONOGAMIA (15 perguntas)
+1. "A exclusividade sexual é:"
+
+✅ Essencial para mim
+
+🤔 Importante mas flexível
+
+🔄 Não essencial
+
+🚫 Limitadora
+
+2. "Um threesome seria:"
+
+🚫 Inaceitável
+
+🤔 Interessante em teoria
+
+🔥 Muito excitante
+
+✅ Já experimentei, gostei
+
+3. "Trocar de parceiro com outro casal:"
+
+❌ Não
+
+🤔 Talvez experimentar
+
+🔥 Sim, fantasia
+
+✅ Já fiz, recomendo
+
+4. "Sexo em grupo (mais de 2 casais):"
+
+🚫 Não
+
+🤔 Talvez
+
+🔥 Sim
+
+🎪 Adoro
+
+5. "Ter encontros separados (cada um com outras pessoas):"
+
+💔 Traição
+
+🤔 Aceitável com regras
+
+🔥 Excitante
+
+✅ Já temos
+
+6. "Clubes/swing parties:"
+
+🚫 Jamais iria
+
+🧐 Curioso para visitar
+
+🎉 Adoraria frequentar
+
+✅ Já vou, gosto
+
+7. "Poliamor (múltiplas relações emocionais):"
+
+❌ Muito complexo
+
+🤔 Interessante teoricamente
+
+👍 Funcionaria para mim
+
+✅ Pratico
+
+8. "Como lidas com ciúmes?"
+
+😡 Mal, evito situações que os causem
+
+🧘 Razoavelmente bem
+
+🔥 Transformo-os em excitação
+
+🌈 Pratico compersão (alegria pelo prazer do outro)
+
+9. "Regras numa relação aberta:"
+
+🚫 Não teria relação aberta
+
+📋 Muitas e detalhadas
+
+🤝 Algumas básicas
+
+🎭 Poucas, flexíveis
+
+10. "Partilhar detalhes dos encontros com outros:"
+
+🙉 Não quero saber
+
+👂 Quero saber básico
+
+🎧 Quero todos os detalhes
+
+🔥 Detalhes excitam-me
+
+11. "Frequência ideal de encontros com outras pessoas:"
+
+🚫 Nunca
+
+📅 Raramente (1x/ano)
+
+📆 Ocasionally (1x/mês)
+
+🗓️ Regularmente (1x/semana)
+
+🌟 Muito frequentemente
+
+12. "Envolvimento emocional com outras pessoas:"
+
+❌ Proibido
+
+🤔 Permitido mas limitado
+
+✅ Permitido e encorajado
+
+🌈 É o objectivo
+
+13. "O teu parceiro apaixonar-se por outro seria:"
+
+💔 Fim da relação
+
+😟 Difícil mas gerível
+
+👍 Aceitável
+
+💖 Natural e bonito
+
+14. "Para ti, amor e sexo:"
+
+💖 Sempre juntos
+
+🔥 Podem ser separados
+
+🌟 Depende da pessoa
+
+🎯 São independentes
+
+15. "O teu modelo relacional ideal é:"
+
+👫 Monogamia estrita
+
+👥 Monogamia flexível
+
+🔄 Relação aberta
+
+🌈 Poliamor
+
+🎯 Anarquia relacional
+
+Tags: monogamous, monogamish, open-relationship, polyamory, swing, threesome, swapping, compersion
+
+QUIZ 6: BDSM & PODER (15 perguntas)
+1. "Durante o sexo, prefiro:"
+
+👑 Mandar/controlar
+
+🙏 Obedecer/ser controlado
+
+🔄 Alternar papéis
+
+🤝 Igualdade total
+
+2. "Ser amarrado/algemado:"
+
+🚫 Não
+
+🤔 Talvez experimentar
+
+🔥 Sim, adoro
+
+✅ Regular na minha vida
+
+3. "Dar/receber palmadas:"
+
+❌ Não
+
+👍 Leves, ocasionalmente
+
+🔥 Fortes, regularmente
+
+🎯 Parte essencial
+
+4. "Coleira (simbólica ou real):"
+
+🚫 Não
+
+🤔 Talvez simbólica
+
+🔥 Sim, real
+
+✅ Uso/uso em alguém
+
+5. "Chamar/receber títulos (Sir, Mistress, etc.):"
+
+🚫 Não
+
+🔥 Sim, excita-me
+
+✅ Parte da dinâmica
+
+6. "Humilhação consensual:"
+
+❌ Não gosto
+
+🤔 Leve, verbal
+
+🔥 Moderada
+
+🌋 Intensa
+
+7. "Servidão (servir/ ser servido):"
+
+🚫 Não
+
+🤔 Em fantasia
+
+🔥 Sim, na prática
+
+🙇 Estilo de vida
+
+8. "Negociação de limites antes de cenas:"
+
+⏭️ Desnecessária
+
+🤝 Importante
+
+✅ Essencial
+
+📋 Muito detalhada
+
+9. "Aftercare (cuidados após cena intensa):"
+
+🚶 Desnecessário
+
+🤗 Importante
+
+🛌 Essencial
+
+💖 Parte do ritual
+
+10. "Segurança e consentimento são:"
+
+⭐ Importantes
+
+✅ Prioritários
+
+🛡️ Não negociáveis
+
+11. "Dores/ sensações intensas:"
+
+😨 Evito
+
+👍 Suporto por prazer
+
+🔥 Busco ativamente
+
+🎯 Necessito
+
+12. "Identificas-te mais como:"
+
+👑 Dominante
+
+🙏 Submisso
+
+🔄 Switch
+
+👀 Curioso
+
+❌ Nenhum
+
+13. "Cenas BDSM para ti são:"
+
+🎭 Jogo sexual ocasional
+
+🔥 Necessidade sexual
+
+🌌 Expressão espiritual
+
+🏠 Estilo de vida
+
+14. "Publicar o teu lado BDSM:"
+
+🤐 Secreto total
+
+👥 Apenas comunidade BDSM
+
+🌍 Aberto publicamente
+
+15. "O BDSM na tua vida ocupa:"
+
+🚫 Nenhum espaço
+
+🎯 Algum espaço sexual
+
+🌟 Espaço sexual significativo
+
+💫 Espaço vital importante
+
+Tags: dominant, submissive, switch, bondage, impact-play, humiliation, service, aftercare, lifestyle-bdsm
+
+QUIZ 7: AVENTURA SEXUAL (15 perguntas)
+1. "Sexo fora da cama (sofá, cozinha, etc.):"
+
+🛌 Só na cama
+
+🏠 Casa toda
+
+🌍 Qualquer lugar
+
+2. "Locais públicos/ar livre:"
+
+🚫 Nunca
+
+🤔 Talvez privado ao ar livre
+
+🔥 Sim, com risco controlado
+
+🎯 Necessito risco
+
+3. "Brinquedos sexuais na tua coleção:"
+
+0️⃣ Nenhum
+
+1-3️⃣ Alguns básicos
+
+5-10️⃣ Variedade
+
+10+️⃣ Coleção extensa
+
+4. "Experimentar novas posições:"
+
+🛌 As clássicas bastam
+
+📚 Gosto de aprender
+
+🎭 Sempre novas
+
+🎯 Obsessivo por variedade
+
+5. "Risco de serem apanhados:"
+
+😨 Assusta-me
+
+🔥 Excita-me
+
+🎯 Procuro ativamente
+
+6. "Sexo rápido vs demorado:"
+
+⏱️ Prefiro rápido
+
+⏳ Prefiro demorado
+
+🔄 Gosto de ambos
+
+🎯 Maratonas sexuais
+
+7. "Jogos/desafios sexuais:"
+
+🚫 Chato
+
+🤔 Divertido ocasionalmente
+
+🎲 Adoro
+
+🏆 Competitivo
+
+8. "Gravar/fotografar a intimidade:"
+
+🚫 Nunca
+
+🤳 Para nós
+
+📸 Para partilhar com consentimento
+
+🎥 Produção regular
+
+9. "Workshops/aulas de sexualidade:"
+
+🚫 Não interessam
+
+🧐 Curioso
+
+📚 Já frequentei
+
+🎓 Frequentemente
+
+10. "Variedade de parceiros:"
+
+👫 Apenas um
+
+👥 Poucos, selecionados
+
+🌈 Muitos, variados
+
+🎯 Quanto mais, melhor
+
+11. "Espontaneidade vs planeamento:"
+
+📅 Prefiro planeado
+
+🎯 Prefiro espontâneo
+
+🔄 Ambos
+
+🌪️ Só espontâneo
+
+12. "Limites sexuais são:"
+
+🧱 Muitos e fixos
+
+🏔️ Alguns, mas flexíveis
+
+🌊 Poucos, fluidos
+
+🚫 Não tenho limites
+
+13. "Aprender sobre sexualidade:"
+
+🚫 Não me interessa
+
+🤔 Ocasionalmente
+
+📚 Regularmente
+
+🎓 Obsessivamente
+
+14. "Bucket list sexual:"
+
+❌ Não tenho
+
+📝 Tenho mentalmente
+
+📄 Tenho escrita
+
+✅ Estou a completar
+
+15. "O teu nível de aventura é:"
+
+🏠 Caseiro/a
+
+🌍 Moderado/a
+
+🚀 Aventureiro/a
+
+🌋 Extremo/a
+
+Tags: adventure-seeker, risk-taker, toy-collector, position-explorer, public-sex, quickies, long-sessions, sex-games
+
+QUIZ 8: FANTASIAS SECRETAS (15 perguntas)
+1. "As tuas fantasias são principalmente:"
+
+💕 Românticas
+
+🌶️ Picantes
+
+🌋 Extremas
+
+🎭 Misturadas
+
+2. "Partilhas tuas fantasias:"
+
+🚫 Com ninguém
+
+💖 Apenas com parceiro
+
+👥 Com amigos próximos
+
+🌍 Abertamente
+
+3. "Fantasiar sobre:"
+
+👫 Apenas com parceiro atual
+
+💭 Com pessoas conhecidas
+
+👤 Com desconhecidos
+
+🌈 Com múltiplas pessoas
+
+4. "Fantasias de grupo (3+ pessoas):"
+
+❌ Não me atrai
+
+🤔 Talvez em fantasia
+
+🔥 Sim, frequentemente
+
+🎯 Principal fantasia
+
+5. "Roleplay específico (médico, polícia, etc.):"
+
+🚫 Não
+
+🤔 Talvez
+
+🔥 Sim
+
+🎭 Regularmente
+
+6. "Fantasias 'tabu' ou socialmente inaceitáveis:"
+
+🙅 Nunca
+
+🤫 Raramente
+
+🔥 Frequentemente
+
+🌋 Constantemente
+
+7. "Fantasias de força/CNC (consensual):"
+
+🚫 Não
+
+🤔 Leve
+
+🔥 Moderada
+
+⚠️ Intensa
+
+8. "Fantasias de humilhação:"
+
+❌ Não
+
+🤔 Leve
+
+🔥 Moderada
+
+😏 Intensa
+
+9. "Fantasias anónimas/ com desconhecidos:"
+
+🚫 Não
+
+🔥 Sim
+
+🎯 Muito
+
+🌙 Principal fantasia
+
+10. "Fantasias que nunca contarias a ninguém:"
+
+0️⃣ Não tenho
+
+1-2️⃣ Algumas
+
+3-5️⃣ Várias
+
+5+️⃣ Muitas
+
+11. "Realizas tuas fantasias:"
+
+🚫 Nunca
+
+🤔 Às vezes
+
+✅ Frequentemente
+
+🎯 Sempre que posso
+
+12. "Fantasias mudam com o tempo:"
+
+🪨 Raramente
+
+🔄 Às vezes
+
+🌪️ Frequentemente
+
+🌀 Constantemente
+
+13. "Fantasias vs realidade:"
+
+🎭 Mantenho separadas
+
+🔄 Misturo um pouco
+
+🌪️ Misturo muito
+
+🌈 São a mesma coisa
+
+14. "Vergonha sobre fantasias:"
+
+😊 Nenhuma
+
+😳 Um pouco
+
+😨 Muita
+
+🎭 Transformo em poder
+
+15. "As fantasias são para ti:"
+
+🎪 Entretenimento mental
+
+🔥 Combustível sexual
+
+🌌 Escape emocional
+
+💫 Parte da identidade
+
+Tags: romantic-fantasies, extreme-fantasies, group-fantasies, roleplay, taboo-fantasies, cnc-fantasies, secret-fantasies
+
+QUIZ 9: EXIBICIONISMO & VOYEURISMO (15 perguntas)
+1. "Estar nu/a em casa:"
+
+👕 Raramente
+
+🤔 Às vezes
+
+🏠 Sempre que posso
+
+🌟 Prefiro sempre nu
+
+2. "Praia/sítio nudista:"
+
+🚫 Nunca iria
+
+🤔 Talvez experimentar
+
+👍 Já fui, gostei
+
+🌞 Vou regularmente
+
+3. "Fazer sexo com luzes:"
+
+🔒 Apagadas
+
+💡 Meia-luz
+
+☀️ Acesas
+
+🎭 Espelhos por todo lado
+
+4. "Tirar fotos sensuais/nudes:"
+
+📵 Nunca
+
+🤳 Para mim
+
+📸 Para parceiro
+
+🌍 Para partilhar online
+
+5. "Sexo com risco de ser visto:"
+
+🚫 Nunca
+
+🔥 Com risco mínimo
+
+🎯 Com risco moderado
+
+🌋 Procuro risco alto
+
+6. "Ver outros fazerem sexo (com consentimento):"
+
+🙈 Não
+
+👀 Em vídeo
+
+👁️ Ao vivo
+
+🔥 Regularmente
+
+7. "Ser o centro das atenções sexualmente:"
+
+😨 Desconfortável
+
+🤔 Às vezes bom
+
+✨ Adoro
+
+🌟 Necessito
+
+8. "Gravar vídeos íntimos:"
+
+🚫 Não
+
+🎥 Para nós
+
+📹 Para partilhar
+
+🎬 Produção regular
+
+9. "Strip-tease para alguém:"
+
+🚫 Não
+
+🤔 Talvez
+
+🔥 Sim, adoro
+
+💃 Faço regularmente
+
+10. "Webcam/streaming íntimo:"
+
+🚫 Nunca
+
+🤔 Consideraria
+
+🔥 Já fiz
+
+💻 Faço regularmente
+
+11. "Identificas-te mais como:"
+
+👁️ Voyeur (ver)
+
+🌟 Exibicionista (mostrar)
+
+⚖️ Ambos
+
+❌ Nenhum
+
+12. "Nível de exibicionismo:"
+
+🚫 Nenhum
+
+🏠 Apenas em casa
+
+👫 Com parceiro/amigos
+
+🌍 Público
+
+13. "Conforto com o corpo:"
+
+😰 Inseguro/a
+
+😐 Neutro
+
+😊 Confiante
+
+🌟 Muito confiante
+
+14. "Partilhar detalhes íntimos da vida sexual:"
+
+🤐 Nunca
+
+👥 Com amigos próximos
+
+🌍 Abertamente
+
+🎉 Adoro partilhar tudo
+
+15. "Para ti, mostrar/ver é:"
+
+🎭 Jogo sexual
+
+🔥 Necessidade
+
+🌌 Arte
+
+💫 Estilo de vida
+
+Tags: exhibitionist, voyeur, nudist, risk-taker, photographer, performer, body-confident, public-display
+
+📝 QUIZ 10: COMUNICAÇÃO SEXUAL (15 perguntas)
+1. "Pedir o que quero na cama é:"
+
+😰 Muito difícil
+
+😬 Difícil
+
+🗣️ Fácil
+
+🎤 Muito fácil
+
+2. "Dizer 'não' ou 'pare' durante o sexo:"
+
+😨 Quase impossível
+
+😬 Difícil
+
+👍 Fácil
+
+💪 Sem problema
+
+3. "Falar sobre sexo fora da cama:"
+
+🤐 Raramente
+
+💬 Às vezes
+
+🗣️ Frequentemente
+
+🎤 Constantemente
+
+4. "Dar feedback durante o sexo ('assim tá bom', 'mais devagar'):"
+
+🤫 Nunca
+
+👍 Às vezes
+
+🎯 Frequentemente
+
+🗣️ Guio ativamente
+
+5. "Perguntar ao parceiro o que gosta:"
+
+🤔 Raramente
+
+🔍 Às vezes
+
+🎯 Frequentemente
+
+💖 É minha prioridade
+
+6. "Partilhar fantasias com parceiro:"
+
+🚫 Nunca
+
+💖 Algumas
+
+🌈 Muitas
+
+🗣️ Todas
+
+7. "Após sexo, conversam sobre:"
+
+😴 Nada, dormimos
+
+🤗 O que foi bom
+
+💬 Tudo, incluindo melhorias
+
+📝 Avaliação detalhada
+
+8. "Safe words/sinais de segurança:"
+
+🚫 Nunca usei
+
+🤔 Conheço mas não uso
+
+👍 Uso às vezes
+
+✅ Uso sempre
+
+9. "Negociar limites antes de experimentar algo novo:"
+
+⏭️ Desnecessário
+
+🤝 Breve conversa
+
+📋 Conversa detalhada
+
+🏛️ Contrato/negociação formal
+
+10. "Receber críticas sobre performance sexual:"
+
+😡 Fico defensivo/a
+
+😐 Aceito mas não gosto
+
+👍 Aceito bem
+
+🎯 Agradeço e aprendo
+
+11. "Iniciar conversas sobre saúde sexual (ISTs, contracepção):"
+
+😰 Evito
+
+🗣️ Inicio se necessário
+
+🎯 Inicio sempre
+
+💬 Conversa regular
+
+12. "Comunicação não-verbal (olhares, gestos) funciona:"
+
+🚫 Mal, preciso de palavras
+
+👍 Às vezes
+
+🎯 Muito bem
+
+👁️ Perfeito, quase telepática
+
+13. "Discutir problemas sexuais na relação:"
+
+😨 Evito a todo custo
+
+🗣️ Quando necessário
+
+💬 Regularmente
+
+🏥 Como prioridade
+
+14. "A tua comunicação sexual é:"
+
+🔇 Reservada/tímida
+
+🔊 Aberta
+
+🎤 Muito direta
+
+🎭 Estratégica/planeada
+
+15. "Para ti, boa comunicação sexual:"
+
+⭐ É importante
+
+✅ É essencial
+
+🏆 É a base de tudo
+
+💫 Transforma o sexo
+
+Tags: good-communicator, shy-communicator, direct-communicator, feedback-giver, fantasy-sharer, boundary-negotiator
+
+QUIZ 11: INTIMIDADE & CONEXÃO (15 perguntas)
+1. "O melhor sexo tem:"
+
+🔥 Principalmente atração física
+
+💖 Principalmente conexão emocional
+
+✨ Ambos igualmente
+
+🌟 Algo mais (espiritual, etc.)
+
+2. "Sexo casual funciona para ti:"
+
+✅ Sim, muito bem
+
+🤔 Às vezes
+
+❌ Não funciona
+
+🚫 Nunca experimentei
+
+3. "Olhar nos olhos durante o sexo:"
+
+🙈 Evito
+
+👀 Às vezes
+
+👁️ Frequentemente
+
+💖 Sempre, é essencial
+
+4. "Carícias e abraços sem sexo são:"
+
+🚫 Desinteressantes
+
+🤗 Agradáveis
+
+🥰 Tão importantes como sexo
+
+💖 Mais importantes que sexo
+
+5. "Sem conexão emocional, o sexo é:"
+
+🎯 Tão bom como com conexão
+
+😕 Menos bom
+
+🚫 Vazio/sem sentido
+
+😨 Ansioso
+
+6. "Conversas profundas antes/depois do sexo:"
+
+⏭️ Desnecessárias
+
+💬 Importantes
+
+🗣️ Obrigatórias
+
+🌌 Parte da intimidade
+
+7. "Para sexo mais ousado, preciso de:"
+
+🎯 Nada, vou direto
+
+🤝 Confiança básica
+
+💖 Conexão profunda
+
+🏰 Casamento/compromisso
+
+8. "Depois do sexo, preciso de:"
+
+🚶 Seguir com o dia
+
+🤗 Carinho/abraços
+
+💬 Conversa
+
+🛌 Dormir juntos
+
+9. "Sentir-se verdadeiramente conhecido pelo parceiro:"
+
+⭐ É bom
+
+✅ É importante
+
+🏆 É essencial
+
+💫 É o objetivo
+
+10. "Vulnerabilidade emocional durante o sexo:"
+
+🚫 Evito
+
+🤔 Às vezes
+
+🔥 Busco
+
+🌋 Necessito
+
+11. "Amor e sexo estão:"
+
+🔥 Totalmente separados
+
+🤔 Às vezes juntos
+
+💖 Geralmente juntos
+
+❤️ Sempre juntos
+
+12. "O contexto romântico (velas, jantar, etc.):"
+
+🚫 Desnecessário
+
+🤔 Agradável
+
+✅ Importante
+
+🎯 Essencial
+
+13. "Memórias emocionais vs memórias físicas do sexo:"
+
+💪 Físicas são mais importantes
+
+⚖️ Igualmente importantes
+
+💖 Emocionais são mais importantes
+
+🌟 Só emocionais importam
+
+14. "Sexo como expressão de amor:"
+
+🚫 Raramente
+
+🤔 Às vezes
+
+✅ Frequentemente
+
+💖 Sempre
+
+15. "A tua necessidade de conexão é:"
+
+📉 Baixa
+
+➡️ Média
+
+📈 Alta
+
+🌋 Muito alta
+
+Tags: emotional-connection, physical-focus, needs-aftercare, vulnerable, romantic, love-and-sex-connected
+
+📝 QUIZ 12: RITMO & FREQUÊNCIA (15 perguntas)
+1. "Frequência sexual ideal por semana:"
+
+0-1 vez
+
+2-3 vezes
+
+4-5 vezes
+
+6-7 vezes
+
+7+ vezes
+
+2. "Duração ideal do sexo (penetração + preliminares):"
+
+⏱️ Até 15 minutos
+
+🕐 15-30 minutos
+
+⏳ 30-60 minutos
+
+🕰️ 60+ minutos
+
+3. "Prefiro sexo:"
+
+📅 Planeado com antecedência
+
+🎯 Espontâneo
+
+🔄 Ambos
+
+🌪️ Só espontâneo
+
+4. "Melhor horário para sexo:"
+
+🌅 Manhã
+
+🌆 Tarde
+
+🌃 Noite
+
+🌙 Madrugada
+
+🕰️ Qualquer hora
+
+5. "O meu nível de desejo sexual (libido) é:"
+
+📉 Baixo
+
+➡️ Médio
+
+📈 Alto
+
+🚀 Muito alto
+
+6. "Várias sessões numa noite:"
+
+😴 Não, cansa
+
+🎯 2 vezes é ideal
+
+🔥 3-4 vezes
+
+⚡ 5+ vezes
+
+7. "Stress afeta o meu desejo sexual:"
+
+📉 Muito (mata a libido)
+
+➡️ Um pouco
+
+🚫 Não afeta
+
+🔥 Aumenta
+
+8. "Recuperação após orgasmo:"
+
+😴 Lenta (horas/dias)
+
+⏱️ Média (minutos)
+
+⚡ Rápida (minutos)
+
+🔥 Imediata
+
+9. "Masturbação na rotina semanal (mesmo com parceiro):"
+
+🚫 Raramente/nunca
+
+🤔 1-2 vezes
+
+👍 3-4 vezes
+
+🔥 5+ vezes
+
+10. "Tempo ideal entre sessões sexuais:"
+
+🗓️ 1+ semanas
+
+📅 3-7 dias
+
+🗓️ 1-2 dias
+
+⏰ Horas
+
+11. "Sexo matinal vs noturno:"
+
+🌅 Prefiro matinal
+
+🌃 Prefiro noturno
+
+🔄 Gosto de ambos
+
+🕰️ Depende do dia
+
+12. "Variações na libido:"
+
+🪨 Poucas (constante)
+
+🔄 Médias
+
+🌪️ Muitas (cíclica)
+
+🎢 Extremas (imprevisível)
+
+13. "Fatores que mais aumentam o desejo:"
+
+😴 Descanso
+
+🏋️ Exercício
+
+💖 Conexão emocional
+
+🔥 Novidade/aventura
+
+14. "Tempo para ficar excitado/a:"
+
+⏱️ Minutos
+
+🕐 10-20 minutos
+
+⏳ 20+ minutos
+
+🌀 Depende muito
+
+15. "O teu ritmo sexual geral é:"
+
+🐢 Calmo/preguiçoso
+
+🏃 Moderado
+
+⚡ Intenso
+
+🌪️ Imprevisível
+
+Tags: high-libido, low-libido, quick-recovery, morning-sex, night-sex, spontaneous, planned, marathon-sex
+📊 SISTEMA DE PONTUAÇÃO UNIFICADO:
+Todos os quizzes: 15 perguntas × 4 opções cada
+
+Opção 1: 0 pontos
+
+Opção 2: 25 pontos
+
+Opção 3: 50 pontos
+
+Opção 4: 75 pontos
+
+Opção 5 (quando existe): 100 pontos
+
+Pontuação final: Média das 15 respostas
+Escala: 0-100 pontos por quiz
+
+🏷️ SISTEMA DE TAGS PARA MATCHING:
+Cada quiz gera:
+
+Score principal (0-100)
+
+Top 3 tags baseadas nas respostas mais extremas
+
+Dealbreaker tags (quando seleciona opções extremas)
+
+Quiz 5 (Fetiches) gera adicionalmente:
+
+Lista completa de tags selecionadas (SIM)
+
+Lista de tags de curiosidade (TALVEZ)
+
+Must-match tags (selecionadas como essenciais)
+
+🎯 PRÓXIMOS PASSOS:
+Com todas as 12 categorias definidas (com 15 perguntas cada + 50 perguntas para fetiches), posso agora:
+
+Criar o sistema de scoring detalhado para cada quiz
+
+Desenvolver o algoritmo de matching baseado em:
+
+Compatibilidade de scores (40%)
+
+Matching de tags (50%)
+
+Prioridades pessoais (10%)
+
+Estruturar a database para armazenamento eficiente
+
+Criar o perfil de usuário com todas as informações
+
+Qual parte queres que desenvolva primeiro?
+
+Estamos quase lá! Todas as perguntas estão agora definidas, simples, diretas, e prontas para implementação num sistema de matching eficaz. 🔥
+
+Esta resposta foi gerada por AI, apenas para referência.

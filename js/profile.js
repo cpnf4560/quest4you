@@ -674,9 +674,14 @@ async function loadResults() {
     swing: { name: "Swing/Poliamor", icon: "💑", color: "#00bcd4" },
     kinks: { name: "Fetiches e Kinks", icon: "⛓️", color: "#f44336" },
     bdsm: { name: "BDSM & Dinâmicas de Poder", icon: "🎭", color: "#7B1FA2" },
-    adventure: { name: "Aventura Sexual", icon: "🎲", color: "#FF5722" },
-    fantasies: { name: "Fantasias Secretas", icon: "🔮", color: "#E91E63" },
-    exhibitionism: { name: "Exibicionismo & Admiração", icon: "📸", color: "#FFC107" }
+    adventure: { name: "Aventura Sexual", icon: "🚀", color: "#FF5722" },
+    fantasies: { name: "Fantasias Secretas", icon: "🌙", color: "#7b1fa2" },
+    exhibitionism: { name: "Exibicionismo & Admiração", icon: "👁️", color: "#ff9800" },
+    communication: { name: "Comunicação Sexual", icon: "🗣️", color: "#2196f3" },
+    intimacy: { name: "Intimidade & Conexão", icon: "💖", color: "#e91e63" },
+    rhythm: { name: "Ritmo & Frequência", icon: "⏱️", color: "#009688" },
+    lifestyle: { name: "Valores & Estilo de Vida", icon: "🌍", color: "#4caf50" },
+    digital: { name: "Comunicação & Tecnologia", icon: "📱", color: "#607d8b" }
   };
   
   let html = "";
@@ -689,7 +694,7 @@ async function loadResults() {
       <div class="result-card-compact" onclick="viewResult('${quizId}')">
         <div class="result-card-left" style="background: ${meta.color}">
           <span class="result-card-icon">${meta.icon}</span>
-          <span class="result-card-score">${result.score || 0}%</span>
+          <span class="result-card-score">${result.score || 0}/100</span>
         </div>
         <div class="result-card-right">
           <h4 class="result-card-title">${meta.name}</h4>
@@ -1025,9 +1030,29 @@ async function viewResult(quizId) {
   // Description (use saved or generate based on score)
   const description = result.categoryDescription || generateResultDescription(quiz.name, result.score);
   document.getElementById("resultDescription").textContent = description;
+    // Breakdown - v2.1 tags + score bar
+  let breakdownHtml = '';
   
-  // Breakdown
-  const breakdownHtml = buildResultBreakdown(result.categoryScores || {});
+  // Show tags if available (v2.1 format)
+  if (result.topTags && result.topTags.length > 0) {
+    breakdownHtml += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">🏷️ Tags principais:</p>';
+    breakdownHtml += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;">';
+    result.topTags.forEach(function(tag) {
+      const label = tag.split('-').map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+      const count = result.tagCounts ? result.tagCounts[tag] : 1;
+      breakdownHtml += '<span style="display: inline-block; background: rgba(139, 74, 94, 0.15); color: #8B4A5E; padding: 5px 12px; border-radius: 16px; font-size: 0.8rem; font-weight: 500;">';
+      breakdownHtml += label;
+      if (count > 1) breakdownHtml += ' ×' + count;
+      breakdownHtml += '</span>';
+    });
+    breakdownHtml += '</div>';
+  }
+  
+  // Fallback: show old categoryScores if available
+  if (result.categoryScores && Object.keys(result.categoryScores).length > 0) {
+    breakdownHtml += buildResultBreakdown(result.categoryScores);
+  }
+  
   document.getElementById("resultBreakdown").innerHTML = breakdownHtml;
   
   // Show modal
@@ -1228,7 +1253,7 @@ function viewFullReport() {
     html += '  <div class="report-score-bar-container">';
     html += '    <div class="report-score-bar" style="width: ' + (result.score || 0) + '%; background: ' + result.meta.color + '"></div>';
     html += '  </div>';
-    html += '  <span class="report-score-value">' + (result.score || 0) + '%</span>';
+    html += '  <span class="report-score-value">' + (result.score || 0) + '/100</span>';
   });
   
   html += '</div></div>';

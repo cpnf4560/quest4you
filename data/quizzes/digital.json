@@ -1,0 +1,588 @@
+{
+  "id": "digital",
+  "name": "Comunicação & Tecnologia Íntima",
+  "icon": "📱",
+  "color": "#607d8b",
+  "description": "Como te conectas com outros sexualmente no mundo moderno (online/offline)",
+  "resultType": "spectrum",
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    {
+      "min": 0,
+      "max": 20,
+      "label": "Analógico Puro",
+      "emoji": "📞",
+      "description": "Preferes comunicação presencial e tradicional"
+    },
+    {
+      "min": 21,
+      "max": 40,
+      "label": "Digital Básico",
+      "emoji": "💬",
+      "description": "Usas tecnologia minimamente para comunicação íntima"
+    },
+    {
+      "min": 41,
+      "max": 60,
+      "label": "Digitalmente Confortável",
+      "emoji": "📱",
+      "description": "Equilibras comunicação online e offline na intimidade"
+    },
+    {
+      "min": 61,
+      "max": 80,
+      "label": "Nativo Digital",
+      "emoji": "💻",
+      "description": "A tecnologia é parte importante da tua vida íntima"
+    },
+    {
+      "min": 81,
+      "max": 100,
+      "label": "Tech-Forward",
+      "emoji": "🚀",
+      "description": "Abraças todas as possibilidades tecnológicas na intimidade"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "text": "Uso de apps de encontros/plataformas sexuais:",
+      "options": [
+        {
+          "text": "🚫 Nunca uso",
+          "score": 0,
+          "tags": [
+            "no-dating-apps",
+            "traditional"
+          ]
+        },
+        {
+          "text": "🤔 Raramente (curiosidade)",
+          "score": 33,
+          "tags": [
+            "casual-app-user"
+          ]
+        },
+        {
+          "text": "👍 Regularmente (1-2 apps)",
+          "score": 66,
+          "tags": [
+            "dating-app-user"
+          ]
+        },
+        {
+          "text": "📱 Várias apps diariamente",
+          "score": 100,
+          "tags": [
+            "dating-app-user",
+            "power-user"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Conforto com sexting (mensagens sensuais):",
+      "options": [
+        {
+          "text": "🙅 Nunca, desconfortável",
+          "score": 0,
+          "tags": [
+            "sexting-averse"
+          ]
+        },
+        {
+          "text": "💬 Às vezes, básico",
+          "score": 33,
+          "tags": [
+            "casual-sexter"
+          ]
+        },
+        {
+          "text": "🔥 Adoro, faço regularmente",
+          "score": 66,
+          "tags": [
+            "sexting-lover"
+          ]
+        },
+        {
+          "text": "🎨 Especialista em sexting criativo",
+          "score": 100,
+          "tags": [
+            "sexting-lover",
+            "creative-sexter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Partilha de fotos/vídeos íntimos:",
+      "options": [
+        {
+          "text": "🚫 Jamais",
+          "score": 0,
+          "tags": [
+            "private-media",
+            "no-sharing"
+          ]
+        },
+        {
+          "text": "🤳 Anónimas/sem rosto",
+          "score": 33,
+          "tags": [
+            "anonymous-sharing"
+          ]
+        },
+        {
+          "text": "📸 Reconhecível mas privado",
+          "score": 66,
+          "tags": [
+            "content-sharer",
+            "private-sharing"
+          ]
+        },
+        {
+          "text": "🌍 Abertamente/artisticamente",
+          "score": 100,
+          "tags": [
+            "content-sharer",
+            "open-sharing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "text": "Vídeo-chamadas sensuais/sexo virtual:",
+      "options": [
+        {
+          "text": "🙈 Nunca, não gosto",
+          "score": 0,
+          "tags": [
+            "in-person-only"
+          ]
+        },
+        {
+          "text": "📹 Já experimentei",
+          "score": 33,
+          "tags": [
+            "virtual-curious"
+          ]
+        },
+        {
+          "text": "🎥 Gosto, faço ocasionalmente",
+          "score": 66,
+          "tags": [
+            "virtual-sex-ok"
+          ]
+        },
+        {
+          "text": "🌟 Parte regular da minha vida",
+          "score": 100,
+          "tags": [
+            "virtual-sex-ok",
+            "digital-native"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Gravações de intimidade (para ver depois):",
+      "options": [
+        {
+          "text": "🚫 Nunca gravei",
+          "score": 0,
+          "tags": [
+            "no-recording",
+            "private-media"
+          ]
+        },
+        {
+          "text": "🎥 Já gravei para nós",
+          "score": 33,
+          "tags": [
+            "recording-comfortable",
+            "private-recording"
+          ]
+        },
+        {
+          "text": "📹 Gravei para partilhar com consentimento",
+          "score": 66,
+          "tags": [
+            "recording-comfortable",
+            "content-sharer"
+          ]
+        },
+        {
+          "text": "🎬 Produzo conteúdo regular",
+          "score": 100,
+          "tags": [
+            "recording-comfortable",
+            "content-creator"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Comunicação de limites online vs offline:",
+      "options": [
+        {
+          "text": "🗣️ Igualmente fácil/difícil",
+          "score": 50,
+          "tags": [
+            "balanced-communicator"
+          ]
+        },
+        {
+          "text": "💻 Mais fácil online",
+          "score": 75,
+          "tags": [
+            "communicates-better-online",
+            "digital-comfort"
+          ]
+        },
+        {
+          "text": "👫 Mais fácil pessoalmente",
+          "score": 25,
+          "tags": [
+            "in-person-communicator"
+          ]
+        },
+        {
+          "text": "😰 Difícil em ambos",
+          "score": 0,
+          "tags": [
+            "communication-shy",
+            "needs-practice"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "text": "Velocidade de resposta a mensagens sensuais:",
+      "options": [
+        {
+          "text": "🐌 Lento/dias",
+          "score": 0,
+          "tags": [
+            "slow-responder"
+          ]
+        },
+        {
+          "text": "⏰ Horas",
+          "score": 33,
+          "tags": [
+            "moderate-responder"
+          ]
+        },
+        {
+          "text": "⚡ Minutos",
+          "score": 66,
+          "tags": [
+            "fast-responder"
+          ]
+        },
+        {
+          "text": "🔥 Imediato",
+          "score": 100,
+          "tags": [
+            "fast-responder",
+            "always-available"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "text": "Estilo de comunicação preferido (para flertar):",
+      "options": [
+        {
+          "text": "💬 Texto simples",
+          "score": 25,
+          "tags": [
+            "text-communicator"
+          ]
+        },
+        {
+          "text": "🎤 Mensagens de voz",
+          "score": 50,
+          "tags": [
+            "voice-communicator"
+          ]
+        },
+        {
+          "text": "📸 Fotos/vídeos",
+          "score": 75,
+          "tags": [
+            "visual-communicator",
+            "multimedia-communicator"
+          ]
+        },
+        {
+          "text": "📹 Videochamada ao vivo",
+          "score": 100,
+          "tags": [
+            "multimedia-communicator",
+            "video-lover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "text": "Conforto em conhecer online -> encontro real:",
+      "options": [
+        {
+          "text": "😨 Muito lento/preciso de meses",
+          "score": 0,
+          "tags": [
+            "slow-to-meet",
+            "cautious"
+          ]
+        },
+        {
+          "text": "🗓️ Algumas semanas",
+          "score": 33,
+          "tags": [
+            "moderate-pace"
+          ]
+        },
+        {
+          "text": "📅 Alguns dias",
+          "score": 66,
+          "tags": [
+            "quick-to-meet"
+          ]
+        },
+        {
+          "text": "⚡ Horas/dias",
+          "score": 100,
+          "tags": [
+            "quick-to-meet",
+            "spontaneous"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "text": "Criação de conteúdo erótico (escrita, arte, etc):",
+      "options": [
+        {
+          "text": "🚫 Nunca criei",
+          "score": 0,
+          "tags": [
+            "content-consumer"
+          ]
+        },
+        {
+          "text": "✍️ Como hobby privado",
+          "score": 33,
+          "tags": [
+            "private-creator"
+          ]
+        },
+        {
+          "text": "🎨 Regularmente partilho",
+          "score": 66,
+          "tags": [
+            "content-creator"
+          ]
+        },
+        {
+          "text": "💼 Profissionalmente",
+          "score": 100,
+          "tags": [
+            "content-creator",
+            "professional-creator"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Participação em comunidades/fóruns online sobre sexo:",
+      "options": [
+        {
+          "text": "🚫 Nunca participo",
+          "score": 0,
+          "tags": [
+            "non-participant",
+            "private"
+          ]
+        },
+        {
+          "text": "👀 Leio mas não participo",
+          "score": 33,
+          "tags": [
+            "lurker",
+            "content-consumer"
+          ]
+        },
+        {
+          "text": "💬 Participo ocasionalmente",
+          "score": 66,
+          "tags": [
+            "community-member"
+          ]
+        },
+        {
+          "text": "🏛️ Lidero/ativo em comunidades",
+          "score": 100,
+          "tags": [
+            "community-member",
+            "community-leader"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "text": "O futuro da intimidade para ti inclui:",
+      "options": [
+        {
+          "text": "🏠 Apenas presencial tradicional",
+          "score": 0,
+          "tags": [
+            "tech-conservative",
+            "in-person-only"
+          ]
+        },
+        {
+          "text": "💻 Presencial + algum virtual",
+          "score": 33,
+          "tags": [
+            "tech-moderate"
+          ]
+        },
+        {
+          "text": "🌐 Misto equilibrado",
+          "score": 66,
+          "tags": [
+            "tech-balanced"
+          ]
+        },
+        {
+          "text": "🚀 Muito tecnológico/VR/AI",
+          "score": 100,
+          "tags": [
+            "tech-forward",
+            "futurist"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "text": "Uso de tecnologia wearables/controlo remoto em intimidade:",
+      "options": [
+        {
+          "text": "🚫 Nunca usei, não interessa",
+          "score": 0,
+          "tags": [
+            "tech-conservative"
+          ]
+        },
+        {
+          "text": "🤔 Curiosidade teórica",
+          "score": 33,
+          "tags": [
+            "tech-curious"
+          ]
+        },
+        {
+          "text": "🎮 Já experimentei, gostei",
+          "score": 66,
+          "tags": [
+            "tech-experienced"
+          ]
+        },
+        {
+          "text": "🎯 Uso regularmente, adoro",
+          "score": 100,
+          "tags": [
+            "tech-enthusiast",
+            "wearable-lover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "text": "Conforto com realidade virtual/aumentada em experiências íntimas:",
+      "options": [
+        {
+          "text": "🙈 Nunca, parece estranho",
+          "score": 0,
+          "tags": [
+            "vr-skeptical"
+          ]
+        },
+        {
+          "text": "🧐 Talvez no futuro distante",
+          "score": 33,
+          "tags": [
+            "vr-curious"
+          ]
+        },
+        {
+          "text": "🕶️ Experimentaria com parceiro",
+          "score": 66,
+          "tags": [
+            "vr-open"
+          ]
+        },
+        {
+          "text": "🚀 Já experimentei, quero mais",
+          "score": 100,
+          "tags": [
+            "vr-enthusiast",
+            "tech-forward"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "text": "Velocidade ideal para transição online -> encontro físico:",
+      "options": [
+        {
+          "text": "🐌 1+ mês de conversa online",
+          "score": 0,
+          "tags": [
+            "slow-transitioner",
+            "cautious"
+          ]
+        },
+        {
+          "text": "🗓️ 2-4 semanas",
+          "score": 33,
+          "tags": [
+            "medium-pace"
+          ]
+        },
+        {
+          "text": "📅 1-2 semanas",
+          "score": 66,
+          "tags": [
+            "fast-transitioner"
+          ]
+        },
+        {
+          "text": "⚡ Menos de 1 semana",
+          "score": 100,
+          "tags": [
+            "fast-transitioner",
+            "spontaneous"
+          ]
+        }
+      ]
+    }
+  ]
+}

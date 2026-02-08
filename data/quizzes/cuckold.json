@@ -3,379 +3,110 @@
   "name": "Voyeurismo & Partilha",
   "icon": "👀",
   "color": "#673ab7",
-  "description": "Avalia o teu interesse em dinâmicas de voyeurismo, partilha e cuckolding consensual",
-  "resultType": "role",
+  "description": "Avalia o teu interesse em dinâmicas de observação e partilha consensual",
+  "resultType": "spectrum",
+  "quizVersion": "2.1",
   "minScore": 0,
   "maxScore": 100,
-  "requiresGender": true,
-  "roles": {
-    "cuckold": { "label": "Cuckold", "emoji": "🔒", "description": "Sentes excitação ao ver ou saber do/a parceiro/a com outros. O elemento de humilhação consensual atrai-te.", "forGender": "masculino", "matchWith": ["hotwife", "bull"] },
-    "cuckquean": { "label": "Cuckquean", "emoji": "🔒", "description": "Sentes excitação ao ver ou saber do parceiro com outras. O elemento de humilhação consensual atrai-te.", "forGender": "feminino", "matchWith": ["stag", "vixen"] },
-    "stag": { "label": "Stag", "emoji": "🦌", "description": "Sentes orgulho e excitação ao partilhar a tua parceira. É sobre empoderamento, não humilhação.", "forGender": "masculino", "matchWith": ["hotwife", "bull"] },
-    "hotwife": { "label": "Hotwife", "emoji": "🔥", "description": "Sentes excitação em ser partilhada pelo teu parceiro e explorar com outros.", "forGender": "feminino", "matchWith": ["stag", "cuckold", "bull"] },
-    "bull": { "label": "Bull", "emoji": "🐂", "description": "Sentes excitação ao ser o terceiro numa dinâmica de cuckolding/hotwifing.", "forGender": "masculino", "matchWith": ["hotwife", "cuckold", "stag"] },
-    "vixen": { "label": "Vixen", "emoji": "🦊", "description": "Sentes excitação ao ser a terceira numa dinâmica de partilha.", "forGender": "feminino", "matchWith": ["cuckquean", "stag"] },
-    "voyeur": { "label": "Voyeur Puro", "emoji": "👁️", "description": "Tens interesse em observar, mas sem elementos de humilhação ou posse.", "forGender": "all", "matchWith": ["exhibitionist"] },
-    "monogamous": { "label": "Monogâmico Tradicional", "emoji": "💑", "description": "Preferes exclusividade total. Estas dinâmicas não te atraem.", "forGender": "all", "matchWith": ["monogamous"] }
-  },
   "categories": [
-    { "min": 0, "max": 20, "label": "Monogâmico Tradicional", "emoji": "💑", "description": "Preferes exclusividade total no relacionamento. A ideia de partilhar ou observar não te atrai.", "role": "monogamous" },
-    { "min": 21, "max": 40, "label": "Curioso Voyeur", "emoji": "👁️", "description": "Tens alguma curiosidade por dinâmicas voyeurísticas, mas sem envolvimento de partilha.", "role": "voyeur" },
-    { "min": 41, "max": 55, "label": "Stag/Hotwife Iniciante", "emoji": "🦌", "description": "Sentes excitação na ideia de partilha consensual com orgulho, sem elementos de humilhação.", "role": "stag_hotwife" },
-    { "min": 56, "max": 75, "label": "Cuckold/Cuckquean", "emoji": "🔒", "description": "O elemento de humilhação consensual e submissão excita-te.", "role": "cuck" },
-    { "min": 76, "max": 90, "label": "Bull/Vixen", "emoji": "🐂", "description": "Sentes excitação em ser o terceiro elemento numa dinâmica de partilha.", "role": "bull_vixen" },
-    { "min": 91, "max": 100, "label": "Lifestyle Avançado", "emoji": "⛓️", "description": "Abraças plenamente múltiplas dinâmicas de partilha e cuckolding.", "role": "advanced" }
+    { "min": 0, "max": 20, "label": "Tradicional Exclusivo", "emoji": "💑", "description": "A intimidade é só entre o casal, sem terceiros envolvidos" },
+    { "min": 21, "max": 40, "label": "Voyeur Curioso", "emoji": "👁️", "description": "Alguma curiosidade em observar ou ser observado, mas com limites claros" },
+    { "min": 41, "max": 60, "label": "Explorador da Partilha", "emoji": "🔄", "description": "Aberto a explorar dinâmicas de partilha com regras definidas" },
+    { "min": 61, "max": 80, "label": "Partilha Ativa", "emoji": "🎭", "description": "A partilha consensual faz parte da tua vida sexual" },
+    { "min": 81, "max": 100, "label": "Lifestyle Avançado", "emoji": "⛓️", "description": "As dinâmicas de partilha são parte fundamental do teu estilo de vida" }
   ],
   "questions": [
-    {
-      "id": "q1",
-      "text": "Ver o/a meu/minha parceiro/a a beijar outra pessoa num bar excitaria-me.",
-      "category": "voyeurism",
-      "invert": false,
-      "rolePoints": { "cuckold": 2, "cuckquean": 2, "stag": 2 }
-    },
-    {
-      "id": "q2",
-      "text": "Ficaria devastado/a se descobrisse que o/a meu/minha parceiro/a flirtou com alguém.",
-      "category": "jealousy",
-      "invert": true,
-      "rolePoints": { "monogamous": 3 }
-    },
-    {
-      "id": "q3",
-      "text": "Gostaria de assistir ao/à meu/minha parceiro/a a receber prazer sexual de outra pessoa.",
-      "category": "voyeurism",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3, "stag": 2, "voyeur": 1 }
-    },
-    {
-      "id": "q4",
-      "text": "Se o/a meu/minha parceiro/a me dissesse 'ele/ela fez-me sentir coisas que tu não consegues', isso excitaria-me.",
-      "category": "humiliation",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q5",
-      "text": "Excita-me a ideia de ser convidado por um casal para satisfazer um/a deles enquanto o/a outro/a observa.",
-      "category": "third_party",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q6",
-      "text": "A exclusividade sexual é inegociável para mim - partilha não é uma opção.",
-      "category": "exclusivity",
-      "invert": true,
-      "rolePoints": { "monogamous": 3 }
-    },
-    {
-      "id": "q7",
-      "text": "Quando alguém olha desejosamente para o/a meu/minha parceiro/a num restaurante, sinto orgulho.",
-      "category": "pride",
-      "invert": false,
-      "rolePoints": { "stag": 3, "hotwife": 1 }
-    },
-    {
-      "id": "q8",
-      "text": "Fantasio com ser o homem/mulher que satisfaz pessoas que estão em relacionamentos.",
-      "category": "satisfy_committed",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q9",
-      "text": "Se o/a meu/minha parceiro/a comparasse o meu desempenho sexual com o de um/a amante (desfavoravelmente), isso excitaria-me.",
-      "category": "comparison",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q10",
-      "text": "A ideia de o/a meu/minha parceiro/a me 'emprestar' a outra pessoa para uma noite excita-me.",
-      "category": "being_shared",
-      "invert": false,
-      "rolePoints": { "hotwife": 3, "vixen": 2 }
-    },
-    {
-      "id": "q11",
-      "text": "Escolher a roupa sexy que o/a meu/minha parceiro/a vai usar para um encontro com outro/a excitaria-me.",
-      "category": "preparation",
-      "invert": false,
-      "rolePoints": { "cuckold": 2, "cuckquean": 2, "stag": 3 }
-    },
-    {
-      "id": "q12",
-      "text": "Se soubesse que o/a meu/minha parceiro/a teve sexo com outra pessoa, sentiria-me traído/a.",
-      "category": "betrayal",
-      "invert": true,
-      "rolePoints": { "monogamous": 3 }
-    },
-    {
-      "id": "q13",
-      "text": "Ficar de joelhos enquanto o/a meu/minha parceiro/a está com outro/a excitaria-me profundamente.",
-      "category": "power_loss",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q14",
-      "text": "Sinto atração por pessoas comprometidas e fantasio em ser o/a amante.",
-      "category": "dominate_committed",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q15",
-      "text": "Se o/a meu/minha parceiro/a tivesse um/a amante regular que encontrasse todas as sextas-feiras, isso excitaria-me.",
-      "category": "regular_lover",
-      "invert": false,
-      "rolePoints": { "cuckold": 2, "cuckquean": 2, "stag": 1, "hotwife": 2 }
-    },
-    {
-      "id": "q16",
-      "text": "Prefiro que a partilha seja sobre orgulho mútuo, não humilhação - quero celebrar a sexualidade do/a meu/minha parceiro/a.",
-      "category": "stag_vs_cuck",
-      "invert": false,
-      "rolePoints": { "stag": 3, "cuckold": -1, "hotwife": 2 }
-    },
-    {
-      "id": "q17",
-      "text": "A ideia de o/a meu/minha parceiro/a me negar sexo porque 'já foi satisfeito/a' por outro/a excita-me.",
-      "category": "denial",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q18",
-      "text": "Já me imaginei a receber uma mensagem de um casal a perguntar se quero juntar-me a eles no quarto.",
-      "category": "ethical_bull",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q19",
-      "text": "Gostaria de selecionar pessoalmente quem o/a meu/minha parceiro/a vai encontrar - aprovar ou recusar candidatos.",
-      "category": "selection",
-      "invert": false,
-      "rolePoints": { "stag": 3, "cuckold": 1 }
-    },
-    {
-      "id": "q20",
-      "text": "A monogamia é o único modelo de relacionamento que me faz sentir seguro/a e realizado/a.",
-      "category": "monogamy",
-      "invert": true,
-      "rolePoints": { "monogamous": 3 }
-    },
-    {
-      "id": "q21",
-      "text": "Fantasio em ser 'a pessoa quente' que o/a meu/minha parceiro/a apresenta com orgulho aos seus amigos sabendo que tenho amantes.",
-      "category": "hotwife_role",
-      "invert": false,
-      "rolePoints": { "hotwife": 3 }
-    },
-    {
-      "id": "q22",
-      "text": "Se o/a meu/minha parceiro/a me colocasse um cinto de castidade e guardasse a chave, isso excitaria-me.",
-      "category": "chastity",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q23",
-      "text": "Navegar em apps de encontros à procura de casais que queiram um terceiro elemento excita-me.",
-      "category": "third_attraction",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q24",
-      "text": "Acredito que partilhar o/a meu/minha parceiro/a com outros poderia fortalecer a nossa intimidade.",
-      "category": "relationship_boost",
-      "invert": false,
-      "rolePoints": { "stag": 2, "hotwife": 2, "cuckold": 1 }
-    },
-    {
-      "id": "q25",
-      "text": "Ler as mensagens picantes do/a meu/minha parceiro/a com um/a amante excitaria-me muito.",
-      "category": "messages",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3, "stag": 2 }
-    },
-    {
-      "id": "q26",
-      "text": "Prefiro participar ativamente no ato sexual do que ficar apenas a observar.",
-      "category": "participation",
-      "invert": false,
-      "rolePoints": { "bull": 2, "vixen": 2, "stag": 1 }
-    },
-    {
-      "id": "q27",
-      "text": "A antecipação de saber que o/a meu/minha parceiro/a vai sair com outro/a esta noite excita-me mais do que o próprio ato.",
-      "category": "anticipation",
-      "invert": false,
-      "rolePoints": { "cuckold": 2, "cuckquean": 2, "stag": 2 }
-    },
-    {
-      "id": "q28",
-      "text": "Imagino-me a dominar sexualmente alguém enquanto o/a parceiro/a dessa pessoa observa.",
-      "category": "dominant_third",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q29",
-      "text": "A ideia de 'servir' o/a meu/minha parceiro/a e o/a amante dele/a - trazer bebidas, preparar a cama - excita-me.",
-      "category": "service",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q30",
-      "text": "Qualquer forma de não-monogamia causa-me desconforto e ansiedade.",
-      "category": "nm_discomfort",
-      "invert": true,
-      "rolePoints": { "monogamous": 3 }
-    },
-    {
-      "id": "q31",
-      "text": "Saber que sou desejado/a por pessoas comprometidas porque sou 'o/a proibido/a' excita-me.",
-      "category": "desired_by_committed",
-      "invert": false,
-      "rolePoints": { "bull": 2, "vixen": 2 }
-    },
-    {
-      "id": "q32",
-      "text": "Sentir alegria genuína ao ver o/a meu/minha parceiro/a a ter prazer intenso com outro/a - compersão - parece-me natural.",
-      "category": "compersion",
-      "invert": false,
-      "rolePoints": { "stag": 3, "hotwife": 2 }
-    },
-    {
-      "id": "q33",
-      "text": "Antes de qualquer experiência com terceiros, gostaria de estabelecer regras claras e limites bem definidos.",
-      "category": "rules",
-      "invert": false,
-      "rolePoints": { "stag": 2, "hotwife": 2, "cuckold": 1 }
-    },
-    {
-      "id": "q34",
-      "text": "Depois de o/a meu/minha parceiro/a voltar de um encontro, quero 'reconquistá-lo/a' sexualmente - reclamar o que é meu.",
-      "category": "reclaim",
-      "invert": false,
-      "rolePoints": { "cuckold": 2, "stag": 3 }
-    },
-    {
-      "id": "q35",
-      "text": "Fantasio em mostrar a um casal que posso satisfazer o/a parceiro/a deles de formas que eles não conseguem.",
-      "category": "superior_satisfaction",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q36",
-      "text": "Um encontro com máscaras, sem nomes, totalmente anónimo, excita-me.",
-      "category": "anonymity",
-      "invert": false,
-      "rolePoints": { "voyeur": 2, "bull": 1, "cuckold": 1 }
-    },
-    {
-      "id": "q37",
-      "text": "Quero a liberdade de explorar com outros/as, com a bênção e encorajamento do/a meu/minha parceiro/a.",
-      "category": "freedom_to_explore",
-      "invert": false,
-      "rolePoints": { "hotwife": 3 }
-    },
-    {
-      "id": "q38",
-      "text": "A fantasia de ser 'obrigado/a' a ficar no canto do quarto enquanto o/a meu/minha parceiro/a está com outro/a excita-me.",
-      "category": "forced_watch",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q39",
-      "text": "Sinto-me à vontade para discutir fantasias de partilha com o/a meu/minha parceiro/a sem medo de julgamento.",
-      "category": "discuss_comfort",
-      "invert": false,
-      "rolePoints": { "stag": 1, "hotwife": 1, "cuckold": 1 }
-    },
-    {
-      "id": "q40",
-      "text": "Imagino-me a dizer ao/à meu/minha parceiro/a 'vai lá, diverte-te' enquanto o/a vejo sair para um date.",
-      "category": "lending",
-      "invert": false,
-      "rolePoints": { "stag": 3, "cuckold": 2 }
-    },
-    {
-      "id": "q41",
-      "text": "Prefiro que o/a terceiro/a seja um/a desconhecido/a, não alguém do nosso círculo social.",
-      "category": "stranger",
-      "invert": false,
-      "rolePoints": { "stag": 1, "cuckold": 1, "bull": 1 }
-    },
-    {
-      "id": "q42",
-      "text": "Ficaria satisfeito/a em encenar fantasias de cuckolding com roleplay, sem envolver terceiros reais.",
-      "category": "roleplay",
-      "invert": false,
-      "rolePoints": { "cuckold": 1, "cuckquean": 1, "voyeur": 2 }
-    },
-    {
-      "id": "q43",
-      "text": "Consigo transformar sentimentos de ciúme em excitação sexual intensa.",
-      "category": "jealousy_transform",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3, "stag": 1 }
-    },
-    {
-      "id": "q44",
-      "text": "Fantasio em receber uma mensagem de um casal desconhecido que me viu e quer conhecer-me melhor.",
-      "category": "meet_couples",
-      "invert": false,
-      "rolePoints": { "bull": 3, "vixen": 3 }
-    },
-    {
-      "id": "q45",
-      "text": "A ideia de humilhação física comparativa (SPH para homens, body shaming consensual para mulheres) excita-me.",
-      "category": "sph",
-      "invert": false,
-      "rolePoints": { "cuckold": 3, "cuckquean": 3 }
-    },
-    {
-      "id": "q46",
-      "text": "Para mim, partilhar o/a meu/minha parceiro/a é uma demonstração de confiança profunda e segurança na relação.",
-      "category": "trust",
-      "invert": false,
-      "rolePoints": { "stag": 3, "hotwife": 2 }
-    },
-    {
-      "id": "q47",
-      "text": "Quero ser eu a decidir quando, onde e com quem o/a meu/minha parceiro/a pode ter experiências fora da relação.",
-      "category": "dominant_partner",
-      "invert": false,
-      "rolePoints": { "stag": 3, "cuckold": 1 }
-    },
-    {
-      "id": "q48",
-      "text": "Gostaria de começar com fantasias verbais partilhadas antes de qualquer experiência real com terceiros.",
-      "category": "gradual",
-      "invert": false,
-      "rolePoints": { "stag": 1, "cuckold": 1, "voyeur": 1 }
-    },
-    {
-      "id": "q49",
-      "text": "A dinâmica Stag/Hotwife (partilha com orgulho) atrai-me mais do que Cuckold (com humilhação).",
-      "category": "dynamic_preference",
-      "invert": false,
-      "rolePoints": { "stag": 3, "hotwife": 2, "cuckold": -1 }
-    },
-    {
-      "id": "q50",
-      "text": "Vejo estas dinâmicas de partilha como uma forma de exploração sexual avançada que pode criar uma conexão única com o/a meu/minha parceiro/a.",
-      "category": "connection",
-      "invert": false,
-      "rolePoints": { "stag": 2, "hotwife": 2, "cuckold": 2 }
-    }
+    { "id": 1, "text": "Ver o teu parceiro ser desejado por outros é:", "options": [
+      { "text": "😡 Inaceitável", "score": 0, "tags": ["jealous", "traditional", "monogamous"] },
+      { "text": "😏 Neutro", "score": 50, "tags": ["neutral"] },
+      { "text": "🔥 Excitante", "score": 100, "tags": ["compersion", "sharing-excited"] }
+    ]},
+    { "id": 2, "text": "Ver o teu parceiro com outra pessoa (consensual) seria:", "options": [
+      { "text": "💔 Traição", "score": 0, "tags": ["monogamous", "traditional"] },
+      { "text": "🤔 Curioso em fantasia", "score": 33, "tags": ["fantasy-curious", "voyeur-light"] },
+      { "text": "🎯 Muito excitante", "score": 75, "tags": ["voyeur", "sharing"] },
+      { "text": "✅ Já experimentei, gostei", "score": 100, "tags": ["experienced-sharing", "lifestyle"] }
+    ]},
+    { "id": 3, "text": "Ser observado durante o sexo:", "options": [
+      { "text": "🚫 Não obrigado", "score": 0, "tags": ["private", "no-voyeurism"] },
+      { "text": "👀 Por alguém específico, sim", "score": 50, "tags": ["selective-exhibitionist"] },
+      { "text": "🔥 Por estranhos, sim", "score": 75, "tags": ["exhibitionist", "risk-taker"] },
+      { "text": "🌟 Adoro ser centro das atenções", "score": 100, "tags": ["exhibitionist-full", "attention-seeker"] }
+    ]},
+    { "id": 4, "text": "Escolher alguém para o teu parceiro:", "options": [
+      { "text": "❌ Jamais", "score": 0, "tags": ["traditional", "no-sharing"] },
+      { "text": "🤔 Interessante em teoria", "score": 33, "tags": ["fantasy-only"] },
+      { "text": "🎯 Excitante na prática", "score": 75, "tags": ["stag", "hotwife-dynamic"] },
+      { "text": "✅ Já fiz, gostei", "score": 100, "tags": ["experienced-stag", "lifestyle"] }
+    ]},
+    { "id": 5, "text": "O teu parceiro ter um amante regular:", "options": [
+      { "text": "💔 Terminaria a relação", "score": 0, "tags": ["monogamous-strict"] },
+      { "text": "😟 Toleraria com desconforto", "score": 25, "tags": ["reluctant"] },
+      { "text": "🔥 Excitaria-me", "score": 75, "tags": ["cuckold-curious", "hotwife"] },
+      { "text": "🎪 Faria parte do nosso estilo de vida", "score": 100, "tags": ["lifestyle-sharing", "compersion"] }
+    ]},
+    { "id": 6, "text": "Ser a 'terceira pessoa' com um casal:", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-third"] },
+      { "text": "🤔 Talvez experimentar", "score": 33, "tags": ["third-curious"] },
+      { "text": "🔥 Sim, fantasia frequente", "score": 75, "tags": ["bull-fantasy", "vixen-fantasy"] },
+      { "text": "✅ Já fui, adoro", "score": 100, "tags": ["experienced-bull", "experienced-vixen"] }
+    ]},
+    { "id": 7, "text": "O papel que mais te atrai é:", "options": [
+      { "text": "👑 Stag/Hotwife (orgulhoso da partilha)", "score": 75, "tags": ["stag", "hotwife", "proud-sharing"] },
+      { "text": "🔒 Cuckold/Cuckquean (humilhação excitante)", "score": 100, "tags": ["cuckold", "cuckquean", "humiliation"] },
+      { "text": "🐂 Bull/Vixen (o terceiro)", "score": 75, "tags": ["bull", "vixen", "third-party"] },
+      { "text": "👁️ Voyeur (apenas observar)", "score": 50, "tags": ["voyeur", "watcher"] },
+      { "text": "❌ Nenhum, não gosto disto", "score": 0, "tags": ["traditional", "not-interested"] }
+    ]},
+    { "id": 8, "text": "Ver mensagens/flirts do teu parceiro com outros:", "options": [
+      { "text": "😡 Invasivo, não quero ver", "score": 0, "tags": ["no-flirting", "jealous"] },
+      { "text": "🔍 Curioso, mas neutro", "score": 33, "tags": ["neutral-curious"] },
+      { "text": "🔥 Muito excitante", "score": 75, "tags": ["text-voyeur", "flirt-excited"] },
+      { "text": "🎯 Parte da nossa dinâmica", "score": 100, "tags": ["dynamic-texting", "lifestyle"] }
+    ]},
+    { "id": 9, "text": "Sexo enquanto outros observam (com consentimento):", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["private-sex"] },
+      { "text": "🤔 Talvez em privado", "score": 33, "tags": ["semi-private"] },
+      { "text": "🔥 Sim, excitante", "score": 75, "tags": ["observed-sex", "exhibitionist"] },
+      { "text": "🎪 Sim, regularmente", "score": 100, "tags": ["regular-observed", "lifestyle"] }
+    ]},
+    { "id": 10, "text": "Partilhar detalhes íntimos com amigos sobre a vossa vida sexual:", "options": [
+      { "text": "🤐 Nunca", "score": 0, "tags": ["private-life"] },
+      { "text": "👥 Às vezes, com melhores amigos", "score": 33, "tags": ["selective-sharing"] },
+      { "text": "🗣️ Frequentemente", "score": 75, "tags": ["open-sharing"] },
+      { "text": "🎉 Adoro partilhar", "score": 100, "tags": ["exhibitionist-verbal"] }
+    ]},
+    { "id": 11, "text": "O teu parceiro contar-te sobre encontros com outros:", "options": [
+      { "text": "🙉 Não quero saber", "score": 0, "tags": ["dont-tell"] },
+      { "text": "👂 Posso ouvir mas não detalhes", "score": 33, "tags": ["basic-info-only"] },
+      { "text": "🎧 Quero todos os detalhes", "score": 75, "tags": ["detail-seeker"] },
+      { "text": "🔥 Detalhes excitam-me", "score": 100, "tags": ["details-arousing", "cuckold-tendency"] }
+    ]},
+    { "id": 12, "text": "Após o teu parceiro estar com outro, preferes:", "options": [
+      { "text": "🛀 Higiene primeiro", "score": 25, "tags": ["hygiene-first"] },
+      { "text": "🔥 Sexo imediato para \"reclamar\"", "score": 100, "tags": ["reclaim-sex", "cuckold", "stag"] },
+      { "text": "💬 Conversa sobre a experiência", "score": 50, "tags": ["communicator", "processing"] },
+      { "text": "😴 Tempo sozinho", "score": 0, "tags": ["needs-space"] }
+    ]},
+    { "id": 13, "text": "Regras numa situação de partilha seriam:", "options": [
+      { "text": "🚫 Não teria nenhuma situação destas", "score": 0, "tags": ["no-sharing"] },
+      { "text": "📋 Muitas e específicas", "score": 50, "tags": ["structured-rules", "safety-focused"] },
+      { "text": "🤝 Algumas básicas", "score": 75, "tags": ["flexible-rules"] },
+      { "text": "🎭 Combinamos na hora", "score": 100, "tags": ["spontaneous", "experienced"] }
+    ]},
+    { "id": 14, "text": "Para ti, partilhar o parceiro fortalece ou enfraquece a relação?", "options": [
+      { "text": "📉 Enfraquece muito", "score": 0, "tags": ["sharing-negative"] },
+      { "text": "➡️ Neutro", "score": 50, "tags": ["neutral"] },
+      { "text": "📈 Fortalece", "score": 75, "tags": ["sharing-positive", "compersion"] },
+      { "text": "🎯 É parte fundamental da relação", "score": 100, "tags": ["sharing-essential", "lifestyle"] }
+    ]},
+    { "id": 15, "text": "Identificas-te com alguma destas dinâmicas?", "options": [
+      { "text": "💑 Tradicional monogâmico", "score": 0, "tags": ["self-traditional", "monogamous"] },
+      { "text": "👁️ Voyeur curioso", "score": 33, "tags": ["self-voyeur-curious"] },
+      { "text": "🦌 Stag/Hotwife", "score": 75, "tags": ["self-stag", "self-hotwife"] },
+      { "text": "🔒 Cuckold/Cuckquean", "score": 75, "tags": ["self-cuckold", "self-cuckquean"] },
+      { "text": "🐂 Bull/Vixen", "score": 75, "tags": ["self-bull", "self-vixen"] },
+      { "text": "⛓️ Lifestyle avançado", "score": 100, "tags": ["self-lifestyle", "advanced"] }
+    ]}
   ]
 }

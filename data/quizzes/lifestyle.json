@@ -1,0 +1,110 @@
+{
+  "id": "lifestyle",
+  "name": "Valores & Estilo de Vida Sexual",
+  "icon": "🌍",
+  "color": "#4caf50",
+  "description": "Como vives a tua sexualidade no dia-a-dia, o que valorizas, e como evoluis",
+  "resultType": "spectrum",
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    { "min": 0, "max": 20, "label": "Minimalista Sexual", "emoji": "🌱", "description": "Sexualidade discreta, baixo investimento, privacidade máxima" },
+    { "min": 21, "max": 40, "label": "Casual & Equilibrado", "emoji": "⚖️", "description": "Valorizas a sexualidade mas sem grande destaque no dia-a-dia" },
+    { "min": 41, "max": 60, "label": "Envolvido & Consciente", "emoji": "🧭", "description": "Investes tempo, energia e aprendizagem na tua vida sexual" },
+    { "min": 61, "max": 80, "label": "Prioridade Sexual", "emoji": "🔥", "description": "Sexualidade é parte central da tua vida e identidade" },
+    { "min": 81, "max": 100, "label": "Lifestyle Dedicado", "emoji": "🌟", "description": "Vives intensamente a sexualidade como estilo de vida completo" }
+  ],
+  "questions": [
+    { "id": 1, "text": "O sexo na tua vida ocupa:", "options": [
+      { "text": "🎯 Pouco tempo/energia", "score": 0, "tags": ["low-priority-sex"] },
+      { "text": "⏰ Tempo moderado", "score": 33, "tags": ["moderate-priority-sex"] },
+      { "text": "🕰️ Bastante tempo", "score": 75, "tags": ["high-priority-sex"] },
+      { "text": "💫 Centro da minha vida", "score": 100, "tags": ["sex-centered", "high-priority-sex"] }
+    ]},
+    { "id": 2, "text": "Partilhas detalhes da tua vida sexual com amigos?", "options": [
+      { "text": "🤐 Nunca (totalmente privado)", "score": 0, "tags": ["private", "discreet"] },
+      { "text": "👥 Apenas melhores amigos", "score": 33, "tags": ["selective-sharer"] },
+      { "text": "🗣️ Com vários amigos", "score": 75, "tags": ["shares-with-friends"] },
+      { "text": "🌍 Abertamente", "score": 100, "tags": ["open-about-sex-life", "sex-positive"] }
+    ]},
+    { "id": 3, "text": "Investimento em sexo (dinheiro/tempo/energia):", "options": [
+      { "text": "🚫 Mínimo necessário", "score": 0, "tags": ["low-investor"] },
+      { "text": "💰 Moderado (alguns brinquedos)", "score": 33, "tags": ["moderate-investor"] },
+      { "text": "🛍️ Significativo (equipamento, cursos)", "score": 75, "tags": ["significant-investor"] },
+      { "text": "🏰 Alto (experiências, luxo)", "score": 100, "tags": ["high-investor", "luxury-sex"] }
+    ]},
+    { "id": 4, "text": "Frequência de aprender coisas novas sobre sexo:", "options": [
+      { "text": "🚫 Raramente busco", "score": 0, "tags": ["content-with-basics"] },
+      { "text": "📖 Ocasionalmente (artigos, vídeos)", "score": 33, "tags": ["occasional-learner"] },
+      { "text": "🎓 Regularmente (livros, conteúdo)", "score": 75, "tags": ["regular-learner"] },
+      { "text": "🧠 Constante (cursos, workshops)", "score": 100, "tags": ["constant-learner", "sex-education"] }
+    ]},
+    { "id": 5, "text": "Testes de ISTs/check-ups:", "options": [
+      { "text": "🤷 Nunca fiz/não penso nisso", "score": 0, "tags": ["health-casual"] },
+      { "text": "📅 A cada novo parceiro", "score": 50, "tags": ["health-aware"] },
+      { "text": "🗓️ Regularmente (6-12 meses)", "score": 75, "tags": ["health-conscious"] },
+      { "text": "⏰ Muito regular (3-6 meses)", "score": 100, "tags": ["health-conscious", "very-health-aware"] }
+    ]},
+    { "id": 6, "text": "Preocupação com privacidade online:", "options": [
+      { "text": "🔒 Máxima (nada online)", "score": 0, "tags": ["privacy-focused", "ultra-private"] },
+      { "text": "🤔 Moderada (algumas coisas)", "score": 33, "tags": ["moderate-privacy"] },
+      { "text": "😊 Pouca (compartilho bastante)", "score": 75, "tags": ["low-privacy", "open-sharer"] },
+      { "text": "🌟 Nenhuma (vida aberta)", "score": 100, "tags": ["no-privacy-concern", "open-about-sex-life"] }
+    ]},
+    { "id": 7, "text": "Sexo para ti é principalmente:", "options": [
+      { "text": "🔥 Necessidade física", "score": 25, "tags": ["sex-as-physical"] },
+      { "text": "💖 Expressão emocional", "score": 50, "tags": ["sex-as-emotional"] },
+      { "text": "🎭 Diversão/hobby", "score": 75, "tags": ["sex-as-fun", "sex-as-hobby"] },
+      { "text": "🌌 Espiritual/conexão profunda", "score": 100, "tags": ["sex-as-spiritual", "tantric"] }
+    ]},
+    { "id": 8, "text": "Como lidarias com mudança nas preferências do parceiro?", "options": [
+      { "text": "😟 Resistiria (gosto da rotina)", "score": 0, "tags": ["routine-lover", "change-resistant"] },
+      { "text": "🤝 Acompanharia se razoável", "score": 33, "tags": ["reasonable-adapter"] },
+      { "text": "🔥 Apoiaria totalmente", "score": 75, "tags": ["supportive-partner"] },
+      { "text": "🎯 Estimularia mudanças", "score": 100, "tags": ["adaptable-partner", "growth-encourager"] }
+    ]},
+    { "id": 9, "text": "Rede de apoio/amigos para falar de sexo:", "options": [
+      { "text": "0️⃣ Nenhuma", "score": 0, "tags": ["no-sex-support"] },
+      { "text": "1-2 Um ou dois amigos", "score": 33, "tags": ["small-support-network"] },
+      { "text": "👥 Vários amigos", "score": 75, "tags": ["good-support-network"] },
+      { "text": "🏛️ Comunidade/grupo específico", "score": 100, "tags": ["sex-positive-community", "community-member"] }
+    ]},
+    { "id": 10, "text": "Importância da saúde física para vida sexual:", "options": [
+      { "text": "🚫 Irrelevante", "score": 0, "tags": ["fitness-irrelevant"] },
+      { "text": "🤷 Moderada (não é foco)", "score": 25, "tags": ["fitness-moderate"] },
+      { "text": "👍 Importante (cuido-me em geral)", "score": 75, "tags": ["fitness-important"] },
+      { "text": "🏋️ Crítica (malho especificamente para sexo)", "score": 100, "tags": ["fitness-for-sex", "body-focused"] }
+    ]},
+    { "id": 11, "text": "Criatividade/imaginação na intimidade:", "options": [
+      { "text": "🚫 Seguo scripts básicos", "score": 0, "tags": ["traditional-lover", "routine"] },
+      { "text": "🤔 Às vezes invento algo", "score": 33, "tags": ["sometimes-creative"] },
+      { "text": "🎭 Gosto de cenários elaborados", "score": 75, "tags": ["creative-lover", "scenario-builder"] },
+      { "text": "✨ Criatividade é meu superpoder", "score": 100, "tags": ["creative-lover", "imagination-driven"] }
+    ]},
+    { "id": 12, "text": "O teu estilo sexual ao longo da vida tem:", "options": [
+      { "text": "🪨 Permanecido estável", "score": 0, "tags": ["stable-sexuality"] },
+      { "text": "🔄 Evoluído lentamente", "score": 33, "tags": ["slow-evolution"] },
+      { "text": "🌪️ Mudado significativamente", "score": 75, "tags": ["significant-change"] },
+      { "text": "🌀 Sido uma jornada de descoberta", "score": 100, "tags": ["evolving-sexuality", "self-discovery"] }
+    ]},
+    { "id": 13, "text": "Orçamento mensal para vida sexual (brinquedos, lingerie, dates, etc):", "options": [
+      { "text": "💰 0-20€ (mínimo)", "score": 0, "tags": ["budget-low"] },
+      { "text": "🛍️ 20-100€ (moderado)", "score": 33, "tags": ["budget-moderate"] },
+      { "text": "🎁 100-300€ (significativo)", "score": 75, "tags": ["budget-high"] },
+      { "text": "🏰 300€+ (alto investimento)", "score": 100, "tags": ["budget-high", "luxury-investor"] }
+    ]},
+    { "id": 14, "text": "Importância da privacidade vs partilha de conquistas sexuais:", "options": [
+      { "text": "🤫 Máxima privacidade (nada partilho)", "score": 0, "tags": ["ultra-private"] },
+      { "text": "🔒 Partilho apenas conquistas significativas", "score": 33, "tags": ["selective-sharer"] },
+      { "text": "🗣️ Partilho regularmente com amigos", "score": 75, "tags": ["regular-sharer"] },
+      { "text": "🎉 Adoro partilhar e celebrar publicamente", "score": 100, "tags": ["open-celebrator", "sex-positive"] }
+    ]},
+    { "id": 15, "text": "Reação a mudanças no desejo do parceiro ao longo do tempo:", "options": [
+      { "text": "😟 Preocupação (será problema nosso?)", "score": 0, "tags": ["fearful-of-change"] },
+      { "text": "🤔 Aceitação natural (faz parte)", "score": 33, "tags": ["accepting-of-change"] },
+      { "text": "🔥 Curiosidade (oportunidade para explorar)", "score": 75, "tags": ["curious-about-change"] },
+      { "text": "🎯 Excitação (novas possibilidades!)", "score": 100, "tags": ["excited-by-change", "growth-mindset"] }
+    ]}
+  ]
+}

@@ -1,0 +1,324 @@
+{
+  "id": "kinks",
+  "name": "Fetiches & Parafilias",
+  "icon": "👠",
+  "color": "#9C27B0",
+  "description": "Descobre os teus fetiches específicos e encontra pessoas com interesses semelhantes",
+  "resultType": "tags",
+  "minScore": 0,
+  "maxScore": 100,
+  "fetishCategories": [
+    { "id": "feet", "name": "Pés & Calçado", "emoji": "🦶", "description": "Atração por pés, sapatos, saltos altos, meias ou adoração de pés." },
+    { "id": "materials", "name": "Materiais & Texturas", "emoji": "🖤", "description": "Excitação com latex, couro, vinil, seda, nylon ou outros materiais." },
+    { "id": "clothing", "name": "Roupa & Uniformes", "emoji": "👗", "description": "Atração por roupas específicas: lingerie, uniformes, crossdressing." },
+    { "id": "body", "name": "Partes do Corpo", "emoji": "💋", "description": "Fetiches por partes específicas: nádegas, seios, mãos, cabelo." },
+    { "id": "fluids", "name": "Fluidos Corporais", "emoji": "💦", "description": "Interesse em ejaculação, squirting, saliva ou outros fluidos." },
+    { "id": "taboo", "name": "Tabu & Proibido", "emoji": "🚫", "description": "Excitação pelo que é considerado proibido ou transgressor." },
+    { "id": "age", "name": "Age Play", "emoji": "🍼", "description": "Fantasias que envolvem dinâmicas de idade (adult baby, daddy/mommy)." },
+    { "id": "medical", "name": "Médico & Clínico", "emoji": "🩺", "description": "Interesse em cenários médicos, exames, instrumentos clínicos." },
+    { "id": "worship", "name": "Adoração & Servidão", "emoji": "🙇", "description": "Prazer em adorar ou ser adorado/a - corpo, pés, ou pessoa." },
+    { "id": "cnc", "name": "CNC (Consensual Non-Consent)", "emoji": "⚠️", "description": "Fantasias de resistência encenada, sempre com consentimento prévio total." }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "text": "Pés bonitos e bem cuidados atraem-me sexualmente",
+      "fetish": "feet",
+      "subtype": "attraction"
+    },
+    {
+      "id": 2,
+      "text": "Cheirar, beijar ou lamber os pés de alguém excita-me",
+      "fetish": "feet",
+      "subtype": "worship"
+    },
+    {
+      "id": 3,
+      "text": "Saltos altos ou sapatos elegantes aumentam muito a atração",
+      "fetish": "feet",
+      "subtype": "shoes"
+    },
+    {
+      "id": 4,
+      "text": "Meias (especialmente nylon ou renda) são muito eróticas para mim",
+      "fetish": "feet",
+      "subtype": "stockings"
+    },
+    {
+      "id": 5,
+      "text": "Gostaria que alguém pisasse em mim (leve ou moderadamente)",
+      "fetish": "feet",
+      "subtype": "trampling"
+    },
+    {
+      "id": 6,
+      "text": "O cheiro e textura de couro excitam-me muito",
+      "fetish": "materials",
+      "subtype": "leather"
+    },
+    {
+      "id": 7,
+      "text": "Latex ou borracha brilhante no corpo é extremamente erótico",
+      "fetish": "materials",
+      "subtype": "latex"
+    },
+    {
+      "id": 8,
+      "text": "Vinil ou PVC apertado ao corpo atrai-me sexualmente",
+      "fetish": "materials",
+      "subtype": "pvc"
+    },
+    {
+      "id": 9,
+      "text": "Seda ou cetim a tocar na pele é sensual e excitante",
+      "fetish": "materials",
+      "subtype": "silk"
+    },
+    {
+      "id": 10,
+      "text": "Collants ou meias de nylon são um fetiche para mim",
+      "fetish": "materials",
+      "subtype": "nylon"
+    },
+    {
+      "id": 11,
+      "text": "Lingerie elaborada (rendas, straps, ligas) excita-me muito",
+      "fetish": "clothing",
+      "subtype": "lingerie"
+    },
+    {
+      "id": 12,
+      "text": "Uniformes (enfermeira, polícia, militar, escolar) são um turn-on",
+      "fetish": "clothing",
+      "subtype": "uniforms"
+    },
+    {
+      "id": 13,
+      "text": "Vestir roupa do género oposto (crossdressing) excita-me",
+      "fetish": "clothing",
+      "subtype": "crossdress"
+    },
+    {
+      "id": 14,
+      "text": "Ver alguém em crossdressing é atraente para mim",
+      "fetish": "clothing",
+      "subtype": "crossdress"
+    },
+    {
+      "id": 15,
+      "text": "Roupa molhada ou transparente no corpo é muito erótica",
+      "fetish": "clothing",
+      "subtype": "wet"
+    },
+    {
+      "id": 16,
+      "text": "Nádegas grandes e redondas são a minha maior atração física",
+      "fetish": "body",
+      "subtype": "butt"
+    },
+    {
+      "id": 17,
+      "text": "Seios (grandes ou pequenos) são o foco da minha atração",
+      "fetish": "body",
+      "subtype": "breasts"
+    },
+    {
+      "id": 18,
+      "text": "Mãos bonitas e elegantes atraem-me sexualmente",
+      "fetish": "body",
+      "subtype": "hands"
+    },
+    {
+      "id": 19,
+      "text": "Cabelo longo ou um tipo específico de cabelo excita-me",
+      "fetish": "body",
+      "subtype": "hair"
+    },
+    {
+      "id": 20,
+      "text": "Barriga, umbigo ou abdómen são zonas muito eróticas para mim",
+      "fetish": "body",
+      "subtype": "belly"
+    },
+    {
+      "id": 21,
+      "text": "Ver ou receber ejaculação (facial ou corporal) excita-me muito",
+      "fetish": "fluids",
+      "subtype": "cum"
+    },
+    {
+      "id": 22,
+      "text": "Squirting (ejaculação feminina) é algo que me atrai muito",
+      "fetish": "fluids",
+      "subtype": "squirt"
+    },
+    {
+      "id": 23,
+      "text": "Trocar saliva (beijos babados, cuspir) é excitante",
+      "fetish": "fluids",
+      "subtype": "spit"
+    },
+    {
+      "id": 24,
+      "text": "Suor durante o sexo aumenta a minha excitação",
+      "fetish": "fluids",
+      "subtype": "sweat"
+    },
+    {
+      "id": 25,
+      "text": "A ideia de watersports (urina) desperta-me curiosidade ou excitação",
+      "fetish": "fluids",
+      "subtype": "watersports"
+    },
+    {
+      "id": 26,
+      "text": "Fantasias com familiares fictícios (step-fantasy) atraem-me",
+      "fetish": "taboo",
+      "subtype": "step"
+    },
+    {
+      "id": 27,
+      "text": "A ideia de trair ou ser traído/a (em fantasia) excita-me",
+      "fetish": "taboo",
+      "subtype": "cheating"
+    },
+    {
+      "id": 28,
+      "text": "Quanto mais proibido ou transgressor, mais excitante é",
+      "fetish": "taboo",
+      "subtype": "forbidden"
+    },
+    {
+      "id": 29,
+      "text": "Diferença de idade significativa (mais velho/a ou mais novo/a) atrai-me",
+      "fetish": "taboo",
+      "subtype": "agediff"
+    },
+    {
+      "id": 30,
+      "text": "Ser chamado/a de daddy/mommy ou chamar assim excita-me",
+      "fetish": "age",
+      "subtype": "daddymommy"
+    },
+    {
+      "id": 31,
+      "text": "Dinâmicas onde um/a é tratado/a como 'bebé' ou criança atraem-me",
+      "fetish": "age",
+      "subtype": "abdl"
+    },
+    {
+      "id": 32,
+      "text": "Usar ou ver fraldas em contexto erótico interessa-me",
+      "fetish": "age",
+      "subtype": "diaper"
+    },
+    {
+      "id": 33,
+      "text": "Role-play de cuidador/a e dependente excita-me",
+      "fetish": "age",
+      "subtype": "caregiver"
+    },
+    {
+      "id": 34,
+      "text": "Cenários médicos (exame, hospital) são um turn-on",
+      "fetish": "medical",
+      "subtype": "exam"
+    },
+    {
+      "id": 35,
+      "text": "Instrumentos médicos (espéculo, luvas, estetoscópio) excitam-me",
+      "fetish": "medical",
+      "subtype": "instruments"
+    },
+    {
+      "id": 36,
+      "text": "Enemas ou jogos com limpeza íntima atraem-me",
+      "fetish": "medical",
+      "subtype": "enema"
+    },
+    {
+      "id": 37,
+      "text": "A vulnerabilidade de um 'exame médico' erótico excita-me",
+      "fetish": "medical",
+      "subtype": "vulnerability"
+    },
+    {
+      "id": 38,
+      "text": "Adorar o corpo de alguém (pés, mãos, corpo todo) é prazeroso",
+      "fetish": "worship",
+      "subtype": "bodyWorship"
+    },
+    {
+      "id": 39,
+      "text": "Ser adorado/a e tratado/a como uma divindade excita-me",
+      "fetish": "worship",
+      "subtype": "beingWorshipped"
+    },
+    {
+      "id": 40,
+      "text": "Servir alguém em tudo (doméstico e sexual) é uma fantasia",
+      "fetish": "worship",
+      "subtype": "service"
+    },
+    {
+      "id": 41,
+      "text": "Lamber sapatos ou botas (com consentimento) é algo que me atrai",
+      "fetish": "worship",
+      "subtype": "bootWorship"
+    },
+    {
+      "id": 42,
+      "text": "Fantasio com ser 'forçado/a' (encenação 100% consensual combinada)",
+      "fetish": "cnc",
+      "subtype": "ravishment"
+    },
+    {
+      "id": 43,
+      "text": "A ideia de 'resistir' enquanto sou dominado/a excita-me",
+      "fetish": "cnc",
+      "subtype": "struggle"
+    },
+    {
+      "id": 44,
+      "text": "Role-play de intruso/invasor (consensual e combinado) atrai-me",
+      "fetish": "cnc",
+      "subtype": "intruder"
+    },
+    {
+      "id": 45,
+      "text": "Cenários de 'captura' ou 'sequestro' encenado são uma fantasia",
+      "fetish": "cnc",
+      "subtype": "capture"
+    },
+    {
+      "id": 46,
+      "text": "Máscaras ou capuzes durante o sexo excitam-me",
+      "fetish": "clothing",
+      "subtype": "masks"
+    },
+    {
+      "id": 47,
+      "text": "Piercings íntimos ou tatuagens aumentam a atração",
+      "fetish": "body",
+      "subtype": "bodymod"
+    },
+    {
+      "id": 48,
+      "text": "Pessoas musculadas ou com um físico específico atraem-me intensamente",
+      "fetish": "body",
+      "subtype": "physique"
+    },
+    {
+      "id": 49,
+      "text": "Pessoas curvy/plus-size atraem-me sexualmente",
+      "fetish": "body",
+      "subtype": "bbw"
+    },
+    {
+      "id": 50,
+      "text": "Tenho um fetiche específico não mencionado aqui que é importante para mim",
+      "fetish": "other",
+      "subtype": "unlisted"
+    }
+  ]
+}

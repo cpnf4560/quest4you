@@ -1,73 +1,112 @@
 {
   "id": "swing",
   "name": "Swing & Não-Monogamia",
-  "icon": "👥",
-  "color": "#FF9800",
-  "version": "1.0.0",
-  "description": "Explora o teu interesse em estilos de relacionamento não-monogâmicos consensuais",
+  "icon": "💑",
+  "color": "#00bcd4",
+  "description": "Explora o teu modelo relacional ideal e o interesse em relações não-monogâmicas",
   "resultType": "spectrum",
-  "spectrumLabels": {
-    "low": "Monogâmico/a",
-    "mid": "Curioso/a",
-    "high": "Não-Monogâmico/a"
-  },
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
   "categories": [
-    { "min": 0, "max": 20, "label": "Monogâmico/a Exclusivo/a", "emoji": "💑", "description": "A exclusividade é fundamental para ti. A ideia de partilhar intimidade fora do casal não te atrai." },
-    { "min": 21, "max": 40, "label": "Monogâmico/a Curioso/a", "emoji": "🤔", "description": "Preferes monogamia, mas tens alguma curiosidade teórica sobre outras dinâmicas." },
-    { "min": 41, "max": 60, "label": "Mente Aberta", "emoji": "🌈", "description": "Não descartas outras possibilidades. Com a pessoa certa e regras claras, poderias explorar." },
-    { "min": 61, "max": 80, "label": "Entusiasta Cauteloso/a", "emoji": "✨", "description": "A não-monogamia atrai-te e gostavas de explorar. Precisas do contexto e parceiro/a certos." },
-    { "min": 81, "max": 100, "label": "Lifestyle Ativo/a", "emoji": "🔥", "description": "A não-monogamia faz parte da tua identidade sexual. Procuras ativamente estas experiências." }
+    { "min": 0, "max": 20, "label": "Monogâmico Estrito", "emoji": "💍", "description": "Acreditas na exclusividade total como base da relação" },
+    { "min": 21, "max": 40, "label": "Monogâmico Flexível", "emoji": "🤝", "description": "Monogâmico no coração, mas com mente aberta para conversar" },
+    { "min": 41, "max": 60, "label": "Explorando Fronteiras", "emoji": "🧭", "description": "Aberto a explorar diferentes modelos relacionais" },
+    { "min": 61, "max": 80, "label": "Relação Aberta", "emoji": "🔄", "description": "Praticas ou desejas relações com liberdade sexual" },
+    { "min": 81, "max": 100, "label": "Poliamor / Lifestyle", "emoji": "🌈", "description": "Múltiplas relações emocionais e sexuais fazem parte da tua vida" }
   ],
   "questions": [
-    {"id": 1, "text": "Se o/a meu/minha parceiro/a me dissesse que fantasia com outra pessoa, eu reagiria bem", "invert": false, "category": "openness"},
-    {"id": 2, "text": "A ideia de o/a meu/minha parceiro/a ter prazer com outra pessoa excita-me", "invert": false, "category": "compersion"},
-    {"id": 3, "text": "Ciúmes sexuais são algo que sinto intensamente", "invert": true, "category": "jealousy"},
-    {"id": 4, "text": "Consigo separar sexo de amor - são coisas diferentes para mim", "invert": false, "category": "philosophy"},
-    {"id": 5, "text": "Uma relação monogâmica exclusiva é a única que me faria feliz", "invert": true, "category": "monogamy"},
-    {"id": 6, "text": "A ideia de 'exclusividade para sempre' parece-me limitadora", "invert": false, "category": "philosophy"},
-    {"id": 7, "text": "Se pudesse, teria uma relação aberta com regras claras", "invert": false, "category": "desire"},
-    {"id": 8, "text": "Considero-me possessivo/a em relações - não gosto de partilhar", "invert": true, "category": "jealousy"},
-    {"id": 9, "text": "A ideia de compersão (alegria pelo prazer do/a parceiro/a com outros) faz sentido para mim", "invert": false, "category": "compersion"},
-    {"id": 10, "text": "Fidelidade sexual é um dos meus valores mais importantes", "invert": true, "category": "monogamy"},
-    {"id": 11, "text": "A ideia de um threesome com o/a meu/minha parceiro/a e mais uma pessoa", "invert": false, "category": "threesome"},
-    {"id": 12, "text": "Gostaria de ver o/a meu/minha parceiro/a com outra pessoa enquanto observo", "invert": false, "category": "voyeur"},
-    {"id": 13, "text": "A ideia de ser observado/a pelo/a meu/minha parceiro/a enquanto estou com alguém", "invert": false, "category": "exhibition"},
-    {"id": 14, "text": "Trocar de parceiros com outro casal amigo seria uma experiência interessante", "invert": false, "category": "swap"},
-    {"id": 15, "text": "A ideia de ir a uma festa/clube onde o sexo entre casais é permitido", "invert": false, "category": "clubs"},
-    {"id": 16, "text": "Gostaria de experimentar 'soft swing' (beijos, toques) sem sexo completo com outros", "invert": false, "category": "soft"},
-    {"id": 17, "text": "A ideia de 'full swap' (troca completa de parceiros) excita-me", "invert": false, "category": "swap"},
-    {"id": 18, "text": "Fazer sexo ao lado de outro casal (sem trocar) seria uma experiência interessante", "invert": false, "category": "parallel"},
-    {"id": 19, "text": "A ideia de estar todos juntos numa cama grande, a explorar-nos mutuamente", "invert": false, "category": "group"},
-    {"id": 20, "text": "Participar numa festa privada com 2-3 casais selecionados atrai-me", "invert": false, "category": "group"},
-    {"id": 21, "text": "A ideia de o/a meu/minha parceiro/a ter um encontro a sós com alguém", "invert": false, "category": "solo"},
-    {"id": 22, "text": "Gostaria de ter liberdade para ter encontros individuais (com conhecimento do/a parceiro/a)", "invert": false, "category": "solo"},
-    {"id": 23, "text": "'Don't ask, don't tell' (não perguntes, não contes) seria uma boa regra para mim", "invert": false, "category": "rules"},
-    {"id": 24, "text": "Prefiro saber todos os detalhes do que o/a meu/minha parceiro/a faz com outros", "invert": false, "category": "communication"},
-    {"id": 25, "text": "A ideia de 'hall pass' (um passe livre ocasional) faria sentido para mim", "invert": false, "category": "rules"},
-    {"id": 26, "text": "Relações paralelas (tipo V) com transparência total seriam possíveis", "invert": false, "category": "polyamory"},
-    {"id": 27, "text": "A ideia de o/a meu/minha parceiro/a ter um/a namorado/a secundário/a", "invert": false, "category": "polyamory"},
-    {"id": 28, "text": "Gostaria de poder ter conexões emocionais e sexuais com várias pessoas", "invert": false, "category": "polyamory"},
-    {"id": 29, "text": "Uma relação com um terceiro fixo (throuple) seria uma possibilidade", "invert": false, "category": "throuple"},
-    {"id": 30, "text": "A ideia de anarquia relacional (sem hierarquias) atrai-me", "invert": false, "category": "philosophy"},
-    {"id": 31, "text": "Tenho curiosidade sobre clubes de swing e gostaria de visitar um", "invert": false, "category": "clubs"},
-    {"id": 32, "text": "A ideia de ir a uma festa fetish/BDSM com a possibilidade de interagir", "invert": false, "category": "events"},
-    {"id": 33, "text": "Participar num gangbang (como participante ou recetor/a) é uma fantasia", "invert": false, "category": "group"},
-    {"id": 34, "text": "A ideia de uma 'playroom' privada em casa para encontros soa interessante", "invert": false, "category": "lifestyle"},
-    {"id": 35, "text": "Férias num resort 'lifestyle friendly' ou de nudismo seriam perfeitas", "invert": false, "category": "lifestyle"},
-    {"id": 36, "text": "Conhecer outros casais através de apps específicos (SDC, Feeld) interessa-me", "invert": false, "category": "community"},
-    {"id": 37, "text": "A ideia de um cruzeiro ou evento para casais liberais atrai-me", "invert": false, "category": "events"},
-    {"id": 38, "text": "Participar na comunidade swingers/poliamorosa localmente seria interessante", "invert": false, "category": "community"},
-    {"id": 39, "text": "A ideia de fazer parte de um 'polycule' (rede poliamorosa) faz sentido", "invert": false, "category": "polyamory"},
-    {"id": 40, "text": "Gostaria de conhecer pessoas que pensam de forma semelhante sobre relações", "invert": false, "category": "community"},
-    {"id": 41, "text": "Conseguiria ter regras claras e respeitá-las numa relação aberta", "invert": false, "category": "rules"},
-    {"id": 42, "text": "A comunicação honesta sobre outras pessoas é algo que consigo fazer", "invert": false, "category": "communication"},
-    {"id": 43, "text": "Proteção (preservativos) com outras pessoas seria uma regra inegociável", "invert": false, "category": "safety"},
-    {"id": 44, "text": "Veto power (poder de veto sobre parceiros do/a outro/a) seria importante para mim", "invert": false, "category": "rules"},
-    {"id": 45, "text": "Regra 'same room' (tudo acontece no mesmo espaço) dava-me mais conforto", "invert": false, "category": "rules"},
-    {"id": 46, "text": "A ideia de check-ins regulares sobre como nos sentimos é fundamental", "invert": false, "category": "communication"},
-    {"id": 47, "text": "Conseguiria lidar com o facto de não ser o/a único/a na vida sexual do/a parceiro/a", "invert": false, "category": "acceptance"},
-    {"id": 48, "text": "A segurança emocional do casal principal seria sempre a prioridade", "invert": false, "category": "priority"},
-    {"id": 49, "text": "Hierarquias (parceiro/a primário/a vs secundário/a) fazem sentido para mim", "invert": false, "category": "structure"},
-    {"id": 50, "text": "O estilo de vida não-monogâmico é algo que considero seriamente", "invert": false, "category": "identity"}
+    { "id": 1, "text": "A exclusividade sexual é:", "options": [
+      { "text": "✅ Essencial para mim", "score": 0, "tags": ["monogamous", "exclusivity-essential"] },
+      { "text": "🤔 Importante mas flexível", "score": 33, "tags": ["monogamish", "flexible"] },
+      { "text": "🔄 Não essencial", "score": 75, "tags": ["open-minded", "non-monogamous"] },
+      { "text": "🚫 Limitadora", "score": 100, "tags": ["anti-exclusivity", "free-love"] }
+    ]},
+    { "id": 2, "text": "Um threesome seria:", "options": [
+      { "text": "🚫 Inaceitável", "score": 0, "tags": ["no-threesome", "monogamous"] },
+      { "text": "🤔 Interessante em teoria", "score": 33, "tags": ["threesome-curious"] },
+      { "text": "🔥 Muito excitante", "score": 75, "tags": ["threesome-excited"] },
+      { "text": "✅ Já experimentei, gostei", "score": 100, "tags": ["threesome-experienced"] }
+    ]},
+    { "id": 3, "text": "Trocar de parceiro com outro casal:", "options": [
+      { "text": "❌ Não", "score": 0, "tags": ["no-swapping"] },
+      { "text": "🤔 Talvez experimentar", "score": 33, "tags": ["swap-curious"] },
+      { "text": "🔥 Sim, fantasia", "score": 75, "tags": ["swap-fantasy", "swinger-curious"] },
+      { "text": "✅ Já fiz, recomendo", "score": 100, "tags": ["swap-experienced", "swinger"] }
+    ]},
+    { "id": 4, "text": "Sexo em grupo (mais de 2 casais):", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-group-sex"] },
+      { "text": "🤔 Talvez", "score": 33, "tags": ["group-curious"] },
+      { "text": "🔥 Sim", "score": 75, "tags": ["group-sex-yes"] },
+      { "text": "🎪 Adoro", "score": 100, "tags": ["group-sex-lover", "orgy"] }
+    ]},
+    { "id": 5, "text": "Ter encontros separados (cada um com outras pessoas):", "options": [
+      { "text": "💔 Traição", "score": 0, "tags": ["separate-is-cheating"] },
+      { "text": "🤔 Aceitável com regras", "score": 50, "tags": ["separate-with-rules", "open-relationship"] },
+      { "text": "🔥 Excitante", "score": 75, "tags": ["separate-exciting"] },
+      { "text": "✅ Já temos", "score": 100, "tags": ["separate-active", "open-relationship-active"] }
+    ]},
+    { "id": 6, "text": "Clubes/swing parties:", "options": [
+      { "text": "🚫 Jamais iria", "score": 0, "tags": ["no-clubs"] },
+      { "text": "🧐 Curioso para visitar", "score": 33, "tags": ["club-curious"] },
+      { "text": "🎉 Adoraria frequentar", "score": 75, "tags": ["club-enthusiast"] },
+      { "text": "✅ Já vou, gosto", "score": 100, "tags": ["club-regular", "lifestyle"] }
+    ]},
+    { "id": 7, "text": "Poliamor (múltiplas relações emocionais):", "options": [
+      { "text": "❌ Muito complexo", "score": 0, "tags": ["no-polyamory"] },
+      { "text": "🤔 Interessante teoricamente", "score": 33, "tags": ["poly-curious"] },
+      { "text": "👍 Funcionaria para mim", "score": 75, "tags": ["poly-open"] },
+      { "text": "✅ Pratico", "score": 100, "tags": ["polyamorous", "poly-active"] }
+    ]},
+    { "id": 8, "text": "Como lidas com ciúmes?", "options": [
+      { "text": "😡 Mal, evito situações que os causem", "score": 0, "tags": ["jealous", "avoidant"] },
+      { "text": "🧘 Razoavelmente bem", "score": 33, "tags": ["jealousy-managed"] },
+      { "text": "🔥 Transformo-os em excitação", "score": 75, "tags": ["jealousy-as-fuel"] },
+      { "text": "🌈 Pratico compersão (alegria pelo prazer do outro)", "score": 100, "tags": ["compersion", "evolved-jealousy"] }
+    ]},
+    { "id": 9, "text": "Regras numa relação aberta:", "options": [
+      { "text": "🚫 Não teria relação aberta", "score": 0, "tags": ["no-open-relationship"] },
+      { "text": "📋 Muitas e detalhadas", "score": 50, "tags": ["structured-open", "safety-focused"] },
+      { "text": "🤝 Algumas básicas", "score": 75, "tags": ["flexible-open"] },
+      { "text": "🎭 Poucas, flexíveis", "score": 100, "tags": ["minimal-rules", "trust-based"] }
+    ]},
+    { "id": 10, "text": "Partilhar detalhes dos encontros com outros:", "options": [
+      { "text": "🙉 Não quero saber", "score": 0, "tags": ["dont-ask-dont-tell"] },
+      { "text": "👂 Quero saber básico", "score": 33, "tags": ["basic-info"] },
+      { "text": "🎧 Quero todos os detalhes", "score": 75, "tags": ["detail-seeker"] },
+      { "text": "🔥 Detalhes excitam-me", "score": 100, "tags": ["details-arousing", "voyeur-verbal"] }
+    ]},
+    { "id": 11, "text": "Frequência ideal de encontros com outras pessoas:", "options": [
+      { "text": "🚫 Nunca", "score": 0, "tags": ["no-others"] },
+      { "text": "📅 Raramente (1x/ano)", "score": 25, "tags": ["rare-encounters"] },
+      { "text": "📆 Ocasionalmente (1x/mês)", "score": 50, "tags": ["occasional-encounters"] },
+      { "text": "🗓️ Regularmente (1x/semana)", "score": 75, "tags": ["regular-encounters"] },
+      { "text": "🌟 Muito frequentemente", "score": 100, "tags": ["frequent-encounters", "lifestyle"] }
+    ]},
+    { "id": 12, "text": "Envolvimento emocional com outras pessoas:", "options": [
+      { "text": "❌ Proibido", "score": 0, "tags": ["no-emotional-others"] },
+      { "text": "🤔 Permitido mas limitado", "score": 33, "tags": ["limited-emotional"] },
+      { "text": "✅ Permitido e encorajado", "score": 75, "tags": ["emotional-freedom"] },
+      { "text": "🌈 É o objetivo", "score": 100, "tags": ["polyamory", "multiple-love"] }
+    ]},
+    { "id": 13, "text": "O teu parceiro apaixonar-se por outro seria:", "options": [
+      { "text": "💔 Fim da relação", "score": 0, "tags": ["monogamous-strict"] },
+      { "text": "😟 Difícil mas gerível", "score": 33, "tags": ["manageable-jealousy"] },
+      { "text": "👍 Aceitável", "score": 75, "tags": ["poly-accepting"] },
+      { "text": "💖 Natural e bonito", "score": 100, "tags": ["compersion", "poly-natural"] }
+    ]},
+    { "id": 14, "text": "Para ti, amor e sexo:", "options": [
+      { "text": "💖 Sempre juntos", "score": 0, "tags": ["love-sex-linked"] },
+      { "text": "🔥 Podem ser separados", "score": 50, "tags": ["love-sex-separate"] },
+      { "text": "🌟 Depende da pessoa", "score": 50, "tags": ["situational"] },
+      { "text": "🎯 São independentes", "score": 100, "tags": ["love-sex-independent"] }
+    ]},
+    { "id": 15, "text": "O teu modelo relacional ideal é:", "options": [
+      { "text": "👫 Monogamia estrita", "score": 0, "tags": ["self-monogamous"] },
+      { "text": "👥 Monogamia flexível", "score": 25, "tags": ["self-monogamish"] },
+      { "text": "🔄 Relação aberta", "score": 50, "tags": ["self-open-relationship"] },
+      { "text": "🌈 Poliamor", "score": 75, "tags": ["self-polyamorous"] },
+      { "text": "🎯 Anarquia relacional", "score": 100, "tags": ["self-relationship-anarchy"] }
+    ]}
   ]
 }

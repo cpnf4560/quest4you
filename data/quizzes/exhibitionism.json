@@ -1,73 +1,110 @@
 {
   "id": "exhibitionism",
   "name": "Exibicionismo & Voyeurismo",
-  "icon": "📸",
-  "color": "#FFC107",
-  "version": "1.0.0",
-  "description": "O prazer de mostrar, ser admirado/a e apreciar a beleza de outras pessoas",
+  "icon": "👁️",
+  "color": "#ff9800",
+  "description": "Descobre o teu lado exibicionista e voyeurista - mostrar, ver ou ambos?",
   "resultType": "spectrum",
-  "spectrumLabels": {
-    "low": "Voyeur",
-    "mid": "Equilibrado/a",
-    "high": "Exibicionista"
-  },
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
   "categories": [
-    { "min": 0, "max": 20, "label": "Voyeur Puro", "emoji": "👁️", "description": "O teu prazer está em observar. Preferes apreciar a beleza dos outros do que ser o centro das atenções." },
-    { "min": 21, "max": 40, "label": "Observador/a Discreto/a", "emoji": "🔍", "description": "Gostas de observar e apreciar, mantendo um perfil mais baixo. A discrição é importante para ti." },
-    { "min": 41, "max": 60, "label": "Equilibrado/a", "emoji": "⚖️", "description": "Aprecias tanto ver como ser visto/a. Adaptas-te naturalmente aos dois papéis dependendo da situação." },
-    { "min": 61, "max": 80, "label": "Exibicionista Moderado/a", "emoji": "✨", "description": "Gostas de ser admirado/a e mostrar-te. A atenção sobre ti excita-te e dá-te confiança." },
-    { "min": 81, "max": 100, "label": "Exibicionista Assumido/a", "emoji": "🌟", "description": "Adoras ser o centro das atenções. Mostrar o teu corpo e sensualidade é uma fonte de prazer intenso." }
+    { "min": 0, "max": 20, "label": "Reservado/a", "emoji": "🔒", "description": "Preferes privacidade total na intimidade" },
+    { "min": 21, "max": 40, "label": "Discretamente Curioso/a", "emoji": "👀", "description": "Alguma curiosidade por ver/mostrar em contexto seguro" },
+    { "min": 41, "max": 60, "label": "Explorador/a Visual", "emoji": "📸", "description": "Gostas de elementos visuais e exibicionismo moderado" },
+    { "min": 61, "max": 80, "label": "Exibicionista/Voyeur", "emoji": "🌟", "description": "Ver e/ou ser visto é parte importante da tua sexualidade" },
+    { "min": 81, "max": 100, "label": "Performer Nato/a", "emoji": "🎭", "description": "Exibicionismo e voyeurismo são centrais na tua vida sexual" }
   ],
   "questions": [
-    {"id": 1, "text": "Ando nu/a em casa sempre que posso e sinto-me completamente à vontade", "invert": false, "category": "comfort"},
-    {"id": 2, "text": "Numa praia de nudismo, sentir-me-ia confortável a tirar tudo", "invert": false, "category": "comfort"},
-    {"id": 3, "text": "O meu corpo nu é algo que gosto de mostrar a quem me atrai", "invert": false, "category": "exhibitionism"},
-    {"id": 4, "text": "Tenho um ou mais espelhos estrategicamente colocados para me ver durante o sexo", "invert": false, "category": "visual"},
-    {"id": 5, "text": "Ver-me ao espelho durante a intimidade aumenta o meu prazer", "invert": false, "category": "visual"},
-    {"id": 6, "text": "Gosto de fazer sexo com as luzes acesas para ver e ser visto/a", "invert": false, "category": "visual"},
-    {"id": 7, "text": "Vestir roupa interior sexy, mesmo que ninguém veja, faz-me sentir poderoso/a", "invert": false, "category": "exhibitionism"},
-    {"id": 8, "text": "Numa festa, gosto de usar roupa que mostre o meu corpo", "invert": false, "category": "exhibitionism"},
-    {"id": 9, "text": "A sensação de estar quase nu/a em público (praia, piscina) excita-me", "invert": false, "category": "exhibitionism"},
-    {"id": 10, "text": "Já tive vontade de me despir para alguém só pela reação que iria provocar", "invert": false, "category": "exhibitionism"},
-    {"id": 11, "text": "Já tirei ou gostaria de tirar fotos sensuais/nudes de mim", "invert": false, "category": "photos"},
-    {"id": 12, "text": "Enviar nudes a alguém de confiança excita-me", "invert": false, "category": "photos"},
-    {"id": 13, "text": "A ideia de fazer uma sessão fotográfica sensual profissional atrai-me", "invert": false, "category": "photos"},
-    {"id": 14, "text": "Gravar-me durante o prazer pessoal é algo que já fiz ou faria", "invert": false, "category": "videos"},
-    {"id": 15, "text": "Fazer um vídeo íntimo com alguém de confiança seria excitante", "invert": false, "category": "videos"},
-    {"id": 16, "text": "Ver-me numa gravação durante o sexo seria estranho, não excitante", "invert": true, "category": "videos"},
-    {"id": 17, "text": "A ideia de fazer videochamadas sensuais atrai-me muito", "invert": false, "category": "digital"},
-    {"id": 18, "text": "Fazer strip-tease por videochamada seria divertido e excitante", "invert": false, "category": "digital"},
-    {"id": 19, "text": "Gostaria de ter fotos artísticas do meu corpo nu", "invert": false, "category": "photos"},
-    {"id": 20, "text": "Ser fotografado/a durante o ato sexual (faces escondidas) excita-me", "invert": false, "category": "photos"},
-    {"id": 21, "text": "A ideia de fazer sexo com alguém a ver (com consentimento) excita-me", "invert": false, "category": "exhibitionism"},
-    {"id": 22, "text": "Num clube ou festa, não me importaria que vissem a minha intimidade", "invert": false, "category": "public"},
-    {"id": 23, "text": "Saber que alguém está a observar-me de longe com desejo excita-me", "invert": false, "category": "exhibitionism"},
-    {"id": 24, "text": "A ideia de estar numa janela de hotel, à noite, visível para quem passe", "invert": false, "category": "risk"},
-    {"id": 25, "text": "Fazer algo sensual num carro, onde alguém pudesse ver, é excitante", "invert": false, "category": "risk"},
-    {"id": 26, "text": "Se alguém me apanhasse a mudar de roupa e ficasse a olhar, seria excitante", "invert": false, "category": "exhibitionism"},
-    {"id": 27, "text": "A ideia de fazer sexo ao ar livre, com risco de ser visto/a, atrai-me", "invert": false, "category": "risk"},
-    {"id": 28, "text": "Num vestiário ou balneário, não me importo que vejam o meu corpo", "invert": false, "category": "comfort"},
-    {"id": 29, "text": "Ser o centro das atenções sexuais de várias pessoas é uma fantasia", "invert": false, "category": "exhibitionism"},
-    {"id": 30, "text": "A ideia de um gang bang ou harém (eu como foco) é algo que me atrai", "invert": false, "category": "exhibitionism"},
-    {"id": 31, "text": "Ver outras pessoas em momentos íntimos (com consentimento) excita-me", "invert": true, "category": "voyeurism"},
-    {"id": 32, "text": "A ideia de observar um casal a fazer sexo atrai-me muito", "invert": true, "category": "voyeurism"},
-    {"id": 33, "text": "Num clube de swing, gostaria de observar antes de participar", "invert": true, "category": "voyeurism"},
-    {"id": 34, "text": "Ver alguém a masturbar-se (ao vivo ou em vídeo) é muito excitante", "invert": true, "category": "voyeurism"},
-    {"id": 35, "text": "Live cams de pessoas reais interessam-me mais do que pornografia produzida", "invert": true, "category": "voyeurism"},
-    {"id": 36, "text": "A ideia de ver o/a meu/minha parceiro/a com outra pessoa (ao vivo) excita-me", "invert": true, "category": "voyeurism"},
-    {"id": 37, "text": "Estar escondido/a a observar (com consentimento) seria uma experiência intensa", "invert": true, "category": "voyeurism"},
-    {"id": 38, "text": "Ver o prazer genuíno de alguém excita-me mais do que participar", "invert": true, "category": "voyeurism"},
-    {"id": 39, "text": "Gosto de ver pornografia amadora porque parece mais real", "invert": true, "category": "voyeurism"},
-    {"id": 40, "text": "A expressão facial de alguém no momento do orgasmo fascina-me", "invert": true, "category": "voyeurism"},
-    {"id": 41, "text": "Fazer um strip-tease completo para alguém seria muito prazeroso", "invert": false, "category": "performance"},
-    {"id": 42, "text": "Receber um strip-tease privado é uma das minhas fantasias", "invert": true, "category": "voyeurism"},
-    {"id": 43, "text": "Dançar sensualmente para alguém e ver a reação excita-me", "invert": false, "category": "performance"},
-    {"id": 44, "text": "A ideia de pole dance como sedução atrai-me (fazer)", "invert": false, "category": "performance"},
-    {"id": 45, "text": "Criar tensão sexual através de provocações visuais é uma arte que aprecio", "invert": false, "category": "seduction"},
-    {"id": 46, "text": "Gosto de me arranjar especialmente para seduzir visualmente", "invert": false, "category": "seduction"},
-    {"id": 47, "text": "A provocação visual (não tocar, só ver) pode ser mais excitante que o ato", "invert": false, "category": "seduction"},
-    {"id": 48, "text": "Ver alguém a despir-se lentamente é extremamente erótico para mim", "invert": true, "category": "voyeurism"},
-    {"id": 49, "text": "Prefiro ser quem observa do que ser observado/a", "invert": true, "category": "voyeurism"},
-    {"id": 50, "text": "O visual é o sentido mais importante na minha sexualidade", "invert": false, "category": "visual"}
+    { "id": 1, "text": "Estar nu/a em casa:", "options": [
+      { "text": "👕 Raramente", "score": 0, "tags": ["clothed", "modest"] },
+      { "text": "🤔 Às vezes", "score": 33, "tags": ["sometimes-nude"] },
+      { "text": "🏠 Sempre que posso", "score": 75, "tags": ["home-nudist"] },
+      { "text": "🌟 Prefiro sempre nu", "score": 100, "tags": ["naturist", "nudist"] }
+    ]},
+    { "id": 2, "text": "Praia/sítio nudista:", "options": [
+      { "text": "🚫 Nunca iria", "score": 0, "tags": ["no-nudism"] },
+      { "text": "🤔 Talvez experimentar", "score": 33, "tags": ["nudism-curious"] },
+      { "text": "👍 Já fui, gostei", "score": 75, "tags": ["nudist-experienced"] },
+      { "text": "🌞 Vou regularmente", "score": 100, "tags": ["nudist-regular", "naturist"] }
+    ]},
+    { "id": 3, "text": "Fazer sexo com luzes:", "options": [
+      { "text": "🔒 Apagadas", "score": 0, "tags": ["lights-off", "shy"] },
+      { "text": "💡 Meia-luz", "score": 33, "tags": ["dim-light"] },
+      { "text": "☀️ Acesas", "score": 75, "tags": ["lights-on", "confident"] },
+      { "text": "🎭 Espelhos por todo lado", "score": 100, "tags": ["mirrors", "visual-lover", "exhibitionist"] }
+    ]},
+    { "id": 4, "text": "Tirar fotos sensuais/nudes:", "options": [
+      { "text": "📵 Nunca", "score": 0, "tags": ["no-nudes", "private"] },
+      { "text": "🤳 Para mim", "score": 33, "tags": ["private-nudes", "self-appreciation"] },
+      { "text": "📸 Para parceiro", "score": 50, "tags": ["nudes-for-partner"] },
+      { "text": "🌍 Para partilhar online", "score": 100, "tags": ["online-exhibitionist", "content-creator"] }
+    ]},
+    { "id": 5, "text": "Sexo com risco de ser visto:", "options": [
+      { "text": "🚫 Nunca", "score": 0, "tags": ["no-risk", "private"] },
+      { "text": "🔥 Com risco mínimo", "score": 33, "tags": ["low-risk", "thrill-curious"] },
+      { "text": "🎯 Com risco moderado", "score": 75, "tags": ["moderate-risk", "thrill-seeker"] },
+      { "text": "🌋 Procuro risco alto", "score": 100, "tags": ["high-risk", "extreme-exhibitionist"] }
+    ]},
+    { "id": 6, "text": "Ver outros fazerem sexo (com consentimento):", "options": [
+      { "text": "🙈 Não", "score": 0, "tags": ["no-voyeur"] },
+      { "text": "👀 Em vídeo", "score": 33, "tags": ["video-voyeur"] },
+      { "text": "👁️ Ao vivo", "score": 75, "tags": ["live-voyeur"] },
+      { "text": "🔥 Regularmente", "score": 100, "tags": ["active-voyeur", "voyeur-lifestyle"] }
+    ]},
+    { "id": 7, "text": "Ser o centro das atenções sexualmente:", "options": [
+      { "text": "😨 Desconfortável", "score": 0, "tags": ["attention-averse"] },
+      { "text": "🤔 Às vezes bom", "score": 33, "tags": ["sometimes-center"] },
+      { "text": "✨ Adoro", "score": 75, "tags": ["attention-lover", "exhibitionist"] },
+      { "text": "🌟 Necessito", "score": 100, "tags": ["attention-essential", "performer"] }
+    ]},
+    { "id": 8, "text": "Gravar vídeos íntimos:", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-video"] },
+      { "text": "🎥 Para nós", "score": 33, "tags": ["private-video"] },
+      { "text": "📹 Para partilhar", "score": 75, "tags": ["shared-video", "exhibitionist"] },
+      { "text": "🎬 Produção regular", "score": 100, "tags": ["video-producer", "content-creator"] }
+    ]},
+    { "id": 9, "text": "Strip-tease para alguém:", "options": [
+      { "text": "🚫 Não", "score": 0, "tags": ["no-striptease"] },
+      { "text": "🤔 Talvez", "score": 33, "tags": ["striptease-curious"] },
+      { "text": "🔥 Sim, adoro", "score": 75, "tags": ["striptease-lover"] },
+      { "text": "💃 Faço regularmente", "score": 100, "tags": ["striptease-regular", "performer"] }
+    ]},
+    { "id": 10, "text": "Webcam/streaming íntimo:", "options": [
+      { "text": "🚫 Nunca", "score": 0, "tags": ["no-webcam"] },
+      { "text": "🤔 Consideraria", "score": 33, "tags": ["webcam-curious"] },
+      { "text": "🔥 Já fiz", "score": 75, "tags": ["webcam-experienced"] },
+      { "text": "💻 Faço regularmente", "score": 100, "tags": ["webcam-regular", "cam-performer"] }
+    ]},
+    { "id": 11, "text": "Identificas-te mais como:", "options": [
+      { "text": "❌ Nenhum", "score": 0, "tags": ["no-voyeur-exhibit"] },
+      { "text": "👁️ Voyeur (ver)", "score": 75, "tags": ["voyeur", "watcher"] },
+      { "text": "🌟 Exibicionista (mostrar)", "score": 75, "tags": ["exhibitionist", "shower"] },
+      { "text": "⚖️ Ambos", "score": 100, "tags": ["voyeur", "exhibitionist", "both"] }
+    ]},
+    { "id": 12, "text": "Nível de exibicionismo:", "options": [
+      { "text": "🚫 Nenhum", "score": 0, "tags": ["no-exhibitionism"] },
+      { "text": "🏠 Apenas em casa", "score": 33, "tags": ["home-exhibitionist"] },
+      { "text": "👫 Com parceiro/amigos", "score": 75, "tags": ["social-exhibitionist"] },
+      { "text": "🌍 Público", "score": 100, "tags": ["public-exhibitionist"] }
+    ]},
+    { "id": 13, "text": "Conforto com o corpo:", "options": [
+      { "text": "😰 Inseguro/a", "score": 0, "tags": ["body-insecure"] },
+      { "text": "😐 Neutro", "score": 33, "tags": ["body-neutral"] },
+      { "text": "😊 Confiante", "score": 75, "tags": ["body-confident"] },
+      { "text": "🌟 Muito confiante", "score": 100, "tags": ["body-proud", "body-positive"] }
+    ]},
+    { "id": 14, "text": "Partilhar detalhes íntimos da vida sexual:", "options": [
+      { "text": "🤐 Nunca", "score": 0, "tags": ["private-life"] },
+      { "text": "👥 Com amigos próximos", "score": 50, "tags": ["shares-with-friends"] },
+      { "text": "🌍 Abertamente", "score": 75, "tags": ["shares-openly"] },
+      { "text": "🎉 Adoro partilhar tudo", "score": 100, "tags": ["oversharer", "open-book"] }
+    ]},
+    { "id": 15, "text": "Para ti, mostrar/ver é:", "options": [
+      { "text": "🎭 Jogo sexual", "score": 33, "tags": ["visual-play"] },
+      { "text": "🔥 Necessidade", "score": 75, "tags": ["visual-need"] },
+      { "text": "🌌 Arte", "score": 75, "tags": ["visual-art", "aesthetic"] },
+      { "text": "💫 Estilo de vida", "score": 100, "tags": ["visual-lifestyle", "exhib-voyeur-lifestyle"] }
+    ]}
   ]
 }

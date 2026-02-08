@@ -13,8 +13,8 @@ const QUIZZES_CONFIG = [
     name: "Vanilla ou Kink",
     icon: "🔥",
     color: "#e91e63",
-    description: "Descobre onde te posicionas no espectro entre romance suave e práticas mais intensas",
-    questions: 50,
+    description: "Sexo suave e romântico vs. intenso e selvagem - descobre onde te posicionas",
+    questions: 15,
     resultType: "spectrum"
   },
   {
@@ -22,98 +22,116 @@ const QUIZZES_CONFIG = [
     name: "Orientação Sexual",
     icon: "🌈",
     color: "#9c27b0",
-    description: "Explora as tuas atrações e curiosidades sobre diferentes géneros e identidades",
-    questions: 50,
+    description: "Descobre a tua orientação e atração",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "cuckold",
     name: "Voyeurismo & Partilha",
-    icon: "👀",
+    icon: "👁️",
     color: "#673ab7",
-    description: "Avalia o teu interesse em dinâmicas de observação e partilha consensual",
-    questions: 50,
+    description: "Cuckold, stag, hotwife e dinâmicas de partilha",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "swing",
-    name: "Swing/Poliamor",
+    name: "Swing & Não-Monogamia",
     icon: "💑",
     color: "#00bcd4",
-    description: "Explora o teu interesse em relações não-monogâmicas e experiências com múltiplas pessoas",
-    questions: 50,
-    resultType: "category"
+    description: "Modelos relacionais e não-monogamia",
+    questions: 15,
+    resultType: "spectrum"
   },
   {
     id: "kinks",
-    name: "Fetiches e Kinks",
-    icon: "⛓️",
-    color: "#f44336",
-    description: "Descobre os teus interesses em práticas alternativas e fetiches específicos",
+    name: "Fetiches e Parafilias",
+    icon: "🎭",
+    color: "#9c27b0",
+    description: "Mapeamento completo de fetiches - gera ~150 tags",
     questions: 50,
     resultType: "tags"
   },
   {
     id: "bdsm",
-    name: "BDSM & Dinâmicas de Poder",
-    icon: "🎭",
-    color: "#7B1FA2",
-    description: "Descobre o teu papel no espectro Dominante/Submisso e o teu interesse em dinâmicas de poder",
-    questions: 50,
+    name: "BDSM & Poder",
+    icon: "⛓️",
+    color: "#4a148c",
+    description: "Dinâmicas de poder, dominação e submissão",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "adventure",
     name: "Aventura Sexual",
-    icon: "🎲",
-    color: "#FF5722",
-    description: "Descobre quão aberto/a estás a experimentar coisas novas e sair da zona de conforto",
-    questions: 50,
+    icon: "🚀",
+    color: "#ff5722",
+    description: "Nível de aventura e experimentação",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "fantasies",
     name: "Fantasias Secretas",
-    icon: "🔮",
-    color: "#E91E63",
-    description: "Explora as tuas fantasias mais íntimas e descobre quão alinhadas estão com outras pessoas",
-    questions: 50,
+    icon: "🌙",
+    color: "#7b1fa2",
+    description: "O mundo das tuas fantasias",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "exhibitionism",
-    name: "Exibicionismo & Admiração",
-    icon: "📸",
-    color: "#FFC107",
-    description: "O prazer de mostrar, ser admirado/a e apreciar a beleza de outras pessoas",
-    questions: 50,
+    name: "Exibicionismo & Voyeurismo",
+    icon: "👁️",
+    color: "#ff9800",
+    description: "Mostrar, ver ou ambos?",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "communication",
     name: "Comunicação Sexual",
-    icon: "💬",
-    color: "#4CAF50",
-    description: "Descobre como comunicas os teus desejos, limites e fantasias com o/a parceiro/a",
-    questions: 50,
+    icon: "🗣️",
+    color: "#2196f3",
+    description: "Capacidade de comunicar desejos e limites",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "intimacy",
-    name: "Intimidade Emocional",
-    icon: "💝",
-    color: "#E91E63",
-    description: "Explora a ligação emocional como base da satisfação sexual e conexão profunda",
-    questions: 50,
+    name: "Intimidade & Conexão",
+    icon: "💖",
+    color: "#e91e63",
+    description: "Importância da conexão emocional",
+    questions: 15,
     resultType: "spectrum"
   },
   {
     id: "rhythm",
     name: "Ritmo & Frequência",
     icon: "⏱️",
-    color: "#FF9800",
-    description: "Descobre os teus padrões ideais de frequência, timing e energia sexual",
-    questions: 50,
+    color: "#009688",
+    description: "Frequência, duração, horários e libido",
+    questions: 15,
+    resultType: "spectrum"
+  },
+  {
+    id: "lifestyle",
+    name: "Valores & Estilo de Vida",
+    icon: "🌍",
+    color: "#4caf50",
+    description: "Como vives a tua sexualidade no dia-a-dia, o que valorizas, e como evoluis",
+    questions: 15,
+    resultType: "spectrum"
+  },
+  {
+    id: "digital",
+    name: "Comunicação & Tecnologia",
+    icon: "📱",
+    color: "#607d8b",
+    description: "Como te conectas com outros sexualmente no mundo moderno",
+    questions: 15,
     resultType: "spectrum"
   }
 ];
@@ -318,7 +336,7 @@ function renderQuizzes() {
       html += '      <div class="quiz-progress-bar">';
       html += '        <div class="quiz-progress-fill" style="width: ' + score + '%; background: ' + quiz.color + '"></div>';
       html += '      </div>';
-      html += '      <span class="quiz-progress-score">' + score + '%</span>';
+      html += '      <span class="quiz-progress-score">' + score + '/100</span>';
       html += '    </div>';
       html += '    <div class="quiz-card-actions">';
       html += '      <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); viewResults(\'' + quiz.id + '\')">👁️ Ver Resultados</button>';
@@ -609,7 +627,7 @@ function shareResultFromHome() {
   
   if (!quiz || !result) return;
   
-  const text = 'Fiz o questionário "' + quiz.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '%') + '\n\nDescobre o teu também em quest4you.com';
+  const text = 'Fiz o questionário "' + quiz.name + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '/100') + '\n\nDescobre o teu também em quest4you.com';
   
   if (navigator.share) {
     navigator.share({

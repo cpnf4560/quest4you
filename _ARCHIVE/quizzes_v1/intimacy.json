@@ -1,0 +1,279 @@
+{
+  "id": "intimacy",
+  "name": "Intimidade & Conexão",
+  "icon": "💕",
+  "color": "#e91e63",
+  "description": "Explora a importância da conexão emocional na tua vida sexual e íntima",
+  "resultType": "spectrum",
+  "spectrum": {
+    "low": {
+      "label": "Físico",
+      "emoji": "🔥",
+      "description": "Para ti, o sexo é principalmente físico e sensorial. A conexão emocional é um bónus, não um requisito."
+    },
+    "high": {
+      "label": "Emocional",
+      "emoji": "💕",
+      "description": "A conexão emocional é essencial. O sexo sem intimidade profunda deixa-te vazio/a ou insatisfeito/a."
+    }
+  },
+  "questions": [
+    {
+      "id": "intim_1",
+      "text": "O melhor sexo que tive foi com alguém por quem estava apaixonado/a.",
+      "category": "conexao_emocional"
+    },
+    {
+      "id": "intim_2",
+      "text": "Consigo ter sexo casual satisfatório sem qualquer envolvimento emocional.",
+      "category": "sexo_casual",
+      "reverse": true
+    },
+    {
+      "id": "intim_3",
+      "text": "Olhar nos olhos durante o sexo intensifica muito a experiência para mim.",
+      "category": "presenca"
+    },
+    {
+      "id": "intim_4",
+      "text": "Preciso de me sentir emocionalmente seguro/a para me 'soltar' completamente.",
+      "category": "seguranca_emocional"
+    },
+    {
+      "id": "intim_5",
+      "text": "Já tive sexo incrível com alguém que mal conhecia.",
+      "category": "sexo_casual",
+      "reverse": true
+    },
+    {
+      "id": "intim_6",
+      "text": "O que acontece antes e depois do sexo (conversas, carícias) é tão importante quanto o ato em si.",
+      "category": "preliminares_aftercare"
+    },
+    {
+      "id": "intim_7",
+      "text": "Sexo sem beijos na boca parece-me incompleto ou frio.",
+      "category": "gestos_ternura"
+    },
+    {
+      "id": "intim_8",
+      "text": "Fico mais excitado/a com o desejo intenso de alguém por mim do que com técnica perfeita.",
+      "category": "conexao_emocional"
+    },
+    {
+      "id": "intim_9",
+      "text": "Abraçar e ficar entrelaçados depois do sexo é essencial, não opcional.",
+      "category": "aftercare"
+    },
+    {
+      "id": "intim_10",
+      "text": "Consigo separar completamente sexo de sentimentos românticos.",
+      "category": "sexo_casual",
+      "reverse": true
+    },
+    {
+      "id": "intim_11",
+      "text": "Prefiro fazer amor lentamente a ter sexo intenso e rápido.",
+      "category": "ritmo_intimidade"
+    },
+    {
+      "id": "intim_12",
+      "text": "Ouvir 'amo-te' durante o sexo amplifica o prazer.",
+      "category": "palavras_afeto"
+    },
+    {
+      "id": "intim_13",
+      "text": "Sinto-me usado/a se a pessoa adormece logo depois sem carinho.",
+      "category": "aftercare"
+    },
+    {
+      "id": "intim_14",
+      "text": "O histórico emocional com alguém (bom ou mau) afeta diretamente o quanto me excita.",
+      "category": "conexao_emocional"
+    },
+    {
+      "id": "intim_15",
+      "text": "Apps de encontros para sexo casual funcionam bem para mim.",
+      "category": "sexo_casual",
+      "reverse": true
+    },
+    {
+      "id": "intim_16",
+      "text": "Gosto de pausas durante o sexo só para olhar, sorrir ou partilhar um momento.",
+      "category": "presenca"
+    },
+    {
+      "id": "intim_17",
+      "text": "Prefiro menos frequência sexual mas com mais significado e conexão.",
+      "category": "qualidade_vs_quantidade"
+    },
+    {
+      "id": "intim_18",
+      "text": "Se discuti com o parceiro, é difícil ter desejo sexual nessa noite.",
+      "category": "conexao_emocional"
+    },
+    {
+      "id": "intim_19",
+      "text": "Carícias suaves (cabelo, rosto, costas) durante o sexo são muito importantes para mim.",
+      "category": "gestos_ternura"
+    },
+    {
+      "id": "intim_20",
+      "text": "Já desenvolvi sentimentos por alguém que era suposto ser apenas sexo casual.",
+      "category": "evoluir_sentimentos"
+    },
+    {
+      "id": "intim_21",
+      "text": "Sexo com desconhecidos tem uma excitação própria que relações estáveis não têm.",
+      "category": "sexo_casual",
+      "reverse": true
+    },
+    {
+      "id": "intim_22",
+      "text": "Gosto de ouvir e dizer coisas carinhosas durante a intimidade, não só coisas 'quentes'.",
+      "category": "palavras_afeto"
+    },
+    {
+      "id": "intim_23",
+      "text": "Sentir-me verdadeiramente conhecido/a pelo parceiro torna o sexo muito melhor.",
+      "category": "seguranca_emocional"
+    },
+    {
+      "id": "intim_24",
+      "text": "O sexo mais memorável envolve sempre algum nível de vulnerabilidade emocional.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "intim_25",
+      "text": "Por vezes prefiro apenas abraços e carinho íntimo sem sexo propriamente dito.",
+      "category": "gestos_ternura"
+    },
+    {
+      "id": "intim_26",
+      "text": "Consigo desfrutar de um 'one night stand' sem pensar duas vezes.",
+      "category": "sexo_casual",
+      "reverse": true
+    },
+    {
+      "id": "intim_27",
+      "text": "Sinto necessidade de conversar um pouco antes de iniciar a parte física.",
+      "category": "preliminares_aftercare"
+    },
+    {
+      "id": "intim_28",
+      "text": "Quando confio profundamente, experimento coisas que nunca faria com um desconhecido.",
+      "category": "seguranca_emocional"
+    },
+    {
+      "id": "intim_29",
+      "text": "Pequenos gestos de carinho ao longo do dia afetam o quanto quero sexo à noite.",
+      "category": "conexao_emocional"
+    },
+    {
+      "id": "intim_30",
+      "text": "Partilhar segredos ou medos com alguém aumenta a minha atração por essa pessoa.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "intim_31",
+      "text": "Prefiro fantasiar com pessoas reais com quem tenho ligação do que com desconhecidos.",
+      "category": "conexao_emocional"
+    },
+    {
+      "id": "intim_32",
+      "text": "Se não houver química emocional, a atração física sozinha não é suficiente.",
+      "category": "quimica_emocional"
+    },
+    {
+      "id": "intim_33",
+      "text": "Acordar ao lado de alguém e fazer amor lentamente é o meu cenário ideal.",
+      "category": "ritmo_intimidade"
+    },
+    {
+      "id": "intim_34",
+      "text": "Sinto diferença entre 'ter sexo' e 'fazer amor' — e prefiro o segundo.",
+      "category": "qualidade_vs_quantidade"
+    },
+    {
+      "id": "intim_35",
+      "text": "Posso achar alguém fisicamente atraente mas não querer sexo sem conexão emocional.",
+      "category": "quimica_emocional"
+    },
+    {
+      "id": "intim_36",
+      "text": "Rir juntos durante o sexo torna a experiência mais especial.",
+      "category": "presenca"
+    },
+    {
+      "id": "intim_37",
+      "text": "Sexo puramente físico deixa-me com uma sensação de vazio depois.",
+      "category": "aftercare"
+    },
+    {
+      "id": "intim_38",
+      "text": "Gosto quando o parceiro sabe exatamente como me tocar sem eu ter de explicar tudo.",
+      "category": "seguranca_emocional"
+    },
+    {
+      "id": "intim_39",
+      "text": "Conversas profundas são uma forma de preliminares para mim.",
+      "category": "preliminares_aftercare"
+    },
+    {
+      "id": "intim_40",
+      "text": "O anonimato de um encontro casual pode ser libertador e excitante.",
+      "category": "sexo_casual",
+      "reverse": true
+    },
+    {
+      "id": "intim_41",
+      "text": "Sinto mais prazer quando sei que o parceiro está emocionalmente presente, não apenas fisicamente.",
+      "category": "presenca"
+    },
+    {
+      "id": "intim_42",
+      "text": "Preciso de admirar ou respeitar alguém para sentir atração sexual genuína.",
+      "category": "quimica_emocional"
+    },
+    {
+      "id": "intim_43",
+      "text": "O contexto romântico (velas, música, surpresas) melhora significativamente a experiência.",
+      "category": "ritmo_intimidade"
+    },
+    {
+      "id": "intim_44",
+      "text": "Quando me sinto emocionalmente distante do parceiro, o desejo sexual diminui.",
+      "category": "conexao_emocional"
+    },
+    {
+      "id": "intim_45",
+      "text": "Gosto de adormecer a fazer colher (spooning) depois do sexo.",
+      "category": "aftercare"
+    },
+    {
+      "id": "intim_46",
+      "text": "Memorias emocionais de momentos íntimos são mais importantes que memórias físicas.",
+      "category": "qualidade_vs_quantidade"
+    },
+    {
+      "id": "intim_47",
+      "text": "Sexo com alguém que realmente 'me vê' é incomparavelmente melhor.",
+      "category": "vulnerabilidade"
+    },
+    {
+      "id": "intim_48",
+      "text": "A primeira vez com alguém novo é melhor quando já existe conexão prévia.",
+      "category": "quimica_emocional"
+    },
+    {
+      "id": "intim_49",
+      "text": "Palavras de reafirmação durante e depois do sexo fazem-me sentir seguro/a e amado/a.",
+      "category": "palavras_afeto"
+    },
+    {
+      "id": "intim_50",
+      "text": "Para mim, a intimidade sexual é uma expressão de amor, não apenas de desejo.",
+      "category": "conexao_emocional"
+    }
+  ]
+}
