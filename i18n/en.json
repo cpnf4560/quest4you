@@ -129,7 +129,8 @@
     "unansweredWarning": "You still have {{count}} unanswered question(s). Do you want to finish anyway?",
     "mustAnswer": "Answer at least 1 question before finishing.",
     "shareText": "I took the \"{{name}}\" quiz on Quest4You!\n\nMy result: {{result}}\n\nDiscover yours too at quest4you.com",
-    "retakeConfirm": "Are you sure you want to retake the quiz? Your answers will be deleted.",    "editModeTitle": "✏️ Edit mode active",
+    "retakeConfirm": "Are you sure you want to retake the quiz? Your answers will be deleted.",
+    "editModeTitle": "✏️ Edit mode active",
     "editModeDesc": "Navigate through the questions and change the ones you want. Click \"See Result\" when you're done.",
     "notSpecified": "Quiz not specified!",
     "loadError": "Error loading the quiz. Please try again."
@@ -319,7 +320,8 @@
     "addFriendDesc": "Search users by nickname or email to send a friend request.",
     "searchPlaceholder": "Nickname or email...",
     "searchHint": "Type at least 3 characters to search",
-    "sendMessage": "💬 Send Message",    "removeFriend": "🗑️ Remove Friend",
+    "sendMessage": "💬 Send Message",
+    "removeFriend": "🗑️ Remove Friend",
     "friendRequestSent": "✅ Friend request sent to {{name}}!",
     "friendRequestError": "❌ Error sending friend request.",
     "friendAccepted": "✅ Friend request accepted! You are now friends.",
@@ -345,7 +347,8 @@
     "requiredFieldsAlert": "⚠️ Please fill in the required fields:\n\n• {{fields}}",
     "saving": "⏳ Saving...",
     "saveInfoBtn": "💾 Save Information",
-    "infoSaved": "✅ Personal information saved successfully!",    "infoSaveError": "❌ Error saving information. Please try again.",
+    "infoSaved": "✅ Personal information saved successfully!",
+    "infoSaveError": "❌ Error saving information. Please try again.",
     "nickAuthError": "Error: You are not authenticated.",
     "nickEmpty": "Please enter a nickname.",
     "nickTooShort": "Nickname must be at least 3 characters.",
@@ -408,7 +411,8 @@
     "photoUploading": "📤 Uploading...",
     "photoUploaded": "Photo updated successfully!",
     "photoUploadError": "Error uploading photo. Please try again.",
-    "photoRemoveConfirm": "Are you sure you want to remove this photo?",    "photoRemoveError": "Error removing photo.",
+    "photoRemoveConfirm": "Are you sure you want to remove this photo?",
+    "photoRemoveError": "Error removing photo.",
     "validationAuthRequired": "You need to be logged in.",
     "validationSent": "Validation photo submitted! It will be reviewed within 24-48 hours.",
     "validationError": "Error submitting. Please try again.",
@@ -460,7 +464,8 @@
     "unpublishProfile": "Hide Profile",
     "nearYou": "📍 Near you",
     "rareMatch": "🔥 Rare Match",
-    "viewDetails": "View Details 👀",    "sameZone": "Same geographic area",
+    "viewDetails": "View Details 👀",
+    "sameZone": "Same geographic area",
     "rareInterests": "Rare interests in common!",
     "enterDisplayName": "Please enter a display name.",
     "saveProfileError": "Error saving profile. Please try again.",
@@ -555,7 +560,8 @@
     "desc": "Explore profiles and discover interesting people",
     "search": "Search...",
     "filters": "Filters",
-    "noResults": "No profiles found.",    "writeMessage": "Write a message...",
+    "noResults": "No profiles found.",
+    "writeMessage": "Write a message...",
     "sendBtn": "Send",
     "loginToCreateTopic": "Log in to create a topic.",
     "errorCreateTopic": "Error creating topic.",
@@ -883,11 +889,25 @@
     "emailSendError": "Error sending verification email",
     "uploadDoc": "Please upload your identification document",
     "takeSelfie": "Please take a selfie with the document",
-    "requestSubmitted": "Verification request submitted! You'll receive a notification when it's processed.",    "submitError": "Error submitting verification"
+    "requestSubmitted": "Verification request submitted! You'll receive a notification when it's processed.",
+    "submitError": "Error submitting verification"
   },
 
   "darkMode": {
     "darkEnabled": "🌙 Dark mode enabled",
     "lightEnabled": "☀️ Light mode enabled"
+  },
+
+  "quizGroups": {
+    "discovery": "🔍 Personal Discovery",
+    "dynamics": "⚡ Power & Dynamics",
+    "fantasy": "🌙 Fantasy & Expression",
+    "relationship": "💬 Relationship & Communication",
+    "lifestyle": "🌍 Lifestyle & Values"
+  },
+
+  "quizNext": {
+    "nextQuiz": "➡️ Next Quiz",
+    "allCompleted": "🎉 You've completed all quizzes!"
   }
 }

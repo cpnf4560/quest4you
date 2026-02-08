@@ -892,5 +892,18 @@
   "darkMode": {
     "darkEnabled": "🌙 Tema escuro ativado",
     "lightEnabled": "☀️ Tema claro ativado"
+  },
+
+  "quizGroups": {
+    "discovery": "🔍 Descoberta Pessoal",
+    "dynamics": "⚡ Poder & Dinâmicas",
+    "fantasy": "🌙 Fantasia & Expressão",
+    "relationship": "💬 Relação & Comunicação",
+    "lifestyle": "🌍 Estilo de Vida & Valores"
+  },
+
+  "quizNext": {
+    "nextQuiz": "➡️ Próximo Questionário",
+    "allCompleted": "🎉 Completaste todos os questionários!"
   }
 }

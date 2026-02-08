@@ -91,6 +91,9 @@
         <button class="btn btn-outline" onclick="retakeQuiz()" data-i18n="quiz.redoAll">&#128260; Refazer Tudo</button>
         <a href="../index.html" class="btn btn-outline" data-i18n="quiz.goHome">&#127968; Início</a>
       </div>
+      <div class="result-next-quiz" id="resultNextQuiz" style="display: none;">
+        <button class="btn btn-primary btn-full" id="nextQuizBtn" onclick="goToNextQuiz()"></button>
+      </div>
     </div>  </div>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>

@@ -666,7 +666,7 @@
     "exhibitionism": "Exhibicionismo y Voyeurismo",
     "communication": "Comunicación Sexual",
     "intimacy": "Intimidad y Conexión",
-    "rhythm": "Ritmo y Frecuencia",
+    "rhythm": "Frecuencia, duración, horarios y libido",
     "lifestyle": "Valores y Estilo de Vida Sexual",
     "digital": "Comunicación y Tecnología Íntima"
   },
@@ -892,5 +892,18 @@
   "darkMode": {
     "darkEnabled": "🌙 Tema oscuro activado",
     "lightEnabled": "☀️ Tema claro activado"
+  },
+
+  "quizGroups": {
+    "discovery": "🔍 Descubrimiento Personal",
+    "dynamics": "⚡ Poder y Dinámicas",
+    "fantasy": "🌙 Fantasía y Expresión",
+    "relationship": "💬 Relación y Comunicación",
+    "lifestyle": "🌍 Estilo de Vida y Valores"
+  },
+
+  "quizNext": {
+    "nextQuiz": "➡️ Siguiente Cuestionario",
+    "allCompleted": "🎉 ¡Has completado todos los cuestionarios!"
   }
 }

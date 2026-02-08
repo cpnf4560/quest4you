@@ -650,9 +650,8 @@ async function loadResults() {
   if (Object.keys(allResults).length === 0) {
     allResults = userData?.quizResults || {};
   }
-  
-  // Filter out invalid keys (like user IDs that got saved incorrectly)
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
+    // Filter out invalid keys (like user IDs that got saved incorrectly)
+  const validQuizIds = ['vanilla', 'orientation', 'kinks', 'bdsm', 'cuckold', 'swing', 'fantasies', 'exhibitionism', 'adventure', 'communication', 'intimacy', 'rhythm', 'lifestyle', 'digital'];
   const resultIds = Object.keys(allResults).filter(key => {
     // Only keep valid quiz IDs
     if (validQuizIds.includes(key)) return true;
@@ -790,9 +789,8 @@ function updateStats() {
 function getQuizCount() {
   // Use cached profile results
   const results = window.profileResults || userData?.quizResults || {};
-  
-  // Filter valid quiz IDs
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
+    // Filter valid quiz IDs
+  const validQuizIds = ['vanilla', 'orientation', 'kinks', 'bdsm', 'cuckold', 'swing', 'fantasies', 'exhibitionism', 'adventure', 'communication', 'intimacy', 'rhythm', 'lifestyle', 'digital'];
   const validResults = Object.keys(results).filter(key => validQuizIds.includes(key));
   
   return validResults.length;
@@ -1186,9 +1184,8 @@ window.saveNickname = saveNickname;
 // ================================
 function viewFullReport() {
   const allResults = window.profileResults || userData?.quizResults || {};
-  
-  // Filter valid quiz IDs
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
+    // Filter valid quiz IDs
+  const validQuizIds = ['vanilla', 'orientation', 'kinks', 'bdsm', 'cuckold', 'swing', 'fantasies', 'exhibitionism', 'adventure', 'communication', 'intimacy', 'rhythm', 'lifestyle', 'digital'];
   const resultIds = Object.keys(allResults).filter(key => validQuizIds.includes(key));
     if (resultIds.length < 2) {
     alert(t('profile.reportMinQuizzes'));
@@ -1243,8 +1240,7 @@ function viewFullReport() {
     ...allResults[id],
     meta: QUIZ_META[id] || { name: id, icon: "📝", color: "#666" }
   })).sort((a, b) => (b.score || 0) - (a.score || 0));
-  
-  sortedResults.forEach(result => {
+    sortedResults.forEach(result => {
     html += '<div class="report-score-row">';
     html += '  <div class="report-score-quiz">';
     html += '    <span class="report-quiz-icon" style="color: ' + result.meta.color + '">' + result.meta.icon + '</span>';
@@ -1254,6 +1250,7 @@ function viewFullReport() {
     html += '    <div class="report-score-bar" style="width: ' + (result.score || 0) + '%; background: ' + result.meta.color + '"></div>';
     html += '  </div>';
     html += '  <span class="report-score-value">' + (result.score || 0) + '/100</span>';
+    html += '</div>';
   });
   
   html += '</div></div>';
@@ -1276,9 +1273,10 @@ function viewFullReport() {
       html += '    <div class="report-detail-category">';
       html += '      <span>' + (result.categoryEmoji || result.meta.icon) + ' ' + result.category + '</span>';
       html += '    </div>';
-    } else if (result.dominantRole) {
+        } else if (result.dominantRole) {
       html += '    <div class="report-detail-category">';
       html += '      <span>🎭 Role: ' + result.dominantRole + '</span>';
+      html += '    </div>';
     }
     
     // Show top categories if available
@@ -1294,6 +1292,7 @@ function viewFullReport() {
           html += '        <span>' + formatCategoryLabel(cat) + '</span>';
           html += '        <div class="report-mini-bar-bg"><div class="report-mini-bar-fill" style="width: ' + score + '%; background: ' + result.meta.color + '"></div></div>';
           html += '        <span>' + score + '%</span>';
+          html += '      </div>';
         });
         html += '    </div>';
       }
@@ -1386,7 +1385,7 @@ function closeFullReport() {
 
 function shareFullReport() {
   const allResults = window.profileResults || {};
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
+  const validQuizIds = ['vanilla', 'orientation', 'kinks', 'bdsm', 'cuckold', 'swing', 'fantasies', 'exhibitionism', 'adventure', 'communication', 'intimacy', 'rhythm', 'lifestyle', 'digital'];
   const count = Object.keys(allResults).filter(k => validQuizIds.includes(k)).length;
     const text = t('profile.shareProfileText', {count: count});
   

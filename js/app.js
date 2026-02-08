@@ -8,6 +8,7 @@
 // CONFIGURATION
 // ================================
 const QUIZZES_CONFIG = [
+  // GROUP 1: Core Discovery
   {
     id: "vanilla",
     nameKey: "quizNames.vanilla",
@@ -15,7 +16,8 @@ const QUIZZES_CONFIG = [
     color: "#e91e63",
     descKey: "quizDescriptions.vanilla",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.discovery"
   },
   {
     id: "orientation",
@@ -24,25 +26,8 @@ const QUIZZES_CONFIG = [
     color: "#9c27b0",
     descKey: "quizDescriptions.orientation",
     questions: 15,
-    resultType: "spectrum"
-  },
-  {
-    id: "cuckold",
-    nameKey: "quizNames.cuckold",
-    icon: "👁️",
-    color: "#673ab7",
-    descKey: "quizDescriptions.cuckold",
-    questions: 15,
-    resultType: "spectrum"
-  },
-  {
-    id: "swing",
-    nameKey: "quizNames.swing",
-    icon: "💑",
-    color: "#00bcd4",
-    descKey: "quizDescriptions.swing",
-    questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.discovery"
   },
   {
     id: "kinks",
@@ -51,8 +36,10 @@ const QUIZZES_CONFIG = [
     color: "#9c27b0",
     descKey: "quizDescriptions.kinks",
     questions: 50,
-    resultType: "tags"
+    resultType: "tags",
+    group: "quizGroups.discovery"
   },
+  // GROUP 2: Power & Dynamics
   {
     id: "bdsm",
     nameKey: "quizNames.bdsm",
@@ -60,17 +47,30 @@ const QUIZZES_CONFIG = [
     color: "#4a148c",
     descKey: "quizDescriptions.bdsm",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.dynamics"
   },
   {
-    id: "adventure",
-    nameKey: "quizNames.adventure",
-    icon: "🚀",
-    color: "#ff5722",
-    descKey: "quizDescriptions.adventure",
+    id: "cuckold",
+    nameKey: "quizNames.cuckold",
+    icon: "👁️",
+    color: "#673ab7",
+    descKey: "quizDescriptions.cuckold",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.dynamics"
   },
+  {
+    id: "swing",
+    nameKey: "quizNames.swing",
+    icon: "💑",
+    color: "#00bcd4",
+    descKey: "quizDescriptions.swing",
+    questions: 15,
+    resultType: "spectrum",
+    group: "quizGroups.dynamics"
+  },
+  // GROUP 3: Fantasy & Expression
   {
     id: "fantasies",
     nameKey: "quizNames.fantasies",
@@ -78,7 +78,8 @@ const QUIZZES_CONFIG = [
     color: "#7b1fa2",
     descKey: "quizDescriptions.fantasies",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.fantasy"
   },
   {
     id: "exhibitionism",
@@ -87,8 +88,20 @@ const QUIZZES_CONFIG = [
     color: "#ff9800",
     descKey: "quizDescriptions.exhibitionism",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.fantasy"
   },
+  {
+    id: "adventure",
+    nameKey: "quizNames.adventure",
+    icon: "🚀",
+    color: "#ff5722",
+    descKey: "quizDescriptions.adventure",
+    questions: 15,
+    resultType: "spectrum",
+    group: "quizGroups.fantasy"
+  },
+  // GROUP 4: Relationship & Communication
   {
     id: "communication",
     nameKey: "quizNames.communication",
@@ -96,7 +109,8 @@ const QUIZZES_CONFIG = [
     color: "#2196f3",
     descKey: "quizDescriptions.communication",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.relationship"
   },
   {
     id: "intimacy",
@@ -105,7 +119,8 @@ const QUIZZES_CONFIG = [
     color: "#e91e63",
     descKey: "quizDescriptions.intimacy",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.relationship"
   },
   {
     id: "rhythm",
@@ -114,8 +129,10 @@ const QUIZZES_CONFIG = [
     color: "#009688",
     descKey: "quizDescriptions.rhythm",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.relationship"
   },
+  // GROUP 5: Lifestyle & Values
   {
     id: "lifestyle",
     nameKey: "quizNames.lifestyle",
@@ -123,7 +140,8 @@ const QUIZZES_CONFIG = [
     color: "#4caf50",
     descKey: "quizDescriptions.lifestyle",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.lifestyle"
   },
   {
     id: "digital",
@@ -132,7 +150,8 @@ const QUIZZES_CONFIG = [
     color: "#607d8b",
     descKey: "quizDescriptions.digital",
     questions: 15,
-    resultType: "spectrum"
+    resultType: "spectrum",
+    group: "quizGroups.lifestyle"
   }
 ];
 
@@ -289,7 +308,7 @@ async function loadUserProgress() {
   if (!currentUser) return;
   
   // Valid quiz IDs
-  const validQuizIds = ['vanilla', 'orientation', 'cuckold', 'swing', 'kinks', 'bdsm', 'adventure', 'fantasies', 'exhibitionism', 'communication', 'intimacy', 'rhythm'];
+  const validQuizIds = ['vanilla', 'orientation', 'kinks', 'bdsm', 'cuckold', 'swing', 'fantasies', 'exhibitionism', 'adventure', 'communication', 'intimacy', 'rhythm', 'lifestyle', 'digital'];
   
   // Load from cloud via CloudSync
   if (window.CloudSync) {
@@ -333,12 +352,19 @@ function renderQuizzes() {
   if (!grid) return;
 
   let html = "";
+  let currentGroup = "";
   
   for (let i = 0; i < QUIZZES_CONFIG.length; i++) {
     const quiz = QUIZZES_CONFIG[i];
     const result = userResults[quiz.id];
     const isCompleted = result && result.score !== undefined;
     const score = isCompleted ? result.score : 0;
+
+    // Render group header when group changes
+    if (quiz.group && quiz.group !== currentGroup) {
+      currentGroup = quiz.group;
+      html += '<div class="quiz-group-title">' + t(quiz.group) + '</div>';
+    }
     
     html += '<div class="quiz-card ' + (isCompleted ? 'completed' : '') + '" data-quiz="' + quiz.id + '">';
     html += '  <div class="quiz-card-header" style="background: ' + quiz.color + '">';
@@ -364,6 +390,7 @@ function renderQuizzes() {
       html += '    <div class="quiz-card-actions">';
       html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); editQuizAnswers(\'' + quiz.id + '\')">' + t('quizzes.edit') + '</button>';
       html += '      <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); openQuiz(\'' + quiz.id + '\')">' + t('quizzes.redo') + '</button>';
+      html += '    </div>';
     } else {
       html += '    <div class="quiz-card-footer">';
       html += '      <span class="quiz-meta">📝 ' + quiz.questions + ' ' + t('quizzes.questions') + '</span>';
@@ -566,14 +593,13 @@ function buildResultBreakdown(categoryScores, result) {
     return buildRoleBreakdown(result);
   }
   
-  const entries = Object.entries(categoryScores);
-  if (entries.length === 0) return "<p style='text-align: center; color: #888;'>Sem dados de categorias disponíveis.</p>";
+  const entries = Object.entries(categoryScores);  if (entries.length === 0) return "<p style='text-align: center;' class='text-muted'>Sem dados de categorias disponíveis.</p>";
   
   // Sort by score descending
   entries.sort((a, b) => b[1] - a[1]);
   const top5 = entries.slice(0, 5);
   
-  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Top Categorias:</p>';
+  let html = '<p class="result-breakdown-heading">Top Categorias:</p>';
   
   top5.forEach(([category, score]) => {
     const label = formatCategoryLabel(category);
@@ -591,7 +617,7 @@ function buildRoleBreakdown(result) {
   const rolePercentages = result.rolePercentages || {};
   const sortedRoles = Object.entries(rolePercentages).sort((a, b) => b[1] - a[1]);
   
-  let html = '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('profile.resultsTitle') + ':</p>';
+  let html = '<p class="result-breakdown-heading">' + t('profile.resultsTitle') + ':</p>';
   
   sortedRoles.forEach(([roleId, percentage]) => {
     const label = formatCategoryLabel(roleId);
@@ -603,11 +629,10 @@ function buildRoleBreakdown(result) {
   });
   
   // Show compatible roles
-  if (result.matchWith && result.matchWith.length > 0) {
-    html += '<div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, rgba(229, 57, 53, 0.1), rgba(194, 24, 91, 0.1)); border-radius: 12px;">';
-    html += '<p style="font-weight: 600; margin: 0 0 10px 0; color: #333;">💕 Compatível com:</p>';
+  if (result.matchWith && result.matchWith.length > 0) {    html += '<div class="result-match-section">';
+    html += '<p class="result-breakdown-heading">💕 Compatível com:</p>';
     result.matchWith.forEach(matchRole => {
-      html += '<span style="display: inline-block; background: white; padding: 6px 12px; border-radius: 20px; margin: 4px; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">' + formatCategoryLabel(matchRole) + '</span>';
+      html += '<span class="result-match-tag">' + formatCategoryLabel(matchRole) + '</span>';
     });
     html += '</div>';
   }
@@ -686,6 +711,7 @@ async function retakeQuizFromHome() {
 }
 
 // Export for global access
+window.QUIZZES_CONFIG = QUIZZES_CONFIG;
 window.openQuiz = openQuiz;
 window.saveProgress = saveProgress;
 window.goToSmartMatch = goToSmartMatch;

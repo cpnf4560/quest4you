@@ -531,6 +531,20 @@
   color: #c9d1d9 !important;
 }
 
+/* Language Selector */
+[data-theme="dark"] .lang-selector {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+[data-theme="dark"] .lang-option:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] .lang-option.active {
+  border-color: #ff6b8a !important;
+  background: rgba(255, 107, 138, 0.15) !important;
+}
+
 /* Option Buttons (v2.1 quiz format) */
 [data-theme="dark"] .option-btn {
   background: #21262d !important;
@@ -2680,6 +2694,39 @@ textarea,
 
 [data-theme="dark"] .report-highlights h4 {
   color: #f0f6fc !important;
+}
+
+/* =========================================
+   QUIZ GROUP TITLE (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .quiz-group-title {
+  color: #f0f6fc !important;
+  border-bottom-color: #ff6b8a !important;
+}
+
+/* =========================================
+   RESULT BREAKDOWN / TAG BADGES (Dark Mode)
+   ========================================= */
+[data-theme="dark"] .result-breakdown-heading {
+  color: #f0f6fc !important;
+}
+
+[data-theme="dark"] .result-tag-badge {
+  color: #ff8da6 !important;
+}
+
+[data-theme="dark"] .result-match-section {
+  background: linear-gradient(135deg, rgba(255, 107, 138, 0.15), rgba(194, 24, 91, 0.15)) !important;
+}
+
+[data-theme="dark"] .result-match-tag {
+  background: #21262d !important;
+  color: #c9d1d9 !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+[data-theme="dark"] .result-next-quiz {
+  border-top-color: #30363d !important;
 }
 
 /* =========================================

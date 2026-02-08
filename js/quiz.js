@@ -515,10 +515,71 @@ function showResults(results) {
   // Build breakdown
   let breakdownHtml = buildTagBreakdown(results);
   document.getElementById("resultBreakdown").innerHTML = breakdownHtml;
-
   saveResult(results);
   modal.style.display = "flex";
   celebrateResult();
+  showNextQuizSuggestion();
+}
+
+// ================================
+// NEXT QUIZ SUGGESTION
+// ================================
+async function showNextQuizSuggestion() {
+  const container = document.getElementById("resultNextQuiz");
+  const btn = document.getElementById("nextQuizBtn");
+  if (!container || !btn) return;
+
+  // Get all quiz IDs from QUIZZES_CONFIG (available from app.js via window)
+  const config = window.QUIZZES_CONFIG;
+  if (!config || !config.length) return;
+
+  // Find completed quizzes from cloud
+  let completedIds = [quizId]; // current quiz is just completed
+  if (currentUser && window.CloudSync) {
+    try {
+      const cloudResults = await window.CloudSync.getQuizResults(currentUser.uid);
+      if (cloudResults) {
+        completedIds = Object.keys(cloudResults).filter(function(id) {
+          return cloudResults[id] && cloudResults[id].score !== undefined;
+        });
+        // Ensure current quiz is included
+        if (completedIds.indexOf(quizId) === -1) completedIds.push(quizId);
+      }
+    } catch (e) {
+      console.warn("Could not load results for next quiz suggestion", e);
+    }
+  }
+
+  // Find next uncompleted quiz in config order
+  let nextQuiz = null;
+  for (let i = 0; i < config.length; i++) {
+    if (completedIds.indexOf(config[i].id) === -1) {
+      nextQuiz = config[i];
+      break;
+    }
+  }
+
+  if (nextQuiz) {
+    const name = (typeof t === 'function' && nextQuiz.nameKey) ? t(nextQuiz.nameKey) : nextQuiz.id;
+    btn.textContent = t('quizNext.nextQuiz') + ': ' + nextQuiz.icon + ' ' + name;
+    btn.setAttribute('data-next-quiz', nextQuiz.id);
+    container.style.display = "block";
+  } else {
+    // All completed
+    btn.textContent = t('quizNext.allCompleted');
+    btn.disabled = true;
+    btn.onclick = null;
+    container.style.display = "block";
+  }
+}
+
+function goToNextQuiz() {
+  const btn = document.getElementById("nextQuizBtn");
+  if (!btn) return;
+  const nextId = btn.getAttribute('data-next-quiz');
+  if (nextId) {
+    window.location.href = 'quiz.html?id=' + nextId;
+  }
 }
 
 // ================================
@@ -529,13 +590,13 @@ function buildTagBreakdown(results) {
 
   // Show top tags as badges
   if (results.topTags && results.topTags.length > 0) {
-    html += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('quiz.topTags') + '</p>';
-    html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;">';
+    html += '<p class="result-breakdown-heading">' + t('quiz.topTags') + '</p>';
+    html += '<div class="result-tag-list">';
     results.topTags.forEach(function(tag) {
       const count = results.tagCounts[tag] || 1;
       const intensity = Math.min(count / 3, 1);
       const opacity = 0.1 + intensity * 0.2;
-      html += '<span style="display: inline-block; background: rgba(139, 74, 94, ' + opacity + '); color: #8B4A5E; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; border: 1px solid rgba(139, 74, 94, 0.2);">';
+      html += '<span class="result-tag-badge" style="background: rgba(139, 74, 94, ' + opacity + '); border: 1px solid rgba(139, 74, 94, 0.2);">';
       html += formatTagLabel(tag);
       if (count > 1) html += ' <small style="opacity: 0.7;">×' + count + '</small>';
       html += '</span>';
@@ -544,7 +605,7 @@ function buildTagBreakdown(results) {
   }
 
   // Show score bar
-  html += '<p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">' + t('quiz.score') + '</p>';
+  html += '<p class="result-breakdown-heading">' + t('quiz.score') + '</p>';
   html += '<div class="result-breakdown-item">';
   html += '<span class="result-breakdown-label">' + t('quiz.overallScore') + '</span>';
   html += '<div class="result-breakdown-bar"><div class="result-breakdown-fill" style="width: ' + results.score + '%"></div></div>';
@@ -769,3 +830,4 @@ window.shareResult = shareResult;
 window.retakeQuiz = retakeQuiz;
 window.editAnswers = editAnswers;
 window.selectGender = selectGender;
+window.goToNextQuiz = goToNextQuiz;
