@@ -1689,6 +1689,14 @@ textarea,
   color: #8b949e !important;
 }
 
+[data-theme="dark"] .chat-delete-btn:hover {
+  background: rgba(220, 53, 69, 0.25) !important;
+}
+
+[data-theme="dark"] .chat-message.own .chat-delete-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
 [data-theme="dark"] .chat-input-container {
   background: #161b22 !important;
   border-top: 1px solid #30363d !important;

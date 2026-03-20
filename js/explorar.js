@@ -601,13 +601,19 @@ function renderChatMessages(messages) {
     const isOwn = currentUser && msg.userId === currentUser.uid;
     const time = msg.createdAt?.toDate() || new Date();
     
+    // Admin delete button (only visible to admins)
+    const deleteBtn = isAdmin 
+      ? `<button class="chat-delete-btn" onclick="deleteChatMessage('${msg.id}')" title="${t('community.deleteMsg')}">🗑️</button>`
+      : '';
+    
     return `
-      <div class="chat-message ${isOwn ? 'own' : ''}">
+      <div class="chat-message ${isOwn ? 'own' : ''}" data-msg-id="${msg.id}">
         <div class="chat-message-avatar">${msg.userEmoji || '👤'}</div>
         <div class="chat-message-content">
           <div class="chat-message-header">
             <span class="chat-message-name">${msg.userName || t('community.anonymous')}</span>
             <span class="chat-message-time">${formatTime(time)}</span>
+            ${deleteBtn}
           </div>
           <p class="chat-message-text">${escapeHtml(msg.text)}</p>
         </div>
@@ -990,3 +996,42 @@ document.addEventListener('keydown', (e) => {
     });
   }
 });
+
+// ================================
+// DELETE CHAT MESSAGE (Admin only)
+// ================================
+async function deleteChatMessage(messageId) {
+  if (!isAdmin) {
+    console.warn('Delete attempted by non-admin');
+    return;
+  }
+  
+  if (!confirm(t('community.deleteMsgConfirm'))) {
+    return;
+  }
+  
+  try {
+    await db.collection(COLLECTION_CHAT).doc(messageId).delete();
+    console.log('🗑️ Chat message deleted:', messageId);
+    
+    // Remove from UI immediately
+    const msgElement = document.querySelector(`[data-msg-id="${messageId}"]`);
+    if (msgElement) {
+      msgElement.style.transition = 'all 0.3s ease';
+      msgElement.style.opacity = '0';
+      msgElement.style.transform = 'translateX(-100%)';
+      setTimeout(() => msgElement.remove(), 300);
+    }
+    
+    // Show success toast if available
+    if (typeof showToast === 'function') {
+      showToast(t('community.deleteMsgSuccess'), 'success');
+    }
+  } catch (error) {
+    console.error('Error deleting chat message:', error);
+    alert(t('community.deleteMsgError'));
+  }
+}
+
+// Make delete function globally available
+window.deleteChatMessage = deleteChatMessage;

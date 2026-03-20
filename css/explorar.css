@@ -534,6 +534,7 @@
 
 .chat-message-header {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
   font-size: 0.75rem;
@@ -554,6 +555,33 @@
 
 .chat-message.own .chat-message-time {
   color: rgba(255, 255, 255, 0.6);
+}
+
+/* Delete button for admin */
+.chat-delete-btn {
+  background: none;
+  border: none;
+  padding: 2px 6px;
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.chat-message:hover .chat-delete-btn {
+  opacity: 0.6;
+}
+
+.chat-delete-btn:hover {
+  opacity: 1 !important;
+  background: rgba(220, 53, 69, 0.15);
+  transform: scale(1.1);
+}
+
+.chat-message.own .chat-delete-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .chat-message-text {
