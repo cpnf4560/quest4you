@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
   <!-- Microsoft Clarity -->
@@ -20,23 +20,18 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://quest4you.com/pages/explorar.html">
   <meta property="og:title" content="Comunidade Quest4You - Fórum e Chat">
-  <meta property="og:description" content="Fórum de discussões, chat ao vivo e mensagens privadas. Conecta-te com outros utilizadores.">
-  <meta property="og:image" content="https://quest4you.com/assets/quest4you_transp.png">
+  <meta property="og:description" content="Fórum de discussões, chat ao vivo e mensagens privadas. Conecta-te com outros utilizadores.">  <meta property="og:image" content="https://quest4you.com/assets/quest4you_transp.png">
+  <meta property="og:site_name" content="Quest4You">
 
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="apple-touch-icon" href="../assets/quest4you_transp.png">
   <link rel="manifest" href="../manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="../css/main.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/explorar.css">
-  <link rel="stylesheet" href="../css/notifications.css?v=202602060002">
-  <link rel="stylesheet" href="../css/dark-mode.css?v=202602080003">
-  
-  <!-- Firebase v10 Compat -->
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js"></script>
+  <link rel="stylesheet" href="../css/notifications.css?v=202602060002">  <link rel="stylesheet" href="../css/dark-mode.css?v=202602080003">
 </head>
 <body>
   <!-- HEADER -->
@@ -45,7 +40,7 @@
       <a href="../index.html" class="logo">
         <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo-img">
         <span class="logo-text">Quest4You</span>
-      </a>      <nav class="nav">
+      </a>      <nav class="nav" aria-label="Navegação principal">
         <a href="../index.html" class="nav-link" data-i18n="nav.home">🏠 Início</a>
         <a href="chat.html" class="nav-link nav-link-auth" style="display: none;" data-i18n="nav.chat">💬 Chat</a>
         <a href="smart-match.html" class="nav-link" data-i18n="nav.smartMatch">💕 Smart Match</a>
@@ -262,10 +257,14 @@
         <a href="contacto.html" data-i18n="footer.contact">Contacto</a>
       </div>
       <div class="footer-copy">
-        <p data-i18n="footer.rights">&copy; 2025 Quest4You. Todos os direitos reservados.</p>
+        <p data-i18n="footer.rights">&copy; 2025-2026 Quest4You. Todos os direitos reservados.</p>
       </div>
-    </div>
-  </footer>
+    </div>  </footer>
+  <!-- Firebase v10 Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="../js/firebase-config.js"></script>
   <script src="../js/notifications.js?v=202602060002"></script>
   <script src="../js/dark-mode.js?v=202602080002"></script>
   <script src="../js/i18n.js?v=202602080100"></script>
