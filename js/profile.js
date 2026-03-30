@@ -759,9 +759,8 @@ function loadBadges() {
   badges.forEach(badge => {
     const unlocked = badge.condition();
     if (unlocked) unlockedCount++;
-    
-    html += `
-      <div class="badge-item ${unlocked ? '' : 'locked'}">
+      html += `
+      <div class="badge-card ${unlocked ? '' : 'locked'}">
         <span class="badge-icon">${badge.icon}</span>
         <span class="badge-name">${badge.name}</span>
       </div>
@@ -779,11 +778,33 @@ function updateStats() {
   const quizCount = getQuizCount();
   document.getElementById("statQuizzes").textContent = quizCount;
   
-  // Questions answered (estimate: 50 per quiz)
-  document.getElementById("statQuestions").textContent = quizCount * 50;
+  // Questions answered - calculate from actual quiz configs
+  const questionsAnswered = getQuestionsAnswered();
+  document.getElementById("statQuestions").textContent = questionsAnswered;
   
   // Matches (placeholder)
   document.getElementById("statMatches").textContent = "0";
+}
+
+/**
+ * Calculate actual questions answered based on quiz configs
+ */
+function getQuestionsAnswered() {
+  const results = window.profileResults || userData?.quizResults || {};
+  const config = window.QUIZZES_CONFIG || [];
+  let total = 0;
+  
+  for (const quizId of Object.keys(results)) {
+    const quizConfig = config.find(q => q.id === quizId);
+    if (quizConfig) {
+      total += quizConfig.questions || 15;
+    } else {
+      // Fallback for unknown quiz IDs
+      total += 15;
+    }
+  }
+  
+  return total;
 }
 
 function getQuizCount() {

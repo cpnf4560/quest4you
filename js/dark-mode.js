@@ -80,7 +80,7 @@ function updateThemeColor(theme) {
     document.head.appendChild(metaThemeColor);
   }
   
-  metaThemeColor.content = theme === 'dark' ? '#0d1117' : '#6a11cb';
+  metaThemeColor.content = theme === 'dark' ? '#0d1117' : '#C41E3A';
 }
 
 /**

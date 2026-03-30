@@ -2008,9 +2008,9 @@ textarea,
 /* =========================================
    GLOBAL FIX - Ensure all sections
    ========================================= */
-[data-theme="dark"] section {
-  background: #0d1117 !important;
-}
+/* Removed aggressive section rule - sections now use CSS vars
+   that automatically adapt via [data-theme="dark"] variable overrides.
+   Only target sections that still have inline white backgrounds. */
 
 [data-theme="dark"] .container {
   background: transparent !important;

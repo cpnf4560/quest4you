@@ -124,7 +124,7 @@
 }
 
 .contact-card {
-  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  background: linear-gradient(135deg, var(--bg-warm, #f8f9fa), var(--bg-card, #ffffff));
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
@@ -200,7 +200,7 @@
 }
 
 .faq-item {
-  background: #f8f9fa;
+  background: var(--bg-warm, #f8f9fa);
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--border);

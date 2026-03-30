@@ -1,6 +1,6 @@
 /* =========================================
    ADMIN DASHBOARD - Quest4You
-   Estilos para painel de administração
+   Estilos para painel de administraÃ§Ã£o
    ========================================= */
 
 /* ================================
@@ -275,28 +275,28 @@
 }
 
 .report-status-badge.pending {
-  background: #fff3cd;
-  color: #856404;
+  background: var(--warning-bg, #fff3cd);
+  color: var(--warning-text, #856404);
 }
 
 .report-status-badge.resolved {
-  background: #d4edda;
-  color: #155724;
+  background: var(--success-bg, #d4edda);
+  color: var(--success-text, #155724);
 }
 
 .report-status-badge.dismissed {
-  background: #e2e3e5;
-  color: #383d41;
+  background: var(--bg-warm, #e2e3e5);
+  color: var(--text-secondary, #383d41);
 }
 
 .report-status-badge.warned {
-  background: #ffe5d0;
-  color: #c45c00;
+  background: var(--warning-bg, #ffe5d0);
+  color: var(--warning-text, #c45c00);
 }
 
 .report-status-badge.banned {
-  background: #f8d7da;
-  color: #721c24;
+  background: var(--danger-bg, #f8d7da);
+  color: var(--danger-text, #721c24);
 }
 
 .report-body {
@@ -583,7 +583,7 @@
    ================================ */
 .btn-warning {
   background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
-  color: #1a1a2e;
+  color: var(--text-primary, #1a1a2e);
 }
 
 .btn-success {

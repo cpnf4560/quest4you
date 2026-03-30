@@ -1,20 +1,20 @@
 /* ================================
    QUEST4YOU - Main Stylesheet
    Paleta Excitante & Elegante - Color Emotion Guide
-   Paixão • Desejo • Mistério • Conexão
+   Paixï¿½o ï¿½ Desejo ï¿½ Mistï¿½rio ï¿½ Conexï¿½o
    ================================ */
 
 :root {
   /* Cores Principais - Paleta Excitante */
-  --primary: #C41E3A;          /* Vermelho Cardinal - paixão, desejo */
+  --primary: #C41E3A;          /* Vermelho Cardinal - paixï¿½o, desejo */
   --primary-dark: #9B1B30;     /* Vermelho escuro - profundo */
   --primary-light: #E63950;    /* Vermelho coral - energia */
-  --secondary: #2D1B4E;        /* Roxo escuro - mistério, sedução */
-  --secondary-light: #4A3270;  /* Roxo médio */
+  --secondary: #2D1B4E;        /* Roxo escuro - mistï¿½rio, seduï¿½ï¿½o */
+  --secondary-light: #4A3270;  /* Roxo mï¿½dio */
   --accent-gold: #D4AF37;      /* Dourado rico - premium */
   --accent-copper: #E8833A;    /* Coral/Laranja - energia quente */
-  --accent-teal: #1A6B6B;      /* Teal escuro - equilíbrio */
-  --accent-pink: #FF6B8A;      /* Rosa quente - romântico */
+  --accent-teal: #1A6B6B;      /* Teal escuro - equilï¿½brio */
+  --accent-pink: #FF6B8A;      /* Rosa quente - romï¿½ntico */
   --accent-rainbow: linear-gradient(90deg, #C41E3A, #E8833A, #D4AF37, #1A6B6B);
   
   /* Quiz Colors - vibrantes mas elegantes */
@@ -39,7 +39,7 @@
   --text-muted: #7A7075;
   --border: #E8E0DC;
   
-  /* Gradients - mais dinâmicos e excitantes */
+  /* Gradients - mais dinï¿½micos e excitantes */
   --gradient-primary: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%);
   --gradient-secondary: linear-gradient(135deg, #2D1B4E 0%, #4A3270 100%);
   --gradient-warm: linear-gradient(135deg, #E8833A 0%, #C41E3A 100%);
@@ -80,7 +80,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   background: 
-    /* Padrões sutis - tons neutros quentes */
+    /* Padrï¿½es sutis - tons neutros quentes */
     radial-gradient(circle at 10% 20%, rgba(139, 74, 94, 0.04) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(92, 75, 107, 0.03) 0%, transparent 40%),
     radial-gradient(circle at 50% 5%, rgba(196, 169, 98, 0.02) 0%, transparent 30%),
@@ -271,7 +271,7 @@ body {
   justify-content: center;
 }
 
-/* Padrão de pontos decorativos - sofisticado */
+/* Padrï¿½o de pontos decorativos - sofisticado */
 .hero::before {
   content: '';
   position: absolute;
@@ -666,7 +666,7 @@ body {
   overflow: hidden;
 }
 
-/* Padrão de pontos no header do card */
+/* Padrï¿½o de pontos no header do card */
 .quiz-card-header::before {
   content: '';
   position: absolute;
@@ -1892,7 +1892,7 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #FAFAFA, #fff);
+  background: linear-gradient(135deg, var(--bg-warm, #FAFAFA), var(--bg-card, #fff));
   border: 5px solid #8B4A5E;
   display: flex;
   flex-direction: column;
@@ -1910,7 +1910,7 @@ body {
 
 .result-score-label {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-muted, #888);
 }
 
 .result-category {
@@ -1919,7 +1919,7 @@ body {
   justify-content: center;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+  background: var(--gradient-secondary, linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%));
   border-radius: 12px;
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -1938,7 +1938,7 @@ body {
 
 .result-description {
   font-size: 1rem;
-  color: #666;
+  color: var(--text-secondary, #666);
   line-height: 1.6;
   text-align: center;
   margin: 0 0 1.5rem;
@@ -1953,7 +1953,7 @@ body {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  background: #f9f9f9;
+  background: var(--bg-warm, #f9f9f9);
   border-radius: 8px;
   margin-bottom: 0.5rem;
 }
@@ -1961,13 +1961,13 @@ body {
 .result-breakdown-label {
   flex: 1;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary, #666);
 }
 
 .result-breakdown-bar {
   flex: 2;
   height: 8px;
-  background: #E8E4E0;
+  background: var(--border, #E8E4E0);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -1999,13 +1999,13 @@ body {
 }
 
 .result-actions .btn-secondary {
-  background: #F8F6F4;
-  color: #5A5A5A;
+  background: var(--bg-warm, #F8F6F4);
+  color: var(--text-secondary, #5A5A5A);
   border: none;
 }
 
 .result-actions .btn-secondary:hover {
-  background: #E8E4E0;
+  background: var(--border, #E8E4E0);
 }
 
 .result-actions .btn-outline {
