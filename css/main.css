@@ -1,20 +1,20 @@
-Ôªø/* ================================
+/* ================================
    QUEST4YOU - Main Stylesheet
    Paleta Excitante & Elegante - Color Emotion Guide
-   Paix√£o ‚Ä¢ Desejo ‚Ä¢ Mist√©rio ‚Ä¢ Conex√£o
+   Paix„o ï Desejo ï MistÈrio ï Conex„o
    ================================ */
 
 :root {
   /* Cores Principais - Paleta Excitante */
-  --primary: #C41E3A;          /* Vermelho Cardinal - paix√£o, desejo */
+  --primary: #C41E3A;          /* Vermelho Cardinal - paix„o, desejo */
   --primary-dark: #9B1B30;     /* Vermelho escuro - profundo */
   --primary-light: #E63950;    /* Vermelho coral - energia */
-  --secondary: #2D1B4E;        /* Roxo escuro - mist√©rio, sedu√ß√£o */
-  --secondary-light: #4A3270;  /* Roxo m√©dio */
+  --secondary: #2D1B4E;        /* Roxo escuro - mistÈrio, seduÁ„o */
+  --secondary-light: #4A3270;  /* Roxo mÈdio */
   --accent-gold: #D4AF37;      /* Dourado rico - premium */
   --accent-copper: #E8833A;    /* Coral/Laranja - energia quente */
-  --accent-teal: #1A6B6B;      /* Teal escuro - equil√≠brio */
-  --accent-pink: #FF6B8A;      /* Rosa quente - rom√¢ntico */
+  --accent-teal: #1A6B6B;      /* Teal escuro - equilÌbrio */
+  --accent-pink: #FF6B8A;      /* Rosa quente - rom‚ntico */
   --accent-rainbow: linear-gradient(90deg, #C41E3A, #E8833A, #D4AF37, #1A6B6B);
   
   /* Quiz Colors - vibrantes mas elegantes */
@@ -39,7 +39,7 @@
   --text-muted: #7A7075;
   --border: #E8E0DC;
   
-  /* Gradients - mais din√¢micos e excitantes */
+  /* Gradients - mais din‚micos e excitantes */
   --gradient-primary: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%);
   --gradient-secondary: linear-gradient(135deg, #2D1B4E 0%, #4A3270 100%);
   --gradient-warm: linear-gradient(135deg, #E8833A 0%, #C41E3A 100%);
@@ -80,7 +80,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   background: 
-    /* Padr√µes sutis - tons neutros quentes */
+    /* Padrıes sutis - tons neutros quentes */
     radial-gradient(circle at 10% 20%, rgba(139, 74, 94, 0.04) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(92, 75, 107, 0.03) 0%, transparent 40%),
     radial-gradient(circle at 50% 5%, rgba(196, 169, 98, 0.02) 0%, transparent 30%),
@@ -271,7 +271,7 @@ body {
   justify-content: center;
 }
 
-/* Padr√£o de pontos decorativos - sofisticado */
+/* Padr„o de pontos decorativos - sofisticado */
 .hero::before {
   content: '';
   position: absolute;
@@ -666,7 +666,7 @@ body {
   overflow: hidden;
 }
 
-/* Padr√£o de pontos no header do card */
+/* Padr„o de pontos no header do card */
 .quiz-card-header::before {
   content: '';
   position: absolute;
@@ -934,7 +934,7 @@ body {
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--bg-card, white);
     flex-direction: column;
     padding: var(--spacing-md);
     box-shadow: var(--shadow-lg);
@@ -1211,7 +1211,7 @@ body {
 
 /* Button variants for hero welcome */
 .btn-white {
-  background: white;
+  background: var(--bg-card, white);
   color: var(--primary);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
@@ -1279,7 +1279,7 @@ body {
 }
 
 .step-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   text-align: center;
@@ -1375,7 +1375,7 @@ body {
 }
 
 .modal-content {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-2xl);
   max-width: 450px;
@@ -1536,7 +1536,7 @@ body {
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   text-align: center;
@@ -1588,7 +1588,7 @@ body {
 
 /* Stats Progress Bar */
 .stats-progress-bar {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-md);
@@ -1641,7 +1641,7 @@ body {
 }
 
 .progress-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -1659,7 +1659,7 @@ body {
 }
 
 .progress-card.completed::after {
-  content: '‚úì';
+  content: '?';
   position: absolute;
   top: 10px;
   right: 10px;
@@ -1803,7 +1803,7 @@ body {
 }
 
 .result-content {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 24px;
   max-width: 500px;
   width: 100%;

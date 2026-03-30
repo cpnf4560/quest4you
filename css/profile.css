@@ -1,4 +1,4 @@
-﻿/* ================================
+/* ================================
    QUEST4YOU - Profile Page Styles
    Redesigned 2025
    ================================ */
@@ -15,7 +15,7 @@
    ================================ */
 .profile-header-new {
   position: relative;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   margin-bottom: 24px;
@@ -226,7 +226,7 @@
 }
 
 .personal-info-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: 32px;
   box-shadow: var(--shadow-md);
@@ -277,7 +277,7 @@
   font-size: 1rem;
   border: 2px solid #e0e0e0;
   border-radius: var(--radius-md);
-  background: white;
+  background: var(--bg-card, white);
   font-family: 'Poppins', sans-serif;
   color: var(--text-primary);
   cursor: pointer;
@@ -316,7 +316,7 @@
   font-size: 1rem;
   border: 2px solid #e0e0e0;
   border-radius: var(--radius-md);
-  background: white;
+  background: var(--bg-card, white);
   font-family: 'Poppins', sans-serif;
   color: var(--text-primary);
   transition: all 0.3s ease;
@@ -408,7 +408,7 @@
 }
 
 .nickname-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -444,7 +444,7 @@
   line-height: 1;
   border: 2px solid var(--border);
   border-radius: var(--radius-md);
-  background: white;
+  background: var(--bg-card, white);
   cursor: pointer;
   text-align: center;
   transition: all 0.3s ease;
@@ -494,7 +494,7 @@
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: 24px;
   text-align: center;
@@ -538,7 +538,7 @@
 /* New Compact Result Cards */
 .result-card-compact {
   display: flex;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -580,7 +580,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: white;
+  background: var(--bg-card, white);
 }
 
 .result-card-right .result-card-title {
@@ -603,7 +603,7 @@
 
 /* Old result-card styles - keep for backwards compatibility */
 .result-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -657,7 +657,7 @@
   grid-column: 1 / -1;
   text-align: center;
   padding: 48px;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
@@ -685,7 +685,7 @@
 }
 
 .badge-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: 24px;
   text-align: center;
@@ -725,7 +725,7 @@
 }
 
 .settings-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   overflow: hidden;
@@ -816,7 +816,7 @@
 }
 
 .danger-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   border: 2px solid rgba(166, 93, 115, 0.3);
   overflow: hidden;
@@ -925,7 +925,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: 32px;
   max-width: 480px;
@@ -1010,7 +1010,7 @@
 }
 
 .result-content {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   max-width: 500px;
   width: 100%;
@@ -1156,7 +1156,7 @@
 }
 
 .photos-card {
-  background: white;
+  background: var(--bg-card, white);
   padding: 24px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
@@ -1281,7 +1281,7 @@
 }
 
 .validation-requirements {
-  background: white;
+  background: var(--bg-card, white);
   padding: 16px;
   border-radius: var(--radius-md);
   margin-bottom: 20px;
@@ -1536,7 +1536,7 @@
 }
 
 .feedback-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: 28px;
   box-shadow: var(--shadow-md);
@@ -1604,7 +1604,7 @@
   padding: 8px 14px;
   border-radius: var(--radius-md);
   border: 2px solid #e0e0e0;
-  background: white;
+  background: var(--bg-card, white);
   transition: all 0.3s ease;
 }
 
@@ -1796,7 +1796,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: white;
+  background: var(--bg-card, white);
   padding: 16px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
@@ -1852,7 +1852,7 @@
 
 /* Friends Card */
 .friends-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -2060,7 +2060,7 @@
 }
 
 .admin-friend-card .friend-card-actions {
-  opacity: 1; /* Sempre visÃ­vel para o admin */
+  opacity: 1; /* Sempre visível para o admin */
 }
 
 .admin-friend-card .chat-btn {
@@ -2344,7 +2344,7 @@
   right: -5px;
   width: 32px;
   height: 32px;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2492,7 +2492,7 @@
 
 .full-report-content .result-close:hover {
   transform: scale(1.1);
-  background: white;
+  background: var(--bg-card, white);
 }
 
 .full-report-header {

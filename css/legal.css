@@ -12,7 +12,7 @@
 }
 
 .legal-content {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-2xl);
   box-shadow: var(--shadow-lg);
@@ -312,7 +312,7 @@
   font-family: inherit;
   font-size: 1rem;
   transition: all 0.2s;
-  background: white;
+  background: var(--bg-card, white);
 }
 
 .form-group input:focus,

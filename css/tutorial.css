@@ -81,7 +81,7 @@
 
 /* Step Card */
 .step-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: var(--radius-xl);
   padding: 40px;
   box-shadow: var(--shadow-md);
@@ -484,7 +484,7 @@
   height: 12px;
   border-radius: 50%;
   border: 2px solid var(--primary);
-  background: white;
+  background: var(--bg-card, white);
   cursor: pointer;
   transition: all 0.3s ease;
 }

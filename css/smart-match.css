@@ -1,6 +1,6 @@
-﻿/**
+/**
  * Quest4You - Smart Match Styles
- * Estilos para a página de compatibilidade
+ * Estilos para a p�gina de compatibilidade
  */
 
 /* ================================
@@ -86,7 +86,7 @@
 .login-required-card,
 .no-quizzes-card,
 .profile-setup-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 16px;
   padding: 2.5rem;
   text-align: center;
@@ -221,7 +221,7 @@
    ================================ */
 
 .match-filters {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 1.5rem;
@@ -256,7 +256,7 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 0.9rem;
-  background: white;
+  background: var(--bg-card, white);
   cursor: pointer;
 }
 
@@ -348,7 +348,7 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.4rem 0.75rem;
-  background: white;
+  background: var(--bg-card, white);
   border: 1px solid #e0e0e0;
   border-radius: 20px;
   font-size: 0.8rem;
@@ -394,7 +394,7 @@
    ================================ */
 
 .match-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
@@ -445,7 +445,7 @@
 }
 
 .match-compat {
-  background: white;
+  background: var(--bg-card, white);
   color: #8B4A5E;
   width: 50px;
   height: 50px;
@@ -598,7 +598,7 @@
 }
 
 .match-modal-content {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 20px;
   width: 100%;
   max-width: 450px;
@@ -682,7 +682,7 @@
 .compat-circle {
   width: 80px;
   height: 80px;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 50%;
   display: flex;
   align-items: center;

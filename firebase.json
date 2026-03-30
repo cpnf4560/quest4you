@@ -11,7 +11,11 @@
       "**/.firebase/**",
       "**/node_modules/**",
       "**/*.ps1",
-      "**/*.md"
+      "**/*.md",
+      "_ARCHIVE/**",
+      "PARA_QUEST4COUPLE/**",
+      "scripts/**",
+      "docs/**"
     ],
     "headers": [
       {
@@ -20,6 +24,24 @@
           {
             "key": "Cache-Control",
             "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(png|jpg|jpeg|gif|ico|svg|webp)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
           }
         ]
       }

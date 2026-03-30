@@ -415,8 +415,11 @@ async function renderProgress() {
   // Calculate statistics
   const totalQuizzes = QUIZZES_CONFIG.length;
   const completedQuizzes = Object.keys(userResults).length;
-  const totalQuestions = totalQuizzes * 50; // 50 questions per quiz
-  const questionsAnswered = completedQuizzes * 50;
+  const totalQuestions = QUIZZES_CONFIG.reduce((sum, q) => sum + q.questions, 0);
+  const questionsAnswered = Object.keys(userResults).reduce((sum, quizId) => {
+    const config = QUIZZES_CONFIG.find(q => q.id === quizId);
+    return sum + (config ? config.questions : 0);
+  }, 0);
   const progressPercent = Math.round((completedQuizzes / totalQuizzes) * 100);
   
   // Update stats cards

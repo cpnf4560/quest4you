@@ -51,7 +51,7 @@
 }
 
 .tab-btn.active {
-  background: white;
+  background: var(--bg-card, white);
   color: #667eea;
   border-color: white;
 }
@@ -115,7 +115,7 @@
 }
 
 .article-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -268,7 +268,7 @@
 }
 
 .forum-cat-btn.active {
-  background: white;
+  background: var(--bg-card, white);
   border-color: #667eea;
   color: #667eea;
 }
@@ -280,7 +280,7 @@
 }
 
 .topic-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 12px;
   padding: 1.25rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -390,7 +390,7 @@
   grid-template-columns: 250px 1fr;
   gap: 1.5rem;
   height: 70vh;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -417,7 +417,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: white;
+  background: var(--bg-card, white);
   border: 2px solid transparent;
   padding: 0.75rem;
   border-radius: 10px;
@@ -631,7 +631,7 @@
   grid-template-columns: 300px 1fr;
   gap: 0;
   height: 70vh;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -677,7 +677,7 @@
 }
 
 .conversation-item.active {
-  background: white;
+  background: var(--bg-card, white);
   border-left: 3px solid #667eea;
 }
 
@@ -971,7 +971,7 @@
   display: flex;
   gap: 0.75rem;
   padding: 1rem;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 10px;
 }
 
@@ -1040,7 +1040,7 @@
   text-align: center;
   color: #999;
   padding: 1rem;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 10px;
 }
 
@@ -1051,7 +1051,7 @@
   display: flex;
   gap: 0.75rem;
   padding: 1rem;
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 10px;
 }
 
@@ -1184,7 +1184,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 16px;
   width: 100%;
   max-width: 500px;
@@ -1458,7 +1458,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: var(--bg-card, white);
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);

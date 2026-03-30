@@ -1,0 +1,20 @@
+{
+  "name": "Quest4You - Descobre-te!",
+  "short_name": "Quest4You",
+  "description": "Questionários de autoconhecimento sobre sexualidade, fetiches e compatibilidade. Descobre quem és e encontra pessoas compatíveis.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1A1218",
+  "theme_color": "#C41E3A",
+  "orientation": "portrait-primary",
+  "lang": "pt-PT",
+  "categories": ["lifestyle", "social", "entertainment"],
+  "icons": [
+    {
+      "src": "/assets/quest4you_transp.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
