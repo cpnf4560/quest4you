@@ -127,7 +127,7 @@
     "notSaved": "⚠️ No guardado",
     "unansweredWarning": "Aún tienes {{count}} pregunta(s) sin responder. ¿Quieres terminar de todos modos?",
     "mustAnswer": "Responde al menos 1 pregunta antes de terminar.",
-    "shareText": "¡Hice el cuestionario \"{{name}}\" en Quest4You!\n\nMi resultado: {{result}}\n\nDescubre el tuyo también en quest4you.com",
+    "shareText": "¡Hice el cuestionario \"{{name}}\" en Quest4You!\n\nMi resultado: {{result}}\n\nDescubre el tuyo también en quest4you.pt",
     "retakeConfirm": "¿Estás seguro de que quieres rehacer el cuestionario? Tus respuestas serán eliminadas.",    "editModeTitle": "✏️ Modo de edición activo",
     "editModeDesc": "Navega por las preguntas y cambia las que quieras. Haz clic en \"Ver Resultado\" cuando termines.",
     "notSpecified": "¡Quiz no especificado!",
@@ -374,7 +374,7 @@
     "noCategories": "Sin datos de categorías disponibles.",
     "topCategories": "Top Categorías:",
     "topTags": "🏷️ Tags principales:",
-    "shareResultText": "¡Hice el cuestionario \"{{quizName}}\" en Quest4You!\n\nMi resultado: {{result}}\n\nDescubre el tuyo en quest4you.com",
+    "shareResultText": "¡Hice el cuestionario \"{{quizName}}\" en Quest4You!\n\nMi resultado: {{result}}\n\nDescubre el tuyo en quest4you.pt",
     "shareResultTitle": "Quest4You - {{quizName}}",
     "resultCopied": "¡Resultado copiado al portapapeles!",
     "retakeConfirmProfile": "¿Estás seguro de que quieres rehacer el cuestionario? Tus respuestas serán eliminadas.",
@@ -397,7 +397,7 @@
     "insightComplete": "¡Con {{count}} cuestionarios completos, tienes un perfil bien definido y detallado!",
     "insightMoreQuizzes": "Completa más cuestionarios para tener un perfil aún más detallado.",
     "insightEmpty": "¡Completa más cuestionarios para descubrir tu perfil!",
-    "shareProfileText": "🎯 ¡Mi perfil Quest4You!\n\nCompleté {{count}} cuestionarios de autoconocimiento.\n\nDescubre tu perfil en quest4you.com",
+    "shareProfileText": "🎯 ¡Mi perfil Quest4You!\n\nCompleté {{count}} cuestionarios de autoconocimiento.\n\nDescubre tu perfil en quest4you.pt",
     "shareProfileTitle": "Quest4You - Mi Perfil",
     "textCopied": "¡Texto copiado al portapapeles!",
     "downloadPdfSoon": "📥 ¡Descarga de PDF próximamente!\n\nPor ahora, puedes usar Ctrl+P (o Cmd+P en Mac) para imprimir/guardar como PDF mientras el informe está abierto.",
@@ -910,3 +910,4 @@
     "allCompleted": "🎉 ¡Has completado todos los cuestionarios!"
   }
 }
+

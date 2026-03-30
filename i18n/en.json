@@ -127,7 +127,7 @@
     "notSaved": "⚠️ Not saved",
     "unansweredWarning": "You still have {{count}} unanswered question(s). Do you want to finish anyway?",
     "mustAnswer": "Answer at least 1 question before finishing.",
-    "shareText": "I took the \"{{name}}\" quiz on Quest4You!\n\nMy result: {{result}}\n\nDiscover yours too at quest4you.com",
+    "shareText": "I took the \"{{name}}\" quiz on Quest4You!\n\nMy result: {{result}}\n\nDiscover yours too at quest4you.pt",
     "retakeConfirm": "Are you sure you want to retake the quiz? Your answers will be deleted.",
     "editModeTitle": "✏️ Edit mode active",
     "editModeDesc": "Navigate through the questions and change the ones you want. Click \"See Result\" when you're done.",
@@ -376,7 +376,7 @@
     "noCategories": "No category data available.",
     "topCategories": "Top Categories:",
     "topTags": "🏷️ Main tags:",
-    "shareResultText": "I took the \"{{quizName}}\" quiz on Quest4You!\n\nMy result: {{result}}\n\nDiscover yours at quest4you.com",
+    "shareResultText": "I took the \"{{quizName}}\" quiz on Quest4You!\n\nMy result: {{result}}\n\nDiscover yours at quest4you.pt",
     "shareResultTitle": "Quest4You - {{quizName}}",
     "resultCopied": "Result copied to clipboard!",
     "retakeConfirmProfile": "Are you sure you want to retake this quiz? Your answers will be deleted.",
@@ -399,7 +399,7 @@
     "insightComplete": "With {{count}} quizzes completed, you have a well-defined and detailed profile!",
     "insightMoreQuizzes": "Complete more quizzes for an even more detailed profile.",
     "insightEmpty": "Complete more quizzes to discover your profile!",
-    "shareProfileText": "🎯 My Quest4You profile!\n\nI completed {{count}} self-discovery quizzes.\n\nDiscover your profile at quest4you.com",
+    "shareProfileText": "🎯 My Quest4You profile!\n\nI completed {{count}} self-discovery quizzes.\n\nDiscover your profile at quest4you.pt",
     "shareProfileTitle": "Quest4You - My Profile",
     "textCopied": "Text copied to clipboard!",
     "downloadPdfSoon": "📥 PDF download coming soon!\n\nFor now, you can use Ctrl+P (or Cmd+P on Mac) to print/save as PDF while the report is open.",
@@ -914,3 +914,4 @@
     "allCompleted": "🎉 You've completed all quizzes!"
   }
 }
+

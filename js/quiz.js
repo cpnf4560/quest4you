@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Quest4You - Quiz Logic v2.1
  * Dynamic options from JSON, tag-based scoring (0-100)
  * Supports: spectrum, tags result types
@@ -711,7 +711,7 @@ async function shareResult() {
   const quizName = quizData.name;
   const text = t('quiz.shareText') !== 'quiz.shareText'
     ? t('quiz.shareText', { name: quizName, result: result.score + '/100 - ' + (result.category || '') })
-    : 'Fiz o questionário "' + quizName + '" no Quest4You!\n\nO meu resultado: ' + result.score + '/100 - ' + (result.category || '') + '\n\nDescobre o teu também em quest4you.com';
+    : 'Fiz o questionário "' + quizName + '" no Quest4You!\n\nO meu resultado: ' + result.score + '/100 - ' + (result.category || '') + '\n\nDescobre o teu também em quest4you.pt';
 
   if (navigator.share) {
     navigator.share({

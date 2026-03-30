@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Quest4You - Main Application
  * Questionários individuais com resultados imediatos
  * Login obrigatório para responder
@@ -677,7 +677,7 @@ function shareResultFromHome() {
   const quizName = getQuizName(quiz);
   const text = t('quiz.shareText') !== 'quiz.shareText'
     ? t('quiz.shareText', { name: quizName, result: (result.category || result.score + '/100') })
-    : 'Fiz o questionário "' + quizName + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '/100') + '\n\nDescobre o teu também em quest4you.com';
+    : 'Fiz o questionário "' + quizName + '" no Quest4You!\n\nO meu resultado: ' + (result.category || result.score + '/100') + '\n\nDescobre o teu também em quest4you.pt';
   
   if (navigator.share) {
     navigator.share({

@@ -1,4 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /pages/admin.html
@@ -9,4 +9,5 @@ Disallow: /.firebase/
 Disallow: /.vercel/
 Disallow: /data/
 
-Sitemap: https://quest4you.com/sitemap.xml
+Sitemap: https://quest4you.pt/sitemap.xml
+
