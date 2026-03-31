@@ -706,7 +706,33 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>  <script src="../js/firebase-config.js?v=202603310001"></script>
-  <script src="./admin.js?v=202603310001"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="../js/firebase-config.js?v=202603310002"></script>
+  
+  <!-- Fallback helper functions (in case admin.js is cached) -->
+  <script>
+    if (typeof parseDate !== 'function') {
+      window.parseDate = function(dateValue, fallback) {
+        if (fallback === undefined) fallback = new Date();
+        if (!dateValue) return fallback;
+        try {
+          if (typeof dateValue.toDate === 'function') return dateValue.toDate();
+          if (dateValue instanceof Date) return dateValue;
+          if (typeof dateValue === 'string') return new Date(dateValue);
+          if (typeof dateValue === 'number') return dateValue < 1e12 ? new Date(dateValue * 1000) : new Date(dateValue);
+          if (dateValue.seconds) return new Date(dateValue.seconds * 1000);
+        } catch (e) { console.warn('Error parsing date:', e); }
+        return fallback;
+      };
+      window.formatDatePT = function(dateValue, includeTime) {
+        if (includeTime === undefined) includeTime = true;
+        var date = parseDate(dateValue);
+        return includeTime ? date.toLocaleString('pt-PT') : date.toLocaleDateString('pt-PT');
+      };
+      console.log('📦 Date helper functions loaded from fallback');
+    }
+  </script>
+  
+  <script src="./admin.js?v=202603310002"></script>
 </body>
 </html>
