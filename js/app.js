@@ -152,6 +152,27 @@ const QUIZZES_CONFIG = [
     questions: 15,
     resultType: "spectrum",
     group: "quizGroups.lifestyle"
+  },
+  // GROUP 6: Self-Knowledge
+  {
+    id: "solo",
+    nameKey: "quizNames.solo",
+    icon: "🔮",
+    color: "#9c27b0",
+    descKey: "quizDescriptions.solo",
+    questions: 15,
+    resultType: "spectrum",
+    group: "quizGroups.selfknowledge"
+  },
+  {
+    id: "attraction",
+    nameKey: "quizNames.attraction",
+    icon: "💘",
+    color: "#e91e63",
+    descKey: "quizDescriptions.attraction",
+    questions: 15,
+    resultType: "spectrum",
+    group: "quizGroups.selfknowledge"
   }
 ];
 
