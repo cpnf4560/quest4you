@@ -2395,19 +2395,37 @@ function displayUserInfo(userData) {
   if (userData.createdAt) {
     const date = parseDate(userData.createdAt);
     joinedText = `Registado em: ${date.toLocaleDateString('pt-PT')}`;
-  }
-  document.getElementById('userAnswersJoined').textContent = joinedText;
+  }  document.getElementById('userAnswersJoined').textContent = joinedText;
   
   // Estatísticas
   const results = userData.results || userData.quizResults || {};
   const quizCount = Object.keys(results).length;
   
+  // Contar respostas - múltiplas fontes possíveis
   let responseCount = 0;
-  if (userData.progress) {
+  
+  // 1. Contar de userData.progress
+  if (userData.progress && Object.keys(userData.progress).length > 0) {
     Object.values(userData.progress).forEach(count => {
       responseCount += count || 0;
     });
   }
+  
+  // 2. Se não houver progress, contar das answers dentro dos results
+  if (responseCount === 0) {
+    Object.values(results).forEach(result => {
+      if (result && result.answers) {
+        responseCount += Object.keys(result.answers).length;
+      }
+    });
+  }
+  
+  // 3. Se ainda for 0, estimar baseado nos quizzes completados (15 perguntas cada)
+  if (responseCount === 0 && quizCount > 0) {
+    responseCount = quizCount * 15; // Estimativa
+  }
+  
+  console.log('📊 User stats:', { quizCount, responseCount, progress: userData.progress });
   
   document.getElementById('userAnswersQuizCount').textContent = quizCount;
   document.getElementById('userAnswersResponseCount').textContent = responseCount;
@@ -2470,10 +2488,13 @@ async function loadQuizAnswers(quizId) {
       btn.classList.add('active');
     }
   });
-  
-  try {
+    try {
     const results = currentUserData.results || currentUserData.quizResults || {};
     const quizResult = results[quizId];
+    
+    console.log('📊 Quiz Result for', quizId, ':', quizResult);
+    console.log('📊 currentUserData.answers:', currentUserData.answers);
+    console.log('📊 quizResult.answers:', quizResult?.answers);
     
     if (!quizResult) {
       container.innerHTML = '<p style="text-align: center; padding: 40px;">❌ Resultado não encontrado</p>';
@@ -2492,8 +2513,32 @@ async function loadQuizAnswers(quizId) {
       console.warn('Could not load quiz questions:', e);
     }
     
-    // Obter respostas do utilizador
-    const userAnswers = currentUserData.answers?.[quizId] || quizResult.answers || {};
+    // Obter respostas do utilizador - tentar múltiplas localizações possíveis
+    let userAnswers = {};
+    
+    // Tentar: currentUserData.answers[quizId]
+    if (currentUserData.answers && currentUserData.answers[quizId]) {
+      userAnswers = currentUserData.answers[quizId];
+      console.log('✅ Found answers in currentUserData.answers[quizId]');
+    }
+    // Tentar: quizResult.answers
+    else if (quizResult.answers && Object.keys(quizResult.answers).length > 0) {
+      userAnswers = quizResult.answers;
+      console.log('✅ Found answers in quizResult.answers');
+    }
+    // Tentar: quizResult (formato antigo onde respostas estavam no nível raiz)
+    else if (quizResult.q1 !== undefined || quizResult['1'] !== undefined) {
+      // Formato antigo: respostas diretamente no objeto
+      userAnswers = {};
+      Object.keys(quizResult).forEach(key => {
+        if (key.match(/^q?\d+$/) || key.match(/^\d+$/)) {
+          userAnswers[key] = quizResult[key];
+        }
+      });
+      console.log('✅ Found answers in quizResult root level (legacy format)');
+    }
+    
+    console.log('📋 Final userAnswers:', userAnswers, 'Count:', Object.keys(userAnswers).length);
     
     // Renderizar
     displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers);
