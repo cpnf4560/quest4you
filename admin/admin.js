@@ -669,6 +669,8 @@ function refreshUsers() {
 
 async function viewUser(userId) {
   try {
+    console.log('🔍 Loading user details for:', userId);
+    
     const doc = await db.collection('quest4you_users').doc(userId).get();
     
     if (!doc.exists) {
@@ -677,13 +679,31 @@ async function viewUser(userId) {
     }
     
     const data = doc.data();
+    console.log('📄 User data loaded:', data);
     
     // Construir informação detalhada
     let info = `👤 INFORMAÇÕES DO UTILIZADOR\n`;
     info += `━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
     info += `📧 Email: ${data.email || 'N/A'}\n`;
     info += `✏️ Nome: ${data.displayName || 'Anónimo'}\n`;
-    info += `📅 Registo: ${data.createdAt ? data.createdAt.toDate().toLocaleString('pt-PT') : 'N/A'}\n\n`;
+    
+    // Tratar diferentes formatos de data de forma segura
+    let registoDate = 'N/A';
+    if (data.createdAt) {
+      try {
+        if (data.createdAt.toDate) {
+          registoDate = data.createdAt.toDate().toLocaleString('pt-PT');
+        } else if (data.createdAt instanceof Date) {
+          registoDate = data.createdAt.toLocaleString('pt-PT');
+        } else if (typeof data.createdAt === 'string') {
+          registoDate = new Date(data.createdAt).toLocaleString('pt-PT');
+        }
+      } catch (e) {
+        console.warn('Error parsing createdAt date:', e);
+        registoDate = 'Erro ao ler data';
+      }
+    }
+    info += `📅 Registo: ${registoDate}\n\n`;
     
     // Progresso dos Questionários
     info += `📊 PROGRESSO DOS QUESTIONÁRIOS\n`;
@@ -704,11 +724,11 @@ async function viewUser(userId) {
       lifestyle: 'Valores & Estilo de Vida',
       digital: 'Comunicação & Tecnologia'
     };
-    
-    if (data.progress) {
+      if (data.progress && typeof data.progress === 'object') {
       Object.entries(data.progress).forEach(([quizId, count]) => {
         const quizName = quizNames[quizId] || quizId;
-        info += `• ${quizName}: ${count} perguntas\n`;
+        const countValue = typeof count === 'number' ? count : 0;
+        info += `• ${quizName}: ${countValue} perguntas\n`;
       });
     } else {
       info += `Nenhum progresso registado\n`;
@@ -723,23 +743,26 @@ async function viewUser(userId) {
     // Verificar ambos os campos: results E quizResults
     const results = data.results || data.quizResults || {};
     
-    if (Object.keys(results).length > 0) {
+    if (results && typeof results === 'object' && Object.keys(results).length > 0) {
       Object.entries(results).forEach(([quizId, result]) => {
         const quizName = quizNames[quizId] || quizId;
         info += `• ${quizName}\n`;
         
-        // Verificar diferentes formatos de scores
-        const scores = result.scores || result.categoryScores || result.rolePercentages || {};
-        if (Object.keys(scores).length > 0) {
-          Object.entries(scores).forEach(([key, value]) => {
-            const scoreValue = typeof value === 'number' ? value : parseFloat(value) || 0;
-            info += `  - ${key}: ${Math.round(scoreValue)}%\n`;
-          });
-        } else if (result.score !== undefined) {
-          info += `  - Score: ${result.score}%\n`;
-        }
-        if (result.category) {
-          info += `  - Categoria: ${result.category}\n`;
+        // Proteger contra result null/undefined
+        if (result && typeof result === 'object') {
+          // Verificar diferentes formatos de scores
+          const scores = result.scores || result.categoryScores || result.rolePercentages || {};
+          if (scores && typeof scores === 'object' && Object.keys(scores).length > 0) {
+            Object.entries(scores).forEach(([key, value]) => {
+              const scoreValue = typeof value === 'number' ? value : parseFloat(value) || 0;
+              info += `  - ${key}: ${Math.round(scoreValue)}%\n`;
+            });
+          } else if (result.score !== undefined) {
+            info += `  - Score: ${result.score}%\n`;
+          }
+          if (result.category) {
+            info += `  - Categoria: ${result.category}\n`;
+          }
         }
       });
     } else {
@@ -758,12 +781,21 @@ async function viewUser(userId) {
       info += `Orientação declarada: ${data.smartMatchPreferences?.orientation || 'N/A'}\n`;
       info += `A procurar: ${data.smartMatchPreferences?.lookingFor || 'N/A'}\n`;
     }
-    
-    alert(info);
+      alert(info);
     
   } catch (error) {
     console.error('Error viewing user:', error);
-    alert('❌ Erro ao carregar detalhes do utilizador');
+    console.error('Error code:', error.code);
+    console.error('Error message:', error.message);
+    
+    let errorMsg = '❌ Erro ao carregar detalhes do utilizador';
+    if (error.code === 'permission-denied') {
+      errorMsg += '\n\n🔒 Sem permissões para aceder a este utilizador.';
+    } else if (error.message) {
+      errorMsg += `\n\n${error.message}`;
+    }
+    
+    alert(errorMsg);
   }
 }
 
