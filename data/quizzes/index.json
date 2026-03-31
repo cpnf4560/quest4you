@@ -2,8 +2,8 @@
   "version": "2.1",
   "scoringSystem": "0-100",
   "tagMatching": true,
-  "totalQuizzes": 14,
-  "totalQuestions": 245,
+  "totalQuizzes": 16,
+  "totalQuestions": 275,
   "quizzes": [
     {
       "id": "vanilla",
@@ -160,6 +160,28 @@
       "order": 14,
       "weight": 1,
       "description": "Como te conectas com outros sexualmente no mundo moderno"
+    },
+    {
+      "id": "solo",
+      "file": "solo.json",
+      "name": "Prazer Solo & Autoconhecimento",
+      "icon": "🔮",
+      "color": "#9c27b0",
+      "questionCount": 15,
+      "order": 15,
+      "weight": 1,
+      "description": "Relação com o prazer solitário e autoconhecimento sexual"
+    },
+    {
+      "id": "attraction",
+      "file": "attraction.json",
+      "name": "Atração & Tipos",
+      "icon": "💘",
+      "color": "#e91e63",
+      "questionCount": 15,
+      "order": 16,
+      "weight": 1,
+      "description": "O que te atrai fisicamente e emocionalmente em parceiros"
     }
   ],
   "matchingAlgorithm": {

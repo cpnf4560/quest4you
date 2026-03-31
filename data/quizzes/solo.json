@@ -1,0 +1,112 @@
+{
+  "id": "solo",
+  "name": "Prazer Solo & Autoconhecimento",
+  "icon": "🔮",
+  "color": "#9c27b0",
+  "description": "Explora a tua relação com o prazer solitário e autoconhecimento sexual",
+  "resultType": "spectrum",
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    { "min": 0, "max": 20, "label": "Minimalista Solo", "emoji": "🌙", "description": "Pouco foco no prazer solitário, preferes sempre a dois" },
+    { "min": 21, "max": 40, "label": "Ocasional", "emoji": "✨", "description": "Prazer solo quando necessário, sem grande investimento" },
+    { "min": 41, "max": 60, "label": "Equilibrado/a", "emoji": "⚖️", "description": "Valorizas tanto o prazer solo como a dois" },
+    { "min": 61, "max": 80, "label": "Explorador/a Solo", "emoji": "🔮", "description": "O prazer solo é parte importante do teu autoconhecimento" },
+    { "min": 81, "max": 100, "label": "Mestre do Prazer Próprio", "emoji": "👑", "description": "Dominas completamente o teu corpo e prazer individual" }
+  ],
+  "questions": [
+    { "id": 1, "text": "Frequência de masturbação:", "options": [
+      { "text": "🚫 Raramente/Nunca", "score": 0, "tags": ["low-solo", "partner-dependent"] },
+      { "text": "📅 1-2x por mês", "score": 25, "tags": ["occasional-solo"] },
+      { "text": "📆 1-3x por semana", "score": 50, "tags": ["regular-solo"] },
+      { "text": "🔥 Quase diariamente", "score": 75, "tags": ["frequent-solo"] },
+      { "text": "💫 Múltiplas vezes por dia", "score": 100, "tags": ["high-libido-solo", "solo-lover"] }
+    ]},
+    { "id": 2, "text": "Conheces bem o teu corpo e o que te dá prazer?", "options": [
+      { "text": "🤷 Não muito", "score": 0, "tags": ["body-unaware"] },
+      { "text": "🔍 Estou a descobrir", "score": 33, "tags": ["self-exploring"] },
+      { "text": "👍 Sim, conheço bem", "score": 66, "tags": ["body-aware"] },
+      { "text": "🎯 Perfeitamente - sou expert no meu prazer", "score": 100, "tags": ["body-master", "self-aware"] }
+    ]},
+    { "id": 3, "text": "Uso de brinquedos no prazer solo:", "options": [
+      { "text": "🚫 Nunca uso", "score": 0, "tags": ["no-solo-toys"] },
+      { "text": "🤔 Raramente", "score": 25, "tags": ["occasional-toys"] },
+      { "text": "👍 Regularmente (1-2 brinquedos)", "score": 50, "tags": ["toy-user"] },
+      { "text": "🎁 Coleção variada", "score": 75, "tags": ["toy-collector"] },
+      { "text": "🏰 Arsenal completo", "score": 100, "tags": ["toy-enthusiast", "toy-expert"] }
+    ]},
+    { "id": 4, "text": "Fantasias durante o prazer solo:", "options": [
+      { "text": "🧠 Mente em branco/foco físico", "score": 25, "tags": ["physical-focus"] },
+      { "text": "💭 Memórias reais", "score": 50, "tags": ["memory-based"] },
+      { "text": "🌌 Fantasias elaboradas", "score": 75, "tags": ["fantasy-rich"] },
+      { "text": "🎭 Cenários complexos e criativos", "score": 100, "tags": ["creative-fantasist", "imagination-driven"] }
+    ]},
+    { "id": 5, "text": "Consumo de pornografia:", "options": [
+      { "text": "🚫 Nunca", "score": 0, "tags": ["no-porn"] },
+      { "text": "📱 Ocasionalmente", "score": 33, "tags": ["casual-porn"] },
+      { "text": "💻 Regularmente", "score": 66, "tags": ["regular-porn"] },
+      { "text": "🎬 Frequentemente, variado", "score": 100, "tags": ["porn-consumer", "diverse-content"] }
+    ]},
+    { "id": 6, "text": "Edging (prolongar prazer antes do orgasmo):", "options": [
+      { "text": "🚫 Não pratico", "score": 0, "tags": ["no-edging"] },
+      { "text": "🤔 Já experimentei", "score": 33, "tags": ["edging-curious"] },
+      { "text": "🔥 Gosto, faço às vezes", "score": 66, "tags": ["edging-practitioner"] },
+      { "text": "🎯 Adoro, pratico regularmente", "score": 100, "tags": ["edging-expert", "orgasm-control"] }
+    ]},
+    { "id": 7, "text": "Orgasmos múltiplos solo:", "options": [
+      { "text": "1️⃣ Um é suficiente", "score": 25, "tags": ["single-orgasm"] },
+      { "text": "🔄 Às vezes mais que um", "score": 50, "tags": ["occasional-multiples"] },
+      { "text": "🔥 Frequentemente múltiplos", "score": 75, "tags": ["multiple-orgasms"] },
+      { "text": "🌋 Sessões longas com vários", "score": 100, "tags": ["marathon-solo", "multi-orgasmic"] }
+    ]},
+    { "id": 8, "text": "Exploração de zonas erógenas menos comuns:", "options": [
+      { "text": "🎯 Foco nas zonas principais", "score": 0, "tags": ["conventional-zones"] },
+      { "text": "🔍 Alguma exploração", "score": 33, "tags": ["zone-explorer"] },
+      { "text": "🗺️ Conheço várias zonas no meu corpo", "score": 66, "tags": ["erogenous-aware"] },
+      { "text": "✨ Mapeei todo o meu corpo", "score": 100, "tags": ["body-mapped", "erogenous-expert"] }
+    ]},
+    { "id": 9, "text": "Tempo médio de uma sessão solo:", "options": [
+      { "text": "⚡ 5-10 min (rápido)", "score": 25, "tags": ["quick-solo"] },
+      { "text": "⏱️ 10-20 min", "score": 50, "tags": ["moderate-solo"] },
+      { "text": "⏰ 20-45 min", "score": 75, "tags": ["extended-solo"] },
+      { "text": "🕐 45+ min (sessões longas)", "score": 100, "tags": ["marathon-sessions", "sensual-solo"] }
+    ]},
+    { "id": 10, "text": "Ambiente/setting para prazer solo:", "options": [
+      { "text": "🤷 Onde der, sem preparação", "score": 0, "tags": ["spontaneous-solo"] },
+      { "text": "🛏️ Na cama, básico", "score": 33, "tags": ["bed-solo"] },
+      { "text": "🛁 Gosto de privacidade e conforto", "score": 66, "tags": ["comfort-seeker"] },
+      { "text": "🕯️ Crio ambiente (luzes, música, etc.)", "score": 100, "tags": ["ritualistic-solo", "self-care"] }
+    ]},
+    { "id": 11, "text": "Prazer solo vs prazer a dois:", "options": [
+      { "text": "👫 Prefiro sempre a dois", "score": 0, "tags": ["partner-preferred"] },
+      { "text": "⚖️ Gosto de ambos igualmente", "score": 50, "tags": ["balanced-pleasure"] },
+      { "text": "🔮 Por vezes prefiro solo", "score": 75, "tags": ["solo-appreciator"] },
+      { "text": "👑 Solo é tão ou mais satisfatório", "score": 100, "tags": ["solo-master", "self-sufficient"] }
+    ]},
+    { "id": 12, "text": "Masturbação mútua com parceiro/a:", "options": [
+      { "text": "🚫 Nunca fizemos", "score": 0, "tags": ["no-mutual"] },
+      { "text": "🤔 Já experimentámos", "score": 33, "tags": ["mutual-curious"] },
+      { "text": "👍 Fazemos às vezes", "score": 66, "tags": ["mutual-occasional"] },
+      { "text": "🔥 Adoro, faz parte regular", "score": 100, "tags": ["mutual-lover", "shared-solo"] }
+    ]},
+    { "id": 13, "text": "Uso de conteúdo erótico (literatura, áudio, etc.):", "options": [
+      { "text": "🚫 Só visual ou nada", "score": 0, "tags": ["visual-only"] },
+      { "text": "📖 Já experimentei literatura", "score": 33, "tags": ["erotica-curious"] },
+      { "text": "🎧 Gosto de áudio erótico", "score": 66, "tags": ["audio-erotica"] },
+      { "text": "📚 Consumo variado (escrito, áudio, ASMR)", "score": 100, "tags": ["diverse-erotica", "content-explorer"] }
+    ]},
+    { "id": 14, "text": "Experimentação de novas técnicas solo:", "options": [
+      { "text": "🔄 Mantenho o que funciona", "score": 0, "tags": ["routine-solo"] },
+      { "text": "🤔 Às vezes experimento algo novo", "score": 33, "tags": ["occasional-experimenter"] },
+      { "text": "🔍 Procuro ativamente novas técnicas", "score": 66, "tags": ["technique-seeker"] },
+      { "text": "🧪 Constantemente a explorar e testar", "score": 100, "tags": ["solo-experimenter", "technique-master"] }
+    ]},
+    { "id": 15, "text": "Como vês o prazer solo na tua vida:", "options": [
+      { "text": "🔧 Necessidade física", "score": 25, "tags": ["functional-solo"] },
+      { "text": "😊 Momento de relaxamento", "score": 50, "tags": ["relaxation-solo"] },
+      { "text": "🔮 Autoconhecimento e descoberta", "score": 75, "tags": ["self-discovery"] },
+      { "text": "💎 Ritual de autocuidado essencial", "score": 100, "tags": ["self-care-ritual", "solo-essential"] }
+    ]}
+  ]
+}

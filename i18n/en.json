@@ -674,7 +674,9 @@
     "intimacy": "Intimacy & Connection",
     "rhythm": "Rhythm & Frequency",
     "lifestyle": "Values & Sexual Lifestyle",
-    "digital": "Communication & Intimate Tech"
+    "digital": "Communication & Intimate Tech",
+    "solo": "Solo Pleasure & Self-Discovery",
+    "attraction": "Attraction & Types"
   },
   "quizDescriptions": {
     "vanilla": "Soft and romantic vs. intense and wild sex - discover where you stand",
@@ -690,7 +692,9 @@
     "intimacy": "Importance of emotional connection",
     "rhythm": "Frequency, duration, schedules and libido",
     "lifestyle": "How you live your sexuality day-to-day, what you value, and how you evolve",
-    "digital": "How you connect with others sexually in the modern world"
+    "digital": "How you connect with others sexually in the modern world",
+    "solo": "Your relationship with solo pleasure and sexual self-knowledge",
+    "attraction": "What attracts you physically and emotionally in partners"
   },
 
   "app": {

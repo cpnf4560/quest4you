@@ -671,7 +671,9 @@
     "intimacy": "Intimidad y Conexión",
     "rhythm": "Frecuencia, duración, horarios y libido",
     "lifestyle": "Valores y Estilo de Vida Sexual",
-    "digital": "Comunicación y Tecnología Íntima"
+    "digital": "Comunicación y Tecnología Íntima",
+    "solo": "Placer Solo y Autoconocimiento",
+    "attraction": "Atracción y Tipos"
   },
   "quizDescriptions": {
     "vanilla": "Sexo suave y romántico vs. intenso y salvaje - descubre dónde te posicionas",
@@ -687,7 +689,9 @@
     "intimacy": "Importancia de la conexión emocional",
     "rhythm": "Frecuencia, duración, horarios y libido",
     "lifestyle": "Cómo vives tu sexualidad día a día, qué valoras y cómo evolucionas",
-    "digital": "Cómo te conectas con otros sexualmente en el mundo moderno"
+    "digital": "Cómo te conectas con otros sexualmente en el mundo moderno",
+    "solo": "Tu relación con el placer solitario y autoconocimiento sexual",
+    "attraction": "Qué te atrae física y emocionalmente en parejas"
   },
 
   "app": {

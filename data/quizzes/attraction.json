@@ -1,0 +1,110 @@
+{
+  "id": "attraction",
+  "name": "Atração & Tipos",
+  "icon": "💘",
+  "color": "#e91e63",
+  "description": "Descobre o que te atrai fisicamente e emocionalmente em parceiros",
+  "resultType": "spectrum",
+  "quizVersion": "2.1",
+  "minScore": 0,
+  "maxScore": 100,
+  "categories": [
+    { "min": 0, "max": 20, "label": "Tipo Específico", "emoji": "🎯", "description": "Sabes exatamente o que te atrai, tens um tipo muito definido" },
+    { "min": 21, "max": 40, "label": "Preferências Claras", "emoji": "📋", "description": "Tens preferências mas com alguma flexibilidade" },
+    { "min": 41, "max": 60, "label": "Mente Aberta", "emoji": "🌈", "description": "Vários tipos te atraem, dependendo da pessoa" },
+    { "min": 61, "max": 80, "label": "Eclético/a", "emoji": "✨", "description": "A atração depende muito mais da conexão que do tipo físico" },
+    { "min": 81, "max": 100, "label": "Pansensual", "emoji": "💫", "description": "Potencial atração por qualquer pessoa, sem padrão fixo" }
+  ],
+  "questions": [
+    { "id": 1, "text": "Tens um 'tipo' físico específico?", "options": [
+      { "text": "🎯 Sim, muito específico", "score": 0, "tags": ["specific-type", "physical-preference"] },
+      { "text": "📋 Algumas preferências", "score": 33, "tags": ["some-preferences"] },
+      { "text": "🤷 Depende da pessoa", "score": 66, "tags": ["flexible-type"] },
+      { "text": "🌈 Não, atração é imprevisível", "score": 100, "tags": ["no-type", "open-attraction"] }
+    ]},
+    { "id": 2, "text": "Importância da aparência física inicial:", "options": [
+      { "text": "💯 Essencial - preciso de atração física imediata", "score": 0, "tags": ["looks-essential", "physical-first"] },
+      { "text": "👍 Importante mas não tudo", "score": 33, "tags": ["looks-important"] },
+      { "text": "⚖️ Equilibrada com personalidade", "score": 66, "tags": ["balanced-attraction"] },
+      { "text": "🧠 Secundária - atração cresce com conexão", "score": 100, "tags": ["demisexual-leaning", "connection-first"] }
+    ]},
+    { "id": 3, "text": "Atração por inteligência (sapiosexual):", "options": [
+      { "text": "🤷 Irrelevante para atração", "score": 0, "tags": ["not-sapiosexual"] },
+      { "text": "👍 É um bónus", "score": 33, "tags": ["intelligence-bonus"] },
+      { "text": "🔥 Muito atraente", "score": 66, "tags": ["intelligence-attractive"] },
+      { "text": "🧠 Essencial - inteligência é o mais sexy", "score": 100, "tags": ["sapiosexual", "mind-attracted"] }
+    ]},
+    { "id": 4, "text": "Preferência de altura em parceiros:", "options": [
+      { "text": "📏 Tenho preferência forte (mais alto/a ou mais baixo/a)", "score": 0, "tags": ["height-preference"] },
+      { "text": "🤷 Alguma preferência mas flexível", "score": 33, "tags": ["flexible-height"] },
+      { "text": "⚖️ Não me importo muito", "score": 66, "tags": ["height-neutral"] },
+      { "text": "🌈 Completamente irrelevante", "score": 100, "tags": ["height-indifferent"] }
+    ]},
+    { "id": 5, "text": "Atração por tipos de corpo:", "options": [
+      { "text": "🎯 Tipo específico (atlético, magro, curvy, etc.)", "score": 0, "tags": ["body-type-specific"] },
+      { "text": "📋 Preferência mas aberto/a", "score": 33, "tags": ["body-preference-flexible"] },
+      { "text": "🌈 Vários tipos me atraem", "score": 66, "tags": ["body-diverse"] },
+      { "text": "💫 O corpo é secundário", "score": 100, "tags": ["body-indifferent", "personality-focused"] }
+    ]},
+    { "id": 6, "text": "Importância de idade do parceiro:", "options": [
+      { "text": "📅 Prefiro idade similar (+/- 3 anos)", "score": 0, "tags": ["age-similar"] },
+      { "text": "📊 Alguma flexibilidade (+/- 5-10 anos)", "score": 33, "tags": ["age-flexible"] },
+      { "text": "🔄 Age gaps maiores não me incomodam", "score": 66, "tags": ["age-gap-ok"] },
+      { "text": "🌈 Idade é apenas um número", "score": 100, "tags": ["age-indifferent", "any-age"] }
+    ]},
+    { "id": 7, "text": "Atração por personalidade dominante vs submissa:", "options": [
+      { "text": "👑 Prefiro parceiros dominantes", "score": 50, "tags": ["attracted-to-dominant"] },
+      { "text": "🙇 Prefiro parceiros submissos", "score": 50, "tags": ["attracted-to-submissive"] },
+      { "text": "⚖️ Gosto de switches/versáteis", "score": 75, "tags": ["attracted-to-switches"] },
+      { "text": "🌈 Depende da pessoa e momento", "score": 100, "tags": ["dynamic-flexible"] }
+    ]},
+    { "id": 8, "text": "Atração por 'bad boys/girls' vs 'nice guys/girls':", "options": [
+      { "text": "😈 Definitivamente os 'maus'", "score": 50, "tags": ["bad-boy-attracted", "rebellious-type"] },
+      { "text": "😇 Prefiro os 'bons'", "score": 50, "tags": ["nice-person-attracted", "stable-type"] },
+      { "text": "🎭 Gosto de ambos", "score": 75, "tags": ["both-types"] },
+      { "text": "🤷 Não penso nesses termos", "score": 100, "tags": ["no-stereotype-preference"] }
+    ]},
+    { "id": 9, "text": "Importância do estilo/forma de vestir:", "options": [
+      { "text": "👔 Muito importante - tenho preferências claras", "score": 0, "tags": ["style-important"] },
+      { "text": "👕 Noto mas não é decisivo", "score": 33, "tags": ["style-noticed"] },
+      { "text": "🤷 Pouco relevante", "score": 66, "tags": ["style-neutral"] },
+      { "text": "🌈 Irrelevante - é a pessoa que importa", "score": 100, "tags": ["style-indifferent"] }
+    ]},
+    { "id": 10, "text": "Atração por confiança/autoestima do parceiro:", "options": [
+      { "text": "💪 Essencial - confiança é muito sexy", "score": 75, "tags": ["confidence-essential"] },
+      { "text": "👍 Importante mas não tudo", "score": 50, "tags": ["confidence-important"] },
+      { "text": "🤷 Prefiro humildade", "score": 25, "tags": ["humility-preferred"] },
+      { "text": "⚖️ Equilíbrio é o ideal", "score": 100, "tags": ["balanced-confidence"] }
+    ]},
+    { "id": 11, "text": "Atração por pessoas misteriosas vs transparentes:", "options": [
+      { "text": "🎭 Adoro mistério e desafio", "score": 50, "tags": ["mystery-attracted", "challenge-seeker"] },
+      { "text": "📖 Prefiro pessoas abertas e diretas", "score": 50, "tags": ["transparency-attracted", "open-book"] },
+      { "text": "🔄 Gosto de descobrir aos poucos", "score": 75, "tags": ["gradual-discovery"] },
+      { "text": "🌈 Depende da conexão", "score": 100, "tags": ["connection-dependent"] }
+    ]},
+    { "id": 12, "text": "Atração por tatuagens/piercings/modificações corporais:", "options": [
+      { "text": "🚫 Prefiro sem", "score": 0, "tags": ["no-mods-preferred"] },
+      { "text": "🤷 Indiferente", "score": 50, "tags": ["mods-neutral"] },
+      { "text": "🔥 Acho atraente", "score": 75, "tags": ["mods-attractive"] },
+      { "text": "😍 Muito atraente/essencial", "score": 100, "tags": ["mods-lover", "alternative-attracted"] }
+    ]},
+    { "id": 13, "text": "Atração por voz/forma de falar:", "options": [
+      { "text": "🎤 Muito importante - certas vozes são irresistíveis", "score": 75, "tags": ["voice-important", "aurally-attracted"] },
+      { "text": "👍 Noto e aprecio", "score": 50, "tags": ["voice-appreciator"] },
+      { "text": "🤷 Não penso muito nisso", "score": 25, "tags": ["voice-neutral"] },
+      { "text": "🌈 Só importa o que dizem, não como", "score": 100, "tags": ["content-over-voice"] }
+    ]},
+    { "id": 14, "text": "Atração inicial vs atração que cresce:", "options": [
+      { "text": "⚡ Preciso de química imediata", "score": 0, "tags": ["instant-chemistry", "spark-needed"] },
+      { "text": "🌱 A atração pode crescer com tempo", "score": 50, "tags": ["slow-burn"] },
+      { "text": "💕 Prefiro que cresça - é mais profunda", "score": 75, "tags": ["growing-attraction"] },
+      { "text": "🔄 Ambas funcionam para mim", "score": 100, "tags": ["flexible-attraction-timeline"] }
+    ]},
+    { "id": 15, "text": "Como descreves o teu padrão de atração:", "options": [
+      { "text": "🎯 Sei exatamente o meu tipo", "score": 0, "tags": ["defined-type"] },
+      { "text": "📋 Tenho preferências gerais", "score": 33, "tags": ["general-preferences"] },
+      { "text": "🌊 Fluido - muda com o tempo", "score": 66, "tags": ["fluid-attraction"] },
+      { "text": "🌈 Imprevisível - cada pessoa é única", "score": 100, "tags": ["unpredictable-attraction", "individual-based"] }
+    ]}
+  ]
+}

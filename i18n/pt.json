@@ -670,7 +670,9 @@
     "intimacy": "Intimidade & Conexão",
     "rhythm": "Ritmo & Frequência",
     "lifestyle": "Valores & Estilo de Vida",
-    "digital": "Comunicação & Tecnologia"
+    "digital": "Comunicação & Tecnologia",
+    "solo": "Prazer Solo & Autoconhecimento",
+    "attraction": "Atração & Tipos"
   },
 
   "quizDescriptions": {
@@ -687,7 +689,9 @@
     "intimacy": "Importância da conexão emocional",
     "rhythm": "Frequência, duração, horários e libido",
     "lifestyle": "Como vives a tua sexualidade no dia-a-dia, o que valorizas, e como evoluis",
-    "digital": "Como te conectas com outros sexualmente no mundo moderno"
+    "digital": "Como te conectas com outros sexualmente no mundo moderno",
+    "solo": "Relação com o prazer solitário e autoconhecimento sexual",
+    "attraction": "O que te atrai fisicamente e emocionalmente em parceiros"
   },
 
   "app": {
