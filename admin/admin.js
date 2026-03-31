@@ -2343,8 +2343,7 @@ async function loadUserAnswers(userId) {
     document.getElementById('userAnswersEmpty').style.display = 'block';
     return;
   }
-  
-  console.log(`📋 Loading answers for user: ${userId}`);
+    console.log(`📋 Loading answers for user: ${userId}`);
   
   try {
     // Buscar dados do utilizador (do cache ou Firestore)
@@ -2358,6 +2357,26 @@ async function loadUserAnswers(userId) {
       }
       userData = { id: doc.id, ...doc.data() };
     }
+    
+    // DEBUG: Log completo da estrutura de dados
+    console.log('🔍 FULL USER DATA STRUCTURE:');
+    console.log('  - userData.results:', userData.results);
+    console.log('  - userData.quizResults:', userData.quizResults);
+    console.log('  - userData.answers:', userData.answers);
+    console.log('  - userData.progress:', userData.progress);
+    
+    // Log detalhado de cada quiz result
+    const results = userData.results || userData.quizResults || {};
+    Object.entries(results).forEach(([quizId, result]) => {
+      console.log(`  📊 Quiz "${quizId}":`);
+      console.log(`     - score: ${result?.score}`);
+      console.log(`     - category: ${result?.category}`);
+      console.log(`     - answers: ${result?.answers ? Object.keys(result.answers).length + ' respostas' : 'NÃO TEM'}`);
+      console.log(`     - completedAt: ${result?.completedAt}`);
+      if (result?.answers) {
+        console.log(`     - Primeiras 3 respostas:`, Object.entries(result.answers).slice(0, 3));
+      }
+    });
     
     currentUserData = userData;
     
@@ -2605,8 +2624,7 @@ function displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers) {
       </div>
     `;
   }
-  
-  // Questions and Answers
+    // Questions and Answers
   html += '<h4 style="margin-bottom: 16px;">📝 Respostas Detalhadas</h4>';
   html += '<div class="answers-questions">';
   
@@ -2624,7 +2642,28 @@ function displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers) {
       const question = quizQuestions[questionIndex];
       const questionText = question?.text || question?.question || `Pergunta ${questionId}`;
       
-      const answerValue = typeof answer === 'number' ? answer : parseInt(answer) || 0;
+      // Extrair o valor da resposta - suporta múltiplos formatos:
+      // - Formato novo: { optionIndex: 2, score: 4, tags: [] }
+      // - Formato antigo: número direto (0-5)
+      let answerValue = 0;
+      let selectedOption = null;
+      let answerTags = [];
+      
+      if (typeof answer === 'object' && answer !== null) {
+        // Formato novo (v2.1)
+        answerValue = answer.score !== undefined ? answer.score : (answer.optionIndex !== undefined ? answer.optionIndex : 0);
+        selectedOption = answer.optionIndex;
+        answerTags = answer.tags || [];
+      } else {
+        // Formato antigo (número direto)
+        answerValue = typeof answer === 'number' ? answer : parseInt(answer) || 0;
+      }
+      
+      // Para quizzes com opções múltiplas, mostrar a opção selecionada
+      const optionText = (selectedOption !== undefined && question?.options?.[selectedOption]) 
+        ? question.options[selectedOption].text 
+        : null;
+      
       const barColor = getScoreColor(answerValue * 20); // 0-5 -> 0-100
       
       html += `
@@ -2636,13 +2675,15 @@ function displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers) {
           <div class="answer-response">
             <span class="answer-slider-value">${answerValue}</span>
             <div style="flex: 1;">
+              ${optionText ? `<div style="font-size: 0.85rem; color: var(--admin-primary); margin-bottom: 4px;">📝 "${optionText}"</div>` : ''}
               <div class="answer-slider-bar">
-                <div class="answer-slider-fill" style="width: ${answerValue * 20}%; background: ${barColor};"></div>
+                <div class="answer-slider-fill" style="width: ${Math.min(answerValue * 20, 100)}%; background: ${barColor};"></div>
               </div>
               <div class="answer-labels">
-                <span>${question?.labels?.[0] || 'Discordo'}</span>
-                <span>${question?.labels?.[1] || 'Concordo'}</span>
+                <span>${question?.labels?.[0] || 'Baixo'}</span>
+                <span>${question?.labels?.[1] || 'Alto'}</span>
               </div>
+              ${answerTags.length > 0 ? `<div style="margin-top: 6px; display: flex; gap: 4px; flex-wrap: wrap;">${answerTags.map(tag => `<span style="background: var(--admin-bg-light); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;">${tag}</span>`).join('')}</div>` : ''}
             </div>
           </div>
         </div>
