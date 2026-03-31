@@ -13,6 +13,56 @@ const ADMIN_EMAILS = [
 ];
 
 // ================================
+// HELPER FUNCTIONS
+// ================================
+
+/**
+ * Converte qualquer formato de data para Date object
+ * Suporta: Firestore Timestamp, Date, string, number (unix), objeto com seconds
+ */
+function parseDate(dateValue, fallback = new Date()) {
+  if (!dateValue) return fallback;
+  
+  try {
+    // Firestore Timestamp com método toDate()
+    if (typeof dateValue.toDate === 'function') {
+      return dateValue.toDate();
+    }
+    // JavaScript Date object
+    if (dateValue instanceof Date) {
+      return dateValue;
+    }
+    // String date
+    if (typeof dateValue === 'string') {
+      return new Date(dateValue);
+    }
+    // Unix timestamp (milliseconds or seconds)
+    if (typeof dateValue === 'number') {
+      // Se for segundos (< ano 2100 em ms seria > 4e12)
+      return dateValue < 1e12 ? new Date(dateValue * 1000) : new Date(dateValue);
+    }
+    // Firestore Timestamp-like object com propriedade seconds
+    if (dateValue.seconds) {
+      return new Date(dateValue.seconds * 1000);
+    }
+  } catch (e) {
+    console.warn('Error parsing date:', e, dateValue);
+  }
+  
+  return fallback;
+}
+
+/**
+ * Formata data para string PT
+ */
+function formatDatePT(dateValue, includeTime = true) {
+  const date = parseDate(dateValue);
+  return includeTime 
+    ? date.toLocaleString('pt-PT') 
+    : date.toLocaleDateString('pt-PT');
+}
+
+// ================================
 // STATE
 // ================================
 let currentAdmin = null;
@@ -400,7 +450,7 @@ async function loadRecentActivity() {
     snapshot.forEach(doc => {
       const data = doc.data();
       const displayName = data.displayName || 'Utilizador';
-      const createdAt = data.createdAt ? data.createdAt.toDate() : new Date();
+      const createdAt = parseDate(data.createdAt);
       const timeAgo = getTimeAgo(createdAt);
       
       // Novo utilizador
@@ -581,22 +631,8 @@ async function loadUsersData() {
       const userId = doc.id;
       const displayName = data.displayName || data.name || 'Anónimo';
       const email = data.email || 'N/A';
-      
-      // Tratar diferentes formatos de data
-      let createdAt = 'N/A';
-      if (data.createdAt) {
-        try {
-          if (data.createdAt.toDate) {
-            createdAt = data.createdAt.toDate().toLocaleDateString('pt-PT');
-          } else if (data.createdAt instanceof Date) {
-            createdAt = data.createdAt.toLocaleDateString('pt-PT');
-          } else if (typeof data.createdAt === 'string') {
-            createdAt = new Date(data.createdAt).toLocaleDateString('pt-PT');
-          }
-        } catch (e) {
-          console.warn('Error parsing date:', e);
-        }
-      }
+        // Tratar diferentes formatos de data
+      const createdAt = data.createdAt ? formatDatePT(data.createdAt, false) : 'N/A';
       
       const quizzesCompleted = data.results ? Object.keys(data.results).length : 
                              (data.quizResults ? Object.keys(data.quizResults).length : 0);
@@ -677,8 +713,7 @@ async function viewUser(userId) {
       alert('❌ Utilizador não encontrado');
       return;
     }
-    
-    const data = doc.data();
+      const data = doc.data();
     console.log('📄 User data loaded:', data);
     
     // Construir informação detalhada
@@ -686,24 +721,7 @@ async function viewUser(userId) {
     info += `━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
     info += `📧 Email: ${data.email || 'N/A'}\n`;
     info += `✏️ Nome: ${data.displayName || 'Anónimo'}\n`;
-    
-    // Tratar diferentes formatos de data de forma segura
-    let registoDate = 'N/A';
-    if (data.createdAt) {
-      try {
-        if (data.createdAt.toDate) {
-          registoDate = data.createdAt.toDate().toLocaleString('pt-PT');
-        } else if (data.createdAt instanceof Date) {
-          registoDate = data.createdAt.toLocaleString('pt-PT');
-        } else if (typeof data.createdAt === 'string') {
-          registoDate = new Date(data.createdAt).toLocaleString('pt-PT');
-        }
-      } catch (e) {
-        console.warn('Error parsing createdAt date:', e);
-        registoDate = 'Erro ao ler data';
-      }
-    }
-    info += `📅 Registo: ${registoDate}\n\n`;
+    info += `📅 Registo: ${data.createdAt ? formatDatePT(data.createdAt) : 'N/A'}\n\n`;
     
     // Progresso dos Questionários
     info += `📊 PROGRESSO DOS QUESTIONÁRIOS\n`;
@@ -1357,7 +1375,7 @@ async function loadMatchesData() {
     matchesData.users.sort((a, b) => {
       if (!a.createdAt) return 1;
       if (!b.createdAt) return -1;
-      return b.createdAt.toDate() - a.createdAt.toDate();
+      return parseDate(b.createdAt) - parseDate(a.createdAt);
     });
     
     console.log('Matches Data:', matchesData);
@@ -1763,7 +1781,7 @@ function displayValidationRequests(filter) {
     const isPending = request.status === 'pending';
     const statusClass = `status-${request.status}`;
     const statusLabel = getStatusLabel(request.status);
-    const requestDate = request.requestedAt ? new Date(request.requestedAt.toDate()).toLocaleString('pt-PT') : 'N/A';
+    const requestDate = request.requestedAt ? formatDatePT(request.requestedAt) : 'N/A';
     
     // Avatar inicial
     const initial = request.displayName ? request.displayName.charAt(0).toUpperCase() : '?';
@@ -1817,10 +1835,9 @@ function displayValidationRequests(filter) {
             </button>
           </div>
         ` : ''}
-        
-        <div class="validation-timestamp">
+          <div class="validation-timestamp">
           📅 ${requestDate}
-          ${request.reviewedAt ? ` | Revisto: ${new Date(request.reviewedAt.toDate()).toLocaleString('pt-PT')}` : ''}
+          ${request.reviewedAt ? ` | Revisto: ${formatDatePT(request.reviewedAt)}` : ''}
           ${request.reviewedBy ? ` | Por: ${request.reviewedBy}` : ''}
         </div>
       </div>
@@ -1835,7 +1852,7 @@ function generatePhotoElements(request) {
   
   // Mostrar watermark/identificador se existir
   const watermark = request.watermark || (request.userShortId ? `Q4Y-${request.userShortId}` : '');
-  const requestDate = request.requestedAt ? new Date(request.requestedAt.toDate()).toLocaleDateString('pt-PT') : '';
+  const requestDate = request.requestedAt ? formatDatePT(request.requestedAt, false) : '';
   
   // Foto de validação principal (com watermark)
   if (request.validationPhotoUrl) {
@@ -2376,10 +2393,8 @@ function displayUserInfo(userData) {
   // Data de registo
   let joinedText = 'Registado em: --/--/----';
   if (userData.createdAt) {
-    try {
-      const date = userData.createdAt.toDate ? userData.createdAt.toDate() : new Date(userData.createdAt);
-      joinedText = `Registado em: ${date.toLocaleDateString('pt-PT')}`;
-    } catch (e) {}
+    const date = parseDate(userData.createdAt);
+    joinedText = `Registado em: ${date.toLocaleDateString('pt-PT')}`;
   }
   document.getElementById('userAnswersJoined').textContent = joinedText;
   
@@ -2504,7 +2519,7 @@ function displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers) {
           <span class="summary-label">Respostas</span>
         </div>
         <div class="summary-item">
-          <span class="summary-value">${quizResult.completedAt ? new Date(quizResult.completedAt.toDate ? quizResult.completedAt.toDate() : quizResult.completedAt).toLocaleDateString('pt-PT') : 'N/A'}</span>
+          <span class="summary-value">${quizResult.completedAt ? formatDatePT(quizResult.completedAt, false) : 'N/A'}</span>
           <span class="summary-label">Completado</span>
         </div>
       </div>
