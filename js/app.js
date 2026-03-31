@@ -176,15 +176,34 @@ let userResults = {};
 document.addEventListener("DOMContentLoaded", function() {
   console.log("Quest4You initialized");
   
-  // Render quizzes
-  renderQuizzes();
+  // Wait for i18n to be loaded before rendering
+  function initApp() {
+    // Render quizzes
+    renderQuizzes();
+    
+    // Check auth state
+    if (typeof auth !== "undefined") {
+      auth.onAuthStateChanged(handleAuthChange);
+    } else {
+      // Firebase not loaded yet, show login notice
+      updateUIForGuest();
+    }
+  }
   
-  // Check auth state
-  if (typeof auth !== "undefined") {
-    auth.onAuthStateChanged(handleAuthChange);
+  // Check if i18n is already loaded
+  if (typeof I18n !== 'undefined' && I18n.isLoaded()) {
+    initApp();
   } else {
-    // Firebase not loaded yet, show login notice
-    updateUIForGuest();
+    // Wait for i18n to load (max 2 seconds, then render anyway)
+    let attempts = 0;
+    const maxAttempts = 20;
+    const checkI18n = setInterval(function() {
+      attempts++;
+      if ((typeof I18n !== 'undefined' && I18n.isLoaded()) || attempts >= maxAttempts) {
+        clearInterval(checkI18n);
+        initApp();
+      }
+    }, 100);
   }
   
   // Mobile menu toggle
