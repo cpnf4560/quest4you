@@ -5,96 +5,181 @@
   "color": "#9c27b0",
   "description": "Explora as tuas atrações, curiosidades e identidade sexual",
   "resultType": "spectrum",
-  "quizVersion": "2.1",
+  "quizVersion": "2.2",
   "minScore": 0,
   "maxScore": 100,
   "categories": [
-    { "min": 0, "max": 20, "label": "Heterossexual Definido", "emoji": "⚤", "description": "Atração clara e exclusiva pelo género oposto" },
-    { "min": 21, "max": 40, "label": "Heteroflexível", "emoji": "↗️", "description": "Predominantemente hetero com alguma curiosidade" },
-    { "min": 41, "max": 60, "label": "Bissexual / Fluido", "emoji": "💜", "description": "Atração por múltiplos géneros, fluida e aberta" },
-    { "min": 61, "max": 80, "label": "Homoflexível", "emoji": "↘️", "description": "Predominantemente atraído pelo mesmo género com alguma flexibilidade" },
-    { "min": 81, "max": 100, "label": "Homossexual / Pansexual", "emoji": "🌈", "description": "Atração definida pelo mesmo género ou por todos os géneros" }
+    { "min": 0, "max": 15, "label": "Heterossexual", "emoji": "⚤", "description": "Atração clara e exclusiva pelo género oposto" },
+    { "min": 16, "max": 35, "label": "Heteroflexível", "emoji": "↗️", "description": "Predominantemente hetero com alguma curiosidade ou abertura" },
+    { "min": 36, "max": 65, "label": "Bissexual / Fluido", "emoji": "💜", "description": "Atração por múltiplos géneros, fluida e aberta" },
+    { "min": 66, "max": 85, "label": "Homoflexível", "emoji": "↘️", "description": "Predominantemente atraído pelo mesmo género com alguma flexibilidade" },
+    { "min": 86, "max": 100, "label": "Homossexual", "emoji": "🌈", "description": "Atração definida pelo mesmo género" }
   ],
   "questions": [
-    { "id": 1, "text": "Atração principal por:", "options": [
-      { "text": "👨 Homens", "score": 0, "tags": ["attracted-to-men"] },
-      { "text": "👩 Mulheres", "score": 0, "tags": ["attracted-to-women"] },
-      { "text": "🟣 Ambos", "score": 50, "tags": ["bisexual", "attracted-to-both"] },
-      { "text": "💫 Pessoas (género irrelevante)", "score": 75, "tags": ["pansexual", "gender-blind"] }
-    ]},
-    { "id": 2, "text": "Já sentiu atração pelo mesmo género?", "options": [
-      { "text": "✅ Sim, várias vezes", "score": 100, "tags": ["same-gender-attraction"] },
-      { "text": "🤔 Sim, raramente", "score": 50, "tags": ["occasional-same-gender", "questioning"] },
-      { "text": "❌ Nunca", "score": 0, "tags": ["hetero-confirmed"] }
-    ]},
-    { "id": 3, "text": "Já teve experiência com mesmo género?", "options": [
-      { "text": "✅ Sim", "score": 100, "tags": ["same-gender-experience"] },
-      { "text": "❌ Não", "score": 0, "tags": ["no-same-gender-experience"] },
-      { "text": "🤫 Prefiro não dizer", "score": 50, "tags": ["private"] }
-    ]},
-    { "id": 4, "text": "Considera-se:", "options": [
-      { "text": "⚤ Heterossexual", "score": 0, "tags": ["heterosexual", "straight"] },
-      { "text": "💜 Bissexual", "score": 50, "tags": ["bisexual", "bi"] },
-      { "text": "🌈 Pansexual", "score": 75, "tags": ["pansexual", "pan"] },
-      { "text": "⚢⚣ Homossexual", "score": 100, "tags": ["homosexual", "gay-lesbian"] },
-      { "text": "🔄 Questionando", "score": 50, "tags": ["questioning", "exploring"] }
-    ]},
-    { "id": 5, "text": "Atração por pessoas trans/não-binárias?", "options": [
-      { "text": "✅ Sim", "score": 100, "tags": ["trans-attracted", "nb-attracted", "inclusive"] },
-      { "text": "🤔 Talvez", "score": 50, "tags": ["trans-curious", "open"] },
-      { "text": "❌ Não", "score": 0, "tags": ["cis-only"] }
-    ]},
-    { "id": 6, "text": "Num mundo sem julgamento, experimentaria com mesmo género?", "options": [
-      { "text": "👍 Com certeza", "score": 100, "tags": ["bi-curious", "open-to-experiment"] },
-      { "text": "🤔 Talvez", "score": 50, "tags": ["maybe-curious", "questioning"] },
-      { "text": "❌ Não", "score": 0, "tags": ["hetero-firm"] }
-    ]},
-    { "id": 7, "text": "As tuas fantasias envolvem:", "options": [
-      { "text": "👫 Apenas género oposto", "score": 0, "tags": ["hetero-fantasies"] },
-      { "text": "👥 Às vezes mesmo género", "score": 50, "tags": ["bi-fantasies-occasional"] },
-      { "text": "🌈 Frequentemente ambos", "score": 100, "tags": ["bi-fantasies-frequent"] }
-    ]},
-    { "id": 8, "text": "Aparência física vs. personalidade:", "options": [
-      { "text": "💪 Física é mais importante", "score": 25, "tags": ["physical-focused"] },
-      { "text": "🧠 Personalidade é mais importante", "score": 75, "tags": ["personality-focused", "demisexual-leaning"] },
-      { "text": "⚖️ Igualmente importantes", "score": 50, "tags": ["balanced-attraction"] }
-    ]},
-    { "id": 9, "text": "A tua orientação já mudou?", "options": [
-      { "text": "🔄 Sim, evoluiu", "score": 75, "tags": ["fluid-orientation", "evolved"] },
-      { "text": "⚡ Sim, surpreendeu-me", "score": 75, "tags": ["surprised-by-change", "discovery"] },
-      { "text": "🪨 Não, sempre igual", "score": 25, "tags": ["stable-orientation"] }
-    ]},
-    { "id": 10, "text": "Compartilha a tua orientação com:", "options": [
-      { "text": "👪 Todos", "score": 100, "tags": ["out-and-proud", "open"] },
-      { "text": "👫 Apenas parceiros", "score": 50, "tags": ["selective-sharing", "discreet"] },
-      { "text": "🤐 Poucas pessoas", "score": 25, "tags": ["closeted-mostly", "private"] },
-      { "text": "🚫 Ninguém", "score": 0, "tags": ["closeted", "secret"] }
-    ]},
-    { "id": 11, "text": "Apps de encontros que usa:", "options": [
-      { "text": "👫 Heterossexuais", "score": 0, "tags": ["hetero-apps-only"] },
-      { "text": "🌈 LGBT+", "score": 100, "tags": ["lgbt-apps"] },
-      { "text": "💫 Todos", "score": 75, "tags": ["all-apps", "inclusive"] },
-      { "text": "🚫 Não uso", "score": 50, "tags": ["no-apps", "offline-dating"] }
-    ]},
-    { "id": 12, "text": "Conforto com afeto público com mesmo género:", "options": [
-      { "text": "👍 Totalmente", "score": 100, "tags": ["pda-comfortable", "out"] },
-      { "text": "🤔 Em privado", "score": 50, "tags": ["pda-private-only"] },
-      { "text": "😰 Inconfortável", "score": 0, "tags": ["pda-uncomfortable"] }
-    ]},
-    { "id": 13, "text": "Atração por características andróginas?", "options": [
-      { "text": "✅ Sim, muito", "score": 100, "tags": ["androgynous-attracted"] },
-      { "text": "🤔 Às vezes", "score": 50, "tags": ["sometimes-androgynous"] },
-      { "text": "❌ Não", "score": 0, "tags": ["binary-attracted"] }
-    ]},
-    { "id": 14, "text": "Para ti, amor e sexo:", "options": [
-      { "text": "💖 Sempre juntos", "score": 25, "tags": ["love-and-sex-connected", "romantic"] },
-      { "text": "🔥 Podem ser separados", "score": 75, "tags": ["love-sex-separate", "casual-ok"] },
-      { "text": "🌟 Depende da pessoa", "score": 50, "tags": ["situational", "flexible"] }
-    ]},
-    { "id": 15, "text": "Está satisfeito com a tua orientação?", "options": [
-      { "text": "😊 Sim, completamente", "score": 100, "tags": ["orientation-satisfied", "confident"] },
-      { "text": "🤔 Mais ou menos", "score": 50, "tags": ["orientation-questioning"] },
-      { "text": "😕 Não", "score": 0, "tags": ["orientation-struggling"] }
-    ]}
+    { 
+      "id": 1, 
+      "text": "Como te defines em termos de orientação sexual?", 
+      "options": [
+        { "text": "⚤ Heterossexual", "score": 0, "tags": ["heterosexual", "straight"] },
+        { "text": "↗️ Maioritariamente hetero, com alguma curiosidade", "score": 25, "tags": ["heteroflexible", "curious"] },
+        { "text": "💜 Bissexual / Pansexual", "score": 50, "tags": ["bisexual", "pansexual"] },
+        { "text": "↘️ Maioritariamente homo, com alguma flexibilidade", "score": 75, "tags": ["homoflexible"] },
+        { "text": "🌈 Homossexual (Gay/Lésbica)", "score": 100, "tags": ["homosexual", "gay", "lesbian"] }
+      ]
+    },
+    { 
+      "id": 2, 
+      "text": "Já sentiste atração romântica ou sexual por alguém do mesmo género?", 
+      "options": [
+        { "text": "❌ Nunca", "score": 0, "tags": ["no-same-gender-attraction"] },
+        { "text": "🤔 Talvez uma vez, mas não tenho certeza", "score": 15, "tags": ["uncertain"] },
+        { "text": "👀 Sim, raramente", "score": 35, "tags": ["occasional-same-gender"] },
+        { "text": "💜 Sim, com alguma frequência", "score": 65, "tags": ["frequent-same-gender"] },
+        { "text": "✅ Sim, é a minha atração principal", "score": 100, "tags": ["primary-same-gender"] }
+      ]
+    },
+    { 
+      "id": 3, 
+      "text": "Já tiveste alguma experiência íntima (beijos, carícias, sexo) com alguém do mesmo género?", 
+      "options": [
+        { "text": "❌ Não, e não tenho interesse", "score": 0, "tags": ["no-experience-no-interest"] },
+        { "text": "🤔 Não, mas tenho curiosidade", "score": 25, "tags": ["no-experience-curious"] },
+        { "text": "✅ Sim, uma vez ou ocasionalmente", "score": 50, "tags": ["some-experience"] },
+        { "text": "💜 Sim, várias vezes", "score": 75, "tags": ["multiple-experiences"] },
+        { "text": "🌈 Sim, é a minha experiência principal", "score": 100, "tags": ["primary-experience"] }
+      ]
+    },
+    { 
+      "id": 4, 
+      "text": "Quando vês pessoas atraentes em público ou nos media, por quem te sentes mais atraído/a?", 
+      "options": [
+        { "text": "👫 Apenas pelo género oposto", "score": 0, "tags": ["opposite-gender-only"] },
+        { "text": "↗️ Principalmente género oposto, ocasionalmente mesmo género", "score": 25, "tags": ["mostly-opposite"] },
+        { "text": "💜 Ambos os géneros de forma similar", "score": 50, "tags": ["both-genders"] },
+        { "text": "↘️ Principalmente mesmo género, ocasionalmente género oposto", "score": 75, "tags": ["mostly-same"] },
+        { "text": "🌈 Apenas pelo mesmo género", "score": 100, "tags": ["same-gender-only"] }
+      ]
+    },
+    { 
+      "id": 5, 
+      "text": "Nas tuas fantasias sexuais, quem aparece mais frequentemente?", 
+      "options": [
+        { "text": "👫 Apenas pessoas do género oposto", "score": 0, "tags": ["hetero-fantasies"] },
+        { "text": "↗️ Maioritariamente género oposto", "score": 20, "tags": ["mostly-hetero-fantasies"] },
+        { "text": "💜 Ambos os géneros", "score": 50, "tags": ["bi-fantasies"] },
+        { "text": "↘️ Maioritariamente mesmo género", "score": 80, "tags": ["mostly-homo-fantasies"] },
+        { "text": "🌈 Apenas pessoas do mesmo género", "score": 100, "tags": ["homo-fantasies"] }
+      ]
+    },
+    { 
+      "id": 6, 
+      "text": "Se pudesses experimentar algo com alguém do mesmo género sem julgamento, qual seria a tua reação?", 
+      "options": [
+        { "text": "❌ Não teria interesse nenhum", "score": 0, "tags": ["no-interest"] },
+        { "text": "🤔 Talvez tivesse alguma curiosidade", "score": 30, "tags": ["slight-curiosity"] },
+        { "text": "👍 Estaria aberto/a a experimentar", "score": 50, "tags": ["open-to-try"] },
+        { "text": "😊 Ficaria entusiasmado/a", "score": 75, "tags": ["enthusiastic"] },
+        { "text": "🔥 Já é algo que faço/quero fazer", "score": 100, "tags": ["already-interested"] }
+      ]
+    },
+    { 
+      "id": 7, 
+      "text": "Quando pensas em ter um relacionamento romântico sério, com quem te imaginas?", 
+      "options": [
+        { "text": "👫 Apenas com género oposto", "score": 0, "tags": ["hetero-relationship"] },
+        { "text": "↗️ Provavelmente género oposto, mas não descarto outro", "score": 25, "tags": ["mostly-hetero-relationship"] },
+        { "text": "💜 Qualquer género, depende da pessoa", "score": 50, "tags": ["any-gender-relationship"] },
+        { "text": "↘️ Provavelmente mesmo género, mas não descarto outro", "score": 75, "tags": ["mostly-homo-relationship"] },
+        { "text": "🌈 Apenas com mesmo género", "score": 100, "tags": ["homo-relationship"] }
+      ]
+    },
+    { 
+      "id": 8, 
+      "text": "Como te sentes em relação a conteúdo erótico/pornográfico com pessoas do mesmo género?", 
+      "options": [
+        { "text": "😐 Não me atrai nada", "score": 0, "tags": ["no-interest-content"] },
+        { "text": "🤔 Indiferente ou ligeira curiosidade", "score": 25, "tags": ["indifferent-content"] },
+        { "text": "👀 Às vezes consumo", "score": 50, "tags": ["sometimes-content"] },
+        { "text": "😊 Consumo com frequência", "score": 75, "tags": ["frequent-content"] },
+        { "text": "🔥 É o meu conteúdo preferido", "score": 100, "tags": ["preferred-content"] }
+      ]
+    },
+    { 
+      "id": 9, 
+      "text": "Se um/a amigo/a atraente do mesmo género demonstrasse interesse em ti, como reagirias?", 
+      "options": [
+        { "text": "❌ Rejeitaria educadamente, não tenho interesse", "score": 0, "tags": ["would-reject"] },
+        { "text": "🤔 Ficaria confuso/a, mas provavelmente recusaria", "score": 20, "tags": ["confused-reject"] },
+        { "text": "👀 Ficaria curioso/a e talvez considerasse", "score": 45, "tags": ["curious-consider"] },
+        { "text": "😊 Ficaria interessado/a em explorar", "score": 70, "tags": ["interested"] },
+        { "text": "🔥 Ficaria muito entusiasmado/a", "score": 100, "tags": ["very-enthusiastic"] }
+      ]
+    },
+    { 
+      "id": 10, 
+      "text": "Ao longo da tua vida, a tua atração por diferentes géneros:", 
+      "options": [
+        { "text": "🪨 Sempre foi apenas pelo género oposto", "score": 0, "tags": ["always-hetero"] },
+        { "text": "↗️ Principalmente género oposto, com momentos de curiosidade", "score": 25, "tags": ["mostly-hetero-some-curiosity"] },
+        { "text": "🔄 Tem variado ou evoluído", "score": 50, "tags": ["fluid", "evolved"] },
+        { "text": "↘️ Principalmente mesmo género, com algumas exceções", "score": 75, "tags": ["mostly-homo-some-exceptions"] },
+        { "text": "🌈 Sempre foi apenas pelo mesmo género", "score": 100, "tags": ["always-homo"] }
+      ]
+    },
+    { 
+      "id": 11, 
+      "text": "Como te sentes sobre beijar alguém do mesmo género?", 
+      "options": [
+        { "text": "😰 Desconfortável, não faria", "score": 0, "tags": ["uncomfortable-kissing"] },
+        { "text": "🤔 Não é algo que procuro, mas não me incomodaria", "score": 25, "tags": ["neutral-kissing"] },
+        { "text": "👀 Curioso/a, poderia experimentar", "score": 50, "tags": ["curious-kissing"] },
+        { "text": "😊 Gostaria / já gostei", "score": 75, "tags": ["enjoy-kissing"] },
+        { "text": "🔥 Adoro / é o que prefiro", "score": 100, "tags": ["love-kissing"] }
+      ]
+    },
+    { 
+      "id": 12, 
+      "text": "Sentes atração por pessoas trans ou não-binárias?", 
+      "options": [
+        { "text": "❌ Não", "score": 0, "tags": ["cis-only"] },
+        { "text": "🤔 Nunca pensei nisso", "score": 25, "tags": ["unsure-trans"] },
+        { "text": "👀 Possivelmente, depende da pessoa", "score": 50, "tags": ["open-to-trans"] },
+        { "text": "✅ Sim", "score": 75, "tags": ["trans-attracted"] },
+        { "text": "💜 Sim, o género não é relevante para mim", "score": 100, "tags": ["gender-irrelevant", "pansexual"] }
+      ]
+    },
+    { 
+      "id": 13, 
+      "text": "Se tivesses de escolher uma app de encontros, qual escolherias?", 
+      "options": [
+        { "text": "👫 Apps heterossexuais (Tinder modo hetero, Bumble, etc.)", "score": 0, "tags": ["hetero-apps"] },
+        { "text": "🔄 Apps que permitem ver todos os géneros", "score": 50, "tags": ["all-gender-apps"] },
+        { "text": "🌈 Apps LGBT+ (Grindr, HER, etc.)", "score": 100, "tags": ["lgbt-apps"] }
+      ]
+    },
+    { 
+      "id": 14, 
+      "text": "Numa escala de Kinsey (0 = exclusivamente hetero, 6 = exclusivamente homo), onde te posicionas?", 
+      "options": [
+        { "text": "0️⃣ Exclusivamente heterossexual", "score": 0, "tags": ["kinsey-0"] },
+        { "text": "1️⃣ Predominantemente hetero, incidentalmente homo", "score": 17, "tags": ["kinsey-1"] },
+        { "text": "2️⃣ Predominantemente hetero, mais que incidentalmente homo", "score": 33, "tags": ["kinsey-2"] },
+        { "text": "3️⃣ Igualmente hetero e homo (bissexual)", "score": 50, "tags": ["kinsey-3"] },
+        { "text": "4️⃣ Predominantemente homo, mais que incidentalmente hetero", "score": 67, "tags": ["kinsey-4"] },
+        { "text": "5️⃣ Predominantemente homo, incidentalmente hetero", "score": 83, "tags": ["kinsey-5"] },
+        { "text": "6️⃣ Exclusivamente homossexual", "score": 100, "tags": ["kinsey-6"] }
+      ]
+    },
+    { 
+      "id": 15, 
+      "text": "Qual frase descreve melhor a tua situação atual?", 
+      "options": [
+        { "text": "⚤ Sou heterossexual e tenho certeza disso", "score": 0, "tags": ["certain-hetero"] },
+        { "text": "↗️ Sou maioritariamente hetero mas tenho alguma curiosidade", "score": 25, "tags": ["hetero-curious"] },
+        { "text": "💜 Sinto atração por mais que um género", "score": 50, "tags": ["multi-gender-attraction"] },
+        { "text": "↘️ Sou maioritariamente homo mas tenho alguma flexibilidade", "score": 75, "tags": ["homo-flexible"] },
+        { "text": "🌈 Sou homossexual e tenho certeza disso", "score": 100, "tags": ["certain-homo"] }
+      ]
+    }
   ]
 }
