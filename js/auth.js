@@ -220,6 +220,7 @@ async function registerWithEmail(event) {
   const password = document.getElementById("registerPassword").value;
   const passwordConfirm = document.getElementById("registerPasswordConfirm").value;
   const acceptTerms = document.getElementById("acceptTerms").checked;
+  const acceptNewsletter = document.getElementById("acceptNewsletter")?.checked || false;
 
   // Validation
   if (!name || !email || !gender || !password || !passwordConfirm) {
@@ -253,8 +254,8 @@ async function registerWithEmail(event) {
     // Update display name
     await user.updateProfile({
       displayName: name
-    });    // Create user profile in Firestore with gender
-    await createUserProfile(user, { displayName: name, gender: gender });
+    });    // Create user profile in Firestore with gender and newsletter preference
+    await createUserProfile(user, { displayName: name, gender: gender, newsletter: acceptNewsletter });
 
     console.log("Registration successful:", user.email);
     showMessage(t('auth.msgAccountCreated'), "success");
@@ -328,10 +329,11 @@ async function createUserProfile(user, additionalData = {}) {
         settings: {
           notifications: true,
           publicProfile: false,
-          smartMatchEnabled: true
+          smartMatchEnabled: true,
+          newsletter: additionalData.newsletter || false
         }
       });
-      console.log("User profile created with gender:", additionalData.gender);
+      console.log("User profile created with gender:", additionalData.gender, "newsletter:", additionalData.newsletter);
     } else {
       // Update last login
       await userRef.update({
