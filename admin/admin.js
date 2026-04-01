@@ -350,17 +350,128 @@ async function loadDashboardData() {
     
     // 5. Atividade Recente
     await loadRecentActivity();
-      // 6. Estatísticas de Questionários
+    
+    // 6. Estatísticas de Questionários
     await loadQuizStatistics();
     
     // 7. Verificar validações pendentes
     await checkPendingValidations();
+    
+    // 8. Carregar analytics diárias (visitas, registos, logins, matches hoje)
+    await loadDailyAnalytics();
     
     console.log('Dashboard data loaded successfully');
     
   } catch (error) {
     console.error('Error loading dashboard data:', error);
     showDemoData();
+  }
+}
+
+// Carregar analytics diárias (hoje)
+async function loadDailyAnalytics() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  try {
+    // Registos hoje
+    const registersToday = await getRegistersToday(today);
+    const registerEl = document.getElementById('registersToday');
+    if (registerEl) registerEl.textContent = registersToday.toLocaleString('pt-PT');
+    
+    // Logins hoje - baseado em lastLogin dos utilizadores
+    const loginsToday = await getLoginsToday(today);
+    const loginEl = document.getElementById('loginsToday');
+    if (loginEl) loginEl.textContent = loginsToday.toLocaleString('pt-PT');
+    
+    // Matches hoje - baseado em smartMatchEnabled com timestamp
+    const matchesToday = await getMatchesToday(today);
+    const matchesEl = document.getElementById('matchesToday');
+    if (matchesEl) matchesEl.textContent = matchesToday.toLocaleString('pt-PT');
+    
+    // Visitas hoje - usar Microsoft Clarity ou estimativa baseada em atividade
+    // Como não temos acesso direto às visitas, usamos uma estimativa
+    const visitsEl = document.getElementById('visitsToday');
+    if (visitsEl) visitsEl.textContent = '--'; // Requer integração com analytics
+    
+  } catch (error) {
+    console.error('Error loading daily analytics:', error);
+  }
+}
+
+// Conta registos de hoje
+async function getRegistersToday(today) {
+  try {
+    const snapshot = await db.collection('quest4you_users').get();
+    let count = 0;
+    
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.createdAt) {
+        const createdDate = parseDate(data.createdAt);
+        createdDate.setHours(0, 0, 0, 0);
+        if (createdDate.getTime() === today.getTime()) {
+          count++;
+        }
+      }
+    });
+    
+    return count;
+  } catch (error) {
+    console.error('Error counting registers today:', error);
+    return 0;
+  }
+}
+
+// Conta logins de hoje (baseado em lastLogin ou lastActive)
+async function getLoginsToday(today) {
+  try {
+    const snapshot = await db.collection('quest4you_users').get();
+    let count = 0;
+    
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const lastLogin = data.lastLogin || data.lastActive || data.lastSeen;
+      if (lastLogin) {
+        const loginDate = parseDate(lastLogin);
+        loginDate.setHours(0, 0, 0, 0);
+        if (loginDate.getTime() === today.getTime()) {
+          count++;
+        }
+      }
+    });
+    
+    return count;
+  } catch (error) {
+    console.error('Error counting logins today:', error);
+    return 0;
+  }
+}
+
+// Conta matches criados hoje
+async function getMatchesToday(today) {
+  try {
+    const snapshot = await db.collection('quest4you_users')
+      .where('smartMatchEnabled', '==', true)
+      .get();
+    let count = 0;
+    
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const enabledAt = data.smartMatchEnabledAt || data.updatedAt;
+      if (enabledAt) {
+        const enabledDate = parseDate(enabledAt);
+        enabledDate.setHours(0, 0, 0, 0);
+        if (enabledDate.getTime() === today.getTime()) {
+          count++;
+        }
+      }
+    });
+    
+    return count;
+  } catch (error) {
+    console.error('Error counting matches today:', error);
+    return 0;
   }
 }
 
@@ -478,7 +589,8 @@ async function loadRecentActivity() {
 async function loadQuizStatistics() {
   try {
     const snapshot = await db.collection('quest4you_users').get();
-      // Contadores por questionário
+    
+    // Contadores por questionário (16 quizzes)
     const quizStats = {
       vanilla: 0,
       orientation: 0,
@@ -493,7 +605,9 @@ async function loadQuizStatistics() {
       intimacy: 0,
       rhythm: 0,
       lifestyle: 0,
-      digital: 0
+      digital: 0,
+      boundaries: 0,
+      romance: 0
     };
     
     const totalUsers = snapshot.size;
@@ -592,12 +706,12 @@ async function loadUsersData() {
   // Verificar se Firebase está disponível
   if (typeof db === 'undefined' || !db) {
     console.error('Firebase db not available');
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: orange;">⚠️ Firebase não disponível. Verifica a conexão.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: orange;">⚠️ Firebase não disponível. Verifica a conexão.</td></tr>';
     return;
   }
   
   try {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;"><div class="loading-spinner">⏳</div> A carregar utilizadores...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;"><div class="loading-spinner">⏳</div> A carregar utilizadores...</td></tr>';
     
     console.log('🔄 Loading users from quest4you_users collection...');
     
@@ -610,7 +724,6 @@ async function loadUsersData() {
         .get();
     } catch (indexError) {
       console.warn('OrderBy failed, trying without order:', indexError);
-      // Fallback: carregar sem ordenação
       snapshot = await db.collection('quest4you_users')
         .limit(100)
         .get();
@@ -619,9 +732,12 @@ async function loadUsersData() {
     console.log(`📊 Found ${snapshot.size} users`);
     
     if (snapshot.empty) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">📭 Nenhum utilizador encontrado na base de dados</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">📭 Nenhum utilizador encontrado na base de dados</td></tr>';
       return;
     }
+    
+    // Guardar utilizadores no cache
+    usersCache = [];
     
     let html = '';
     let index = 1;
@@ -629,41 +745,88 @@ async function loadUsersData() {
     snapshot.forEach(doc => {
       const data = doc.data();
       const userId = doc.id;
+      
+      // Guardar no cache
+      usersCache.push({ id: userId, ...data });
+      
       const displayName = data.displayName || data.name || 'Anónimo';
       const email = data.email || 'N/A';
-        // Tratar diferentes formatos de data
+      
+      // Tratar diferentes formatos de data
       const createdAt = data.createdAt ? formatDatePT(data.createdAt, false) : 'N/A';
       
-      const quizzesCompleted = data.results ? Object.keys(data.results).length : 
-                             (data.quizResults ? Object.keys(data.quizResults).length : 0);
-      const smartMatchEnabled = data.smartMatchEnabled ? '✅' : '❌';
-      const genderValidated = data.genderValidated ? '✅' : '❌';
+      // Contar questionários e respostas
+      const results = data.results || data.quizResults || {};
+      const quizzesCompleted = Object.keys(results).length;
       
-      // Total de questionários disponíveis (9 fixos)
-      const totalQuizzes = 9;
+      // Contar respostas totais
+      let totalResponses = 0;
+      if (data.progress && Object.keys(data.progress).length > 0) {
+        Object.values(data.progress).forEach(count => {
+          totalResponses += count || 0;
+        });
+      } else {
+        // Estimar baseado em quizzes completados
+        totalResponses = quizzesCompleted * 15;
+      }
       
-      // Cor baseada no progresso
-      const progressClass = quizzesCompleted === totalQuizzes ? 'progress-complete' : 
+      // Dados do utilizador (idade, género, orientação, país, cidade)
+      const prefs = data.smartMatchPreferences || {};
+      const ageRange = data.ageRange || prefs.ageRange || '--';
+      const gender = getGenderLabel(data.gender || prefs.gender || 'não especificado');
+      const orientation = getOrientationLabel(data.orientation || prefs.orientation || 'não especificado');
+      const country = data.country || prefs.country || '--';
+      const city = data.city || prefs.city || '--';
+      
+      // Status (validação de género e newsletter)
+      const genderValidated = data.genderValidated;
+      const newsletterSubscribed = data.newsletter !== false && data.newsletterSubscribed !== false;
+      
+      // Cor baseada no progresso (agora de 16)
+      const progressClass = quizzesCompleted >= TOTAL_QUIZZES ? 'progress-complete' : 
                            quizzesCompleted > 0 ? 'progress-partial' : 'progress-none';
       
       html += `
-        <tr data-userid="${userId}">
+        <tr data-userid="${userId}" data-name="${displayName.toLowerCase()}" data-email="${(email || '').toLowerCase()}">
           <td><span class="user-index">${String(index).padStart(3, '0')}</span></td>
           <td>
             <div class="user-name-cell">
               <span class="user-avatar">${displayName.charAt(0).toUpperCase()}</span>
-              <span>${displayName}</span>
+              <div class="user-name-info">
+                <span class="user-name">${displayName}</span>
+                <span class="user-email">${email}</span>
+              </div>
             </div>
           </td>
-          <td><span class="user-email">${email}</span></td>
+          <td>
+            <div class="user-data-cell">
+              <span class="user-data-item" title="Idade">${ageRange}</span>
+              <span class="user-data-item" title="Género">${gender}</span>
+              <span class="user-data-item" title="Orientação">${orientation}</span>
+              <span class="user-data-item" title="Localização">${city !== '--' ? city : country}</span>
+            </div>
+          </td>
           <td>${createdAt}</td>
           <td>
-            <span class="quiz-progress ${progressClass}">${quizzesCompleted}/${totalQuizzes}</span>
+            <div class="quiz-info">
+              <span class="quiz-progress ${progressClass}">${quizzesCompleted}/${TOTAL_QUIZZES}</span>
+              <span class="response-count">${totalResponses} resp.</span>
+            </div>
+          </td>
+          <td>
+            <div class="status-badges">
+              <span class="status-badge ${genderValidated ? 'validated' : 'not-validated'}" title="Género ${genderValidated ? 'Validado' : 'Não Validado'}">
+                ${genderValidated ? '✅' : '❌'} Género
+              </span>
+              <span class="status-badge ${newsletterSubscribed ? 'subscribed' : 'not-subscribed'}" title="Newsletter ${newsletterSubscribed ? 'Subscrita' : 'Não Subscrita'}">
+                ${newsletterSubscribed ? '📧' : '🚫'} News
+              </span>
+            </div>
           </td>
           <td>
             <div class="action-buttons">
               <button class="btn btn-outline btn-small" onclick="viewUser('${userId}')" title="Ver detalhes">
-                👁️ Ver
+                👁️
               </button>
               <button class="btn btn-danger btn-small" onclick="deleteUser('${userId}', '${displayName.replace(/'/g, "\\'")}')" title="Eliminar utilizador">
                 🗑️
@@ -691,8 +854,28 @@ async function loadUsersData() {
       errorMessage = `❌ Erro: ${error.message || 'Erro desconhecido'}`;
     }
     
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #A65D73; padding: 30px;">${errorMessage}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #A65D73; padding: 30px;">${errorMessage}</td></tr>`;
   }
+}
+
+// Filtrar tabela de utilizadores
+function filterUsersTable(searchTerm) {
+  const tbody = document.getElementById('usersTableBody');
+  if (!tbody) return;
+  
+  const rows = tbody.querySelectorAll('tr[data-userid]');
+  const term = searchTerm.toLowerCase().trim();
+  
+  rows.forEach(row => {
+    const name = row.dataset.name || '';
+    const email = row.dataset.email || '';
+    
+    if (term === '' || name.includes(term) || email.includes(term)) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
 }
 
 async function loadUsers() {
@@ -725,8 +908,7 @@ async function viewUser(userId) {
     
     // Progresso dos Questionários
     info += `📊 PROGRESSO DOS QUESTIONÁRIOS\n`;
-    info += `━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-      const quizNames = {
+    info += `━━━━━━━━━━━━━━━━━━━━━━━━━\n`;    const quizNames = {
       vanilla: 'Vanilla ou Kink',
       orientation: 'Orientação Sexual',
       cuckold: 'Voyeurismo & Partilha',
@@ -740,7 +922,9 @@ async function viewUser(userId) {
       intimacy: 'Intimidade & Conexão',
       rhythm: 'Ritmo & Frequência',
       lifestyle: 'Valores & Estilo de Vida',
-      digital: 'Comunicação & Tecnologia'
+      digital: 'Comunicação & Tecnologia',
+      boundaries: 'Limites & Consentimento',
+      romance: 'Romance & Sedução'
     };
       if (data.progress && typeof data.progress === 'object') {
       Object.entries(data.progress).forEach(([quizId, count]) => {
@@ -892,7 +1076,8 @@ async function loadQuizzesData() {
   try {
     console.log('🔄 Loading quiz statistics...');
     const snapshot = await db.collection('quest4you_users').get();
-      // Contadores por questionário
+    
+    // Contadores por questionário (16 quizzes)
     const quizStats = {
       vanilla: { completed: 0, inProgress: 0 },
       orientation: { completed: 0, inProgress: 0 },
@@ -907,7 +1092,9 @@ async function loadQuizzesData() {
       intimacy: { completed: 0, inProgress: 0 },
       rhythm: { completed: 0, inProgress: 0 },
       lifestyle: { completed: 0, inProgress: 0 },
-      digital: { completed: 0, inProgress: 0 }
+      digital: { completed: 0, inProgress: 0 },
+      boundaries: { completed: 0, inProgress: 0 },
+      romance: { completed: 0, inProgress: 0 }
     };
     
     const totalUsers = snapshot.size;
@@ -995,8 +1182,7 @@ async function loadResultsData() {
       usersWithResults: 0,
       quizData: {},
       distributions: {}
-    };
-      // Nomes dos questionários
+    };    // Nomes dos questionários (16 quizzes)
     const quizNames = {
       vanilla: { name: 'Vanilla ou Kink', icon: '🔥', color: '#e91e63' },
       orientation: { name: 'Orientação Sexual', icon: '🌈', color: '#9c27b0' },
@@ -1011,7 +1197,9 @@ async function loadResultsData() {
       intimacy: { name: 'Intimidade & Conexão', icon: '💖', color: '#e91e63' },
       rhythm: { name: 'Ritmo & Frequência', icon: '⏱️', color: '#009688' },
       lifestyle: { name: 'Valores & Estilo de Vida', icon: '🌍', color: '#4caf50' },
-      digital: { name: 'Comunicação & Tecnologia', icon: '📱', color: '#607d8b' }
+      digital: { name: 'Comunicação & Tecnologia', icon: '📱', color: '#607d8b' },
+      boundaries: { name: 'Limites & Consentimento', icon: '🛡️', color: '#795548' },
+      romance: { name: 'Romance & Sedução', icon: '💝', color: '#f06292' }
     };
     
     // Inicializar dados dos questionários
@@ -1541,7 +1729,7 @@ function displayEnhancedMatchesData(data) {
           <td>${getGenderLabel(user.lookingFor)}</td>
           <td>${validationStatus}</td>
           <td>${photosStatus}</td>
-          <td><span class="quiz-badge">${user.quizzesCompleted}/9</span></td>
+          <td><span class="quiz-badge">${user.quizzesCompleted}/${TOTAL_QUIZZES}</span></td>
         </tr>
       `;
     });
@@ -1814,7 +2002,7 @@ function displayValidationRequests(filter) {
           </div>
           <div class="validation-info-row">
             <span class="validation-info-label">Questionários:</span>
-            <span class="validation-info-value">${request.quizzesCompleted || 0}/9 completados</span>
+            <span class="validation-info-value">${request.quizzesCompleted || 0}/${TOTAL_QUIZZES} completados</span>
           </div>
         </div>
         
@@ -2249,6 +2437,9 @@ window.loadUserAnswersSection = loadUserAnswersSection;
 window.loadUserAnswers = loadUserAnswers;
 window.loadQuizAnswers = loadQuizAnswers;
 window.exportUserAnswers = exportUserAnswers;
+window.filterUsersTable = filterUsersTable;
+window.filterUsersList = filterUsersList;
+window.selectUserForAnswers = selectUserForAnswers;
 
 // ================================
 // USER ANSWERS SECTION
@@ -2259,7 +2450,10 @@ let currentUserData = null;
 let currentQuizAnswers = null;
 let usersCache = [];
 
-// Quiz configurations
+// Total de questionários disponíveis
+const TOTAL_QUIZZES = 16;
+
+// Quiz configurations (16 quizzes)
 const QUIZ_CONFIG = {
   vanilla: { name: 'Vanilla ou Kink', icon: '🔥', color: '#e91e63' },
   orientation: { name: 'Orientação Sexual', icon: '🌈', color: '#9c27b0' },
@@ -2274,64 +2468,136 @@ const QUIZ_CONFIG = {
   intimacy: { name: 'Intimidade & Conexão', icon: '💖', color: '#e91e63' },
   rhythm: { name: 'Ritmo & Frequência', icon: '⏱️', color: '#009688' },
   lifestyle: { name: 'Valores & Estilo de Vida', icon: '🌍', color: '#4caf50' },
-  digital: { name: 'Comunicação & Tecnologia', icon: '📱', color: '#607d8b' }
+  digital: { name: 'Comunicação & Tecnologia', icon: '📱', color: '#607d8b' },
+  boundaries: { name: 'Limites & Consentimento', icon: '🛡️', color: '#795548' },
+  romance: { name: 'Romance & Sedução', icon: '💝', color: '#f06292' }
 };
 
 // Carregar a secção de respostas por utilizador
 async function loadUserAnswersSection() {
   console.log('📋 Loading User Answers Section...');
   
-  const select = document.getElementById('userAnswersSelect');
-  if (!select) return;
+  const listContainer = document.getElementById('usersListContainer');
+  if (!listContainer) return;
   
   // Reset UI
   document.getElementById('userAnswersInfo').style.display = 'none';
   document.getElementById('userAnswersQuizSelector').style.display = 'none';
   document.getElementById('userAnswersContainer').style.display = 'none';
-  document.getElementById('userAnswersEmpty').style.display = 'block';
+  document.getElementById('userAnswersEmpty').style.display = 'none';
   
   if (typeof db === 'undefined') {
-    select.innerHTML = '<option value="">⚠️ Firebase não disponível</option>';
+    listContainer.innerHTML = '<p class="error-message">⚠️ Firebase não disponível</p>';
     return;
   }
   
   try {
-    // Carregar utilizadores com questionários completados
-    let snapshot;
-    try {
-      snapshot = await db.collection('quest4you_users')
-        .orderBy('createdAt', 'desc')
-        .get();
-    } catch (e) {
-      snapshot = await db.collection('quest4you_users').get();
+    listContainer.innerHTML = '<div class="loading-container"><div class="loading-spinner">⏳</div><p>A carregar utilizadores...</p></div>';
+    
+    // Carregar utilizadores (usar cache se existir)
+    if (usersCache.length === 0) {
+      let snapshot;
+      try {
+        snapshot = await db.collection('quest4you_users')
+          .orderBy('createdAt', 'desc')
+          .get();
+      } catch (e) {
+        snapshot = await db.collection('quest4you_users').get();
+      }
+      
+      usersCache = [];
+      snapshot.forEach(doc => {
+        usersCache.push({ id: doc.id, ...doc.data() });
+      });
     }
     
-    usersCache = [];
-    let options = '<option value="">Seleciona um utilizador...</option>';
+    // Gerar grid de utilizadores
+    let html = '';
     
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const results = data.results || data.quizResults || {};
+    usersCache.forEach(user => {
+      const displayName = user.displayName || user.name || 'Anónimo';
+      const email = user.email || 'N/A';
+      const results = user.results || user.quizResults || {};
       const quizCount = Object.keys(results).length;
       
-      usersCache.push({
-        id: doc.id,
-        ...data
-      });
+      // Contar respostas
+      let responseCount = 0;
+      if (user.progress && Object.keys(user.progress).length > 0) {
+        Object.values(user.progress).forEach(count => {
+          responseCount += count || 0;
+        });
+      } else {
+        responseCount = quizCount * 15;
+      }
       
-      const displayName = data.displayName || data.name || 'Anónimo';
-      const quizBadge = quizCount > 0 ? `(${quizCount} quiz${quizCount > 1 ? 'zes' : ''})` : '(sem quizzes)';
+      const avatar = displayName.charAt(0).toUpperCase();
+      const hasQuizzes = quizCount > 0;
       
-      options += `<option value="${doc.id}">${displayName} - ${data.email || 'N/A'} ${quizBadge}</option>`;
+      html += `
+        <div class="user-list-item ${hasQuizzes ? '' : 'no-quizzes'}" 
+             onclick="${hasQuizzes ? `selectUserForAnswers('${user.id}')` : ''}"
+             data-userid="${user.id}"
+             data-name="${displayName.toLowerCase()}"
+             data-email="${(email || '').toLowerCase()}">
+          <div class="user-list-avatar">${avatar}</div>
+          <div class="user-list-info">
+            <span class="user-list-name">${displayName}</span>
+            <span class="user-list-email">${email}</span>
+          </div>
+          <div class="user-list-stats">
+            <span class="user-list-quizzes">${quizCount} quiz${quizCount !== 1 ? 'zes' : ''}</span>
+            <span class="user-list-responses">${responseCount} resp.</span>
+          </div>
+        </div>
+      `;
     });
     
-    select.innerHTML = options;
-    console.log(`✅ Loaded ${usersCache.length} users`);
+    if (html === '') {
+      listContainer.innerHTML = '<p class="empty-message">Nenhum utilizador encontrado</p>';
+      document.getElementById('userAnswersEmpty').style.display = 'block';
+    } else {
+      listContainer.innerHTML = html;
+    }
+    
+    console.log(`✅ Loaded ${usersCache.length} users in grid`);
     
   } catch (error) {
     console.error('Error loading users for answers:', error);
-    select.innerHTML = '<option value="">❌ Erro ao carregar utilizadores</option>';
+    listContainer.innerHTML = '<p class="error-message">❌ Erro ao carregar utilizadores</p>';
   }
+}
+
+// Selecionar utilizador para ver respostas
+function selectUserForAnswers(userId) {
+  loadUserAnswers(userId);
+  
+  // Highlight selected user
+  document.querySelectorAll('.user-list-item').forEach(item => {
+    item.classList.remove('selected');
+    if (item.dataset.userid === userId) {
+      item.classList.add('selected');
+    }
+  });
+}
+
+// Filtrar lista de utilizadores na secção de respostas
+function filterUsersList(searchTerm) {
+  const container = document.getElementById('usersListContainer');
+  if (!container) return;
+  
+  const items = container.querySelectorAll('.user-list-item');
+  const term = searchTerm.toLowerCase().trim();
+  
+  items.forEach(item => {
+    const name = item.dataset.name || '';
+    const email = item.dataset.email || '';
+    
+    if (term === '' || name.includes(term) || email.includes(term)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
 }
 
 // Carregar dados de um utilizador específico

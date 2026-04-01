@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=202603310001">
+  <link rel="stylesheet" href="./admin.css?v=202603310010">
 </head>
 <body>
   <!-- Overlay para mobile -->
@@ -129,10 +129,32 @@
           <small>💡 Não tens acesso? Usa <a href="make-admin.html" target="_blank">make-admin.html</a> para te tornares admin.</small>
         </div>
       </div>
-    </section>
-
-    <!-- Dashboard Section -->
+    </section>    <!-- Dashboard Section -->
     <section class="content-section" id="dashboardSection" style="display: none;">
+      <!-- Analytics Cards -->
+      <div class="analytics-grid">
+        <div class="log-card">
+          <h4>Visitas (Hoje)</h4>
+          <div class="log-value" id="visitsToday">--</div>
+          <div class="log-period">últimas 24h</div>
+        </div>
+        <div class="log-card">
+          <h4>Registos (Hoje)</h4>
+          <div class="log-value" id="registersToday">--</div>
+          <div class="log-period">novos utilizadores</div>
+        </div>
+        <div class="log-card">
+          <h4>Logins (Hoje)</h4>
+          <div class="log-value" id="loginsToday">--</div>
+          <div class="log-period">sessões iniciadas</div>
+        </div>
+        <div class="log-card">
+          <h4>Matches (Hoje)</h4>
+          <div class="log-value" id="matchesToday">--</div>
+          <div class="log-period">conexões criadas</div>
+        </div>
+      </div>
+
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon">👥</div>
@@ -267,25 +289,32 @@
                 <span class="quiz-name">Valores & Estilo de Vida</span>
                 <div class="quiz-bar" id="bar-lifestyle" style="--percent: 0%; --color: #4caf50;"></div>
                 <span class="quiz-percent" id="percent-lifestyle">0%</span>
-              </div>
-              <div class="quiz-stat-item" data-quiz="digital">
+              </div>              <div class="quiz-stat-item" data-quiz="digital">
                 <span class="quiz-name">Comunicação & Tecnologia</span>
                 <div class="quiz-bar" id="bar-digital" style="--percent: 0%; --color: #607d8b;"></div>
                 <span class="quiz-percent" id="percent-digital">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="boundaries">
+                <span class="quiz-name">Limites & Consentimento</span>
+                <div class="quiz-bar" id="bar-boundaries" style="--percent: 0%; --color: #795548;"></div>
+                <span class="quiz-percent" id="percent-boundaries">0%</span>
+              </div>
+              <div class="quiz-stat-item" data-quiz="romance">
+                <span class="quiz-name">Romance & Sedução</span>
+                <div class="quiz-bar" id="bar-romance" style="--percent: 0%; --color: #f06292;"></div>
+                <span class="quiz-percent" id="percent-romance">0%</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- Users Section -->
+    </section>    <!-- Users Section -->
     <section class="content-section" id="usersSection" style="display: none;">
       <div class="section-header">
         <h2>👥 Gestão de Utilizadores</h2>
         <div class="header-actions">
-          <input type="text" class="search-input" id="userSearch" placeholder="🔍 Pesquisar utilizadores...">
-          <button class="btn btn-primary" onclick="refreshUsers()">🔄 Atualizar</button>
+          <input type="text" class="search-input" id="userSearch" placeholder="🔍 Pesquisar utilizadores..." oninput="filterUsersTable(this.value)">
+          <button class="btn btn-outline" onclick="refreshUsers()">🔄 Atualizar</button>
         </div>
       </div>
       
@@ -293,11 +322,12 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Email</th>
+              <th>#</th>
+              <th>Utilizador</th>
+              <th>Dados</th>
               <th>Registo</th>
-              <th>Questionários</th>
+              <th>Quiz</th>
+              <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -526,8 +556,7 @@
         </div>
         
         <!-- 14. Comunicação & Tecnologia Íntima -->
-        <div class="quiz-admin-card" data-quiz="digital">
-          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #607d8b, #455a64);">
+        <div class="quiz-admin-card" data-quiz="digital">        <div class="quiz-admin-header" style="background: linear-gradient(135deg, #607d8b, #455a64);">
             <span class="quiz-admin-icon">📱</span>
             <h3>Comunicação & Tecnologia</h3>
           </div>
@@ -537,6 +566,38 @@
               <span id="digital-completed">0 completados</span>
               <span id="digital-progress">0 em progresso</span>
               <span id="digital-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 15. Limites & Consentimento -->
+        <div class="quiz-admin-card" data-quiz="boundaries">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #795548, #5d4037);">
+            <span class="quiz-admin-icon">🛡️</span>
+            <h3>Limites & Consentimento</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="boundaries-completed">0 completados</span>
+              <span id="boundaries-progress">0 em progresso</span>
+              <span id="boundaries-rate">0% taxa</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 16. Romance & Sedução -->
+        <div class="quiz-admin-card" data-quiz="romance">
+          <div class="quiz-admin-header" style="background: linear-gradient(135deg, #f06292, #ec407a);">
+            <span class="quiz-admin-icon">💝</span>
+            <h3>Romance & Sedução</h3>
+          </div>
+          <div class="quiz-admin-body">
+            <p>15 perguntas</p>
+            <div class="quiz-admin-stats">
+              <span id="romance-completed">0 completados</span>
+              <span id="romance-progress">0 em progresso</span>
+              <span id="romance-rate">0% taxa</span>
             </div>
           </div>
         </div>
@@ -553,21 +614,22 @@
         <div class="loading-spinner">⏳</div>
         <p>A carregar análise de resultados...</p>
       </div>
-    </section>
-
-    <!-- User Answers Section -->
+    </section>    <!-- User Answers Section -->
     <section class="content-section" id="user-answersSection" style="display: none;">
       <div class="section-header">
         <h2>📋 Respostas por Utilizador</h2>
         <div class="header-actions">
-          <select id="userAnswersSelect" class="form-select" onchange="loadUserAnswers(this.value)">
-            <option value="">Seleciona um utilizador...</option>
-          </select>
+          <input type="text" class="search-input" id="userAnswersSearch" placeholder="🔍 Pesquisar utilizador..." oninput="filterUsersList(this.value)">
           <button class="btn btn-outline" onclick="loadUserAnswersSection()">🔄 Atualizar</button>
         </div>
       </div>
       
-      <!-- User Info Card -->
+      <!-- Users List (shown first) -->
+      <div id="usersListContainer" class="users-list-grid">
+        <!-- Users will be loaded dynamically -->
+      </div>
+      
+      <!-- User Info Card (shown after selecting user) -->
       <div id="userAnswersInfo" class="user-answers-info" style="display: none;">
         <div class="user-info-card">
           <div class="user-info-header">
@@ -605,8 +667,8 @@
         <!-- Answers will be loaded here -->
       </div>
       
-      <!-- Empty State -->
-      <div id="userAnswersEmpty" class="empty-state">
+      <!-- Empty State (shown when no user is selected and list is empty) -->
+      <div id="userAnswersEmpty" class="empty-state" style="display: none;">
         <div class="empty-icon">👆</div>
         <h3>Seleciona um utilizador</h3>
         <p>Escolhe um utilizador da lista acima para ver as suas respostas aos questionários.</p>
@@ -733,7 +795,7 @@
     }
   </script>
   
-  <script src="./admin.js?v=202603310005"></script>
+  <script src="./admin.js?v=202603310010"></script>
 <script src="../js/cookie-consent.js"></script>
 </body>
 </html>
