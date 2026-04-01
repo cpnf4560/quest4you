@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   console.log("Loading quiz:", quizId, isEditMode ? "(edit mode)" : "");
 
+  // Setup offline detection
+  setupOfflineDetection();
+
   if (typeof firebase !== 'undefined' && window.firebaseAuth) {
     window.firebaseAuth.onAuthStateChanged(function(user) {
       currentUser = user;
@@ -46,13 +49,63 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Re-render when language changes
   window.addEventListener('languageChanged', function() {
+    // Clear translation cache when language changes
+    clearTranslationCache();
+    
     if (quizData && filteredQuestions.length > 0) {
+      initQuizUI(); // Re-init to update title/description
       renderQuestion();
       renderQuickNav();
       updateNavButtons();
     }
   });
 });
+
+/**
+ * Setup offline/online detection with user notification
+ */
+function setupOfflineDetection() {
+  let offlineBanner = null;
+  
+  function showOfflineBanner() {
+    if (offlineBanner) return;
+    
+    offlineBanner = document.createElement('div');
+    offlineBanner.id = 'offlineBanner';
+    offlineBanner.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; background: #ff9800; color: #000; padding: 10px 20px; text-align: center; z-index: 10000; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;';
+    offlineBanner.innerHTML = `
+      <span>📶</span>
+      <span>${typeof t === 'function' ? t('common.offline') : 'Estás offline. As respostas serão guardadas quando a conexão voltar.'}</span>
+    `;
+    document.body.prepend(offlineBanner);
+    
+    // Adjust body padding
+    document.body.style.paddingTop = '40px';
+  }
+  
+  function hideOfflineBanner() {
+    if (offlineBanner) {
+      offlineBanner.remove();
+      offlineBanner = null;
+      document.body.style.paddingTop = '';
+    }
+  }
+  
+  window.addEventListener('online', function() {
+    hideOfflineBanner();
+    // Try to sync any pending data
+    if (currentUser && window.CloudSync && Object.keys(answers).length > 0) {
+      saveProgressToCloud();
+    }
+  });
+  
+  window.addEventListener('offline', showOfflineBanner);
+  
+  // Check initial state
+  if (!navigator.onLine) {
+    showOfflineBanner();
+  }
+}
 
 // ================================
 // UPDATE USER UI
@@ -75,23 +128,38 @@ async function loadQuiz(id) {
   if (quizLoaded) return;
   quizLoaded = true;
 
+  // Show loading state
+  showLoadingState(true);
+
   try {
     const response = await fetch('../data/quizzes/' + id + '.json');
-    if (!response.ok) throw new Error("Quiz não encontrado");
+    if (!response.ok) {
+      throw new Error(response.status === 404 ? 'Quiz not found' : 'Network error');
+    }
 
     quizData = await response.json();
+    
+    // Validate quiz data structure
+    if (!quizData.questions || !Array.isArray(quizData.questions) || quizData.questions.length === 0) {
+      throw new Error('Invalid quiz data: no questions found');
+    }
+    
     console.log("Quiz loaded:", quizData.name, "with", quizData.questions.length, "questions (v" + quizData.quizVersion + ")");
 
     // Check if quiz requires gender
     if (quizData.requiresGender) {
       userGender = await getUserGender();
       if (!userGender) {
+        showLoadingState(false);
         showGenderModal();
         return;
       }
     }
 
     filterQuestionsByGender();
+    
+    // Pre-load category translations for better performance
+    preloadCategoryTranslations();
 
     // Load saved answers from cloud
     if (currentUser && window.CloudSync) {
@@ -118,18 +186,84 @@ async function loadQuiz(id) {
         }
       } catch (error) {
         console.error("Error loading answers:", error);
+        // Non-fatal error, continue with quiz
       }
     }
 
+    showLoadingState(false);
     initQuizUI();
     renderQuestion();
     renderQuickNav();
   } catch (error) {
     console.error("Error loading quiz:", error);
     quizLoaded = false;
-    alert(t('quiz.loadError'));
-    window.location.href = "../";
+    showLoadingState(false);
+    showErrorState(error.message);
   }
+}
+
+/**
+ * Shows/hides loading overlay
+ */
+function showLoadingState(show) {
+  let loader = document.getElementById('quizLoader');
+  
+  if (show) {
+    if (!loader) {
+      loader = document.createElement('div');
+      loader.id = 'quizLoader';
+      loader.className = 'quiz-loader';
+      loader.innerHTML = `
+        <div class="loader-content">
+          <div class="loader-spinner"></div>
+          <p>${typeof t === 'function' ? t('quiz.loading') : 'Carregando...'}</p>
+        </div>
+      `;
+      loader.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.95); display: flex; align-items: center; justify-content: center; z-index: 9999;';
+      
+      // Add spinner styles if not present
+      if (!document.getElementById('loaderStyles')) {
+        const style = document.createElement('style');
+        style.id = 'loaderStyles';
+        style.textContent = `
+          .loader-content { text-align: center; }
+          .loader-spinner { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary-color, #8b4a5e); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+          @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+          .loader-content p { color: #666; font-size: 1rem; }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      document.body.appendChild(loader);
+    }
+    loader.style.display = 'flex';
+  } else if (loader) {
+    loader.style.display = 'none';
+  }
+}
+
+/**
+ * Shows error state with retry option
+ */
+function showErrorState(message) {
+  const errorHtml = `
+    <div class="quiz-error" style="text-align: center; padding: 60px 20px;">
+      <div style="font-size: 4rem; margin-bottom: 20px;">😵</div>
+      <h2 style="color: #e53935; margin-bottom: 16px;">${typeof t === 'function' ? t('quiz.loadError') : 'Erro ao carregar'}</h2>
+      <p style="color: #666; margin-bottom: 24px;">${message}</p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn-primary" onclick="location.reload()" style="padding: 12px 24px; border-radius: 8px; cursor: pointer;">
+          🔄 ${typeof t === 'function' ? t('common.retry') : 'Tentar novamente'}
+        </button>
+        <button class="btn-secondary" onclick="window.location.href='../'" style="padding: 12px 24px; border-radius: 8px; cursor: pointer; background: #f5f5f5; border: 1px solid #ddd;">
+          🏠 ${typeof t === 'function' ? t('nav.home') : 'Voltar ao início'}
+        </button>
+      </div>
+    </div>
+  `;
+  
+  const container = document.querySelector('.quiz-container') || document.body;
+  container.innerHTML = errorHtml;
 }
 
 // ================================
@@ -164,6 +298,13 @@ async function getUserGender() {
 // ================================
 function showGenderModal() {
   if (!document.getElementById('genderModal')) {
+    const modalTitle = typeof t === 'function' ? t('quiz.genderModalTitle') : 'Antes de começar...';
+    const modalDesc = typeof t === 'function' ? t('quiz.genderModalDesc') : 'Este questionário adapta algumas perguntas ao teu género.';
+    const genderMale = typeof t === 'function' ? t('quiz.genderMale') : '👨 Masculino';
+    const genderFemale = typeof t === 'function' ? t('quiz.genderFemale') : '👩 Feminino';
+    const genderNonBinary = typeof t === 'function' ? t('quiz.genderNonBinary') : '🌈 Não-binário';
+    const genderOther = typeof t === 'function' ? t('quiz.genderOther') : '🤷 Outro / Prefiro não dizer';
+    
     const modal = document.createElement('div');
     modal.id = 'genderModal';
     modal.className = 'result-modal';
@@ -172,17 +313,17 @@ function showGenderModal() {
       <div class="result-content" style="max-width: 400px;">
         <div class="result-header" style="background: linear-gradient(135deg, ${quizData.color} 0%, ${adjustColor(quizData.color, -20)} 100%);">
           <span class="result-emoji">⚧</span>
-          <h2>Antes de começar...</h2>
+          <h2>${modalTitle}</h2>
         </div>
         <div class="result-body" style="padding: 30px;">
           <p style="text-align: center; margin-bottom: 20px; color: #666;">
-            Este questionário adapta algumas perguntas ao teu género.
+            ${modalDesc}
           </p>
           <div style="display: flex; flex-direction: column; gap: 12px;">
-            <button class="option-btn" onclick="selectGender('masculino')">👨 Masculino</button>
-            <button class="option-btn" onclick="selectGender('feminino')">👩 Feminino</button>
-            <button class="option-btn" onclick="selectGender('nao-binario')">🌈 Não-binário</button>
-            <button class="option-btn" onclick="selectGender('outro')">🤷 Outro / Prefiro não dizer</button>
+            <button class="option-btn" onclick="selectGender('masculino')">${genderMale}</button>
+            <button class="option-btn" onclick="selectGender('feminino')">${genderFemale}</button>
+            <button class="option-btn" onclick="selectGender('nao-binario')">${genderNonBinary}</button>
+            <button class="option-btn" onclick="selectGender('outro')">${genderOther}</button>
           </div>
         </div>
       </div>
@@ -247,9 +388,106 @@ function filterQuestionsByGender() {
 // ================================
 // QUIZ CONTENT TRANSLATION HELPERS
 // ================================
+
+/**
+ * Translation cache with TTL support
+ * Each cache entry stores: { value, timestamp }
+ */
+const translationCache = new Map();
+
+/**
+ * Cache TTL in milliseconds (30 minutes default)
+ * After this time, cached translations will be refreshed
+ */
+const CACHE_TTL = 30 * 60 * 1000;
+
+/**
+ * Maximum cache size to prevent memory issues
+ */
+const CACHE_MAX_SIZE = 500;
+
+/**
+ * Clears translation cache - call when language changes
+ */
+function clearTranslationCache() {
+  translationCache.clear();
+  console.log('🌐 Translation cache cleared');
+}
+
+/**
+ * Prunes expired entries from cache
+ */
+function pruneTranslationCache() {
+  const now = Date.now();
+  let pruned = 0;
+  
+  for (const [key, entry] of translationCache) {
+    if (now - entry.timestamp > CACHE_TTL) {
+      translationCache.delete(key);
+      pruned++;
+    }
+  }
+  
+  if (pruned > 0) {
+    console.log(`🧹 Pruned ${pruned} expired cache entries`);
+  }
+}
+
+/**
+ * Ensures cache doesn't exceed max size by removing oldest entries
+ */
+function ensureCacheSize() {
+  if (translationCache.size <= CACHE_MAX_SIZE) return;
+  
+  // Convert to array and sort by timestamp (oldest first)
+  const entries = Array.from(translationCache.entries())
+    .sort((a, b) => a[1].timestamp - b[1].timestamp);
+  
+  // Remove oldest 20% of entries
+  const toRemove = Math.ceil(entries.length * 0.2);
+  for (let i = 0; i < toRemove; i++) {
+    translationCache.delete(entries[i][0]);
+  }
+  
+  console.log(`🧹 Removed ${toRemove} oldest cache entries`);
+}
+
+/**
+ * Gets a value from cache if valid
+ * @param {string} key - Cache key
+ * @returns {string|null} Cached value or null if expired/missing
+ */
+function getCachedValue(key) {
+  const entry = translationCache.get(key);
+  if (!entry) return null;
+  
+  // Check if expired
+  if (Date.now() - entry.timestamp > CACHE_TTL) {
+    translationCache.delete(key);
+    return null;
+  }
+  
+  return entry.value;
+}
+
+/**
+ * Sets a value in cache with timestamp
+ * @param {string} key - Cache key
+ * @param {string} value - Value to cache
+ */
+function setCachedValue(key, value) {
+  ensureCacheSize();
+  translationCache.set(key, {
+    value,
+    timestamp: Date.now()
+  });
+}
+
 /**
  * Gets translated quiz text (question/option) if available in i18n
  * Falls back to original Portuguese text from JSON if no translation exists
+ * Uses caching with TTL for performance optimization
+ * 
  * Keys: quizContent.{quizId}.q{questionId} for questions
  *       quizContent.{quizId}.q{questionId}_o{optionIndex} for options
  *       quizContent.{quizId}.cat_{categoryIndex} for category labels
@@ -258,50 +496,123 @@ function filterQuestionsByGender() {
 function getQuizText(type, questionId, optionIndex, fallback) {
   if (typeof t !== 'function') return fallback;
   
+  // Build cache key
+  const cacheKey = `${quizId}_${type}_${questionId}_${optionIndex}`;
+  
+  // Return cached value if exists and valid
+  const cachedValue = getCachedValue(cacheKey);
+  if (cachedValue !== null) {
+    return cachedValue;
+  }
+  
   let key;
   if (type === 'question') {
-    key = 'quizContent.' + quizId + '.q' + questionId;
+    key = `quizContent.${quizId}.q${questionId}`;
   } else if (type === 'option') {
-    key = 'quizContent.' + quizId + '.q' + questionId + '_o' + optionIndex;
+    key = `quizContent.${quizId}.q${questionId}_o${optionIndex}`;
   } else if (type === 'category') {
-    key = 'quizContent.' + quizId + '.cat_' + questionId; // questionId is actually category index here
+    key = `quizContent.${quizId}.cat_${questionId}`; // questionId is actually category index here
   } else if (type === 'categoryDesc') {
-    key = 'quizContent.' + quizId + '.cat_' + questionId + '_desc';
+    key = `quizContent.${quizId}.cat_${questionId}_desc`;
   }
   
   const translated = t(key);
   // If t() returns the key itself, no translation exists - use fallback
-  return (translated && translated !== key) ? translated : fallback;
+  const result = (translated && translated !== key) ? translated : fallback;
+  
+  // Cache the result with TTL
+  setCachedValue(cacheKey, result);
+  
+  return result;
 }
 
 /**
- * Gets translated quiz name from i18n (quizNames.{id})
+ * Gets translated quiz name from i18n
+ * Priority: quizContent.{id}.name > quizNames.{id} > JSON fallback
  */
 function getQuizName() {
-  if (typeof t !== 'function') return quizData.name;
-  const translated = t('quizNames.' + quizId);
-  return (translated && translated !== 'quizNames.' + quizId) ? translated : quizData.name;
+  if (typeof t !== 'function' || !quizData) return quizData?.name || '';
+  
+  const cacheKey = `${quizId}_name`;
+  const cachedValue = getCachedValue(cacheKey);
+  if (cachedValue !== null) {
+    return cachedValue;
+  }
+  
+  // Try quizContent.{id}.name first (new structure)
+  let translated = t(`quizContent.${quizId}.name`);
+  if (translated && translated !== `quizContent.${quizId}.name`) {
+    setCachedValue(cacheKey, translated);
+    return translated;
+  }
+  
+  // Fallback to quizNames.{id} (legacy structure)
+  translated = t(`quizNames.${quizId}`);
+  const result = (translated && translated !== `quizNames.${quizId}`) ? translated : quizData.name;
+  
+  setCachedValue(cacheKey, result);
+  return result;
 }
 
 /**
- * Gets translated quiz description from i18n (quizDescriptions.{id})
+ * Gets translated quiz description from i18n
+ * Priority: quizContent.{id}.description > quizDescriptions.{id} > JSON fallback
  */
 function getQuizDescription() {
-  if (typeof t !== 'function') return quizData.description;
-  const translated = t('quizDescriptions.' + quizId);
-  return (translated && translated !== 'quizDescriptions.' + quizId) ? translated : quizData.description;
+  if (typeof t !== 'function' || !quizData) return quizData?.description || '';
+  
+  const cacheKey = `${quizId}_description`;
+  const cachedValue = getCachedValue(cacheKey);
+  if (cachedValue !== null) {
+    return cachedValue;
+  }
+  
+  // Try quizContent.{id}.description first (new structure)
+  let translated = t(`quizContent.${quizId}.description`);
+  if (translated && translated !== `quizContent.${quizId}.description`) {
+    setCachedValue(cacheKey, translated);
+    return translated;
+  }
+  
+  // Fallback to quizDescriptions.{id} (legacy structure)
+  translated = t(`quizDescriptions.${quizId}`);
+  const result = (translated && translated !== `quizDescriptions.${quizId}`) ? translated : quizData.description;
+  
+  setCachedValue(cacheKey, result);
+  return result;
 }
 
 /**
- * Gets translated category (for results)
+ * Gets translated category (for results) with caching
  */
 function getTranslatedCategory(category, index) {
   if (!category) return null;
-  return {
+  
+  const cacheKey = `${quizId}_cat_full_${index}`;
+  const cachedValue = getCachedValue(cacheKey);
+  if (cachedValue !== null) {
+    return cachedValue;
+  }
+  
+  const translated = {
     ...category,
     label: getQuizText('category', index, null, category.label),
     description: getQuizText('categoryDesc', index, null, category.description)
   };
+  
+  setCachedValue(cacheKey, translated);
+  return translated;
+}
+
+/**
+ * Pre-loads all category translations for better performance
+ */
+function preloadCategoryTranslations() {
+  if (!quizData?.categories) return;
+  
+  quizData.categories.forEach((cat, index) => {
+    getTranslatedCategory(cat, index);
+  });
 }
 
 // ================================
@@ -337,6 +648,14 @@ function renderQuestion() {
   document.getElementById("progressText").textContent = t('quiz.questionOf', { current: currentQuestion + 1, total: totalQuestions });
   document.getElementById("progressPercent").textContent = percent + '%';
   document.getElementById("progressBar").style.width = percent + '%';
+  
+  // Accessibility: Update ARIA attributes
+  const progressBar = document.getElementById("progressBar");
+  if (progressBar) {
+    progressBar.setAttribute('aria-valuenow', percent);
+    progressBar.setAttribute('aria-valuemin', '0');
+    progressBar.setAttribute('aria-valuemax', '100');
+  }
 
   // Render dynamic options from JSON
   const container = document.getElementById("optionsContainer");
@@ -346,12 +665,20 @@ function renderQuestion() {
   question.options.forEach(function(option, index) {
     const isSelected = answers[question.id] && answers[question.id].optionIndex === index;
     const optionText = getQuizText('option', question.id, index, option.text);
-    html += '<button class="option-btn' + (isSelected ? ' selected' : '') + '" data-index="' + index + '" onclick="selectAnswer(' + index + ')">';
-    html += '<span class="option-letter">' + (letters[index] || (index + 1)) + '</span>';
-    html += '<span class="option-text">' + optionText + '</span>';    html += '</button>';
+    html += '<button class="option-btn' + (isSelected ? ' selected' : '') + '" ';
+    html += 'data-index="' + index + '" ';
+    html += 'onclick="selectAnswer(' + index + ')" ';
+    html += 'role="radio" ';
+    html += 'aria-checked="' + (isSelected ? 'true' : 'false') + '" ';
+    html += 'aria-label="' + letters[index] + ': ' + optionText.replace(/"/g, '&quot;') + '">';
+    html += '<span class="option-letter" aria-hidden="true">' + (letters[index] || (index + 1)) + '</span>';
+    html += '<span class="option-text">' + optionText + '</span>';
+    html += '</button>';
   });
 
   container.innerHTML = html;
+  container.setAttribute('role', 'radiogroup');
+  container.setAttribute('aria-label', getQuizText('question', question.id, null, question.text));
 
   updateNavButtons();
   updateQuickNav();
@@ -361,6 +688,12 @@ function renderQuestion() {
   card.style.animation = "none";
   card.offsetHeight;
   card.style.animation = "slideIn 0.3s ease";
+  
+  // Focus management for keyboard navigation
+  if (document.activeElement && document.activeElement.classList.contains('option-btn')) {
+    const firstOption = container.querySelector('.option-btn');
+    if (firstOption) firstOption.focus();
+  }
 }
 
 // ================================
@@ -370,6 +703,11 @@ function selectAnswer(optionIndex) {
   const question = filteredQuestions[currentQuestion];
   const option = question.options[optionIndex];
 
+  // Haptic feedback on mobile devices
+  if (navigator.vibrate) {
+    navigator.vibrate(10);
+  }
+
   // Store answer with score and tags
   answers[question.id] = {
     optionIndex: optionIndex,
@@ -377,12 +715,18 @@ function selectAnswer(optionIndex) {
     tags: option.tags || []
   };
 
-  // Update button states
+  // Update button states with animation
   const buttons = document.querySelectorAll(".option-btn");
   buttons.forEach(function(btn) {
     btn.classList.remove("selected");
+    btn.setAttribute('aria-checked', 'false');
     if (parseInt(btn.dataset.index) === optionIndex) {
       btn.classList.add("selected");
+      btn.setAttribute('aria-checked', 'true');
+      // Add selection pulse animation
+      btn.style.animation = 'none';
+      btn.offsetHeight; // Trigger reflow
+      btn.style.animation = 'selectPulse 0.3s ease';
     }
   });
 
@@ -392,12 +736,16 @@ function selectAnswer(optionIndex) {
   updateNavButtons();
   updateQuickNav();
 
-  // Update progress bar
+  // Update progress bar with smooth transition
   const totalQuestions = filteredQuestions.length;
   const answeredCount = Object.keys(answers).length;
   const percent = Math.round((answeredCount / totalQuestions) * 100);
-  document.getElementById("progressPercent").textContent = percent + '%';
-  document.getElementById("progressBar").style.width = percent + '%';
+  
+  const progressBar = document.getElementById("progressBar");
+  const progressPercent = document.getElementById("progressPercent");
+  progressPercent.textContent = percent + '%';
+  progressBar.style.width = percent + '%';
+  progressBar.setAttribute('aria-valuenow', percent);
 
   // Auto-advance after short delay
   setTimeout(function() {
@@ -406,6 +754,26 @@ function selectAnswer(optionIndex) {
     }
   }, 350);
 }
+
+// Add selection animation styles
+(function() {
+  if (!document.getElementById('selectionStyles')) {
+    const style = document.createElement('style');
+    style.id = 'selectionStyles';
+    style.textContent = `
+      @keyframes selectPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+      }
+      .option-btn { transition: all 0.2s ease; }
+      .option-btn:hover { transform: translateY(-2px); }
+      .option-btn:active { transform: scale(0.98); }
+      .option-btn.selected { transform: scale(1); }
+    `;
+    document.head.appendChild(style);
+  }
+})();
 
 // ================================
 // NAVIGATION
@@ -552,8 +920,43 @@ function finishQuiz() {
       return;
     }
   }
+  
   const results = calculateResults();
+  
+  // Track quiz completion (analytics)
+  trackEvent('quiz_completed', {
+    quiz_id: quizId,
+    quiz_name: quizData.name,
+    score: results.score,
+    category: results.category?.label || 'unknown',
+    questions_answered: results.answeredCount,
+    total_questions: filteredQuestions.length,
+    completion_rate: Math.round((results.answeredCount / filteredQuestions.length) * 100)
+  });
+  
   showResults(results);
+}
+
+/**
+ * Track analytics event (if analytics available)
+ */
+function trackEvent(eventName, params) {
+  // Google Analytics 4
+  if (typeof gtag === 'function') {
+    gtag('event', eventName, params);
+  }
+  
+  // Firebase Analytics
+  if (typeof firebase !== 'undefined' && firebase.analytics) {
+    try {
+      firebase.analytics().logEvent(eventName, params);
+    } catch (e) {
+      // Analytics not available
+    }
+  }
+  
+  // Console log for development
+  console.log('📊 Event:', eventName, params);
 }
 
 // ================================
@@ -694,16 +1097,71 @@ let saveProgressTimeout = null;
 function saveProgressToCloud() {
   if (saveProgressTimeout) clearTimeout(saveProgressTimeout);
 
+  // Always save to localStorage as backup
+  saveProgressToLocalStorage();
+
   saveProgressTimeout = setTimeout(async function() {
     if (currentUser && window.CloudSync) {
       try {
         await window.CloudSync.saveQuizProgress(currentUser.uid, quizId, answers, currentQuestion);
         console.log("💾 Progress saved to cloud");
+        // Clear local backup after successful cloud save
+        clearLocalStorageBackup();
       } catch (error) {
         console.error("Error saving progress:", error);
+        // Keep local backup if cloud save fails
       }
     }
   }, 2000);
+}
+
+/**
+ * Save progress to localStorage as backup
+ */
+function saveProgressToLocalStorage() {
+  try {
+    const backupData = {
+      quizId: quizId,
+      answers: answers,
+      currentQuestion: currentQuestion,
+      timestamp: Date.now()
+    };
+    localStorage.setItem('q4y_quiz_backup_' + quizId, JSON.stringify(backupData));
+  } catch (e) {
+    console.warn('Could not save to localStorage:', e);
+  }
+}
+
+/**
+ * Clear localStorage backup
+ */
+function clearLocalStorageBackup() {
+  try {
+    localStorage.removeItem('q4y_quiz_backup_' + quizId);
+  } catch (e) {
+    // Ignore
+  }
+}
+
+/**
+ * Restore progress from localStorage backup
+ */
+function restoreFromLocalStorage() {
+  try {
+    const backup = localStorage.getItem('q4y_quiz_backup_' + quizId);
+    if (backup) {
+      const data = JSON.parse(backup);
+      // Only restore if backup is less than 24 hours old
+      if (Date.now() - data.timestamp < 24 * 60 * 60 * 1000) {
+        return data;
+      } else {
+        clearLocalStorageBackup();
+      }
+    }
+  } catch (e) {
+    console.warn('Could not restore from localStorage:', e);
+  }
+  return null;
 }
 
 // ================================
@@ -896,3 +1354,73 @@ window.retakeQuiz = retakeQuiz;
 window.editAnswers = editAnswers;
 window.selectGender = selectGender;
 window.goToNextQuiz = goToNextQuiz;
+
+// ================================
+// KEYBOARD NAVIGATION
+// ================================
+document.addEventListener('keydown', function(e) {
+  // Ignore if modal is open or user is typing
+  if (document.querySelector('.result-modal[style*="display: flex"]') || 
+      e.target.tagName === 'INPUT' || 
+      e.target.tagName === 'TEXTAREA') {
+    return;
+  }
+  
+  switch(e.key) {
+    case 'ArrowLeft':
+      e.preventDefault();
+      previousQuestion();
+      break;
+    case 'ArrowRight':
+      e.preventDefault();
+      if (answers[filteredQuestions[currentQuestion]?.id]) {
+        nextQuestion();
+      }
+      break;
+    case '1': case '2': case '3': case '4': case '5': case '6':
+      const optionIndex = parseInt(e.key) - 1;
+      const question = filteredQuestions[currentQuestion];
+      if (question && question.options[optionIndex]) {
+        e.preventDefault();
+        selectAnswer(optionIndex);
+      }
+      break;
+    case 'a': case 'A':
+      e.preventDefault();
+      selectAnswer(0);
+      break;
+    case 'b': case 'B':
+      if (filteredQuestions[currentQuestion]?.options[1]) {
+        e.preventDefault();
+        selectAnswer(1);
+      }
+      break;
+    case 'c': case 'C':
+      if (filteredQuestions[currentQuestion]?.options[2]) {
+        e.preventDefault();
+        selectAnswer(2);
+      }
+      break;
+    case 'd': case 'D':
+      if (filteredQuestions[currentQuestion]?.options[3]) {
+        e.preventDefault();
+        selectAnswer(3);
+      }
+      break;
+    case 'e': case 'E':
+      if (filteredQuestions[currentQuestion]?.options[4]) {
+        e.preventDefault();
+        selectAnswer(4);
+      }
+      break;
+    case 'Enter':
+      // Finish quiz if all answered and on last question
+      const allAnswered = Object.keys(answers).length === filteredQuestions.length;
+      const isLastQuestion = currentQuestion === filteredQuestions.length - 1;
+      if (allAnswered && isLastQuestion) {
+        e.preventDefault();
+        finishQuiz();
+      }
+      break;
+  }
+});

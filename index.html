@@ -48,10 +48,11 @@
   <link rel="manifest" href="./manifest.json">  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" as="style">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="preload" href="./css/main.css?v=202602090001" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">  <link rel="preload" href="./css/main.css?v=202602090001" as="style">
   <link rel="stylesheet" href="./css/main.css?v=202602090001">
-  <link rel="stylesheet" href="./css/notifications.css?v=202602060002">  <link rel="stylesheet" href="./css/dark-mode.css?v=202602090001">
+  <link rel="stylesheet" href="./css/notifications.css?v=202602060002">
+  <link rel="stylesheet" href="./css/skeleton.css?v=202602090001">
+  <link rel="stylesheet" href="./css/dark-mode.css?v=202602090001">
 
   <!-- Structured Data - Organization -->
   <script type="application/ld+json">
@@ -357,13 +358,26 @@
           <button class="btn btn-outline" onclick="closeResultModal()" data-i18n="modal.close">🏠 Fechar</button>
         </div>      </div>
     </div>
-  </div>
-
-  <!-- Firebase -->
+  </div>  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="./js/firebase-config.js?v=202603310003"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"></script>
+  <script src="./js/firebase-config.js?v=202604010001"></script>
+  <script src="./js/firebase-appcheck.js?v=202604010001"></script>
+  
+  <!-- Core Utilities -->
+  <script src="./js/types.js?v=202603310003"></script>
+  <script src="./js/utils.js?v=202603310003"></script>
+  <script src="./js/error-handler.js?v=202603310003"></script>
+  
+  <!-- UI Components -->
+  <script src="./js/toast.js?v=202603310003"></script>
+  <script src="./js/accessibility.js?v=202603310003"></script>
+  
+  <!-- Features -->
+  <script src="./js/badges.js?v=202603310003"></script>
+  <script src="./js/export.js?v=202603310003"></script>
   <script src="./js/cloud-sync.js?v=202603310003"></script>
   <script src="./js/notifications.js?v=202603310003"></script>
   <script src="./js/dark-mode.js?v=202603310003"></script>
@@ -372,6 +386,38 @@
 
   <!-- Cookie Consent -->
   <script src="./js/cookie-consent.js?v=202603310003"></script>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(registration => {
+            console.log('✅ Service Worker registado com sucesso:', registration.scope);
+            
+            // Check for updates
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New content available
+                  if (window.Toast) {
+                    Toast.info('Nova versão disponível! Atualiza a página.', {
+                      duration: 0,
+                      action: {
+                        text: 'Atualizar',
+                        onClick: () => window.location.reload()
+                      }
+                    });
+                  }
+                }
+              });
+            });
+          })
+          .catch(err => console.error('❌ Erro ao registar Service Worker:', err));
+      });
+    }
+  </script>
 </body>
 </html>
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "meta": {
     "lang": "pt",
     "name": "Português",
@@ -132,7 +132,13 @@
     "editModeTitle": "✏️ Modo de edição ativo",
     "editModeDesc": "Navega pelas perguntas e altera as que quiseres. Clica em \"Ver Resultado\" quando terminares.",
     "notSpecified": "Quiz não especificado!",
-    "loadError": "Erro ao carregar o questionário. Por favor, tenta novamente."
+    "loadError": "Erro ao carregar o questionário. Por favor, tenta novamente.",
+    "genderModalTitle": "Antes de começar...",
+    "genderModalDesc": "Este questionário adapta algumas perguntas ao teu género.",
+    "genderMale": "👨 Masculino",
+    "genderFemale": "👩 Feminino",
+    "genderNonBinary": "🌈 Não-binário",
+    "genderOther": "🤷 Outro / Prefiro não dizer"
   },
 
   "auth": {
@@ -654,7 +660,9 @@
     "previous": "Anterior",
     "close": "Fechar",
     "search": "Pesquisar",
-    "noData": "Sem dados disponíveis"
+    "noData": "Sem dados disponíveis",
+    "offline": "Estás offline. As respostas serão guardadas quando a conexão voltar.",
+    "retry": "Tentar novamente"
   },
 
   "quizNames": {

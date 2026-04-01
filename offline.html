@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Quest4You</title>
+  <link rel="icon" type="image/png" href="./assets/quest4you_transp.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1A1218 0%, #2D1B4E 50%, #C41E3A 100%);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+    
+    .container {
+      max-width: 450px;
+      animation: fadeIn 0.6s ease;
+    }
+    
+    .emoji {
+      font-size: 5rem;
+      margin-bottom: 24px;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    
+    p {
+      opacity: 0.9;
+      margin-bottom: 32px;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      background: white;
+      color: #C41E3A;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: inherit;
+    }
+    
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+    }
+    
+    button:active {
+      transform: scale(0.98);
+    }
+    
+    button.secondary {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+    
+    button.secondary:hover {
+      background: rgba(255,255,255,0.25);
+    }
+    
+    .status {
+      margin-top: 40px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f44336;
+      animation: pulse 2s infinite;
+    }
+    
+    .status-dot.online {
+      background: #4caf50;
+      animation: none;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+    
+    /* Background decoration */
+    .bg-decoration {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,30,58,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .bg-decoration.top-left {
+      top: -100px;
+      left: -100px;
+    }
+    
+    .bg-decoration.bottom-right {
+      bottom: -150px;
+      right: -150px;
+      width: 400px;
+      height: 400px;
+    }
+    
+    @media (max-width: 480px) {
+      .emoji {
+        font-size: 4rem;
+      }
+      
+      h1 {
+        font-size: 1.6rem;
+      }
+      
+      p {
+        font-size: 0.95rem;
+      }
+      
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .emoji {
+        animation: none;
+      }
+      
+      .container {
+        animation: none;
+      }
+      
+      .status-dot {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-decoration top-left"></div>
+  <div class="bg-decoration bottom-right"></div>
+  
+  <div class="container">
+    <div class="emoji">📶</div>
+    <h1>Estás Offline</h1>
+    <p>
+      Parece que perdeste a conexão à internet. 
+      Verifica a tua ligação e tenta novamente.
+    </p>
+    
+    <div class="buttons">
+      <button onclick="location.reload()">
+        🔄 Tentar Novamente
+      </button>
+      <button class="secondary" onclick="goHome()">
+        🏠 Página Inicial
+      </button>
+    </div>
+    
+    <div class="status">
+      <span class="status-indicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Offline</span>
+      </span>
+    </div>
+  </div>
+  
+  <script>
+    // Verificar estado da conexão
+    function updateStatus() {
+      const dot = document.getElementById('statusDot');
+      const text = document.getElementById('statusText');
+      
+      if (navigator.onLine) {
+        dot.classList.add('online');
+        text.textContent = 'Online - A recarregar...';
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        dot.classList.remove('online');
+        text.textContent = 'Offline';
+      }
+    }
+    
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    
+    // Verificar periodicamente
+    setInterval(updateStatus, 5000);
+    
+    // Ir para home (guardada em cache)
+    function goHome() {
+      window.location.href = '/';
+    }
+    
+    // Check inicial
+    updateStatus();
+  </script>
+</body>
+</html>

@@ -482,21 +482,27 @@ async function renderProgress() {
   // Load friends and matches count from Firestore
   if (currentUser && typeof db !== "undefined") {
     try {
-      // Get friends count
-      const friendsDoc = await db.collection("quest4you_friends").doc(currentUser.uid).get();
-      if (friendsDoc.exists && friendsDoc.data().friends) {
-        const friendsCount = friendsDoc.data().friends.length;
-        if (statFriends) statFriends.textContent = friendsCount;
-      }
+      // Get friends count from friendships collection
+      const sentFriendships = await db.collection("quest4you_friendships")
+        .where("senderId", "==", currentUser.uid)
+        .where("status", "==", "accepted")
+        .get();
       
-      // Get matches count (users with compatibility > 70%)
-      const userDoc = await db.collection("quest4you_users_public").doc(currentUser.uid).get();
-      if (userDoc.exists) {
-        // For now, show 0 - could add a real query later
-        if (statMatches) statMatches.textContent = "0";
-      }
+      const receivedFriendships = await db.collection("quest4you_friendships")
+        .where("receiverId", "==", currentUser.uid)
+        .where("status", "==", "accepted")
+        .get();
+      
+      const friendsCount = sentFriendships.size + receivedFriendships.size;
+      if (statFriends) statFriends.textContent = friendsCount;
+      
+      // Matches count - show 0 for now
+      if (statMatches) statMatches.textContent = "0";
     } catch (error) {
       console.warn("Could not load friends/matches count:", error);
+      // Set defaults on error
+      if (statFriends) statFriends.textContent = "0";
+      if (statMatches) statMatches.textContent = "0";
     }
   }
 }

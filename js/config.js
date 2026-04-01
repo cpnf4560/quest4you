@@ -1,4 +1,3 @@
-// filepath: g:\O meu disco\Formação JAVA - Projetos\Quest4You_v1\js\config.js
 /**
  * Quest4You - Global Configuration
  * Configurações centralizadas do projeto

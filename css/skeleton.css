@@ -1,0 +1,603 @@
+/**
+ * Skeleton Loading CSS
+ * Estilos para loading skeletons durante carregamento de conteúdo
+ * @version 1.0.0
+ */
+
+/* ========================================
+   Base Skeleton Animation
+======================================== */
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ========================================
+   Base Skeleton Styles
+======================================== */
+
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--skeleton-base, #E5E7EB);
+    border-radius: 4px;
+}
+
+/* Shimmer effect (default) */
+.skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+    );
+    background-size: 200px 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+/* Pulse effect (alternative) */
+.skeleton--pulse {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton--pulse::after {
+    display: none;
+}
+
+/* Dark mode */
+[data-theme="dark"] .skeleton,
+.dark .skeleton {
+    background-color: var(--skeleton-base-dark, #374151);
+}
+
+[data-theme="dark"] .skeleton::after,
+.dark .skeleton::after {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+    );
+}
+
+/* ========================================
+   Skeleton Shapes
+======================================== */
+
+/* Texto */
+.skeleton-text {
+    height: 1em;
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-text:last-child {
+    width: 80%;
+}
+
+.skeleton-text--title {
+    height: 1.5em;
+    width: 60%;
+    margin-bottom: 1em;
+}
+
+.skeleton-text--subtitle {
+    height: 1.2em;
+    width: 40%;
+}
+
+/* Parágrafos */
+.skeleton-paragraph {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.skeleton-paragraph .skeleton-text:nth-child(1) { width: 100%; }
+.skeleton-paragraph .skeleton-text:nth-child(2) { width: 95%; }
+.skeleton-paragraph .skeleton-text:nth-child(3) { width: 90%; }
+.skeleton-paragraph .skeleton-text:nth-child(4) { width: 70%; }
+
+/* Círculo (Avatar) */
+.skeleton-circle {
+    border-radius: 50%;
+}
+
+.skeleton-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.skeleton-avatar--sm {
+    width: 32px;
+    height: 32px;
+}
+
+.skeleton-avatar--lg {
+    width: 64px;
+    height: 64px;
+}
+
+.skeleton-avatar--xl {
+    width: 96px;
+    height: 96px;
+}
+
+/* Retângulos */
+.skeleton-rect {
+    width: 100%;
+    height: 100px;
+}
+
+.skeleton-rect--sm {
+    height: 50px;
+}
+
+.skeleton-rect--lg {
+    height: 200px;
+}
+
+/* Imagem/Thumbnail */
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+}
+
+.skeleton-thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+}
+
+/* Botão */
+.skeleton-button {
+    height: 40px;
+    width: 120px;
+    border-radius: 8px;
+}
+
+.skeleton-button--full {
+    width: 100%;
+}
+
+/* Badge/Tag */
+.skeleton-badge {
+    height: 24px;
+    width: 60px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+/* ========================================
+   Skeleton Layouts/Components
+======================================== */
+
+/* Card Skeleton */
+.skeleton-card {
+    padding: 1rem;
+    background: var(--card-bg, #fff);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.skeleton-card__image {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.skeleton-card__title {
+    height: 1.5em;
+    width: 70%;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-card__text {
+    height: 1em;
+    width: 100%;
+    margin-bottom: 0.25em;
+}
+
+.skeleton-card__text:last-of-type {
+    width: 60%;
+}
+
+.skeleton-card__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Quiz Card Skeleton */
+.skeleton-quiz-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--card-bg, #fff);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.skeleton-quiz-card__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.skeleton-quiz-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+}
+
+.skeleton-quiz-card__meta {
+    flex: 1;
+}
+
+.skeleton-quiz-card__title {
+    height: 1.25em;
+    width: 60%;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-quiz-card__subtitle {
+    height: 0.9em;
+    width: 40%;
+}
+
+.skeleton-quiz-card__description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+}
+
+.skeleton-quiz-card__tags {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* List Item Skeleton */
+.skeleton-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color, #E5E7EB);
+}
+
+.skeleton-list-item__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.skeleton-list-item__content {
+    flex: 1;
+}
+
+.skeleton-list-item__title {
+    height: 1em;
+    width: 50%;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-list-item__subtitle {
+    height: 0.8em;
+    width: 70%;
+}
+
+/* Profile Skeleton */
+.skeleton-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.skeleton-profile__avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.skeleton-profile__name {
+    height: 1.5em;
+    width: 150px;
+}
+
+.skeleton-profile__bio {
+    height: 1em;
+    width: 200px;
+}
+
+.skeleton-profile__stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.skeleton-profile__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.skeleton-profile__stat-value {
+    height: 1.5em;
+    width: 40px;
+}
+
+.skeleton-profile__stat-label {
+    height: 0.8em;
+    width: 60px;
+}
+
+/* Chat Message Skeleton */
+.skeleton-message {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem;
+}
+
+.skeleton-message--sent {
+    flex-direction: row-reverse;
+}
+
+.skeleton-message__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.skeleton-message__bubble {
+    max-width: 70%;
+    padding: 0.75rem 1rem;
+    border-radius: 16px;
+}
+
+.skeleton-message__text {
+    height: 1em;
+    width: 200px;
+    margin-bottom: 0.25em;
+}
+
+.skeleton-message__text:last-child {
+    width: 150px;
+    margin-bottom: 0;
+}
+
+/* Result Skeleton */
+.skeleton-result {
+    padding: 1.5rem;
+    background: var(--card-bg, #fff);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.skeleton-result__score {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+}
+
+.skeleton-result__title {
+    height: 1.5em;
+    width: 60%;
+    margin: 0 auto 0.5em;
+}
+
+.skeleton-result__description {
+    height: 1em;
+    width: 80%;
+    margin: 0 auto 0.25em;
+}
+
+/* Question Skeleton */
+.skeleton-question {
+    padding: 1.5rem;
+}
+
+.skeleton-question__number {
+    height: 0.9em;
+    width: 100px;
+    margin-bottom: 1rem;
+}
+
+.skeleton-question__text {
+    height: 1.25em;
+    width: 90%;
+    margin-bottom: 1.5rem;
+}
+
+.skeleton-question__options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skeleton-question__option {
+    height: 48px;
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* Match Card Skeleton */
+.skeleton-match-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--card-bg, #fff);
+    border-radius: 12px;
+}
+
+.skeleton-match-card__avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.skeleton-match-card__info {
+    flex: 1;
+}
+
+.skeleton-match-card__name {
+    height: 1.1em;
+    width: 120px;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-match-card__compatibility {
+    height: 0.9em;
+    width: 80px;
+}
+
+.skeleton-match-card__action {
+    width: 80px;
+    height: 36px;
+    border-radius: 8px;
+}
+
+/* ========================================
+   Grid Layouts
+======================================== */
+
+.skeleton-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.skeleton-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.skeleton-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.skeleton-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 768px) {
+    .skeleton-grid--3,
+    .skeleton-grid--4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .skeleton-grid--2,
+    .skeleton-grid--3,
+    .skeleton-grid--4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   Loading States
+======================================== */
+
+/* Container com skeleton */
+.loading-container {
+    min-height: 200px;
+}
+
+/* Esconder conteúdo real durante loading */
+.is-loading > *:not(.skeleton):not([class*="skeleton-"]) {
+    display: none !important;
+}
+
+.is-loading .skeleton,
+.is-loading [class*="skeleton-"] {
+    display: block;
+}
+
+/* Mostrar conteúdo quando carregado */
+.is-loaded .skeleton,
+.is-loaded [class*="skeleton-"] {
+    display: none !important;
+}
+
+/* ========================================
+   Accessibility - Reduced Motion
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton::after {
+        animation: none;
+    }
+    
+    .skeleton--pulse {
+        animation: none;
+        opacity: 0.7;
+    }
+}
+
+/* ========================================
+   Utility Classes
+======================================== */
+
+/* Width variations */
+.skeleton-w-25 { width: 25%; }
+.skeleton-w-50 { width: 50%; }
+.skeleton-w-75 { width: 75%; }
+.skeleton-w-100 { width: 100%; }
+
+/* Height variations */
+.skeleton-h-1 { height: 0.5rem; }
+.skeleton-h-2 { height: 1rem; }
+.skeleton-h-3 { height: 1.5rem; }
+.skeleton-h-4 { height: 2rem; }
+.skeleton-h-6 { height: 3rem; }
+.skeleton-h-8 { height: 4rem; }
+
+/* Margins */
+.skeleton-mb-1 { margin-bottom: 0.25rem; }
+.skeleton-mb-2 { margin-bottom: 0.5rem; }
+.skeleton-mb-3 { margin-bottom: 1rem; }
+.skeleton-mb-4 { margin-bottom: 1.5rem; }
+
+/* Border radius variations */
+.skeleton-rounded-none { border-radius: 0; }
+.skeleton-rounded-sm { border-radius: 2px; }
+.skeleton-rounded { border-radius: 4px; }
+.skeleton-rounded-md { border-radius: 8px; }
+.skeleton-rounded-lg { border-radius: 12px; }
+.skeleton-rounded-xl { border-radius: 16px; }
+.skeleton-rounded-full { border-radius: 9999px; }
+
+/* Inline skeleton */
+.skeleton-inline {
+    display: inline-block;
+    vertical-align: middle;
+}

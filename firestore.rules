@@ -15,39 +15,54 @@ service cloud.firestore {
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
-      // ================================
-    // VERIFICAÇÃO DE ADMIN (Suporta Quest4You + Quest4Couple)
+    
+    // ================================
+    // VERIFICAÇÃO DE ADMIN (Otimizada)
+    // Usa apenas 1 read na maioria dos casos
     // ================================
     
-    // Verifica se existe na coleção admins (partilhada) - método principal
+    // Verifica se existe na coleção admins (partilhada) - método principal e mais rápido
     function isAdminByCollection() {
       return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
     
-    // Fallback: verifica campo isAdmin/role no perfil Quest4You (1 read)
+    // Verifica role/isAdmin no perfil Quest4You (chamada apenas se necessário)
     function isAdminInQuest4You() {
       let user = get(/databases/$(database)/documents/quest4you_users/$(request.auth.uid));
       return user != null && (user.data.isAdmin == true || user.data.role == 'admin');
     }
     
-    // Fallback: verifica campo isAdmin/role no perfil Quest4Couple (1 read)
+    // Verifica role/isAdmin no perfil Quest4Couple (chamada apenas se necessário)
     function isAdminInQuest4Couple() {
       let user = get(/databases/$(database)/documents/quest4couple_users/$(request.auth.uid));
       return user != null && (user.data.isAdmin == true || user.data.role == 'admin');
     }
     
-    // Fallback: verifica campo isAdmin no perfil users (coleção antiga Quest4Couple) (1 read)
+    // Verifica campo isAdmin no perfil users (coleção legada)
     function isAdminInUsersLegacy() {
       let user = get(/databases/$(database)/documents/users/$(request.auth.uid));
       return user != null && user.data.isAdmin == true;
     }
     
-    // Função principal — curto-circuito: admins collection primeiro (1 read),
-    // só vai ao perfil se necessário (máx 4 reads no total)
+    /**
+     * Função principal de verificação de admin
+     * OTIMIZADA: Usa short-circuit evaluation
+     * - 1 read na maioria dos casos (se user está na coleção admins)
+     * - Máximo 4 reads apenas em casos edge (fallbacks)
+     * 
+     * Recomendação: Para novos admins, adicionar à coleção 'admins'
+     * para garantir verificação em apenas 1 read.
+     */
     function isAdmin() {
-      return isAuthenticated() && (isAdminByCollection() || isAdminInQuest4You() || isAdminInQuest4Couple() || isAdminInUsersLegacy());
+      return isAuthenticated() && (
+        isAdminByCollection() || 
+        isAdminInQuest4You() || 
+        isAdminInQuest4Couple() || 
+        isAdminInUsersLegacy()
+      );
     }
-      // ================================
+    
+    // ================================
     // UTILIZADORES (users) - Coleção antiga
     // ================================
     match /users/{userId} {
@@ -388,6 +403,18 @@ service cloud.firestore {
     match /quest4you_users/{userId}/friends/{friendId} {
       allow read: if isAuthenticated();
       allow write: if isOwner(userId) || isOwner(friendId);
+    }
+    
+    // Coleção de amigos (documento por utilizador com lista de amigos)
+    match /quest4you_friends/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+    
+    // Perfis públicos dos utilizadores (para matching)
+    match /quest4you_users_public/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
     }
     
     // ================================

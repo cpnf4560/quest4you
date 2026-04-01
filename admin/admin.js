@@ -2961,15 +2961,27 @@ function displayQuizAnswers(quizId, quizResult, quizQuestions, userAnswers) {
   
   html += '</div>';
   
-  // Export button
+  // Export buttons - more options
   html += `
     <div class="answers-export">
-      <button class="btn btn-outline" onclick="exportUserAnswers('${quizId}', 'json')">
-        📥 Exportar JSON
-      </button>
-      <button class="btn btn-primary" onclick="exportUserAnswers('${quizId}', 'csv')">
-        📊 Exportar CSV
-      </button>
+      <div class="export-group">
+        <span class="export-label">Este questionário:</span>
+        <button class="btn btn-outline btn-small" onclick="exportUserAnswers('${quizId}', 'json')" title="Exportar dados em JSON">
+          📥 JSON
+        </button>
+        <button class="btn btn-outline btn-small" onclick="exportUserAnswers('${quizId}', 'csv')" title="Exportar dados em CSV">
+          📊 CSV
+        </button>
+        <button class="btn btn-outline btn-small" onclick="exportQuizToPDF('${quizId}')" title="Gerar PDF deste questionário">
+          📄 PDF
+        </button>
+      </div>
+      <div class="export-group">
+        <span class="export-label">Relatório completo:</span>
+        <button class="btn btn-primary" onclick="generateFullReport()" title="Relatório completo com todos os questionários">
+          📋 Relatório Completo
+        </button>
+      </div>
     </div>
   `;
   
@@ -3045,4 +3057,668 @@ function formatCategoryName(name) {
     .replace(/_/g, ' ')
     .trim();
 }
+
+// ================================
+// PDF & FULL REPORT GENERATION
+// ================================
+
+// Gerar PDF de um questionário específico
+async function exportQuizToPDF(quizId) {
+  if (!currentUserData) return;
+  
+  const results = currentUserData.results || currentUserData.quizResults || {};
+  const quizResult = results[quizId];
+  
+  if (!quizResult) {
+    alert('❌ Resultado não encontrado para este questionário');
+    return;
+  }
+  
+  // Carregar perguntas do quiz
+  let quizQuestions = [];
+  try {
+    const response = await fetch(`../data/quizzes/${quizId}.json`);
+    if (response.ok) {
+      const quizData = await response.json();
+      quizQuestions = quizData.questions || [];
+    }
+  } catch (e) {
+    console.warn('Could not load quiz questions:', e);
+  }
+  
+  const userAnswers = currentUserData.answers?.[quizId] || quizResult?.answers || {};
+  const config = QUIZ_CONFIG[quizId] || { name: quizId, icon: '📝', color: '#6366f1' };
+  const displayName = currentUserData.displayName || currentUserData.name || 'Anónimo';
+  
+  // Gerar HTML do relatório
+  const reportHTML = generateReportHTML({
+    title: `${config.icon} ${config.name}`,
+    subtitle: `Relatório de ${displayName}`,
+    user: currentUserData,
+    quizzes: [{ quizId, quizResult, quizQuestions, userAnswers, config }],
+    isSingleQuiz: true
+  });
+  
+  openReportWindow(reportHTML, `${displayName}_${quizId}`);
+}
+
+// Gerar relatório completo com todos os questionários
+async function generateFullReport() {
+  if (!currentUserData) {
+    alert('❌ Nenhum utilizador selecionado');
+    return;
+  }
+  
+  const results = currentUserData.results || currentUserData.quizResults || {};
+  const completedQuizzes = Object.keys(results);
+  
+  if (completedQuizzes.length === 0) {
+    alert('❌ Este utilizador não completou nenhum questionário');
+    return;
+  }
+  
+  // Mostrar loading
+  const loadingDiv = document.createElement('div');
+  loadingDiv.id = 'reportLoading';
+  loadingDiv.innerHTML = `
+    <div style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+      <div style="background: white; padding: 32px; border-radius: 16px; text-align: center;">
+        <div style="font-size: 2rem; animation: spin 1s linear infinite;">⏳</div>
+        <p style="margin-top: 16px; color: #64748b;">A gerar relatório completo...</p>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(loadingDiv);
+  
+  try {
+    // Carregar todas as perguntas dos quizzes
+    const quizzesData = [];
+    
+    for (const quizId of completedQuizzes) {
+      const quizResult = results[quizId];
+      const config = QUIZ_CONFIG[quizId] || { name: quizId, icon: '📝', color: '#6366f1' };
+      
+      let quizQuestions = [];
+      try {
+        const response = await fetch(`../data/quizzes/${quizId}.json`);
+        if (response.ok) {
+          const quizData = await response.json();
+          quizQuestions = quizData.questions || [];
+        }
+      } catch (e) {
+        console.warn(`Could not load quiz ${quizId}:`, e);
+      }
+      
+      const userAnswers = currentUserData.answers?.[quizId] || quizResult?.answers || {};
+      
+      quizzesData.push({ quizId, quizResult, quizQuestions, userAnswers, config });
+    }
+    
+    const displayName = currentUserData.displayName || currentUserData.name || 'Anónimo';
+    
+    // Gerar HTML do relatório completo
+    const reportHTML = generateReportHTML({
+      title: '📋 Relatório Completo',
+      subtitle: `Perfil de ${displayName}`,
+      user: currentUserData,
+      quizzes: quizzesData,
+      isSingleQuiz: false
+    });
+    
+    openReportWindow(reportHTML, `${displayName}_relatorio_completo`);
+    
+  } catch (error) {
+    console.error('Error generating full report:', error);
+    alert('❌ Erro ao gerar relatório: ' + error.message);
+  } finally {
+    // Remover loading
+    document.getElementById('reportLoading')?.remove();
+  }
+}
+
+// Gerar HTML do relatório (design minimalista e moderno)
+function generateReportHTML({ title, subtitle, user, quizzes, isSingleQuiz }) {
+  const displayName = user.displayName || user.name || 'Anónimo';
+  const email = user.email || 'N/A';
+  const createdAt = user.createdAt ? formatDatePT(user.createdAt, false) : 'N/A';
+  const totalQuizzes = quizzes.length;
+  
+  // Calcular total de respostas
+  let totalResponses = 0;
+  quizzes.forEach(q => {
+    totalResponses += Object.keys(q.userAnswers || {}).length;
+  });
+  
+  let html = `
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title} - ${displayName}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --text: #0f172a;
+      --text-light: #64748b;
+      --text-muted: #94a3b8;
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 32px;
+    }
+    
+    /* Header */
+    .report-header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+    }
+    
+    .report-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    
+    .report-subtitle {
+      font-size: 16px;
+      color: var(--text-light);
+      font-weight: 400;
+    }
+    
+    .report-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+    
+    /* User Card */
+    .user-card {
+      background: var(--bg-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .user-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .user-info h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .user-info p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+    
+    .user-stats {
+      display: flex;
+      gap: 24px;
+      margin-left: auto;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Quiz Section */
+    .quiz-section {
+      margin-bottom: 40px;
+      page-break-inside: avoid;
+    }
+    
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    
+    .quiz-icon {
+      font-size: 24px;
+    }
+    
+    .quiz-title {
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1;
+    }
+    
+    .quiz-date {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    /* Scores */
+    .scores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .score-card {
+      background: var(--bg-subtle);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    
+    .score-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+    
+    .score-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .score-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    
+    .score-value {
+      font-size: 16px;
+      font-weight: 700;
+      min-width: 48px;
+      text-align: right;
+    }
+    
+    /* Category Badge */
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    
+    /* Answers */
+    .answers-section {
+      margin-top: 24px;
+    }
+    
+    .answers-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .answer-item {
+      padding: 16px;
+      background: var(--bg-subtle);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border-left: 3px solid var(--primary);
+    }
+    
+    .answer-question {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+    }
+    
+    .answer-number {
+      background: var(--primary);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    
+    .answer-value {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    
+    .answer-score {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 32px;
+    }
+    
+    .answer-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .answer-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+    
+    /* Footer */
+    .report-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    
+    .report-footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    /* Print Styles */
+    @media print {
+      body { font-size: 12px; }
+      .container { padding: 24px; }
+      .quiz-section { page-break-inside: avoid; }
+      .no-print { display: none !important; }
+    }
+    
+    /* Action Buttons */
+    .action-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 12px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      z-index: 100;
+    }
+    
+    .action-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    
+    .action-btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .action-btn-primary:hover {
+      background: #4f46e5;
+    }
+    
+    .action-btn-outline {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    
+    .action-btn-outline:hover {
+      background: var(--bg-subtle);
+    }
+    
+    @media print {
+      .action-bar { display: none; }
+      .container { padding-top: 0; }
+    }
+    
+    @media screen {
+      .container { padding-top: 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="action-bar no-print">
+    <button class="action-btn action-btn-outline" onclick="window.close()">✕ Fechar</button>
+    <button class="action-btn action-btn-primary" onclick="window.print()">🖨️ Imprimir / PDF</button>
+  </div>
+  
+  <div class="container">
+    <header class="report-header">
+      <img src="../assets/quest4you_transp.png" alt="Quest4You" class="logo" onerror="this.style.display='none'">
+      <h1 class="report-title">${title}</h1>
+      <p class="report-subtitle">${subtitle}</p>
+      <p class="report-date">Gerado em ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}</p>
+    </header>
+    
+    <div class="user-card">
+      <div class="user-avatar">${displayName.charAt(0).toUpperCase()}</div>
+      <div class="user-info">
+        <h2>${displayName}</h2>
+        <p>${email}</p>
+        <p>Registado em ${createdAt}</p>
+      </div>
+      <div class="user-stats">
+        <div class="stat">
+          <div class="stat-value">${totalQuizzes}</div>
+          <div class="stat-label">Questionários</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">${totalResponses}</div>
+          <div class="stat-label">Respostas</div>
+        </div>
+      </div>
+    </div>
+`;
+
+  // Gerar secção de cada quiz
+  quizzes.forEach((quiz, index) => {
+    const { quizId, quizResult, quizQuestions, userAnswers, config } = quiz;
+    const scores = quizResult.scores || quizResult.categoryScores || quizResult.rolePercentages || {};
+    const completedAt = quizResult.completedAt ? formatDatePT(quizResult.completedAt, false) : 'N/A';
+    
+    html += `
+    <section class="quiz-section">
+      <div class="quiz-header">
+        <span class="quiz-icon">${config.icon}</span>
+        <h3 class="quiz-title">${config.name}</h3>
+        <span class="quiz-date">Completado em ${completedAt}</span>
+      </div>
+`;
+    
+    // Categoria/Resultado principal
+    if (quizResult.category) {
+      html += `
+      <div class="category-badge">
+        🏆 ${quizResult.category}
+      </div>
+`;
+    }
+    
+    // Scores
+    if (Object.keys(scores).length > 0) {
+      html += `<div class="scores-grid">`;
+      
+      Object.entries(scores).forEach(([category, score]) => {
+        const scoreValue = typeof score === 'number' ? score : parseFloat(score) || 0;
+        const barColor = getScoreColor(scoreValue);
+        
+        html += `
+        <div class="score-card">
+          <div class="score-label">${formatCategoryName(category)}</div>
+          <div class="score-bar-container">
+            <div class="score-bar">
+              <div class="score-bar-fill" style="width: ${scoreValue}%; background: ${barColor};"></div>
+            </div>
+            <span class="score-value">${Math.round(scoreValue)}%</span>
+          </div>
+        </div>
+`;
+      });
+      
+      html += `</div>`;
+    }
+    
+    // Respostas detalhadas
+    if (Object.keys(userAnswers).length > 0) {
+      html += `
+      <div class="answers-section">
+        <h4 class="answers-title">Respostas Detalhadas</h4>
+`;
+      
+      // Ordenar por número da pergunta
+      const sortedAnswers = Object.entries(userAnswers).sort((a, b) => {
+        const numA = parseInt(a[0].replace(/\D/g, '')) || 0;
+        const numB = parseInt(b[0].replace(/\D/g, '')) || 0;
+        return numA - numB;
+      });
+      
+      sortedAnswers.forEach(([questionId, answer], idx) => {
+        const questionIndex = parseInt(questionId.replace(/\D/g, '')) - 1;
+        const question = quizQuestions[questionIndex];
+        const questionText = question?.text || question?.question || `Pergunta ${questionId}`;
+        
+        let answerValue = 0;
+        if (typeof answer === 'object' && answer !== null) {
+          answerValue = answer.score !== undefined ? answer.score : (answer.optionIndex !== undefined ? answer.optionIndex : 0);
+        } else {
+          answerValue = typeof answer === 'number' ? answer : parseInt(answer) || 0;
+        }
+        
+        const barColor = getScoreColor(answerValue * 20);
+        
+        html += `
+        <div class="answer-item">
+          <div class="answer-question">
+            <span class="answer-number">Q${idx + 1}</span>
+            <span>${questionText}</span>
+          </div>
+          <div class="answer-value">
+            <span class="answer-score">${answerValue}</span>
+            <div class="answer-bar">
+              <div class="answer-bar-fill" style="width: ${Math.min(answerValue * 20, 100)}%; background: ${barColor};"></div>
+            </div>
+          </div>
+        </div>
+`;
+      });
+      
+      html += `</div>`;
+    }
+    
+    html += `</section>`;
+  });
+  
+  // Footer
+  html += `
+    <footer class="report-footer">
+      <p>Relatório gerado automaticamente por <a href="https://quest4couple.pt" target="_blank">Quest4You</a></p>
+      <p style="margin-top: 8px;">© ${new Date().getFullYear()} Quest4You - Todos os direitos reservados</p>
+    </footer>
+  </div>
+</body>
+</html>
+`;
+  
+  return html;
+}
+
+// Abrir janela com relatório
+function openReportWindow(html, filename) {
+  const reportWindow = window.open('', '_blank');
+  
+  if (!reportWindow) {
+    alert('❌ Popup bloqueado! Por favor, permita popups para este site.');
+    return;
+  }
+  
+  reportWindow.document.write(html);
+  reportWindow.document.close();
+  
+  // Título da janela
+  reportWindow.document.title = `Relatório - ${filename}`;
+}
+
+// Export new functions
+window.exportQuizToPDF = exportQuizToPDF;
+window.generateFullReport = generateFullReport;
+
 window.deleteUser = deleteUser;
