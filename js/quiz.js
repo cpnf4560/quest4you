@@ -245,13 +245,73 @@ function filterQuestionsByGender() {
 }
 
 // ================================
+// QUIZ CONTENT TRANSLATION HELPERS
+// ================================
+/**
+ * Gets translated quiz text (question/option) if available in i18n
+ * Falls back to original Portuguese text from JSON if no translation exists
+ * Keys: quizContent.{quizId}.q{questionId} for questions
+ *       quizContent.{quizId}.q{questionId}_o{optionIndex} for options
+ *       quizContent.{quizId}.cat_{categoryIndex} for category labels
+ *       quizContent.{quizId}.cat_{categoryIndex}_desc for category descriptions
+ */
+function getQuizText(type, questionId, optionIndex, fallback) {
+  if (typeof t !== 'function') return fallback;
+  
+  let key;
+  if (type === 'question') {
+    key = 'quizContent.' + quizId + '.q' + questionId;
+  } else if (type === 'option') {
+    key = 'quizContent.' + quizId + '.q' + questionId + '_o' + optionIndex;
+  } else if (type === 'category') {
+    key = 'quizContent.' + quizId + '.cat_' + questionId; // questionId is actually category index here
+  } else if (type === 'categoryDesc') {
+    key = 'quizContent.' + quizId + '.cat_' + questionId + '_desc';
+  }
+  
+  const translated = t(key);
+  // If t() returns the key itself, no translation exists - use fallback
+  return (translated && translated !== key) ? translated : fallback;
+}
+
+/**
+ * Gets translated quiz name from i18n (quizNames.{id})
+ */
+function getQuizName() {
+  if (typeof t !== 'function') return quizData.name;
+  const translated = t('quizNames.' + quizId);
+  return (translated && translated !== 'quizNames.' + quizId) ? translated : quizData.name;
+}
+
+/**
+ * Gets translated quiz description from i18n (quizDescriptions.{id})
+ */
+function getQuizDescription() {
+  if (typeof t !== 'function') return quizData.description;
+  const translated = t('quizDescriptions.' + quizId);
+  return (translated && translated !== 'quizDescriptions.' + quizId) ? translated : quizData.description;
+}
+
+/**
+ * Gets translated category (for results)
+ */
+function getTranslatedCategory(category, index) {
+  if (!category) return null;
+  return {
+    ...category,
+    label: getQuizText('category', index, null, category.label),
+    description: getQuizText('categoryDesc', index, null, category.description)
+  };
+}
+
+// ================================
 // INITIALIZE UI
 // ================================
 function initQuizUI() {
   document.getElementById("quizIcon").textContent = quizData.icon;
-  document.getElementById("quizTitle").textContent = quizData.name;
-  document.getElementById("quizDescription").textContent = quizData.description;
-  document.title = quizData.name + ' - Quest4You';
+  document.getElementById("quizTitle").textContent = getQuizName();
+  document.getElementById("quizDescription").textContent = getQuizDescription();
+  document.title = getQuizName() + ' - Quest4You';
 
   document.documentElement.style.setProperty("--primary-color", quizData.color);
 
@@ -268,7 +328,7 @@ function renderQuestion() {
   const question = filteredQuestions[currentQuestion];
 
   document.getElementById("questionNumber").textContent = currentQuestion + 1;
-  document.getElementById("questionText").textContent = question.text;
+  document.getElementById("questionText").textContent = getQuizText('question', question.id, null, question.text);
 
   // Update progress
   const totalQuestions = filteredQuestions.length;
@@ -285,10 +345,10 @@ function renderQuestion() {
 
   question.options.forEach(function(option, index) {
     const isSelected = answers[question.id] && answers[question.id].optionIndex === index;
+    const optionText = getQuizText('option', question.id, index, option.text);
     html += '<button class="option-btn' + (isSelected ? ' selected' : '') + '" data-index="' + index + '" onclick="selectAnswer(' + index + ')">';
     html += '<span class="option-letter">' + (letters[index] || (index + 1)) + '</span>';
-    html += '<span class="option-text">' + option.text + '</span>';
-    html += '</button>';
+    html += '<span class="option-text">' + optionText + '</span>';    html += '</button>';
   });
 
   container.innerHTML = html;
@@ -446,14 +506,15 @@ function calculateResults() {
 
   // Average score (0-100 scale)
   const averageScore = answeredCount > 0 ? Math.round(totalScore / answeredCount) : 0;
-
   // Find matching category
   let resultCategory = null;
+  let categoryIndex = -1;
   if (quizData.categories) {
     for (let i = 0; i < quizData.categories.length; i++) {
       const cat = quizData.categories[i];
       if (averageScore >= cat.min && averageScore <= cat.max) {
         resultCategory = cat;
+        categoryIndex = i;
         break;
       }
     }
@@ -473,6 +534,7 @@ function calculateResults() {
     maxPoints: answeredCount * 100,
     answeredCount: answeredCount,
     category: resultCategory,
+    categoryIndex: categoryIndex,
     tags: uniqueTags,
     topTags: sortedTags.slice(0, 10),
     tagCounts: tagCounts
@@ -503,10 +565,13 @@ function showResults(results) {
   document.getElementById("resultScore").textContent = results.score;
 
   if (results.category) {
-    document.getElementById("resultCategoryEmoji").textContent = results.category.emoji;
-    document.getElementById("resultCategoryLabel").textContent = results.category.label;
-    document.getElementById("resultDescription").textContent = results.category.description;
-    document.getElementById("resultEmoji").textContent = results.category.emoji;
+    // Get translated category if available
+    const translatedCategory = getTranslatedCategory(results.category, results.categoryIndex);
+    
+    document.getElementById("resultCategoryEmoji").textContent = translatedCategory.emoji;
+    document.getElementById("resultCategoryLabel").textContent = translatedCategory.label;
+    document.getElementById("resultDescription").textContent = translatedCategory.description;
+    document.getElementById("resultEmoji").textContent = translatedCategory.emoji;
 
     const header = document.getElementById("resultHeader");
     header.style.background = 'linear-gradient(135deg, ' + quizData.color + ' 0%, ' + adjustColor(quizData.color, -20) + ' 100%)';
