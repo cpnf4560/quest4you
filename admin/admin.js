@@ -9,7 +9,8 @@
 const ADMIN_EMAILS = [
   'info@quest4couple.pt',
   'admin@quest4you.pt',
-  'admin@quest4couple.pt'
+  'admin@quest4couple.pt',
+  'carlos.sousacorreia@gmail.com'
 ];
 
 // ================================
