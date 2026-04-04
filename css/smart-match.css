@@ -738,6 +738,37 @@
   margin: 0;
 }
 
+.breakdown-results {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.breakdown-result {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.breakdown-result.you {
+  background: linear-gradient(135deg, rgba(139, 74, 94, 0.15), rgba(139, 74, 94, 0.25));
+  color: #8B4A5E;
+}
+
+.breakdown-result.them {
+  background: linear-gradient(135deg, rgba(74, 139, 139, 0.15), rgba(74, 139, 139, 0.25));
+  color: #4A8B8B;
+}
+
+.breakdown-vs {
+  font-size: 0.7rem;
+  color: #999;
+  font-weight: 500;
+}
+
 .breakdown-bar {
   height: 6px;
   background: var(--bg-warm, #f0f0f0);

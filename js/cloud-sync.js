@@ -261,8 +261,7 @@ async function publishPublicProfile(userId, userData) {
   try {
     // Get all quiz results for public profile
     const results = await getQuizResults(userId);
-    
-    const publicData = {
+      const publicData = {
       uid: userId,
       displayName: userData.displayName || "Anónimo",
       age: userData.age || null,
@@ -271,13 +270,22 @@ async function publishPublicProfile(userId, userData) {
       photoURL: userData.photoURL || null,
       quizScores: {},
       quizRoles: {},
+      quizCategories: {},
       isPublic: true,
       lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
     };
     
-    // Extract scores and roles from results
+    // Extract scores, roles, and categories from results
     for (const [quizId, result] of Object.entries(results)) {
       publicData.quizScores[quizId] = result.score;
+      
+      // Save category info for display (e.g., "Heterossexual", "Bissexual")
+      if (result.category) {
+        publicData.quizCategories[quizId] = {
+          category: result.category,
+          categoryEmoji: result.categoryEmoji || null
+        };
+      }
       
       if (result.dominantRole) {
         publicData.quizRoles[quizId] = {

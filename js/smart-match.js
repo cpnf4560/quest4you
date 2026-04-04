@@ -492,9 +492,12 @@ function openMatchDetail(index) {
 
   document.getElementById('modalCompatValue').textContent = match.compatibility;
 
-  // Build breakdown
+  // Build breakdown showing actual quiz results
   let breakdownHtml = '';
   const matchQuizzes = match.quizScores || {};
+  const matchCategories = match.quizCategories || {};
+  const matchRoles = match.quizRoles || {};
+  
   for (const [quizId, theirScore] of Object.entries(matchQuizzes)) {
     const ourResult = userResults[quizId];
     if (!ourResult) continue;
@@ -503,11 +506,36 @@ function openMatchDetail(index) {
     const diff = Math.abs(ourResult.score - theirScore);
     const matchPercent = Math.max(0, 100 - diff);
 
+    // Get our result label (category or role)
+    let ourResultLabel = '';
+    if (ourResult.category) {
+      ourResultLabel = ourResult.category;
+    } else if (ourResult.dominantRole) {
+      ourResultLabel = ourResult.dominantRole;
+    } else {
+      ourResultLabel = ourResult.score + '%';
+    }
+
+    // Get their result label (from categories or roles)
+    let theirResultLabel = '';
+    if (matchCategories[quizId]?.category) {
+      theirResultLabel = matchCategories[quizId].category;
+    } else if (matchRoles[quizId]?.dominantRole) {
+      theirResultLabel = matchRoles[quizId].dominantRole;
+    } else {
+      theirResultLabel = theirScore + '%';
+    }
+
     breakdownHtml += `
       <div class="breakdown-item">
         <span class="breakdown-icon">${quiz.icon}</span>
         <div class="breakdown-info">
           <p class="breakdown-name">${quiz.name}</p>
+          <div class="breakdown-results">
+            <span class="breakdown-result you" title="Tu">🧑 ${escapeHtml(ourResultLabel)}</span>
+            <span class="breakdown-vs">vs</span>
+            <span class="breakdown-result them" title="${escapeHtml(match.displayName)}">👤 ${escapeHtml(theirResultLabel)}</span>
+          </div>
           <div class="breakdown-bar">
             <div class="breakdown-fill" style="width: ${matchPercent}%"></div>
           </div>
