@@ -1066,6 +1066,53 @@ function saveSettings() {
 }
 
 // ================================
+// REPUBLISH PUBLIC PROFILES (Admin Tool)
+// ================================
+async function republishAllPublicProfiles() {
+  if (!confirm('⚠️ ATENÇÃO!\n\nIsto vai republicar TODOS os perfis públicos com os novos campos (quizCategories, etc).\n\nEsta operação pode demorar alguns minutos.\n\nContinuar?')) {
+    return;
+  }
+  
+  try {
+    // Verificar se CloudSync está disponível
+    if (!window.CloudSync || !window.CloudSync.republishAllProfiles) {
+      alert('❌ Erro: CloudSync não está disponível.\nCarrega a página novamente.');
+      return;
+    }
+    
+    // Mostrar loading
+    const section = document.getElementById('matchesSection');
+    if (section) {
+      section.innerHTML = `
+        <div class="section-header">
+          <h2>💕 Smart Matches</h2>
+        </div>
+        <div class="loading-container">
+          <div class="loading-spinner">🔄</div>
+          <p>A republicar perfis públicos...</p>
+          <p style="color: #888; font-size: 0.9rem;">Isto pode demorar alguns minutos. Não feches a página.</p>
+        </div>
+      `;
+    }
+    
+    console.log('🔄 Iniciando republicação de perfis públicos...');
+    const result = await window.CloudSync.republishAllProfiles();
+    
+    alert(`✅ Republicação concluída!\n\n📊 Resultados:\n- Total de perfis: ${result.total}\n- Atualizados: ${result.updated}\n- Erros: ${result.errors}`);
+    
+    // Recarregar dados
+    await loadMatchesData();
+    
+  } catch (error) {
+    console.error('❌ Erro na republicação:', error);
+    alert(`❌ Erro na republicação:\n${error.message}`);
+    
+    // Recarregar dados para mostrar estado atual
+    await loadMatchesData();
+  }
+}
+
+// ================================
 // QUIZZES SECTION
 // ================================
 async function loadQuizzesData() {

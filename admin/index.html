@@ -673,13 +673,15 @@
         <h3>Seleciona um utilizador</h3>
         <p>Escolhe um utilizador da lista acima para ver as suas respostas aos questionários.</p>
       </div>
-    </section>
-
-    <!-- Matches Section -->
+    </section>    <!-- Matches Section -->
     <section class="content-section" id="matchesSection" style="display: none;">
       <!-- Content loaded dynamically by loadMatchesData() -->
       <div class="section-header">
         <h2>💕 Smart Matches</h2>
+        <div class="header-actions">
+          <button class="btn btn-outline" onclick="loadMatchesData()">🔄 Atualizar</button>
+          <button class="btn btn-warning" onclick="republishAllPublicProfiles()" title="Atualiza todos os perfis públicos com novos campos (categorias, etc)">🔁 Republicar Perfis</button>
+        </div>
       </div>
       <div class="loading-container">
         <div class="loading-spinner">⏳</div>

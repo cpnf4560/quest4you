@@ -388,6 +388,63 @@ async function findMatches(userId) {
 // Quizzes where opposite scores mean better compatibility (e.g., Dom + Sub)
 const INVERSE_MATCHING_QUIZZES = ['bdsm'];
 
+/**
+ * Verifica se dois utilizadores são compatíveis com base no género e orientação sexual
+ * Retorna false se não há compatibilidade (ex: hetero + hetero do mesmo género)
+ */
+function isCompatibleMatch(userGender, userOrientation, theirGender, theirOrientation) {
+  // Se não temos informação suficiente, assumimos compatível (benefit of the doubt)
+  if (!userGender || !theirGender) return true;
+  
+  // Normalizar valores
+  const myGender = (userGender || '').toLowerCase().trim();
+  const theirGenderNorm = (theirGender || '').toLowerCase().trim();
+  const myOrientation = (userOrientation || '').toLowerCase().trim();
+  const theirOrientationNorm = (theirOrientation || '').toLowerCase().trim();
+  
+  // Géneros são considerados iguais?
+  const sameGender = myGender === theirGenderNorm;
+  
+  // Verificar orientações heterossexuais (várias formas de escrever)
+  const heteroTerms = ['heterossexual', 'hetero', 'heterosexual', 'straight'];
+  const isUserHetero = heteroTerms.some(term => myOrientation.includes(term));
+  const isTheirHetero = heteroTerms.some(term => theirOrientationNorm.includes(term));
+  
+  // Verificar orientações homossexuais
+  const homoTerms = ['homossexual', 'homo', 'homosexual', 'gay', 'lésbica', 'lesbica', 'lesbian'];
+  const isUserHomo = homoTerms.some(term => myOrientation.includes(term));
+  const isTheirHomo = homoTerms.some(term => theirOrientationNorm.includes(term));
+  
+  // REGRA 1: Dois heterossexuais do mesmo género NÃO são compatíveis
+  if (isUserHetero && isTheirHetero && sameGender) {
+    console.log(`❌ Match incompatível: Ambos hetero do mesmo género (${myGender})`);
+    return false;
+  }
+  
+  // REGRA 2: Heterossexual só combina com género oposto
+  if (isUserHetero && sameGender) {
+    console.log(`❌ Match incompatível: Eu sou hetero e o outro é do mesmo género`);
+    return false;
+  }
+  if (isTheirHetero && sameGender) {
+    console.log(`❌ Match incompatível: O outro é hetero e somos do mesmo género`);
+    return false;
+  }
+  
+  // REGRA 3: Homossexual só combina com mesmo género
+  if (isUserHomo && !sameGender) {
+    console.log(`❌ Match incompatível: Eu sou homo e o outro é de género diferente`);
+    return false;
+  }
+  if (isTheirHomo && !sameGender) {
+    console.log(`❌ Match incompatível: O outro é homo e somos de géneros diferentes`);
+    return false;
+  }
+  
+  // Bissexuais, pansexuais, etc. são compatíveis com qualquer género
+  return true;
+}
+
 function calculateCompatibility(userScores, theirScores, userResults, theirRoles) {
   let totalMatch = 0;
   let quizCount = 0;
@@ -564,6 +621,16 @@ async function findMatchesAdvanced(userId) {
     // Get user location from personalInfo
     const userLocation = userProfile.personalInfo || {};
     
+    // Get user gender and orientation for compatibility check
+    const userGender = userProfile.gender || userProfile.personalInfo?.gender || null;
+    // Try to get orientation from quiz results (orientation quiz) or profile
+    const userOrientation = userResults.orientation?.category || 
+                           userProfile.orientation || 
+                           userProfile.personalInfo?.orientation || 
+                           null;
+    
+    console.log(`🔍 User matching: gender=${userGender}, orientation=${userOrientation}`);
+    
     // Get all public profiles
     const snapshot = await db.collection(COLLECTION_PUBLIC_PROFILES)
       .where('isPublic', '==', true)
@@ -571,12 +638,23 @@ async function findMatchesAdvanced(userId) {
       .get();
     
     const matches = [];
+    let skippedIncompatible = 0;
     
     snapshot.forEach(doc => {
       const profile = doc.data();
       
       // Skip self
       if (profile.uid === userId) return;
+      
+      // Get their gender and orientation
+      const theirGender = profile.gender || null;
+      const theirOrientation = profile.quizCategories?.orientation?.category || null;
+      
+      // Check gender/orientation compatibility BEFORE calculating scores
+      if (!isCompatibleMatch(userGender, userOrientation, theirGender, theirOrientation)) {
+        skippedIncompatible++;
+        return; // Skip this match
+      }
       
       // Calculate advanced compatibility
       const compatResult = calculateAdvancedCompatibility(
@@ -598,6 +676,8 @@ async function findMatchesAdvanced(userId) {
         rareFetishesInCommon: compatResult.rareFetishesInCommon
       });
     });
+    
+    console.log(`✅ Found ${matches.length} compatible matches (skipped ${skippedIncompatible} incompatible)`);
     
     // Sort: Prioritize location first, then rare fetishes, then overall compatibility
     matches.sort((a, b) => {
@@ -665,8 +745,102 @@ async function migrateFromLocalStorage(userId) {
     validQuizIds.forEach(id => localStorage.removeItem("q4y_quiz_" + id));
     console.log(`✅ Migrated ${migrated} results from localStorage to cloud`);
   }
+    return { migrated, gender: localGender };
+}
+
+// ================================
+// ADMIN TOOLS
+// ================================
+
+/**
+ * Republica todos os perfis públicos (atualiza com novos campos como quizCategories)
+ * ADMIN ONLY - usar com cuidado
+ */
+async function republishAllProfiles() {
+  if (!db) throw new Error("Firestore not available");
   
-  return { migrated, gender: localGender };
+  console.log("🔄 Iniciando republicação de todos os perfis públicos...");
+  
+  try {
+    // Get all public profiles
+    const profilesSnapshot = await db.collection(COLLECTION_PUBLIC_PROFILES).get();
+    
+    let updated = 0;
+    let errors = 0;
+    
+    for (const profileDoc of profilesSnapshot.docs) {
+      const profileData = profileDoc.data();
+      const userId = profileData.uid || profileDoc.id;
+      
+      try {
+        // Get user's full data
+        const userDoc = await db.collection(COLLECTION_USERS).doc(userId).get();
+        if (!userDoc.exists) {
+          console.log(`⚠️ User ${userId} não encontrado, a saltar...`);
+          continue;
+        }
+        
+        const userData = userDoc.data();
+        
+        // Get all quiz results
+        const results = userData.quizResults || userData.results || {};
+        
+        // Build updated public data
+        const updatedPublicData = {
+          uid: userId,
+          displayName: profileData.displayName || userData.displayName || "Anónimo",
+          age: profileData.age || userData.age || null,
+          gender: profileData.gender || userData.gender || null,
+          location: profileData.location || userData.location || null,
+          photoURL: profileData.photoURL || userData.photoURL || null,
+          quizScores: {},
+          quizRoles: {},
+          quizCategories: {},
+          isPublic: profileData.isPublic !== false,
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        // Extract scores, roles, and categories from results
+        for (const [quizId, result] of Object.entries(results)) {
+          if (result && typeof result === 'object') {
+            updatedPublicData.quizScores[quizId] = result.score || 0;
+            
+            // Save category info
+            if (result.category) {
+              updatedPublicData.quizCategories[quizId] = {
+                category: result.category,
+                categoryEmoji: result.categoryEmoji || null
+              };
+            }
+            
+            // Save role info
+            if (result.dominantRole) {
+              updatedPublicData.quizRoles[quizId] = {
+                dominantRole: result.dominantRole,
+                matchWith: result.matchWith || []
+              };
+            }
+          }
+        }
+        
+        // Update the profile
+        await db.collection(COLLECTION_PUBLIC_PROFILES).doc(userId).set(updatedPublicData, { merge: true });
+        updated++;
+        console.log(`✅ Perfil ${updated}: ${updatedPublicData.displayName} atualizado`);
+        
+      } catch (userError) {
+        console.error(`❌ Erro ao atualizar perfil ${userId}:`, userError);
+        errors++;
+      }
+    }
+    
+    console.log(`\n📊 Republicação concluída: ${updated} atualizados, ${errors} erros`);
+    return { updated, errors, total: profilesSnapshot.size };
+    
+  } catch (error) {
+    console.error("❌ Erro na republicação:", error);
+    throw error;
+  }
 }
 
 // ================================
@@ -694,11 +868,14 @@ window.CloudSync = {
   publishPublicProfile,
   unpublishPublicProfile,
   removePublicProfile,
-  
-  // Matching
+    // Matching
   findMatches,
   findMatchesAdvanced,
   calculateAdvancedCompatibility,
+  isCompatibleMatch,
+  
+  // Admin Tools
+  republishAllProfiles,
   
   // Migration
   migrateFromLocalStorage,
