@@ -421,9 +421,8 @@ function renderMatches() {
     const details = [];
     if (match.age) details.push(match.age + ' anos');
     if (match.gender) details.push(capitalizeFirst(match.gender));
-    if (match.location) details.push(match.location);
-
-    // Get quiz tags    const quizTags = [];
+    if (match.location) details.push(match.location);    // Get quiz tags
+    const quizTags = [];
     const matchQuizzes = match.quizScores || {};
     for (const quizId of Object.keys(matchQuizzes).slice(0, 3)) {
       const quiz = quizIndex[quizId] || { icon: '❓' };
@@ -619,11 +618,20 @@ async function updateGenderValidationStatus(user) {
   if (!user) return;
   
   try {
-    const userDoc = await window.db.collection('quest4you_users').doc(user.uid).get();
+    // Usar CloudSync para obter dados do utilizador
+    let userData = null;
     
-    if (!userDoc.exists) return;
+    if (window.CloudSync) {
+      userData = await window.CloudSync.getUserProfile(user.uid);
+    } else if (window.db) {
+      const userDoc = await window.db.collection('quest4you_users').doc(user.uid).get();
+      if (userDoc.exists) {
+        userData = userDoc.data();
+      }
+    }
     
-    const userData = userDoc.data();
+    if (!userData) return;
+    
     const statusContainer = document.getElementById('genderValidationStatus');
     const requestBtn = document.getElementById('requestValidationBtn');
     
