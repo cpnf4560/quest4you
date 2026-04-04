@@ -343,6 +343,9 @@ function applyFilters() {
   const genderFilter = document.getElementById('filterGender').value;
   const minCompat = parseInt(document.getElementById('filterMinCompat').value) || 0;
   
+  console.log("🔍 Applying filters - Gender:", genderFilter || "all", "MinCompat:", minCompat);
+  console.log("📊 All matches before filter:", allMatches.length);
+  
   // In early phase (few users), show everyone regardless of compatibility filter
   // This helps users see all potential matches when the community is small
   const EARLY_PHASE_THRESHOLD = 50; // Show all if less than 50 total users
@@ -351,6 +354,7 @@ function applyFilters() {
   filteredMatches = allMatches.filter(match => {
     // Gender filter always applies
     if (genderFilter && match.gender !== genderFilter) {
+      console.log("❌ Filtered out by gender:", match.displayName, "gender:", match.gender, "filter:", genderFilter);
       return false;
     }
 
@@ -362,6 +366,8 @@ function applyFilters() {
 
     return true;
   });
+  
+  console.log("✅ Matches after filter:", filteredMatches.length);
 
   renderMatches();
   
@@ -394,8 +400,11 @@ function renderMatches() {
 
   loadingEl.style.display = 'none';
 
-  // Update count
-  countEl.textContent = '(' + filteredMatches.length + ')';
+  // Update count with allMatches (total found), not filtered
+  countEl.textContent = '(' + allMatches.length + ')';
+  
+  console.log("🎯 Rendering matches:", filteredMatches.length, "filtered from", allMatches.length, "total");
+  console.log("📋 Filtered matches data:", filteredMatches);
 
   if (filteredMatches.length === 0) {
     noMatchesEl.style.display = 'block';
