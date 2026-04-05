@@ -128,23 +128,12 @@ function isAdminUser(email) {
 
 // Verificar admin via Firestore (para permitir admin dinâmico)
 async function checkFirestoreAdmin(userId) {
-  try {
-    // Verificar em quest4you_users
+  try {    // Verificar em quest4you_users
     const userDoc = await db.collection('quest4you_users').doc(userId).get();
     if (userDoc.exists) {
       const data = userDoc.data();
       if (data.isAdmin === true || data.role === 'admin') {
         console.log('✅ User is admin via quest4you_users field');
-        return true;
-      }
-    }
-    
-    // Verificar em quest4couple_users (projeto compartilhado)
-    const coupleUserDoc = await db.collection('quest4couple_users').doc(userId).get();
-    if (coupleUserDoc.exists) {
-      const data = coupleUserDoc.data();
-      if (data.isAdmin === true || data.role === 'admin') {
-        console.log('✅ User is admin via quest4couple_users field');
         return true;
       }
     }
