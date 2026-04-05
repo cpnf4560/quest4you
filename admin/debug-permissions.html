@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Permissions - Quest4You</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; }
+    .test-card {
+      background: #16213e;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+    .test-card h3 { margin-bottom: 10px; }
+    .status { padding: 10px; border-radius: 5px; margin-top: 10px; }
+    .status.success { background: #2ecc71; }
+    .status.error { background: #e74c3c; }
+    .status.pending { background: #f39c12; }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 5px;
+    }
+    button:hover { opacity: 0.9; }
+    pre {
+      background: #0f0f23;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      margin-top: 10px;
+    }
+    .user-info {
+      background: #2d2d44;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Debug de Permissões - Quest4You</h1>
+    
+    <div class="user-info" id="userInfo">
+      <p><strong>Estado:</strong> <span id="authStatus">A verificar...</span></p>
+      <p><strong>Email:</strong> <span id="userEmail">-</span></p>
+      <p><strong>UID:</strong> <span id="userUid">-</span></p>
+    </div>
+    
+    <button onclick="runAllTests()">🚀 Executar Todos os Testes</button>
+    <button onclick="location.reload()">🔄 Recarregar</button>
+    
+    <div id="tests"></div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyA8-Oe449em8Tgo3Q-MJ87CHQdeIqr4tLk",
+      authDomain: "quest4couple.firebaseapp.com",
+      projectId: "quest4couple",
+      storageBucket: "quest4couple.firebasestorage.app",
+      messagingSenderId: "27375862534",
+      appId: "1:27375862534:web:40039fa60931212e701487"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const testsContainer = document.getElementById('tests');
+    
+    // Collections to test
+    const collectionsToTest = [
+      { name: 'quest4you_users', operation: 'read', description: 'Ler utilizadores Quest4You' },
+      { name: 'quest4you_users', operation: 'read-own', description: 'Ler próprio perfil' },
+      { name: 'admins', operation: 'read', description: 'Ler coleção admins' },
+      { name: 'genderValidations', operation: 'read', description: 'Ler validações de género' },
+      { name: 'quest4you_public', operation: 'read', description: 'Ler perfis públicos' },
+      { name: 'quest4couple_users', operation: 'read', description: 'Ler utilizadores Quest4Couple' },
+    ];
+
+    // Auth state
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('authStatus').textContent = '✅ Autenticado';
+        document.getElementById('userEmail').textContent = user.email;
+        document.getElementById('userUid').textContent = user.uid;
+      } else {
+        document.getElementById('authStatus').textContent = '❌ Não autenticado';
+        document.getElementById('userEmail').textContent = '-';
+        document.getElementById('userUid').textContent = '-';
+      }
+    });
+
+    function createTestCard(title) {
+      const card = document.createElement('div');
+      card.className = 'test-card';
+      card.innerHTML = `
+        <h3>${title}</h3>
+        <div class="status pending">⏳ A testar...</div>
+        <pre></pre>
+      `;
+      testsContainer.appendChild(card);
+      return card;
+    }
+
+    async function testCollection(collection, operation, description) {
+      const card = createTestCard(`📁 ${collection} - ${description}`);
+      const statusEl = card.querySelector('.status');
+      const preEl = card.querySelector('pre');
+      
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          throw new Error('Não autenticado');
+        }
+
+        let result;
+        
+        if (operation === 'read') {
+          // Tentar ler todos (limitado a 1)
+          const snapshot = await db.collection(collection).limit(1).get();
+          result = {
+            success: true,
+            count: snapshot.size,
+            message: `Leitura bem sucedida. ${snapshot.size} documento(s) encontrado(s).`
+          };
+        } else if (operation === 'read-own') {
+          // Tentar ler próprio documento
+          const doc = await db.collection(collection).doc(user.uid).get();
+          result = {
+            success: true,
+            exists: doc.exists,
+            message: doc.exists 
+              ? `Documento encontrado! isAdmin: ${doc.data()?.isAdmin}, role: ${doc.data()?.role}`
+              : 'Documento não existe (mas acesso permitido)'
+          };
+        }
+        
+        statusEl.className = 'status success';
+        statusEl.textContent = `✅ ${result.message}`;
+        preEl.textContent = JSON.stringify(result, null, 2);
+        
+      } catch (error) {
+        statusEl.className = 'status error';
+        statusEl.textContent = `❌ Erro: ${error.message}`;
+        preEl.textContent = JSON.stringify({
+          code: error.code,
+          message: error.message,
+          stack: error.stack?.split('\n').slice(0, 3).join('\n')
+        }, null, 2);
+      }
+    }
+
+    async function runAllTests() {
+      testsContainer.innerHTML = '';
+      
+      const user = auth.currentUser;
+      if (!user) {
+        testsContainer.innerHTML = '<div class="test-card"><h3>❌ Erro</h3><p>Não estás autenticado. Faz login primeiro.</p><button onclick="login()">🔐 Login com Google</button></div>';
+        return;
+      }
+      
+      for (const test of collectionsToTest) {
+        await testCollection(test.name, test.operation, test.description);
+        // Pequena pausa entre testes
+        await new Promise(r => setTimeout(r, 500));
+      }
+    }
+
+    async function login() {
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithPopup(provider);
+        location.reload();
+      } catch (e) {
+        alert('Erro: ' + e.message);
+      }
+    }
+  </script>
+</body>
+</html>
